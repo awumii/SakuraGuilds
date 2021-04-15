@@ -1,0 +1,20 @@
+name: NeonGuilds
+version: ${projectVersion}
+main: me.xneox.guilds.NeonGuilds
+author: xNeox
+description: Plugin na gildie, dla serwera dronizja.pl
+api-version: 1.16
+
+depend:
+  - Vault
+  - HolographicDisplays
+  - PlaceholderAPI
+
+commands:
+  guild:
+    aliases: [ g ]
+  live:
+    permission: neonguilds.live
+    permission-message: '&cNie posiadasz uprawnień.'
+  sus:
+  amongus:

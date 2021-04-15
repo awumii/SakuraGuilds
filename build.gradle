@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+}
+
+group 'me.xneox'
+version '1.0-30.03.2021'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://papermc.io/repo/repository/maven-public/'
+    }
+    maven {
+        url 'https://jitpack.io'
+    }
+    maven {
+        url 'https://libraries.minecraft.net/'
+    }
+    maven {
+        url 'https://repo.codemc.io/repository/maven-public/'
+    }
+    maven {
+        url 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
+    maven {
+        url 'https://nexus.badbones69.com/repository/maven-releases/'
+    }
+}
+
+dependencies {
+    compile 'com.github.simplix-softworks:SimplixStorage:3.2.2'
+
+    implementation 'com.mojang:authlib:1.5.21'
+    implementation 'com.github.MilkBowl:VaultAPI:1.7'
+    implementation 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
+    implementation 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
+    implementation 'me.badbones69:crazyauctions:1.2.12'
+    implementation 'me.clip:placeholderapi:2.10.9'
+}
+
+// Fixing broken encoding on Windows.
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+processResources {
+    expand projectVersion: project.version
+}
+
+
+// Compiling dependencies in the jar file.
+jar {
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
