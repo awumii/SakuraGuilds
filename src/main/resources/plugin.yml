@@ -16,5 +16,3 @@ commands:
   live:
     permission: neonguilds.live
     permission-message: '&cNie posiadasz uprawnień.'
-  sus:
-  amongus:

@@ -3,8 +3,6 @@ package me.xneox.guilds;
 import me.xneox.guilds.command.GuildCommand;
 import me.xneox.guilds.features.LiveCommand;
 import me.xneox.guilds.features.RestrictionFeature;
-import me.xneox.guilds.features.amongus.ConcludeCommand;
-import me.xneox.guilds.features.amongus.VoteCommand;
 import me.xneox.guilds.gui.*;
 import me.xneox.guilds.listener.*;
 import me.xneox.guilds.manager.*;
@@ -31,9 +29,6 @@ public class NeonGuilds extends JavaPlugin {
     private InventoryManager inventoryManager;
     private CooldownManager cooldownManager;
 
-    private final Map<Player, Integer> voteMap = new HashMap<>();
-    private boolean amongus;
-
     @Override
     public void onEnable() {
         long ms = System.currentTimeMillis();
@@ -54,8 +49,6 @@ public class NeonGuilds extends JavaPlugin {
         GuildCommand command = new GuildCommand(this);
         registerCommand("guild", command, command.getCommandCompleter());
         registerCommand("live", new LiveCommand(this), null);
-        registerCommand("sus", new VoteCommand(this), null);
-        registerCommand("amongus", new ConcludeCommand(this), null);
 
         registerListener(new GuildProtectionListener(this));
         registerListener(new PlayerDeathListener(this));
@@ -100,18 +93,6 @@ public class NeonGuilds extends JavaPlugin {
 
     public CooldownManager getCooldownManager() {
         return cooldownManager;
-    }
-
-    public Map<Player, Integer> getVoteMap() {
-        return voteMap;
-    }
-
-    public void setAmongus(boolean amongus) {
-        this.amongus = amongus;
-    }
-
-    public boolean isAmongus() {
-        return amongus;
     }
 
     private void registerCommand(String name, CommandExecutor executor, TabCompleter tabCompleter) {
