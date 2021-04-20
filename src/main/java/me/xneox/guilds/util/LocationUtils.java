@@ -27,7 +27,9 @@ public final class LocationUtils {
     }
 
     public static boolean equalsSoft(Location first, Location second) {
-        return first.getX() == second.getX() && first.getZ() == second.getZ() && first.getY() == second.getY();
+        return first.getBlockX() == second.getBlockX()
+                && first.getBlockZ() == second.getBlockZ()
+                && first.getBlockY() == second.getBlockY();
     }
 
     private LocationUtils() {}

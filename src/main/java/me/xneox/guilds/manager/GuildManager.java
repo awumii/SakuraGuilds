@@ -3,12 +3,13 @@ package me.xneox.guilds.manager;
 import de.leonhard.storage.Json;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.type.Rank;
+import me.xneox.guilds.util.ItemSerialization;
 import me.xneox.guilds.util.LocationUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -43,9 +44,11 @@ public class GuildManager {
             long shield = json.getLong("Shield");
             long creation = json.getLong("Creation");
             boolean isPublic = json.getOrSetDefault("Public", false);
+            ItemStack[] storage = ItemSerialization.deserializeInventory(json.getOrSetDefault("Storage", ItemSerialization.serializeStack(new ItemStack[0])));
 
             String name = file.getName().replace(".json", "");
-            this.guildMap.put(name, new Guild(name, members, nexusLocation, creation, allies, home, chunks, shield, health, money, maxMembers, maxChunks, trophies, kills, deaths, isPublic));
+            this.guildMap.put(name, new Guild(name, members, nexusLocation, creation, allies, home, chunks,
+                    shield, health, money, maxMembers, maxChunks, trophies, kills, deaths, isPublic, storage));
         }
     }
 
@@ -71,6 +74,7 @@ public class GuildManager {
             json.set("Health", guild.getHealth());
             json.set("Creation", guild.getCreationLong());
             json.set("Public", guild.isPublic());
+            json.set("Storage", ItemSerialization.serializeInventory(guild.getStorage()));
         });
     }
 
@@ -109,7 +113,6 @@ public class GuildManager {
         return null;
     }
 
-    @Nullable
     public Guild getGuildExact(String name) {
         return this.guildMap.get(name);
     }

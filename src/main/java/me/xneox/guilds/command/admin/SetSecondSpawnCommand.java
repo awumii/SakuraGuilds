@@ -2,7 +2,7 @@ package me.xneox.guilds.command.admin;
 
 import me.xneox.guilds.command.PermissibleCommand;
 import me.xneox.guilds.command.SubCommand;
-import me.xneox.guilds.element.Arena;
+import me.xneox.guilds.war.Arena;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.ServiceUtils;

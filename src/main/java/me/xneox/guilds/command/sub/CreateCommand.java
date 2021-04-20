@@ -29,7 +29,7 @@ public class CreateCommand implements SubCommand {
             return;
         }
 
-        if (args[1].length() > 12) {
+        if (args[1].length() > 16) {
             ChatUtils.sendMessage(player, "&cNazwa gildii przekracza 12 znaków.");
             return;
         }
@@ -60,7 +60,7 @@ public class CreateCommand implements SubCommand {
         nexusLoc.setY(30);
 
         Guild guild = new Guild(args[1], new HashMap<>(), nexusLoc, new Date().getTime(), new ArrayList<>(), player.getLocation(), new ArrayList<>(),
-                0, 3, 0, 6, 4, 100, 0, 0, false);
+                0, 3, 0, 6, 4, 100, 0, 0, false, new ItemStack[0]);
         guild.log("gildia zostaje założona");
 
         manager.getGuildMap().put(args[1], guild);

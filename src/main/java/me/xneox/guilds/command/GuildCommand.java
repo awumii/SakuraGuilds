@@ -2,6 +2,7 @@ package me.xneox.guilds.command;
 
 import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.command.admin.ArenaCreateCommand;
+import me.xneox.guilds.command.admin.CreateWarKitCommand;
 import me.xneox.guilds.command.admin.SetFirstSpawnCommand;
 import me.xneox.guilds.command.admin.SetSecondSpawnCommand;
 import me.xneox.guilds.command.sub.*;
@@ -49,6 +50,7 @@ public class GuildCommand implements CommandExecutor {
         commandMap.put("x_admin_createarena", new ArenaCreateCommand());
         commandMap.put("x_admin_setfirstspawn", new SetFirstSpawnCommand());
         commandMap.put("x_admin_setsecondspawn", new SetSecondSpawnCommand());
+        commandMap.put("x_admin_createwarkit", new CreateWarKitCommand());
     }
 
     @Override

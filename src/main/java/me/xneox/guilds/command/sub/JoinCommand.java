@@ -28,7 +28,7 @@ public class JoinCommand implements SubCommand {
             return;
         }
 
-        if (!guild.isPublic() && !guild.getInvitations().contains(player.getName())) {
+        if (!guild.isPublic() && !guild.getInvitations().contains(player.getName()) && !player.isOp()) {
             ChatUtils.sendMessage(player, "&cNie zostałeś zaproszony do tej gildii.");
             return;
         }

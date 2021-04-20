@@ -5,11 +5,14 @@ import me.xneox.guilds.type.Division;
 import me.xneox.guilds.type.Rank;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.ChunkUtils;
+import me.xneox.guilds.util.gui.InventorySize;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.boss.BarColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -28,6 +31,7 @@ public class Guild {
     @SuppressWarnings("UnstableApiUsage")
     private final Queue<LogEntry> logQueue = EvictingQueue.create(6);
     private final List<String> allies;
+    private final Inventory storage;
 
     private boolean isPublic;
     private long shield;
@@ -45,11 +49,10 @@ public class Guild {
     private boolean deleteConfirm;
 
     private Guild warEnemy;
-    private List<Player> warMembers;
-    private int warCountdown;
 
     public Guild(String name, Map<String, Rank> members, Location nexusLocation, long creation, List<String> allies, Location home,
-                 List<String> chunks, long shield, int health, int money, int maxMembers, int maxChunks, int trophies, int kills, int deaths, boolean isPublic) {
+                 List<String> chunks, long shield, int health, int money, int maxMembers, int maxChunks, int trophies, int kills,
+                 int deaths, boolean isPublic, ItemStack[] storageContent) {
 
         this.name = name;
         this.members = members;
@@ -67,6 +70,8 @@ public class Guild {
         this.kills = kills;
         this.deaths = deaths;
         this.isPublic = isPublic;
+        this.storage = Bukkit.createInventory(null, InventorySize.BIGGEST.getSize());
+        this.storage.setContents(storageContent);
     }
 
     // CONTROLLERS //
@@ -112,6 +117,14 @@ public class Guild {
 
     public boolean isHigher(String compareFrom, String compareTo) {
         return getPlayerRank(compareFrom).isHigher(getPlayerRank(compareTo));
+    }
+
+    public void addTrophies(int amount) {
+        this.setTrophies(this.trophies + amount);
+    }
+
+    public void removeTrophies(int amount) {
+        this.setTrophies(this.trophies - amount);
     }
 
     public void setTrophies(int trophies) {
@@ -272,23 +285,15 @@ public class Guild {
         this.warEnemy = warEnemy;
     }
 
-    public int getWarCountdown() {
-        return warCountdown;
-    }
-
-    public void setWarCountdown(int warCountdown) {
-        this.warCountdown = warCountdown;
-    }
-
-    public List<Player> getWarMembers() {
-        return warMembers;
-    }
-
     public boolean isPublic() {
         return isPublic;
     }
 
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
+    }
+
+    public Inventory getStorage() {
+        return storage;
     }
 }

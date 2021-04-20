@@ -4,10 +4,12 @@ import me.xneox.guilds.command.SubCommand;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.ServiceUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class WarCommand implements SubCommand {
 
@@ -34,8 +36,18 @@ public class WarCommand implements SubCommand {
             return;
         }
 
+        if (target.equals(guild)) {
+            ChatUtils.sendMessage(player, "&cCos cie chyba boli xdddDdD.");
+            return;
+        }
+
         if (target.getWarEnemy() != null || guild.getWarEnemy() != null) {
             ChatUtils.sendMessage(player, "&cJedna ze stron już jest w trakcie wojny!");
+            return;
+        }
+
+        if (ServiceUtils.INSTANCE.getCooldownManager().hasCooldown(player, "war-" + target.getName())) {
+            ChatUtils.sendMessage(player, "&cMusisz poczekać &6" + ServiceUtils.INSTANCE.getCooldownManager().getRemaining(player, "war-" + target.getName()) + " &cprzed wypowiedzeniem wojny.");
             return;
         }
 
@@ -43,16 +55,17 @@ public class WarCommand implements SubCommand {
 
 
         ChatUtils.guildAlertRaw(target, " ");
-        ChatUtils.guildAlertRaw(target, "  &7Otrzymano zaproszenie do WOJNY od &6" + guild.getName());
+        ChatUtils.guildAlertRaw(target, "  &7Otrzymano zaproszenie do &c&lWOJNY &7od gildii &6" + guild.getName());
         ChatUtils.guildAlertRaw(target, " ");
 
         target.getMembers().keySet().stream().map(Bukkit::getPlayerExact).filter(Objects::nonNull).forEach(member -> {
             ChatUtils.sendClickableMessage(member, "  &aKliknij, aby zaakceptować.",
-                    "&aPo kliknięciu wojna się rozpocznie!", "/g akceptujwojne IJAD98jdksldM " + guild.getName());
+                    "&aPo kliknięciu wojna się rozpocznie!", "/g x_acceptwar IJAD98jdksldM " + guild.getName());
             ChatUtils.sendClickableMessage(member, "  &cKliknij, aby odrzucić.",
-                    "&cOdrzuca zaproszenie do wojny.", "/g akceptujwojne dh98jadOAKD " + guild.getName());
+                    "&cOdrzuca zaproszenie do wojny.", "/g x_acceptwar dh98jadOAKD " + guild.getName());
         });
 
         ChatUtils.guildAlertRaw(target, " ");
+        ServiceUtils.INSTANCE.getCooldownManager().add(player, "war-" + target.getName(), 10, TimeUnit.MINUTES);
     }
 }

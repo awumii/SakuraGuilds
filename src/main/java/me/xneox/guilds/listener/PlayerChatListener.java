@@ -5,7 +5,6 @@ import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.Colors;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -32,15 +31,7 @@ public class PlayerChatListener implements Listener {
         }
 
         this.plugin.getCooldownManager().add(player, "chat", 2, TimeUnit.SECONDS);
-
         event.setMessage(event.getMessage().replaceAll("(?i)kurw|jeb|pierda|huj|tasrv|com|eu", "***"));
-        if (event.getMessage().contains("lag") || event.getMessage().contains("LAG")) {
-            if (Bukkit.getTPS()[0] > 19) {
-                ChatUtils.broadcastRaw(" &4&l[!] &c" + player.getName() + ", na serwerze nie ma lagów. Sprawdź swoje połączenie z internetem!");
-            } else {
-                ChatUtils.broadcastRaw(" &4&l[!] &c" + player.getName() + ", na serwerze mogą być chwilowe lagi. Poczekaj chwilę aż serwer się ustabilizuje...");
-            }
-        }
 
         Guild guild = this.plugin.getGuildManager().getGuild(player);
         if (guild == null) {

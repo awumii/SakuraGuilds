@@ -5,6 +5,10 @@ import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.ServiceUtils;
+import me.xneox.guilds.war.Arena;
+import me.xneox.guilds.war.ArenaState;
+import me.xneox.guilds.war.WarGuild;
 import org.bukkit.entity.Player;
 
 public class WarAcceptCommand implements SubCommand {
@@ -24,12 +28,23 @@ public class WarAcceptCommand implements SubCommand {
         }
 
         if (args[1].equals("IJAD98jdksldM")) {
-            ChatUtils.broadcast("&7Gildie &6" + guild.getName() + " &7oraz &6" + other.getName() + " &7wypowidziały &4&lWOJNĘ!");
+            Arena arena = ServiceUtils.INSTANCE.getArenaManager().getFreeArena();
+            if (arena == null) {
+                ChatUtils.broadcast("&cBrakuje wolnych aren, wojna została anulowana!");
+                return;
+            }
+
+            // Enabling the arena for war.
+            arena.setTime(30);
+            arena.setState(ArenaState.PREPARING);
+            arena.setFirstGuild(new WarGuild(other));
+            arena.setSecondGuild(new WarGuild(guild));
+
+            // Setting war enemies
             guild.setWarEnemy(other);
             other.setWarEnemy(guild);
 
-            guild.setWarCountdown(60);
-            other.setWarCountdown(60);
+            ChatUtils.broadcast("&7Gildie &6" + guild.getName() + " &7oraz &6" + other.getName() + " &7wypowidziały &4&lWOJNĘ!");
         } else if (args[1].equals("dh98jadOAKD")) {
             ChatUtils.guildAlert(guild, guild.getDisplayName(player) + " &7odrzucił zaproszenie wojny od &6" + other.getName());
             ChatUtils.guildAlert(other, guild.getDisplayName(player) + " &7z gildii &6" + guild.getName() + " &7odrzucił wasze zaproszenie do wojny.");

@@ -159,7 +159,14 @@ public class ManagementGui extends ClickableInventory {
         ItemStack warInactive = new ItemBuilder(Material.PLAYER_HEAD)
                 .setName("&6Wojna Gildii")
                 .addLore("")
-                .addLore("&cWojny gildii pojawią się wkrótce.")
+                .addLore("&7Wojny to dobry sposób na walki pomiędzy gildiami.")
+                .addLore("&7Rozgrywają się one na arenie, uczestniczą w niej")
+                .addLore("&7wszyscy członkowie online obu gildii.")
+                .addLore("")
+                .addLore("&cWalczysz z własnym wyposażeniem,")
+                .addLore("&cale nie tracisz przedmiotów!")
+                .addLore("")
+                .addLore("&eKliknij, aby wyszukać przeciwników.")
                 .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTIzMTJlNzJkMDMwMTJiZTEwNmI0OGFjY2QzMzgyY2VjN2NiY2VjZWIxNDJlYzc2MjM3OTM0NjM5YTZhMmU5In19fQ==")
                 .build();
 
@@ -183,11 +190,15 @@ public class ManagementGui extends ClickableInventory {
                 .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTIzMTJlNzJkMDMwMTJiZTEwNmI0OGFjY2QzMzgyY2VjN2NiY2VjZWIxNDJlYzc2MjM3OTM0NjM5YTZhMmU5In19fQ==");
 
          */
-        ItemStack nearby = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&6Pobliskie ziemie")
+        ItemStack storage = new ItemBuilder(Material.PLAYER_HEAD)
+                .setName("&6Magazyn Gildyjny")
                 .addLore("")
-                .addLore("&cTa funkcja pojawi się wkrótce.")
-                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTZjODQ0N2E4YjZiMGUwYzdlNzYyOWM2ODk4ZWM5Yzc0OWE3YTBhMmI0NTJiOWMzODUyYzc4NDdiYjRkYzUifX19")
+                .addLore("&7Przechowuj przedmioty, dostępne dla")
+                .addLore("&7każdego członka gildii.")
+                .addLore("&7Trafiają tutaj również nagrody dla gildii.")
+                .addLore("")
+                .addLore("&eKliknij, aby otworzyć.")
+                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzc0ZWUxNTQyYzQ1NjNmZDZlN2Q3MmRlMjZlNzM3Y2YxOGZiZDA0Y2NhYjFiOGIyODM1M2RhODczNDhlY2ZiIn19fQ==")
                 .build();
 
         ItemBuilder logs = new ItemBuilder(Material.PLAYER_HEAD)
@@ -209,7 +220,8 @@ public class ManagementGui extends ClickableInventory {
                 .addLore("&7Wersja: &e" + this.plugin.getDescription().getVersion())
                 .addLore("")
                 .addLore("&7Ostatnie zmiany:")
-                .addLore(" &8- &7Pierwsza wersja pluginu")
+                .addLore(" &8- &7Nowy system rankingowy.")
+                .addLore(" &8- &7Dodano system wojen (/g war).")
                 .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=")
                 .build();
 
@@ -230,7 +242,7 @@ public class ManagementGui extends ClickableInventory {
         inventory.setItem(33, help);
 
         inventory.setItem(48, warInactive);
-        inventory.setItem(49, nearby);
+        inventory.setItem(49, storage);
         inventory.setItem(50, logs.build());
     }
 
@@ -238,6 +250,7 @@ public class ManagementGui extends ClickableInventory {
     public void onClick(InventoryClickEvent event, Player player) {
         event.setCancelled(true);
         VisualUtils.playSound(player, Sound.BLOCK_WOODEN_BUTTON_CLICK_ON);
+        Guild guild = this.plugin.getGuildManager().getGuild(player);
 
         switch (event.getSlot()) {
             case 20:
@@ -264,16 +277,10 @@ public class ManagementGui extends ClickableInventory {
                 this.plugin.getInventoryManager().open("leaderboards", player);
                 break;
             case 48:
-                Guild guild = this.plugin.getGuildManager().getGuild(player);
-                if (guild.getWarEnemy() == null) {
-                    return;
-                }
-
-                if (guild.getWarMembers().contains(player)) {
-                    guild.getWarMembers().remove(player);
-                } else {
-                    guild.getWarMembers().add(player);
-                }
+                this.plugin.getInventoryManager().open("war", player);
+                break;
+            case 49:
+                player.openInventory(guild.getStorage());
                 break;
         }
     }

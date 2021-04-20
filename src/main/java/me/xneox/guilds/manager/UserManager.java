@@ -9,10 +9,6 @@ import java.util.Map;
 public class UserManager {
     private final Map<String, User> userMap = new HashMap<>();
 
-    public Map<String, User> getUserMap() {
-        return userMap;
-    }
-
     public User getUser(Player player) {
         return this.getUser(player.getName());
     }
