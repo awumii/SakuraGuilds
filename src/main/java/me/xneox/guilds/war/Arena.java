@@ -24,7 +24,7 @@ public class Arena {
     private WarGuild secondGuild;
 
     private int time;
-    private ArenaState state = ArenaState.WAITING;
+    private ArenaState state = ArenaState.FREE;
 
     public Arena(String name) {
         this.name = name;

@@ -296,4 +296,26 @@ public class Guild {
     public Inventory getStorage() {
         return storage;
     }
+
+    @Override
+    public String toString() {
+        return "Guild{" +
+                "name='" + name + '\'' +
+                ", members=" + members +
+                ", chunks=" + chunks +
+                ", nexusLocation=" + nexusLocation +
+                ", creation=" + creation +
+                ", allies=" + allies +
+                ", isPublic=" + isPublic +
+                ", shield=" + shield +
+                ", health=" + health +
+                ", money=" + money +
+                ", home=" + home +
+                ", maxMembers=" + maxMembers +
+                ", maxChunks=" + maxChunks +
+                ", trophies=" + trophies +
+                ", kills=" + kills +
+                ", deaths=" + deaths +
+                '}';
+    }
 }

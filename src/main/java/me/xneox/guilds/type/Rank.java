@@ -8,9 +8,9 @@ import java.util.List;
 import static me.xneox.guilds.type.Permission.*;
 
 public enum Rank {
-    LEADER(5, "Lider", Colors.CRIMSON + "⭐⭐⭐⭐", KICK, SET_HOME, CLAIM, RANKS, UPGRADES, ALLIES, WAR),
-    GENERAL(4, "Generał", "&d★★★", KICK, SET_HOME, CLAIM, RANKS, UPGRADES, ALLIES, WAR),
-    OFICER(3, "Oficer", "&b★★", SET_HOME, CLAIM, UPGRADES, ALLIES),
+    LEADER(5, "Lider", Colors.CRIMSON + "⭐⭐⭐⭐", Permission.values()),
+    GENERAL(4, "Generał", "&d★★★", Permission.values()),
+    OFICER(3, "Oficer", "&b★★", SET_HOME, CLAIM, UPGRADES, ALLIES, PUBLIC),
     KAPRAL(2, "Kapral", "&6★", SET_HOME, CLAIM),
     REKRUT(1, "Rekrut", Colors.BRONZE + "♧");
 

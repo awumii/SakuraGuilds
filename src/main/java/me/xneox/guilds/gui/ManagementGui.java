@@ -4,6 +4,7 @@ import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.LogEntry;
 import me.xneox.guilds.element.User;
+import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.util.*;
 import me.xneox.guilds.util.gui.InventorySize;
 import me.xneox.guilds.util.gui.inventories.ClickableInventory;
@@ -25,7 +26,6 @@ public class ManagementGui extends ClickableInventory {
     @Override
     public void onOpen(Player player, Inventory inventory) {
         InventoryUtils.drawBorder(inventory);
-        VisualUtils.playSound(player, Sound.BLOCK_ENDER_CHEST_OPEN);
 
         Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
         if (guild == null) {
@@ -215,19 +215,27 @@ public class ManagementGui extends ClickableInventory {
 
                 logs.setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODk1NjAyNGJmZTM1ZmZiZmQ0YjAzMDU5MmFlNDk3YTAxNGQ2ZGFlZmU5MjI4YmRmMzE3MGVjZDc4ZWQ3YzcxMiJ9fX0=");
 
-        ItemStack plugin = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&6NeonGuilds by xNeox")
-                .addLore("&7Wersja: &e" + this.plugin.getDescription().getVersion())
+        ItemStack publicState = new ItemBuilder(Material.PLAYER_HEAD)
+                .setName("&aTwoja gildia jest publiczna")
                 .addLore("")
-                .addLore("&7Ostatnie zmiany:")
-                .addLore(" &8- &7Nowy system rankingowy.")
-                .addLore(" &8- &7Dodano system wojen (/g war).")
-                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=")
+                .addLore("&7Każdy może dołączyć bez zaproszenia.")
+                .addLore("")
+                .addLore("&eKliknij, aby ustawić na prywatną.")
+                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRkNDZjM2ZmODhlMGRiYzUxZjY2MjE5M2UxOWViNGEwMWNkMWY0MGFkZDNhMWJiMTU2NjcwOTlhOGJiYjIifX19")
+                .build();
+
+        ItemStack privateState = new ItemBuilder(Material.PLAYER_HEAD)
+                .setName("&cTwoja gildia jest prywatna")
+                .addLore("")
+                .addLore("&7Wymagane jest zaproszenie aby dołączyć.")
+                .addLore("")
+                .addLore("&eKliknij, aby ustawić na publiczną.")
+                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmZkYzRjODg5NWUzZjZiM2FjNmE5YjFjZDU1ZGUzYTI5YmJjOGM3ODVlN2ZiZGJkOTMyMmQ4YzIyMzEifX19")
                 .build();
 
         inventory.setItem(3, profile);
         inventory.setItem(4, shield);
-        inventory.setItem(5, plugin);
+        inventory.setItem(5, help);
 
         inventory.setItem(20, claims);
         inventory.setItem(21, members);
@@ -239,7 +247,7 @@ public class ManagementGui extends ClickableInventory {
         inventory.setItem(30, leaderboard);
         inventory.setItem(31, nexus);
         inventory.setItem(32, upgrades);
-        inventory.setItem(33, help);
+        inventory.setItem(33, guild.isPublic() ? publicState : privateState);
 
         inventory.setItem(48, warInactive);
         inventory.setItem(49, storage);
@@ -263,10 +271,12 @@ public class ManagementGui extends ClickableInventory {
                 player.closeInventory();
                 player.performCommand("g home");
                 break;
-            case 33:
+            case 5:
                 player.closeInventory();
                 player.performCommand("g help");
                 break;
+            case 33:
+                player.performCommand("g public");
             case 32:
                 this.plugin.getInventoryManager().open("upgrades", player);
                 break;
@@ -283,5 +293,10 @@ public class ManagementGui extends ClickableInventory {
                 player.openInventory(guild.getStorage());
                 break;
         }
+    }
+
+    @Override
+    public boolean isRefreshable() {
+        return true;
     }
 }

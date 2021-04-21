@@ -44,7 +44,7 @@ public class GuildNotifierTask implements Runnable {
                         VisualUtils.drawBorderAtChunk(ChunkUtils.toChunk(chunk), player);
                     }
 
-                    if (!guild.getMembers().containsKey(player.getName())) {
+                    if (!player.isOp() && !guild.getMembers().containsKey(player.getName())) {
                         ChatUtils.forGuildMembers(guild, member -> {
                             VisualUtils.playSound(member, Sound.ENTITY_ELDER_GUARDIAN_CURSE);
 

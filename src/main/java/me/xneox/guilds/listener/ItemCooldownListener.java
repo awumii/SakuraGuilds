@@ -31,7 +31,7 @@ public class ItemCooldownListener implements Listener {
     @EventHandler
     public void onPearlThrow(ProjectileLaunchEvent event) {
         ProjectileSource source = event.getEntity().getShooter();
-        if (source instanceof Player && event.getEntity().getType() == EntityType.ENDER_PEARL && this.handleCooldown((Player) event.getEntity())) {
+        if (source instanceof Player && event.getEntity().getType() == EntityType.ENDER_PEARL && this.handleCooldown((Player) source)) {
             event.setCancelled(true);
         }
     }
@@ -41,8 +41,6 @@ public class ItemCooldownListener implements Listener {
      * @return whenever the event should be cancelled.
      */
     private boolean handleCooldown(Player player) {
-        if (!player.getWorld().getName().equals("world")) return false;
-
         Material material = player.getInventory().getItemInMainHand().getType();
         if (this.plugin.getCooldownManager().hasCooldown(player, material.name())) {
             ChatUtils.sendMessage(player, "&7Poczekaj jeszcze &c" + this.plugin.getCooldownManager().getRemaining(player, material.name()));

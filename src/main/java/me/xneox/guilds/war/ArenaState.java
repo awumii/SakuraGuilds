@@ -1,7 +1,7 @@
 package me.xneox.guilds.war;
 
 public enum ArenaState {
-    WAITING,
+    FREE,
     PREPARING,
     INGAME
 }

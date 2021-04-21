@@ -1,10 +1,7 @@
 package me.xneox.guilds.command;
 
 import me.xneox.guilds.NeonGuilds;
-import me.xneox.guilds.command.admin.ArenaCreateCommand;
-import me.xneox.guilds.command.admin.CreateWarKitCommand;
-import me.xneox.guilds.command.admin.SetFirstSpawnCommand;
-import me.xneox.guilds.command.admin.SetSecondSpawnCommand;
+import me.xneox.guilds.command.admin.*;
 import me.xneox.guilds.command.sub.*;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
@@ -50,7 +47,7 @@ public class GuildCommand implements CommandExecutor {
         commandMap.put("x_admin_createarena", new ArenaCreateCommand());
         commandMap.put("x_admin_setfirstspawn", new SetFirstSpawnCommand());
         commandMap.put("x_admin_setsecondspawn", new SetSecondSpawnCommand());
-        commandMap.put("x_admin_createwarkit", new CreateWarKitCommand());
+        commandMap.put("x_admin_teleport", new GuildTeleportCommand());
     }
 
     @Override
@@ -73,9 +70,9 @@ public class GuildCommand implements CommandExecutor {
             return true;
         }
 
-        PermissibleCommand permissible = subCommand.getClass().getAnnotation(PermissibleCommand.class);
-        if (permissible != null && !player.hasPermission(permissible.value())) {
-            ChatUtils.sendMessage(player, "&cNie posiadasz uprawnień (" + permissible.value() + ")");
+        AdminCommand permissible = subCommand.getClass().getAnnotation(AdminCommand.class);
+        if (permissible != null && !player.isOp()) {
+            ChatUtils.sendMessage(player, "&cNie posiadasz uprawnień do tej komendy.");
         }
 
         subCommand.handle(guildManager, player, args);

@@ -11,7 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -49,7 +48,7 @@ public class ArenaManager {
 
     @Nullable
     public Arena getFreeArena() {
-        return this.arenaMap.values().stream().filter(arena -> arena.getState() == ArenaState.WAITING).findFirst().orElse(null);
+        return this.arenaMap.values().stream().filter(arena -> arena.getState() == ArenaState.FREE).findFirst().orElse(null);
     }
 
     public void createBackup(Player player) {

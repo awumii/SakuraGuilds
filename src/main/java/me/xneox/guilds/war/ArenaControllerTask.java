@@ -20,6 +20,10 @@ public class ArenaControllerTask implements Runnable {
     @Override
     public void run() {
         for (Arena arena : this.plugin.getArenaManager().getArenaMap().values()) {
+            if (arena.getState() == ArenaState.FREE) {
+                continue;
+            }
+
             Guild firstGuild = arena.getFirstGuild().getGuild();
             Guild secondGuild = arena.getSecondGuild().getGuild();
 
@@ -70,7 +74,7 @@ public class ArenaControllerTask implements Runnable {
 
                     // Resetting arena state.
                     arena.getBossBar().removeAll();
-                    arena.setState(ArenaState.WAITING);
+                    arena.setState(ArenaState.FREE);
                 } else {
                     arena.setTime(arena.getTime() - 1);
                     arena.getBossBar().setTitle(ChatUtils.colored("&e⊙ Czas: &f" + TimeUtils.secondsToTime(arena.getTime()) + " sekund"

@@ -1,6 +1,6 @@
 package me.xneox.guilds.command.admin;
 
-import me.xneox.guilds.command.PermissibleCommand;
+import me.xneox.guilds.command.AdminCommand;
 import me.xneox.guilds.command.SubCommand;
 import me.xneox.guilds.war.Arena;
 import me.xneox.guilds.manager.ArenaManager;
@@ -9,7 +9,7 @@ import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.ServiceUtils;
 import org.bukkit.entity.Player;
 
-@PermissibleCommand("guilds.admin")
+@AdminCommand
 public class ArenaCreateCommand implements SubCommand {
 
     @Override

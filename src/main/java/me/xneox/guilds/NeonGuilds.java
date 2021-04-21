@@ -26,7 +26,6 @@ public class NeonGuilds extends JavaPlugin {
     private UserManager userManager;
     private InventoryManager inventoryManager;
     private CooldownManager cooldownManager;
-    private KitManager kitManager;
 
     @Override
     public void onEnable() {
@@ -35,7 +34,6 @@ public class NeonGuilds extends JavaPlugin {
         this.arenaManager = new ArenaManager();
         this.userManager = new UserManager();
         this.cooldownManager = new CooldownManager();
-        this.kitManager = new KitManager();
         this.inventoryManager = new InventoryManager(this);
 
         inventoryManager.addInventory(new ManagementGui(this));
@@ -46,6 +44,7 @@ public class NeonGuilds extends JavaPlugin {
         inventoryManager.addInventory(new UpgradesGui(this));
         inventoryManager.addInventory(new LeaderboardsGui(this));
         inventoryManager.addInventory(new WarGui(this));
+        inventoryManager.addInventory(new BrowseGui(this));
 
         GuildCommand command = new GuildCommand(this);
         registerCommand("guild", command, command.getCommandCompleter());
@@ -75,7 +74,6 @@ public class NeonGuilds extends JavaPlugin {
     public void onDisable() {
         this.guildManager.save();
         this.arenaManager.save();
-        this.kitManager.save();
         this.userManager.saveAll();
     }
 
@@ -93,10 +91,6 @@ public class NeonGuilds extends JavaPlugin {
 
     public InventoryManager getInventoryManager() {
         return inventoryManager;
-    }
-
-    public KitManager getKitManager() {
-        return kitManager;
     }
 
     public CooldownManager getCooldownManager() {
