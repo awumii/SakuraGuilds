@@ -46,6 +46,7 @@ public class PlayerDamageListener implements Listener {
         Guild guild = this.plugin.getGuildManager().getGuildAt(victim.getLocation());
         if (guild != null && guild.isShieldActive()) {
             ChatUtils.sendMessage(attacker, "&cTa gildia posiada tarczę wojenną przez: &6" + TimeUtils.futureMillisToTime(guild.getShield()));
+            return true;
         }
 
         Guild victimGuild = this.plugin.getGuildManager().getGuild(victim.getName());

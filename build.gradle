@@ -1,9 +1,12 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
 
 group 'me.xneox'
 version '3.0.0'
+
+defaultTasks 'clean', 'shadowJar', 'build'
 
 repositories {
     mavenCentral()
@@ -28,14 +31,15 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.simplix-softworks:SimplixStorage:3.2.2'
+    implementation 'com.github.simplix-softworks:SimplixStorage:3.2.2'
+    implementation 'commons-io:commons-io:2.8.0'
 
-    implementation 'com.mojang:authlib:1.5.21'
-    implementation 'com.github.MilkBowl:VaultAPI:1.7'
-    implementation 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
-    implementation 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
-    implementation 'me.badbones69:crazyauctions:1.2.12'
-    implementation 'me.clip:placeholderapi:2.10.9'
+    compileOnly 'com.mojang:authlib:1.5.21'
+    compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
+    compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
+    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
+    compileOnly 'me.badbones69:crazyauctions:1.2.12'
+    compileOnly 'me.clip:placeholderapi:2.10.9'
 }
 
 // Fixing broken encoding on Windows.
@@ -51,10 +55,9 @@ processResources {
 
 
 // Compiling dependencies in the jar file.
-jar {
-    from {
-        configurations.compile.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }
+shadowJar {
+    minimize()
+
+    relocate 'de.leonhard.storage', 'neonguilds.storage'
+    exclude 'mozilla/'
 }

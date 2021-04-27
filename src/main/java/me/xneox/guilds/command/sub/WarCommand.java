@@ -15,10 +15,6 @@ public class WarCommand implements SubCommand {
 
     @Override
     public void handle(GuildManager manager, Player player, String[] args) {
-        if (!player.isOp()) {
-            ChatUtils.sendMessage(player, "&cWojny gildii jeszcze nie są gotowe.");
-        }
-
         if (args.length < 2) {
             ChatUtils.sendMessage(player, "&cPodaj nazwę gildii.");
             return;

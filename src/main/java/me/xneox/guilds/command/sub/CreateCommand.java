@@ -48,12 +48,6 @@ public class CreateCommand implements SubCommand {
             return;
         }
 
-        if (!player.getInventory().containsAtLeast(new ItemStack(Material.GOLD_INGOT), 32)) {
-            ChatUtils.sendMessage(player, "&cMusisz posiadać &632 sztabki złota &caby założyć gildię.");
-            return;
-        }
-
-        player.getInventory().remove(new ItemStack(Material.GOLD_INGOT, 32));
         ServiceUtils.INSTANCE.getUserManager().getUser(player).setJoinDate();
 
         Location nexusLoc = ChunkUtils.getCenter(ChunkUtils.toString(player.getChunk()));

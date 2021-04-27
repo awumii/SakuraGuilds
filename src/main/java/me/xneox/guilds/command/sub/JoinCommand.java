@@ -13,7 +13,7 @@ public class JoinCommand implements SubCommand {
     @Override
     public void handle(GuildManager manager, Player player, String[] args) {
         if (args.length < 2) {
-            ServiceUtils.INSTANCE.getInventoryManager().open("browse", player);
+            ChatUtils.sendMessage(player, "&cMusisz podać nazwę gildii!");
             return;
         }
 

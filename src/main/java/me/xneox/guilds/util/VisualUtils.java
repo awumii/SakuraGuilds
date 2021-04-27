@@ -42,7 +42,8 @@ public final class VisualUtils {
                 "&7Tarcza: &c" + TimeUtils.futureMillisToTime(guild.getShield()));
     }
 
-    public static Hologram createHologram(Location location, Material icon, String... text) {
+    public static Hologram createHologram(Location baseLocation, Material icon, String... text) {
+        Location location = baseLocation.clone();
         location.setX(location.getX() + 0.5);
         location.setZ(location.getZ() + 0.5);
 

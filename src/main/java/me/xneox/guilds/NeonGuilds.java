@@ -1,13 +1,18 @@
 package me.xneox.guilds;
 
 import me.xneox.guilds.command.GuildCommand;
-import me.xneox.guilds.features.LiveCommand;
-import me.xneox.guilds.features.RestrictionFeature;
+import me.xneox.guilds.xdronizja.CrazyAuctionsListener;
+import me.xneox.guilds.xdronizja.HelpCommand;
+import me.xneox.guilds.xdronizja.LiveCommand;
+import me.xneox.guilds.xdronizja.RestrictionFeature;
 import me.xneox.guilds.gui.*;
 import me.xneox.guilds.listener.*;
-import me.xneox.guilds.manager.*;
+import me.xneox.guilds.manager.ArenaManager;
+import me.xneox.guilds.manager.CooldownManager;
+import me.xneox.guilds.manager.GuildManager;
+import me.xneox.guilds.manager.UserManager;
 import me.xneox.guilds.task.GuildNotifierTask;
-import me.xneox.guilds.task.DataSaveTask;
+import me.xneox.guilds.task.HoloRefreshTask;
 import me.xneox.guilds.task.PlayerTeleportTask;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.gui.InventoryManager;
@@ -49,6 +54,7 @@ public class NeonGuilds extends JavaPlugin {
         GuildCommand command = new GuildCommand(this);
         registerCommand("guild", command, command.getCommandCompleter());
         registerCommand("live", new LiveCommand(this), null);
+        registerCommand("help", new HelpCommand(), null);
 
         registerListener(new GuildProtectionListener(this));
         registerListener(new PlayerDeathListener(this));
@@ -62,7 +68,7 @@ public class NeonGuilds extends JavaPlugin {
         registerListener(new WarListener(this));
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotifierTask(this), 0L, 40L);
-        Bukkit.getScheduler().runTaskTimer(this, new DataSaveTask(this), 0L, 20 * 60L);
+        Bukkit.getScheduler().runTaskTimer(this, new HoloRefreshTask(this), 0L, 20 * 20L);
         Bukkit.getScheduler().runTaskTimer(this, new PlayerTeleportTask(this), 0L, 20L);
         Bukkit.getScheduler().runTaskTimer(this, new ArenaControllerTask(this), 0L, 20L);
 

@@ -1,4 +1,4 @@
-package me.xneox.guilds.features;
+package me.xneox.guilds.xdronizja;
 
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.TimeUtils;

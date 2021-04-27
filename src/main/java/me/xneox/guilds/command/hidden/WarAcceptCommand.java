@@ -1,4 +1,4 @@
-package me.xneox.guilds.command.sub;
+package me.xneox.guilds.command.hidden;
 
 import me.xneox.guilds.command.SubCommand;
 import me.xneox.guilds.element.Guild;

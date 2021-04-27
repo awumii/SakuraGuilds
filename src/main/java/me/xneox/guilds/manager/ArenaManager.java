@@ -20,6 +20,8 @@ public class ArenaManager {
     private final Map<String, Arena> arenaMap = new HashMap<>();
     private final Json data;
 
+    private Location leaderboard;
+
     public ArenaManager() {
         this.data = new Json("arenas", "plugins/NeonGuilds");
         for (String name : data.getSection("arenas").singleLayerKeySet()) {
@@ -29,15 +31,17 @@ public class ArenaManager {
             Arena arena = new Arena(name);
             arena.setFirstSpawn(firstSpawn);
             arena.setSecondSpawn(secondSpawn);
-
             this.arenaMap.put(name, arena);
         }
+
+        this.leaderboard = LocationUtils.fromString(data.getOrSetDefault("leaderboards", LocationUtils.EMPTY));
     }
 
     public void save() {
         this.arenaMap.forEach((name, arena) -> {
             data.set("arenas." + name + ".FirstSpawn", LocationUtils.toString(arena.getFirstSpawn()));
             data.set("arenas." + name + ".SecondSpawn", LocationUtils.toString(arena.getSecondSpawn()));
+            data.set("leaderboards", LocationUtils.toString(this.leaderboard));
         });
     }
 
@@ -66,8 +70,15 @@ public class ArenaManager {
         player.setExp(data.getRight());
     }
 
-
     public Map<String, Arena> getArenaMap() {
         return arenaMap;
+    }
+
+    public Location getLeaderboard() {
+        return leaderboard;
+    }
+
+    public void setLeaderboard(Location leaderboard) {
+        this.leaderboard = leaderboard;
     }
 }

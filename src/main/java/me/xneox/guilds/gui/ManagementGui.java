@@ -4,7 +4,6 @@ import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.LogEntry;
 import me.xneox.guilds.element.User;
-import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.util.*;
 import me.xneox.guilds.util.gui.InventorySize;
 import me.xneox.guilds.util.gui.inventories.ClickableInventory;
@@ -159,14 +158,22 @@ public class ManagementGui extends ClickableInventory {
         ItemStack warInactive = new ItemBuilder(Material.PLAYER_HEAD)
                 .setName("&6Wojna Gildii")
                 .addLore("")
-                .addLore("&7Wojny to dobry sposób na walki pomiędzy gildiami.")
+                .addLore("&cWojny pojawią się w 3 sezonie!")
+                /*.addLore("&7Wojny to dobry sposób na walki pomiędzy gildiami.")
                 .addLore("&7Rozgrywają się one na arenie, uczestniczą w niej")
                 .addLore("&7wszyscy członkowie online obu gildii.")
+                .addLore("")
+                .addLore("&7Możliwe nagrody za uczestnictwo:")
+                .addLore("  &8▸ &cPuchary rankingowe &7(&amax. 100&7)")
+                .addLore("  &8▸ &6Pieniądze dla gildii &7(&a500~3000&7)")
+                .addLore("  &8▸ &eButelki EXP &7(&a1~16&7)")
+                .addLore("  &8▸ &dDiamenty &7(&a1~6&7)")
+                .addLore("  &8▸ &aSzmaragdy &7(&a4~8&7)")
                 .addLore("")
                 .addLore("&cWalczysz z własnym wyposażeniem,")
                 .addLore("&cale nie tracisz przedmiotów!")
                 .addLore("")
-                .addLore("&eKliknij, aby wyszukać przeciwników.")
+                .addLore("&eKliknij, aby wyszukać przeciwników.")*/
                 .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTIzMTJlNzJkMDMwMTJiZTEwNmI0OGFjY2QzMzgyY2VjN2NiY2VjZWIxNDJlYzc2MjM3OTM0NjM5YTZhMmU5In19fQ==")
                 .build();
 
@@ -277,6 +284,7 @@ public class ManagementGui extends ClickableInventory {
                 break;
             case 33:
                 player.performCommand("g public");
+                break;
             case 32:
                 this.plugin.getInventoryManager().open("upgrades", player);
                 break;
@@ -287,7 +295,7 @@ public class ManagementGui extends ClickableInventory {
                 this.plugin.getInventoryManager().open("leaderboards", player);
                 break;
             case 48:
-                this.plugin.getInventoryManager().open("war", player);
+                //this.plugin.getInventoryManager().open("war", player);
                 break;
             case 49:
                 player.openInventory(guild.getStorage());

@@ -2,6 +2,8 @@ package me.xneox.guilds.command;
 
 import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.command.admin.*;
+import me.xneox.guilds.command.hidden.AllyAcceptCommand;
+import me.xneox.guilds.command.hidden.WarAcceptCommand;
 import me.xneox.guilds.command.sub.*;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
@@ -39,8 +41,10 @@ public class GuildCommand implements CommandExecutor {
         commandMap.put("donate", new DonateCommand());
         commandMap.put("top", new TopCommand());
         commandMap.put("chat", new ChatChannelCommand());
-        commandMap.put("war", new WarCommand());
+        //commandMap.put("war", new WarCommand());
         commandMap.put("public", new PublicCommand());
+        commandMap.put("browse", new BrowseCommand());
+
         commandMap.put("x_acceptally", new AllyAcceptCommand());
         commandMap.put("x_acceptwar", new WarAcceptCommand());
 
@@ -48,6 +52,7 @@ public class GuildCommand implements CommandExecutor {
         commandMap.put("x_admin_setfirstspawn", new SetFirstSpawnCommand());
         commandMap.put("x_admin_setsecondspawn", new SetSecondSpawnCommand());
         commandMap.put("x_admin_teleport", new GuildTeleportCommand());
+        commandMap.put("x_admin_leaderboard", new SetLeaderboardCommand());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package me.xneox.guilds.listener;
+package me.xneox.guilds.xdronizja;
 
 import me.badbones69.crazyauctions.api.events.AuctionListEvent;
 import me.xneox.guilds.util.ChatUtils;

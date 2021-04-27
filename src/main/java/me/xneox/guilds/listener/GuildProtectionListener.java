@@ -4,6 +4,7 @@ import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,8 +47,12 @@ public class GuildProtectionListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.PHYSICAL && event.getClickedBlock() != null) {
-            if (this.isProtected(event.getPlayer(), event.getClickedBlock().getLocation())) {
-                event.setCancelled(true);
+            Material mat = event.getClickedBlock().getType();
+            if (mat.name().contains("DOOR") || mat.name().contains("BUTTON") || mat.name().contains("CHEST")
+                    || mat.name().contains("FENCE") || mat.name().contains("BARREL") || mat.name().contains("SHULKER") || mat == Material.LEVER) {
+                if (this.isProtected(event.getPlayer(), event.getClickedBlock().getLocation())) {
+                    event.setCancelled(true);
+                }
             }
         }
     }

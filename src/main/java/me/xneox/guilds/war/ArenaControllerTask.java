@@ -2,13 +2,12 @@ package me.xneox.guilds.war;
 
 import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.ChunkUtils;
-import me.xneox.guilds.util.TimeUtils;
-import me.xneox.guilds.util.VisualUtils;
+import me.xneox.guilds.util.*;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class ArenaControllerTask implements Runnable {
     private final NeonGuilds plugin;
@@ -47,7 +46,7 @@ public class ArenaControllerTask implements Runnable {
                      arena.getSecondGuild().getMembers().forEach(player -> handleArenaCountdown(player, arena));
                  }
             } else if (arena.getState() == ArenaState.INGAME) {
-                if (arena.getTime() <= 0) {
+                if (arena.getTime() <= 0 || firstGuild.getTrophies() > 100 || secondGuild.getTrophies() > 100) {
                     // Handling teleport and backup for players.
                     arena.getFirstGuild().getMembers().forEach(this::handleArenaEnd);
                     arena.getSecondGuild().getMembers().forEach(this::handleArenaEnd);
@@ -77,9 +76,9 @@ public class ArenaControllerTask implements Runnable {
                     arena.setState(ArenaState.FREE);
                 } else {
                     arena.setTime(arena.getTime() - 1);
-                    arena.getBossBar().setTitle(ChatUtils.colored("&e⊙ Czas: &f" + TimeUtils.secondsToTime(arena.getTime()) + " sekund"
-                            + " &9➙ " + arena.getFirstGuild().getGuild().getName() + ": &f" + arena.getFirstGuild().getPoints() + " ☆" +
-                            " &c➙ " + arena.getSecondGuild().getGuild().getName() + ": &f" + arena.getSecondGuild().getPoints() + " ☆"));
+                    arena.getBossBar().setTitle(ChatUtils.colored("&e⊙ Czas: &f" + TimeUtils.secondsToTime(arena.getTime())
+                            + " &9➙ " + arena.getFirstGuild().getGuild().getName() + ": &f" + arena.getFirstGuild().getPoints() + "/100 ☆" +
+                            " &c➙ " + arena.getSecondGuild().getGuild().getName() + ": &f" + arena.getSecondGuild().getPoints() + "/100 ☆"));
                 }
             }
         }
@@ -103,5 +102,17 @@ public class ArenaControllerTask implements Runnable {
         VisualUtils.playSound(player, Sound.ENTITY_EVOKER_CAST_SPELL);
         ChatUtils.sendTitle(player, "&6&l⚔ " + arena.getFirstGuild().getGuild().getName() + " vs " + arena.getSecondGuild().getGuild().getName() + " ⚔",
                 "&fWojna rozpocznie się za &e" + arena.getTime() + " sekund!");
+    }
+
+    private void generateRewards(Guild guild) {
+        int cashAmount = RandomUtils.getInt(500, 5000);
+        int expAmount = RandomUtils.getInt(16);
+        int diamondAmount = RandomUtils.getInt(6);
+        int emeraldAmount = RandomUtils.getInt(4, 8);
+
+        guild.setMoney(guild.getMoney() + cashAmount);
+        guild.getStorage().addItem(new ItemStack(Material.EXPERIENCE_BOTTLE, expAmount));
+        guild.getStorage().addItem(new ItemStack(Material.DIAMOND, diamondAmount));
+        guild.getStorage().addItem(new ItemStack(Material.EMERALD, emeraldAmount));
     }
 }

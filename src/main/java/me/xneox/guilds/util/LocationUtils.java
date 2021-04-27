@@ -2,9 +2,10 @@ package me.xneox.guilds.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 public final class LocationUtils {
+    public static String EMPTY = "world:0:0:0:0:0";
+
     public static String toString(Location location) {
         return location.getWorld().getName() + ":" + location.getX() + ":" + location.getY() + ":" + location.getZ() + ":" + location.getYaw() + ":" + location.getPitch();
     }
