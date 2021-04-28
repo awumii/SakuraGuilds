@@ -4,8 +4,11 @@ import me.xneox.guilds.command.SubCommand;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.ServiceUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.util.concurrent.TimeUnit;
 
 public class InviteCommand implements SubCommand {
 
@@ -43,8 +46,13 @@ public class InviteCommand implements SubCommand {
             return;
         }
 
+        if (ServiceUtils.INSTANCE.getCooldownManager().hasCooldown(player, "invite-" + target.getName())) {
+            ChatUtils.sendMessage(player, "&cMusisz poczekać &6"
+                    + ServiceUtils.INSTANCE.getCooldownManager().getRemaining(player, "invite-" + target.getName()) + " &cprzed wysłaniem zaproszenia.");
+            return;
+        }
+
         guild.getInvitations().add(args[1]);
-        guild.log(player.getName() + " wysyła zaproszenie do " + args[1]);
         ChatUtils.sendMessage(player, "Zaproszono gracza &6" + args[1] + " &7do twojej gildii.");
 
         ChatUtils.sendRaw(target, "");
@@ -52,5 +60,7 @@ public class InviteCommand implements SubCommand {
         ChatUtils.sendClickableMessage(target, "  &aKliknij, aby zaakceptować.",
                 "&aPo kliknięciu dołączysz do gildii!", "/g join " + guild.getName());
         ChatUtils.sendRaw(target, "");
+
+        ServiceUtils.INSTANCE.getCooldownManager().add(player, "invite-" + target.getName(), 10, TimeUnit.MINUTES);
     }
 }

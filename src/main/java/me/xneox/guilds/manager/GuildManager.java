@@ -46,8 +46,8 @@ public class GuildManager {
                 int health = json.getInt("Health");
                 long shield = json.getLong("Shield");
                 long creation = json.getLong("Creation");
-                boolean isPublic = json.getOrSetDefault("Public", false);
-                ItemStack[] storage = ItemSerialization.deserializeInventory(json.getOrSetDefault("Storage", ItemSerialization.serializeStack(new ItemStack[0])));
+                boolean isPublic = json.getBoolean("Public");
+                ItemStack[] storage = ItemSerialization.deserializeInventory(json.getString("Storage"));
 
                 String name = file.getName().replace(".json", "");
                 this.guildMap.put(name, new Guild(name, members, nexusLocation, creation, allies, home, chunks,

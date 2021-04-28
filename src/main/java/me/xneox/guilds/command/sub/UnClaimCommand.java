@@ -35,7 +35,6 @@ public class UnClaimCommand implements SubCommand {
         }
 
         guild.getChunks().remove(chunk);
-        guild.log(player.getName() + " porzuca chunk " + chunk);
         ChatUtils.guildAlert(guild, guild.getDisplayName(player) + " &cporzuca chunk: &6" + chunk);
     }
 }

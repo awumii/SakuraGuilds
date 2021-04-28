@@ -1,15 +1,12 @@
 package me.xneox.guilds.element;
 
-import com.google.common.collect.EvictingQueue;
 import me.xneox.guilds.type.Division;
 import me.xneox.guilds.type.Rank;
-import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.ChunkUtils;
 import me.xneox.guilds.util.gui.InventorySize;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.boss.BarColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -28,16 +25,16 @@ public class Guild {
     private final long creation;
 
     // CHANGEABLE DATA
-    @SuppressWarnings("UnstableApiUsage")
-    private final Queue<LogEntry> logQueue = EvictingQueue.create(6);
     private final List<String> allies;
     private final Inventory storage;
 
     private boolean isPublic;
+
+    private Location home;
     private long shield;
+
     private int health;
     private int money;
-    private Location home;
     private int maxMembers;
     private int maxChunks;
     private int trophies;
@@ -75,11 +72,6 @@ public class Guild {
     }
 
     // CONTROLLERS //
-
-    public void log(String info) {
-        this.logQueue.add(new LogEntry(System.currentTimeMillis(), info));
-        ChatUtils.forGuildMembers(this, player -> ChatUtils.sendBossBar(player, BarColor.GREEN, "&a" + info));
-    }
 
     public String getCreationDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm");
@@ -163,11 +155,6 @@ public class Guild {
     }
 
     // GETTERS AND SETTERS
-
-
-    public Queue<LogEntry> getLogQueue() {
-        return logQueue;
-    }
 
     public String getName() {
         return name;
@@ -295,27 +282,5 @@ public class Guild {
 
     public Inventory getStorage() {
         return storage;
-    }
-
-    @Override
-    public String toString() {
-        return "Guild{" +
-                "name='" + name + '\'' +
-                ", members=" + members +
-                ", chunks=" + chunks +
-                ", nexusLocation=" + nexusLocation +
-                ", creation=" + creation +
-                ", allies=" + allies +
-                ", isPublic=" + isPublic +
-                ", shield=" + shield +
-                ", health=" + health +
-                ", money=" + money +
-                ", home=" + home +
-                ", maxMembers=" + maxMembers +
-                ", maxChunks=" + maxChunks +
-                ", trophies=" + trophies +
-                ", kills=" + kills +
-                ", deaths=" + deaths +
-                '}';
     }
 }

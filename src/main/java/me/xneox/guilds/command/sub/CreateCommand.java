@@ -55,11 +55,10 @@ public class CreateCommand implements SubCommand {
 
         Guild guild = new Guild(args[1], new HashMap<>(), nexusLoc, new Date().getTime(), new ArrayList<>(), player.getLocation(), new ArrayList<>(),
                 0, 3, 0, 6, 4, 100, 0, 0, false, new ItemStack[0]);
-        guild.log("gildia zostaje założona");
 
         manager.getGuildMap().put(args[1], guild);
 
-        guild.setShield(Duration.ofDays(1));
+        guild.setShield(Duration.ofDays(3));
         guild.getMembers().put(player.getName(), Rank.LEADER);
         guild.getChunks().add(ChunkUtils.toString(player.getLocation().getChunk()));
 

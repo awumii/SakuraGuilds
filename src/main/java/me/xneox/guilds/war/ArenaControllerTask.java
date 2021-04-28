@@ -46,7 +46,7 @@ public class ArenaControllerTask implements Runnable {
                      arena.getSecondGuild().getMembers().forEach(player -> handleArenaCountdown(player, arena));
                  }
             } else if (arena.getState() == ArenaState.INGAME) {
-                if (arena.getTime() <= 0 || firstGuild.getTrophies() > 100 || secondGuild.getTrophies() > 100) {
+                if (arena.getTime() <= 0 || firstGuild.getTrophies() >= 100 || secondGuild.getTrophies() >= 100) {
                     // Handling teleport and backup for players.
                     arena.getFirstGuild().getMembers().forEach(this::handleArenaEnd);
                     arena.getSecondGuild().getMembers().forEach(this::handleArenaEnd);
@@ -56,24 +56,26 @@ public class ArenaControllerTask implements Runnable {
                     ChatUtils.broadcastCenteredMessage("");
                     ChatUtils.broadcastCenteredMessage("&6&l⚔ " + firstGuild.getName() + " vs " + secondGuild.getName() + " ⚔");
                     ChatUtils.broadcastCenteredMessage("&fWygrała gildia: &e" + arena.getWinner().getGuild().getName());
-                    ChatUtils.broadcastCenteredMessage("&fIlość punktów: &e" + points + "★");
+                    ChatUtils.broadcastCenteredMessage("&fIlość punktów:");
+                    ChatUtils.broadcastCenteredMessage("&8▸ &6" + firstGuild.getName() + "&7: &e" + points + "★");
+                    ChatUtils.broadcastCenteredMessage("&8▸ &6" + secondGuild.getName() + "&7: &e" + points + "★");
                     ChatUtils.broadcastCenteredMessage("");
 
-                    if (arena.getWinner().getGuild().equals(firstGuild)) {
-                        firstGuild.addTrophies(points);
-                        secondGuild.removeTrophies(points);
-                    } else {
-                        firstGuild.removeTrophies(points);
-                        secondGuild.addTrophies(points);
-                    }
+                    arena.getWinner().getGuild().addTrophies(arena.getWinner().getPoints());
 
                     // Clearing guild war locks.
                     arena.getFirstGuild().getGuild().setWarEnemy(null);
                     arena.getSecondGuild().getGuild().setWarEnemy(null);
 
+                    arena.setFirstGuild(null);
+                    arena.setSecondGuild(null);
+
                     // Resetting arena state.
                     arena.getBossBar().removeAll();
                     arena.setState(ArenaState.FREE);
+
+                    generateRewards(firstGuild);
+                    generateRewards(secondGuild);
                 } else {
                     arena.setTime(arena.getTime() - 1);
                     arena.getBossBar().setTitle(ChatUtils.colored("&e⊙ Czas: &f" + TimeUtils.secondsToTime(arena.getTime())

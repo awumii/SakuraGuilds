@@ -39,7 +39,6 @@ public class JoinCommand implements SubCommand {
         }
 
         guild.getMembers().put(player.getName(), Rank.REKRUT);
-        guild.log(player.getName() + " dołącza do gildii");
         ServiceUtils.INSTANCE.getUserManager().getUser(player).setJoinDate();
         ChatUtils.broadcast("&e" + player.getName() + " &7dołącza do gildii &6" + guild.getName());
     }

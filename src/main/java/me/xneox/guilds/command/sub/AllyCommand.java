@@ -5,10 +5,12 @@ import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.ServiceUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class AllyCommand implements SubCommand {
 
@@ -46,9 +48,13 @@ public class AllyCommand implements SubCommand {
             return;
         }
 
-        ChatUtils.sendMessage(player, "&7Wysłano zaproszenie sojuszu do &6" + otherGuild.getName());
-        guild.log(player.getName() + " wysyła zaproszenie sojuszu do " + otherGuild.getName());
+        if (ServiceUtils.INSTANCE.getCooldownManager().hasCooldown(player, "ally-" + otherGuild.getName())) {
+            ChatUtils.sendMessage(player, "&cMusisz poczekać &6"
+                    + ServiceUtils.INSTANCE.getCooldownManager().getRemaining(player, "ally-" + otherGuild.getName()) + " &cprzed wysłaniem zaproszenia.");
+            return;
+        }
 
+        ChatUtils.sendMessage(player, "&7Wysłano zaproszenie sojuszu do &6" + otherGuild.getName());
 
         ChatUtils.guildAlertRaw(otherGuild, " ");
         ChatUtils.guildAlertRaw(otherGuild, "  &7Otrzymano zaproszenie do sojuszu od &6" + guild.getName());
@@ -56,11 +62,12 @@ public class AllyCommand implements SubCommand {
 
         otherGuild.getMembers().keySet().stream().map(Bukkit::getPlayerExact).filter(Objects::nonNull).forEach(member -> {
             ChatUtils.sendClickableMessage(member, "  &aKliknij, aby zaakceptować.",
-                    "&aPo kliknięciu zostaniecie sojusznikami!", "/g x_acceptally IJAD98jdksldM " + guild.getName());
+                    "&aPo kliknięciu zostaniecie sojusznikami!", "/g acceptally IJAD98jdksldM " + guild.getName());
             ChatUtils.sendClickableMessage(member, "  &cKliknij, aby odrzucić.",
-                    "&cOdrzuca zaproszenie.", "/g x_acceptally dh98jadOAKD " + guild.getName());
+                    "&cOdrzuca zaproszenie.", "/g acceptally dh98jadOAKD " + guild.getName());
         });
 
         ChatUtils.guildAlertRaw(otherGuild, " ");
+        ServiceUtils.INSTANCE.getCooldownManager().add(player, "ally-" + otherGuild.getName(), 10, TimeUnit.MINUTES);
     }
 }

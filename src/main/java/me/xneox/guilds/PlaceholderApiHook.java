@@ -2,6 +2,7 @@ package me.xneox.guilds;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.util.RankedUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,6 +54,10 @@ public class PlaceholderApiHook extends PlaceholderExpansion {
                 return String.valueOf(guild.getTrophies());
             case "division":
                 return guild.getDivision().getName();
+            case "rank":
+                return guild.getPlayerRank(player).getDisplay();
+            case "rankedposition":
+                return "#" + RankedUtils.getLeaderboard(this.plugin.getGuildManager().getGuildMap().values()).indexOf(guild);
         }
         return "<unknown_placeholder>";
     }

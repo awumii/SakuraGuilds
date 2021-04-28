@@ -40,6 +40,11 @@ public class HoloRefreshTask implements Runnable {
         lines.add("");
 
         for (int i = 0; i < 10; i++) {
+            if (i >= leaderboard.size()) {
+                lines.add(" &e" + (i + 1) + ". &b-/-");
+                continue;
+            }
+
             Guild guild = leaderboard.get(i);
             lines.add(" &e" + (i + 1) + ". &b" + guild.getName() + " &7- &e" + guild.getTrophies() + "★");
         }

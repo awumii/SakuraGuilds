@@ -2,6 +2,7 @@ package me.xneox.guilds.war;
 
 import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.ChunkUtils;
 import me.xneox.guilds.util.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,12 +13,27 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class WarListener implements Listener {
     private final NeonGuilds plugin;
 
     public WarListener(NeonGuilds plugin) {
         this.plugin = plugin;
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        Arena arena = this.getArena(player);
+        if (arena != null) {
+            arena.getSecondGuild().getMembers().remove(player);
+            arena.getFirstGuild().getMembers().remove(player);
+
+            this.plugin.getArenaManager().loadBackup(player);
+            player.teleport(ChunkUtils.WORLD.getSpawnLocation());
+            ChatUtils.broadcast("&7Gracz &e" + player.getName() + " &7opuścił wojnę!");
+        }
     }
 
     @EventHandler
@@ -47,15 +63,12 @@ public class WarListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
-        for (Arena arena : this.plugin.getArenaManager().getArenaMap().values()) {
-            if (arena.getState() != ArenaState.INGAME) {
-                continue;
-            }
 
+        Arena arena = this.getArena(player);
+        if (arena != null) {
             int points = RandomUtils.getInt(5, 20);
 
             if (arena.getFirstGuild().getMembers().contains(player)) {
-                // Ginie gracz z pierwszej gildii, druga gildia dostaje punkty.
                 this.handleRespawn(event, arena.getFirstSpawn());
 
                 player.teleport(arena.getFirstSpawn());
@@ -63,7 +76,6 @@ public class WarListener implements Listener {
                 arena.forPlayers(p -> ChatUtils.sendTitle(p, "&6&lZabójstwo!",
                         "&fGildia &e" + arena.getSecondGuild().getGuild().getName() + " &fzdobywa &e" + points + "★"));
             } else if (arena.getSecondGuild().getMembers().contains(player)) {
-                // Ginie gracz z drugiej gildii, pierwsza gildia dostaje punkty.
                 this.handleRespawn(event, arena.getSecondSpawn());
 
                 player.teleport(arena.getSecondSpawn());
@@ -72,6 +84,19 @@ public class WarListener implements Listener {
                         "&fGildia &e" + arena.getFirstGuild().getGuild().getName() + " &fzdobywa &e" + points + "★"));
             }
         }
+    }
+
+    private Arena getArena(Player player) {
+        for (Arena arena : this.plugin.getArenaManager().getArenaMap().values()) {
+            if (arena.getState() != ArenaState.INGAME) {
+                continue;
+            }
+
+            if (arena.getFirstGuild().getMembers().contains(player) || arena.getSecondGuild().getMembers().contains(player)) {
+                return arena;
+            }
+        }
+        return null;
     }
 
     private void handleRespawn(PlayerDeathEvent event, Location spawn) {
@@ -86,13 +111,6 @@ public class WarListener implements Listener {
     }
 
     private boolean inGame(Player player) {
-        for (Arena value : this.plugin.getArenaManager().getArenaMap().values()) {
-            if (value.getState() == ArenaState.INGAME) {
-                if (value.getFirstGuild().getMembers().contains(player) || value.getSecondGuild().getMembers().contains(player)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return getArena(player) != null;
     }
 }

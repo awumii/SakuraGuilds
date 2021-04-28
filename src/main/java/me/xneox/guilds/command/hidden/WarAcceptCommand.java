@@ -1,5 +1,6 @@
 package me.xneox.guilds.command.hidden;
 
+import me.xneox.guilds.command.Hidden;
 import me.xneox.guilds.command.SubCommand;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.manager.GuildManager;
@@ -11,6 +12,7 @@ import me.xneox.guilds.war.ArenaState;
 import me.xneox.guilds.war.WarGuild;
 import org.bukkit.entity.Player;
 
+@Hidden
 public class WarAcceptCommand implements SubCommand {
     @Override
     public void handle(GuildManager manager, Player player, String[] args) {

@@ -1,5 +1,6 @@
 package me.xneox.guilds.command.hidden;
 
+import me.xneox.guilds.command.Hidden;
 import me.xneox.guilds.command.SubCommand;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.type.Permission;
@@ -7,6 +8,7 @@ import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.entity.Player;
 
+@Hidden
 public class AllyAcceptCommand implements SubCommand {
 
     @Override
@@ -28,9 +30,6 @@ public class AllyAcceptCommand implements SubCommand {
             ChatUtils.broadcast("&7Gildie &6" + guild.getName() + " &7oraz &6" + other.getName() + " &7zawarły &aSOJUSZ!");
             guild.getAllies().add(other.getName());
             other.getAllies().add(guild.getName());
-
-            guild.log("zawarto sojusz z " + other.getName());
-            other.log("zawarto sojusz z " + guild.getName());
         } else if (args[1].equals("dh98jadOAKD")) {
             ChatUtils.guildAlert(guild, guild.getDisplayName(player) + " &7odrzucił zaproszenie sojuszu od &6" + other.getName());
             ChatUtils.guildAlert(other, guild.getDisplayName(player) + " &7z gildii &6" + guild.getName() + " &7odrzucił wasze zaproszenie do sojuszu.");

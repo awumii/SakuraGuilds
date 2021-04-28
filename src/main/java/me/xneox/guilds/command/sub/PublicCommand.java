@@ -21,12 +21,7 @@ public class PublicCommand implements SubCommand {
             return;
         }
 
-        if (guild.isPublic()) {
-            ChatUtils.broadcast("&7Gildia &e" + guild.getName() + " &7stała się &cPRYWATNA.");
-            guild.setPublic(false);
-        } else {
-            ChatUtils.broadcast("&7Gildia &e" + guild.getName() + " &7stała się &aPUBLICZNA! &8[&6/g join&8]");
-            guild.setPublic(true);
-        }
+        guild.setPublic(!guild.isPublic());
+        ChatUtils.guildAlert(guild, guild.getDisplayName(player) + " &7zmienił status gildii na " + (guild.isPublic() ? "&a&nPUBLICZNY" : "&c&nPRYWATNY"));
     }
 }

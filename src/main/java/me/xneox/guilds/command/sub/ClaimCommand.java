@@ -41,7 +41,6 @@ public class ClaimCommand implements SubCommand {
         String chunk = ChunkUtils.toString(player.getLocation().getChunk());
         guild.getChunks().add(chunk);
         ChatUtils.guildAlert(guild, guild.getDisplayName(player) + " &7zajmuje chunk: &6" + LocationUtils.toSimpleString(player.getLocation()));
-        guild.log(player.getName() + " zajmuje chunk " + LocationUtils.toSimpleString(player.getLocation()));
 
         Location hologramLoc = ChunkUtils.getCenter(chunk);
         hologramLoc.setY(hologramLoc.getY() + 3);

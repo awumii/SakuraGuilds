@@ -41,18 +41,18 @@ public class GuildCommand implements CommandExecutor {
         commandMap.put("donate", new DonateCommand());
         commandMap.put("top", new TopCommand());
         commandMap.put("chat", new ChatChannelCommand());
-        //commandMap.put("war", new WarCommand());
+        commandMap.put("war", new WarCommand());
         commandMap.put("public", new PublicCommand());
         commandMap.put("browse", new BrowseCommand());
 
-        commandMap.put("x_acceptally", new AllyAcceptCommand());
-        commandMap.put("x_acceptwar", new WarAcceptCommand());
+        commandMap.put("acceptally", new AllyAcceptCommand());
+        commandMap.put("acceptwar", new WarAcceptCommand());
 
-        commandMap.put("x_admin_createarena", new ArenaCreateCommand());
-        commandMap.put("x_admin_setfirstspawn", new SetFirstSpawnCommand());
-        commandMap.put("x_admin_setsecondspawn", new SetSecondSpawnCommand());
-        commandMap.put("x_admin_teleport", new GuildTeleportCommand());
-        commandMap.put("x_admin_leaderboard", new SetLeaderboardCommand());
+        commandMap.put("createarena", new ArenaCreateCommand());
+        commandMap.put("setfirstspawn", new SetFirstSpawnCommand());
+        commandMap.put("setsecondspawn", new SetSecondSpawnCommand());
+        commandMap.put("teleport", new GuildTeleportCommand());
+        commandMap.put("placeleaderholo", new SetLeaderboardCommand());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class GuildCommand implements CommandExecutor {
             return true;
         }
 
-        AdminCommand permissible = subCommand.getClass().getAnnotation(AdminCommand.class);
+        AdminOnly permissible = subCommand.getClass().getAnnotation(AdminOnly.class);
         if (permissible != null && !player.isOp()) {
             ChatUtils.sendMessage(player, "&cNie posiadasz uprawnień do tej komendy.");
         }

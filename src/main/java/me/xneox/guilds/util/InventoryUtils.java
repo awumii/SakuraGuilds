@@ -22,9 +22,9 @@ public final class InventoryUtils {
         inventory.setItem(1, black);
         inventory.setItem(2, black);
 
-        inventory.setItem(3, other);
-        inventory.setItem(4, other);
-        inventory.setItem(5, other);
+        inventory.setItem(3, black);
+        inventory.setItem(4, black);
+        inventory.setItem(5, black);
 
         inventory.setItem(6, black);
         inventory.setItem(7, black);
@@ -33,10 +33,10 @@ public final class InventoryUtils {
 
         inventory.setItem(17, black);
 
-        inventory.setItem(18, other);
-        inventory.setItem(27, other);
-        inventory.setItem(26, other);
-        inventory.setItem(35, other);
+        inventory.setItem(18, black);
+        inventory.setItem(27, black);
+        inventory.setItem(26, black);
+        inventory.setItem(35, black);
 
         inventory.setItem(36, black);
         inventory.setItem(44, black);
@@ -49,9 +49,9 @@ public final class InventoryUtils {
 
         inventory.setItem(47, black);
 
-        inventory.setItem(48, other);
-        inventory.setItem(49, other);
-        inventory.setItem(50, other);
+        inventory.setItem(48, black);
+        inventory.setItem(49, black);
+        inventory.setItem(50, black);
 
         inventory.setItem(51, black);
     }

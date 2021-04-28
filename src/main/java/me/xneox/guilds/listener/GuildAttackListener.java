@@ -79,7 +79,6 @@ public class GuildAttackListener implements Listener {
             } else {
                 guild.setShield(Duration.ofDays(1));
                 guild.setHealth(guild.getHealth() - 1);
-                guild.log("&cnexus został zaatakowany przez [" + guild.getName() + "] " + player.getName());
                 ChatUtils.broadcast("&7Gildia &6" + guild.getName() + " &7posiada jeszcze &c" + guild.getHealth() + " żyć!");
             }
         }

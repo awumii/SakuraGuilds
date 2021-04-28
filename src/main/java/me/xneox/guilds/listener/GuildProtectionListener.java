@@ -46,6 +46,13 @@ public class GuildProtectionListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+        event.getPlayer().getInventory().getItemInMainHand();
+        if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.SPLASH_POTION) {
+            if (this.isProtected(event.getPlayer(), event.getPlayer().getLocation())) {
+                event.setCancelled(true);
+            }
+        }
+
         if (event.getAction() != Action.PHYSICAL && event.getClickedBlock() != null) {
             Material mat = event.getClickedBlock().getType();
             if (mat.name().contains("DOOR") || mat.name().contains("BUTTON") || mat.name().contains("CHEST")

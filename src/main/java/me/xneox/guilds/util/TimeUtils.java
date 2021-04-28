@@ -10,16 +10,23 @@ public final class TimeUtils {
     }
 
     public static String millisToTime(long millis) {
-        long seconds = (millis/1000) % 60;
-        long minutes = ((millis/1000) / 60) % 60;
-        long hours = ((millis/1000) / 60) / 60;
+        int totalSeconds = (int) Math.floor(millis / 1000);
+        int totalMinutes = (int) Math.floor(totalSeconds / 60);
+        int totalHours = (int) Math.floor(totalMinutes / 60);
+        int days = (int) Math.floor(totalHours / 24);
 
-        if (hours != 0) {
+        long seconds = totalSeconds % 60;
+        long minutes = totalMinutes % 60;
+        long hours = totalHours % 24;
+
+        if (days > 0) {
+            return days + "d, " + hours + "h, " + minutes + "m, " + seconds + "s";
+        } else if (hours > 0) {
             return hours + "h, " + minutes + "m, " + seconds + "s";
-        } else if (minutes != 0) {
+        } else if (minutes > 0) {
             return minutes + "m, " + seconds + "s";
         } else {
-            return TimeUnit.MILLISECONDS.toSeconds(millis) + " sekund";
+            return seconds + "s";
         }
     }
 

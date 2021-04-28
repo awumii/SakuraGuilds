@@ -31,7 +31,6 @@ public class DonateCommand implements SubCommand {
 
             guild.setMoney(guild.getMoney() + money);
             ChatUtils.guildAlert(guild, guild.getDisplayName(player) + " &7wpłacił &6" + money + "$ &7do banku gildii.");
-            guild.log(player.getName() + " wpłaca do banku " + money + "$");
         } else {
             ChatUtils.sendMessage(player, "&cNie posiadasz tyle pieniędzy!");
         }
