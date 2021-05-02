@@ -10,24 +10,13 @@ defaultTasks 'clean', 'shadowJar', 'build'
 
 repositories {
     mavenCentral()
-    maven {
-        url 'https://papermc.io/repo/repository/maven-public/'
-    }
-    maven {
-        url 'https://jitpack.io'
-    }
-    maven {
-        url 'https://libraries.minecraft.net/'
-    }
-    maven {
-        url 'https://repo.codemc.io/repository/maven-public/'
-    }
-    maven {
-        url 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
-    }
-    maven {
-        url 'https://nexus.badbones69.com/repository/maven-releases/'
-    }
+    maven { url 'https://papermc.io/repo/repository/maven-public/' }
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://libraries.minecraft.net/' }
+    maven { url 'https://repo.codemc.io/repository/maven-public/' }
+    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+    maven { url 'https://nexus.badbones69.com/repository/maven-releases/' }
+    maven { url 'https://mvn.intellectualsites.com/content/repositories/releases/' }
 }
 
 dependencies {
@@ -40,6 +29,7 @@ dependencies {
     compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
     compileOnly 'me.badbones69:crazyauctions:1.2.12'
     compileOnly 'me.clip:placeholderapi:2.10.9'
+    compileOnly 'com.intellectualsites.fawe:FAWE-Bukkit:1.16-637'
 }
 
 // Fixing broken encoding on Windows.

@@ -8,21 +8,18 @@ import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
 import me.xneox.guilds.util.VisualUtils;
+import me.xneox.guilds.util.gui.ClickEvent;
+import me.xneox.guilds.util.gui.ClickableInventory;
 import me.xneox.guilds.util.gui.InventorySize;
-import me.xneox.guilds.util.gui.inventories.ClickableInventory;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class RankEditorGui extends ClickableInventory {
-    private final NeonGuilds plugin;
-
     public RankEditorGui(NeonGuilds plugin) {
-        super("Zarządzanie rangami użytkownika", "rank_editor", InventorySize.BIGGEST);
-        this.plugin = plugin;
+        super(plugin, "Zarządzanie rangami użytkownika", InventorySize.BIGGEST);
     }
 
     @Override
@@ -123,15 +120,11 @@ public class RankEditorGui extends ClickableInventory {
     }
 
     @Override
-    public void onClick(InventoryClickEvent event, Player player) {
-        event.setCancelled(true);
-        VisualUtils.playSound(player, Sound.BLOCK_WOODEN_BUTTON_CLICK_ON);
+    public void onClick(ClickEvent event, Player player) {
+        VisualUtils.click(player);
 
         int slot = event.getSlot();
-        ItemStack item = event.getCurrentItem();
-        if (item == null) {
-            return;
-        }
+        ItemStack item = event.getItem();
 
         if (item.getType() == Material.PLAYER_HEAD) {
             if (item.getItemMeta().getDisplayName().contains("Powrót")) {

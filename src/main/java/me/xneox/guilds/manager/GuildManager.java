@@ -1,6 +1,7 @@
 package me.xneox.guilds.manager;
 
 import de.leonhard.storage.Json;
+import me.xneox.guilds.element.Building;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.type.Rank;
 import me.xneox.guilds.util.ChatUtils;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class GuildManager {
     private final Map<String, Guild> guildMap = new HashMap<>();
@@ -29,14 +31,23 @@ public class GuildManager {
             try {
                 Json json = new Json(file);
 
-                Map<String, String> membersRaw = json.getOrSetDefault("Members", new HashMap<>());
+                // Parsing members
+                Map<String, String> membersRaw = json.getMapParameterized("Members");
                 Map<String, Rank> members = new HashMap<>();
                 membersRaw.forEach((name, rank) -> members.put(name, Rank.valueOf(rank)));
 
-                List<String> chunks = json.getStringList("Chunks");
-                List<String> allies = json.getStringList("Allies");
+                // Parsing buildings
+                List<Building> buildings = json.getStringList("Buildings")
+                        .stream()
+                        .map(Building::parse)
+                        .collect(Collectors.toList());
+
                 Location home = LocationUtils.fromString(json.getString("Home"));
                 Location nexusLocation = LocationUtils.fromString(json.getString("Nexus"));
+                List<String> chunks = json.getStringList("Chunks");
+                List<String> allies = json.getStringList("Allies");
+                ItemStack[] storage = ItemSerialization.deserializeInventory(json.getString("Storage"));
+
                 int money = json.getInt("Money");
                 int maxMembers = json.getInt("MaxMembers");
                 int maxChunks = json.getInt("MaxChunks");
@@ -47,11 +58,10 @@ public class GuildManager {
                 long shield = json.getLong("Shield");
                 long creation = json.getLong("Creation");
                 boolean isPublic = json.getBoolean("Public");
-                ItemStack[] storage = ItemSerialization.deserializeInventory(json.getString("Storage"));
 
                 String name = file.getName().replace(".json", "");
                 this.guildMap.put(name, new Guild(name, members, nexusLocation, creation, allies, home, chunks,
-                        shield, health, money, maxMembers, maxChunks, trophies, kills, deaths, isPublic, storage));
+                        shield, health, money, maxMembers, maxChunks, trophies, kills, deaths, isPublic, storage, buildings));
             } catch (Exception e) {
                 ChatUtils.broadcast("&cWystąpił błąd podczas wczytywania danych gildii: &4" + file.getName());
                 e.printStackTrace();
@@ -92,6 +102,7 @@ public class GuildManager {
                 json.set("Creation", guild.getCreationLong());
                 json.set("Public", guild.isPublic());
                 json.set("Storage", ItemSerialization.serializeInventory(guild.getStorage()));
+                json.set("Buildings", guild.getBuildings().stream().map(Building::toString).collect(Collectors.toList()));
             } catch (Exception e) {
                 ChatUtils.broadcast("&cNie udało się zapisać danych gildii &4" + name + "&c, kopia zapasowa utworzona.");
                 e.printStackTrace();

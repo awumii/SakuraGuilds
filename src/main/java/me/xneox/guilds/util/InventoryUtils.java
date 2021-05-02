@@ -6,6 +6,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public final class InventoryUtils {
+    public static final ItemStack BLACK_GLASS = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setName("&r").build();
+
     public static void reduceHandItem(Player player) {
         ItemStack stack = player.getInventory().getItemInMainHand();
         if (stack.getAmount() == 1) {
@@ -16,44 +18,42 @@ public final class InventoryUtils {
     }
 
     public static void drawBorder(Inventory inventory) {
-        ItemStack black = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setName("&r").build();
-        ItemStack other = new ItemBuilder(Material.RED_STAINED_GLASS_PANE).setName("&r").build();
-        inventory.setItem(0, black);
-        inventory.setItem(1, black);
-        inventory.setItem(2, black);
+        inventory.setItem(0, BLACK_GLASS);
+        inventory.setItem(1, BLACK_GLASS);
+        inventory.setItem(2, BLACK_GLASS);
 
-        inventory.setItem(3, black);
-        inventory.setItem(4, black);
-        inventory.setItem(5, black);
+        inventory.setItem(3, BLACK_GLASS);
+        inventory.setItem(4, BLACK_GLASS);
+        inventory.setItem(5, BLACK_GLASS);
 
-        inventory.setItem(6, black);
-        inventory.setItem(7, black);
-        inventory.setItem(8, black);
-        inventory.setItem(9, black);
+        inventory.setItem(6, BLACK_GLASS);
+        inventory.setItem(7, BLACK_GLASS);
+        inventory.setItem(8, BLACK_GLASS);
+        inventory.setItem(9, BLACK_GLASS);
 
-        inventory.setItem(17, black);
+        inventory.setItem(17, BLACK_GLASS);
 
-        inventory.setItem(18, black);
-        inventory.setItem(27, black);
-        inventory.setItem(26, black);
-        inventory.setItem(35, black);
+        inventory.setItem(18, BLACK_GLASS);
+        inventory.setItem(27, BLACK_GLASS);
+        inventory.setItem(26, BLACK_GLASS);
+        inventory.setItem(35, BLACK_GLASS);
 
-        inventory.setItem(36, black);
-        inventory.setItem(44, black);
+        inventory.setItem(36, BLACK_GLASS);
+        inventory.setItem(44, BLACK_GLASS);
 
-        inventory.setItem(45, black);
-        inventory.setItem(46, black);
+        inventory.setItem(45, BLACK_GLASS);
+        inventory.setItem(46, BLACK_GLASS);
 
-        inventory.setItem(52, black);
-        inventory.setItem(53, black);
+        inventory.setItem(52, BLACK_GLASS);
+        inventory.setItem(53, BLACK_GLASS);
 
-        inventory.setItem(47, black);
+        inventory.setItem(47, BLACK_GLASS);
 
-        inventory.setItem(48, black);
-        inventory.setItem(49, black);
-        inventory.setItem(50, black);
+        inventory.setItem(48, BLACK_GLASS);
+        inventory.setItem(49, BLACK_GLASS);
+        inventory.setItem(50, BLACK_GLASS);
 
-        inventory.setItem(51, black);
+        inventory.setItem(51, BLACK_GLASS);
     }
 
     public static void fillInventory(Inventory inventory, Material material) {

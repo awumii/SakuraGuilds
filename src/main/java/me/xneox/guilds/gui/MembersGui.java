@@ -7,24 +7,20 @@ import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
 import me.xneox.guilds.util.TimeUtils;
 import me.xneox.guilds.util.VisualUtils;
+import me.xneox.guilds.util.gui.ClickEvent;
+import me.xneox.guilds.util.gui.ClickableInventory;
 import me.xneox.guilds.util.gui.InventorySize;
-import me.xneox.guilds.util.gui.inventories.ClickableInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class MembersGui extends ClickableInventory {
-    private final NeonGuilds plugin;
-
     public MembersGui(NeonGuilds plugin) {
-        super("Menu zarządzania członkami", "members", InventorySize.BIGGEST);
-        this.plugin = plugin;
+        super(plugin, "Menu zarządzania członkami", InventorySize.BIGGEST);
     }
 
     @Override
@@ -63,22 +59,17 @@ public class MembersGui extends ClickableInventory {
     }
 
     @Override
-    public void onClick(InventoryClickEvent event, Player player) {
-        event.setCancelled(true);
-        VisualUtils.playSound(player, Sound.BLOCK_WOODEN_BUTTON_CLICK_ON);
+    public void onClick(ClickEvent event, Player player) {
+        VisualUtils.click(player);
 
-        ItemStack item = event.getCurrentItem();
-        if (item == null) {
-            return;
-        }
-
+        ItemStack item = event.getItem();
         if (item.getType() == Material.PLAYER_HEAD) {
             if (item.getItemMeta().getDisplayName().contains("Powrót")) {
                 this.plugin.getInventoryManager().open("manage", player);
             } else  {
                 String target = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 
-                if (event.getClick() == ClickType.MIDDLE) {
+                if (event.getClickType() == ClickType.MIDDLE) {
                     player.performCommand("g kick " + target);
                 } else {
                     this.plugin.getUserManager().getUser(player).setEditorSubject(target);

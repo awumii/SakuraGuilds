@@ -2,6 +2,7 @@ package me.xneox.guilds.util;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import me.xneox.guilds.element.Building;
 import me.xneox.guilds.element.Guild;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -15,13 +16,17 @@ public final class VisualUtils {
         player.playSound(player.getLocation(), sound, 1f, 1f);
     }
 
+    public static void click(Player player) {
+        playSound(player, Sound.BLOCK_WOODEN_BUTTON_CLICK_ON);
+    }
+
     public static void drawBorderAtChunk(Chunk chunk, Player player) {
         int minX = chunk.getX() * 16;
         int minZ = chunk.getZ() * 16;
         int minY = player.getLocation().getBlockY();
 
         for (int x = minX; x < minX + 17; x++) {
-            for (int y = minY; y < minY + 2; y++) {
+            for (int y = minY; y < minY + 4; y++) {
                 for (int z = minZ; z < minZ + 17; z++) {
                     player.spawnParticle(Particle.VILLAGER_HAPPY, minX, y, z, 1);
                     player.spawnParticle(Particle.VILLAGER_HAPPY, x, y, minZ, 1);
@@ -36,10 +41,29 @@ public final class VisualUtils {
         Location location = guild.getNexusLocation().clone();
         location.setY(location.getY() + 3);
 
-        createHologram(location, Material.RESPAWN_ANCHOR,
+        createHologram(location, Material.ENDER_EYE,
                 "&6&lNEXUS GILDII " + guild.getName(),
                 "&7Ilość żyć: &c" + guild.getHealth() + "/3",
                 "&7Tarcza: &c" + TimeUtils.futureMillisToTime(guild.getShield()));
+    }
+
+    public static void createBuildingInfo(Guild guild, Building building) {
+        Location location = building.getLocation().clone();
+        location.setY(location.getY() + 3);
+
+        switch (building.getState()) {
+            case INBUILT:
+                createHologram(location, Material.CLOCK,
+                        "&6&l" + building.getType().getName() + " gildii " + guild.getName(),
+                        "&7W trakcie budowy...",
+                        "&c" + TimeUtils.futureMillisToTime(building.getCompleteTime()));
+                break;
+            case BUILT:
+                createHologram(location, Material.EMERALD_BLOCK,
+                        "&6&l" + building.getType().getName() + " gildii " + guild.getName(),
+                        "&7Poziom: " + building.getLevel());
+                break;
+        }
     }
 
     public static Hologram createHologram(Location baseLocation, Material icon, String... text) {

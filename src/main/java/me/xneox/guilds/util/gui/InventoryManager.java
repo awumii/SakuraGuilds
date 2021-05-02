@@ -15,20 +15,19 @@
 
 package me.xneox.guilds.util.gui;
 
-import me.xneox.guilds.util.gui.basic.BaseInventory;
+import me.xneox.guilds.util.gui.basic.CustomInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InventoryManager {
-    private final List<BaseInventory> inventories;
+    private final Map<String, CustomInventory> inventories = new HashMap<>();
 
     public InventoryManager(JavaPlugin plugin) {
-        this.inventories = new ArrayList<>();
         Bukkit.getPluginManager().registerEvents(new InventoryListener(this), plugin);
         Bukkit.getScheduler().runTaskTimer(plugin, new InventoryTask(this), 20L, 40L);
     }
@@ -36,25 +35,29 @@ public class InventoryManager {
     /**
      * Registering a new Inventory.
      *
-     * @param inventory Implementation of the {@link BaseInventory}.
+     * @param inventory Implementation of the {@link CustomInventory}.
      */
-    public void addInventory(BaseInventory inventory) {
-        this.inventories.add(inventory);
+    public void register(String id, CustomInventory inventory) {
+        this.inventories.put(id, inventory);
     }
 
     /**
      * Opens the specified inventory.
-     * Throws {@link UnknownIdException} if the inventory with the provided ID does not exist.
+     * Throws {@link IllegalArgumentException} if the inventory with the provided ID does not exist.
      *
      * @param id String ID of the inventory.
      * @param player The player to open the GUI.
      */
     public void open(String id, Player player) {
-        BaseInventory inventory = this.findById(id);
+        CustomInventory inventory = this.inventories.get(id);
         if (inventory == null) {
-            throw new UnknownIdException("Can't find an Inventory with the provided ID '" + id + "'");
+            throw new IllegalArgumentException("Can't find an Inventory with the provided ID '" + id + "'");
         }
 
+        this.open(inventory, player);
+    }
+
+    public void open(CustomInventory inventory, Player player) {
         Inventory bukkitInventory = Bukkit.createInventory(player, inventory.getSize(), inventory.getTitle());
         player.openInventory(bukkitInventory);
         inventory.onOpen(player, bukkitInventory);
@@ -62,26 +65,13 @@ public class InventoryManager {
     }
 
     /**
-     * Searches for the {@link BaseInventory} from the specified ID.
-     *
-     * @param id ID of the searched GUI.
-     * @return The searched {@link BaseInventory}, or null if not found.
-     */
-    public BaseInventory findById(String id) {
-        return this.inventories.stream()
-                .filter(inventory -> inventory.getId().equalsIgnoreCase(id))
-                .findFirst()
-                .orElse(null);
-    }
-
-    /**
-     * Searches for the {@link BaseInventory} from the item name.
+     * Searches for the {@link CustomInventory} from the item name.
      *
      * @param name Inventory title of the searched GUI.
-     * @return The searched {@link BaseInventory}, or null if not found.
+     * @return The searched {@link CustomInventory}, or null if not found.
      */
-    public BaseInventory findByName(String name) {
-        return this.inventories.stream()
+    public CustomInventory findByName(String name) {
+        return this.inventories.values().stream()
                 .filter(inventory -> inventory.getTitle().equals(name))
                 .findFirst()
                 .orElse(null);

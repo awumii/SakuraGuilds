@@ -3,22 +3,21 @@ package me.xneox.guilds.gui;
 import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.*;
+import me.xneox.guilds.util.gui.ClickEvent;
+import me.xneox.guilds.util.gui.ClickableInventory;
 import me.xneox.guilds.util.gui.InventorySize;
-import me.xneox.guilds.util.gui.inventories.ClickableInventory;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
 public class ClaimGui extends ClickableInventory {
-    private final NeonGuilds plugin;
-
     public ClaimGui(NeonGuilds plugin) {
-        super("Zarządzanie zajętymi ziemiami", "claim", InventorySize.BIGGEST);
-        this.plugin = plugin;
+        super(plugin, "Zarządzanie zajętymi ziemiami", InventorySize.BIGGEST);
     }
 
     @Override
@@ -49,15 +48,10 @@ public class ClaimGui extends ClickableInventory {
     }
 
     @Override
-    public void onClick(InventoryClickEvent event, Player player) {
-        event.setCancelled(true);
-        VisualUtils.playSound(player, Sound.BLOCK_WOODEN_BUTTON_CLICK_ON);
+    public void onClick(ClickEvent event, Player player) {
+        VisualUtils.click(player);
 
-        ItemStack item = event.getCurrentItem();
-        if (item == null) {
-            return;
-        }
-
+        ItemStack item = event.getItem();
         if (item.getType() == Material.GRASS_BLOCK) {
             Guild guild = this.plugin.getGuildManager().getGuild(player);
 

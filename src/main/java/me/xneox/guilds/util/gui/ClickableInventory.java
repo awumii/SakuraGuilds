@@ -15,24 +15,29 @@
 
 package me.xneox.guilds.util.gui;
 
+import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.util.gui.basic.Clickable;
 import me.xneox.guilds.util.gui.basic.CustomInventory;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.ChatColor;
 
-public class InventoryTask implements Runnable {
-    private final InventoryManager manager;
+public abstract class ClickableInventory implements CustomInventory, Clickable {
+    protected final NeonGuilds plugin;
+    private final String title;
+    private final int size;
 
-    public InventoryTask(InventoryManager manager) {
-        this.manager = manager;
+    public ClickableInventory(NeonGuilds plugin, String title, InventorySize size) {
+        this.plugin = plugin;
+        this.title = ChatColor.translateAlternateColorCodes('&', title);
+        this.size = size.getSize();
     }
 
     @Override
-    public void run() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            CustomInventory inventory = this.manager.findByName(player.getOpenInventory().getTitle());
-            if (inventory != null && inventory.isRefreshable()) {
-                this.manager.open(inventory, player);
-            }
-        }
+    public String getTitle() {
+        return this.title;
+    }
+
+    @Override
+    public int getSize() {
+        return this.size;
     }
 }

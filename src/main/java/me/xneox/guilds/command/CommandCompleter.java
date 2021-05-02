@@ -1,5 +1,6 @@
 package me.xneox.guilds.command;
 
+import me.xneox.guilds.command.annotations.Hidden;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;

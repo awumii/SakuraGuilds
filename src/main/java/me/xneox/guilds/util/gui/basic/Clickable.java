@@ -15,8 +15,8 @@
 
 package me.xneox.guilds.util.gui.basic;
 
+import me.xneox.guilds.util.gui.ClickEvent;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 
 public interface Clickable {
     /**
@@ -25,5 +25,5 @@ public interface Clickable {
      *
      * @param event Called event.
      */
-    void onClick(InventoryClickEvent event, Player player);
+    void onClick(ClickEvent event, Player player);
 }

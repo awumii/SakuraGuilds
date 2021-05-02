@@ -5,10 +5,8 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -32,8 +30,11 @@ public final class ChunkUtils {
                 .map(entity -> (Player) entity).collect(Collectors.toList());
     }
 
-    public static Location getCenter(String location) {
-        Chunk chunk = ChunkUtils.toChunk(location);
+    public static Location getCenter(String chunk) {
+        return getCenter(toChunk(chunk));
+    }
+
+    public static Location getCenter(Chunk chunk) {
         Block block = chunk.getBlock(8, 0, 8);
 
         Location loc = block.getLocation();
@@ -45,22 +46,22 @@ public final class ChunkUtils {
         return toString(original).equals(target);
     }
 
-    public static boolean canBeClaimed(Player player) {
+    public static boolean isProtected(Player player) {
         if (ServiceUtils.INSTANCE.getGuildManager().getGuildAt(player.getLocation()) != null) {
             ChatUtils.sendMessage(player, "&cTen teren jest zajęty.");
-            return false;
+            return true;
         }
 
         if (!player.getWorld().getName().equals("world")) {
             ChatUtils.sendMessage(player, "&cNa tym świecie nie można zakładać gildii.");
-            return false;
+            return true;
         }
 
         if (player.getWorld().getSpawnLocation().distance(player.getLocation()) < 200) {
             ChatUtils.sendMessage(player, "&cNie możesz zakładać gildii blisko spawna.");
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private ChunkUtils() {}

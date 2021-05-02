@@ -15,10 +15,9 @@
 
 package me.xneox.guilds.util.gui;
 
-import me.xneox.guilds.util.gui.basic.BaseInventory;
+import me.xneox.guilds.util.gui.basic.CustomInventory;
 import me.xneox.guilds.util.gui.basic.Clickable;
 import me.xneox.guilds.util.gui.basic.Closeable;
-import me.xneox.guilds.util.gui.inventories.UnmodifiableInventory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,11 +38,11 @@ public class InventoryListener implements Listener {
             return;
         }
 
-        BaseInventory inventory = this.manager.findByName(title);
+        CustomInventory inventory = this.manager.findByName(title);
         if (inventory instanceof Clickable) {
-            ((Clickable) inventory).onClick(event, (Player) event.getWhoClicked());
-        }
-        if (inventory instanceof UnmodifiableInventory) {
+            ClickEvent customEvent = new ClickEvent(event.getCurrentItem(), event.getSlot(), event.getClick());
+            ((Clickable) inventory).onClick(customEvent, (Player) event.getWhoClicked());
+
             event.setCancelled(true);
         }
     }
@@ -51,7 +50,7 @@ public class InventoryListener implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         String title = event.getView().getTitle();
-        BaseInventory inventory = this.manager.findByName(title);
+        CustomInventory inventory = this.manager.findByName(title);
         if (inventory instanceof Closeable) {
             ((Closeable) inventory).onClose(event);
         }

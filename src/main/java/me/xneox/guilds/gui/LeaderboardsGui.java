@@ -2,25 +2,25 @@ package me.xneox.guilds.gui;
 
 import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.*;
+import me.xneox.guilds.util.InventoryUtils;
+import me.xneox.guilds.util.ItemBuilder;
+import me.xneox.guilds.util.RankedUtils;
+import me.xneox.guilds.util.VisualUtils;
+import me.xneox.guilds.util.gui.ClickEvent;
+import me.xneox.guilds.util.gui.ClickableInventory;
 import me.xneox.guilds.util.gui.InventorySize;
-import me.xneox.guilds.util.gui.inventories.ClickableInventory;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
 public class LeaderboardsGui extends ClickableInventory {
-    private final NeonGuilds plugin;
     private List<Guild> guilds;
 
     public LeaderboardsGui(NeonGuilds plugin) {
-        super("Tabela Rankingowa", "leaderboards", InventorySize.BIGGEST);
-        this.plugin = plugin;
+        super(plugin, "Tabela Rankingowa", InventorySize.BIGGEST);
     }
 
     @Override
@@ -82,16 +82,11 @@ public class LeaderboardsGui extends ClickableInventory {
     }
 
     @Override
-    public void onClick(InventoryClickEvent event, Player player) {
-        event.setCancelled(true);
-        VisualUtils.playSound(player, Sound.BLOCK_WOODEN_BUTTON_CLICK_ON);
+    public void onClick(ClickEvent event, Player player) {
+        VisualUtils.click(player);
 
-        ItemStack item = event.getCurrentItem();
-        if (item == null) {
-            return;
-        }
-
-        if (item.getType() == Material.PLAYER_HEAD) {
+        ItemStack item = event.getItem();
+        if (item.getItemMeta().getDisplayName().contains("Powrót")) {
             this.plugin.getInventoryManager().open("manage", player);
         }
     }

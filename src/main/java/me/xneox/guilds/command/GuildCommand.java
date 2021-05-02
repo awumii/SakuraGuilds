@@ -1,10 +1,11 @@
 package me.xneox.guilds.command;
 
 import me.xneox.guilds.NeonGuilds;
-import me.xneox.guilds.command.admin.*;
-import me.xneox.guilds.command.hidden.AllyAcceptCommand;
-import me.xneox.guilds.command.hidden.WarAcceptCommand;
-import me.xneox.guilds.command.sub.*;
+import me.xneox.guilds.command.impl.admin.*;
+import me.xneox.guilds.command.annotations.AdminOnly;
+import me.xneox.guilds.command.impl.hidden.AllyAcceptCommand;
+import me.xneox.guilds.command.impl.hidden.WarAcceptCommand;
+import me.xneox.guilds.command.impl.sub.*;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.command.Command;
@@ -44,6 +45,7 @@ public class GuildCommand implements CommandExecutor {
         commandMap.put("war", new WarCommand());
         commandMap.put("public", new PublicCommand());
         commandMap.put("browse", new BrowseCommand());
+        commandMap.put("build", new BuildCommand());
 
         commandMap.put("acceptally", new AllyAcceptCommand());
         commandMap.put("acceptwar", new WarAcceptCommand());
@@ -61,11 +63,7 @@ public class GuildCommand implements CommandExecutor {
         GuildManager guildManager = this.plugin.getGuildManager();
 
         if (args.length < 1) {
-            if (this.plugin.getGuildManager().getGuild(player.getName()) == null) {
-                this.commandMap.get("help").handle(guildManager, player, args);
-            } else {
-                this.plugin.getInventoryManager().open("manage", player);
-            }
+            this.plugin.getInventoryManager().open(this.plugin.getGuildManager().getGuild(player.getName()) == null ? "newbie" : "manage", player);
             return true;
         }
 

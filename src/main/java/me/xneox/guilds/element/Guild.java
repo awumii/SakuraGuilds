@@ -26,6 +26,7 @@ public class Guild {
 
     // CHANGEABLE DATA
     private final List<String> allies;
+    private final List<Building> buildings;
     private final Inventory storage;
 
     private boolean isPublic;
@@ -49,7 +50,7 @@ public class Guild {
 
     public Guild(String name, Map<String, Rank> members, Location nexusLocation, long creation, List<String> allies, Location home,
                  List<String> chunks, long shield, int health, int money, int maxMembers, int maxChunks, int trophies, int kills,
-                 int deaths, boolean isPublic, ItemStack[] storageContent) {
+                 int deaths, boolean isPublic, ItemStack[] storageContent, List<Building> buildings) {
 
         this.name = name;
         this.members = members;
@@ -69,6 +70,7 @@ public class Guild {
         this.isPublic = isPublic;
         this.storage = Bukkit.createInventory(null, InventorySize.BIGGEST.getSize());
         this.storage.setContents(storageContent);
+        this.buildings = buildings;
     }
 
     // CONTROLLERS //
@@ -76,6 +78,12 @@ public class Guild {
     public String getCreationDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm");
         return sdf.format(new Date(this.creation));
+    }
+
+    public Optional<Building> getBuildingAt(Chunk chunk) {
+        return this.buildings.stream()
+                .filter(building -> building.getChunk().equals(ChunkUtils.toString(chunk)))
+                .findFirst();
     }
 
     public boolean isNexusChunk(Chunk chunk) {
@@ -282,5 +290,9 @@ public class Guild {
 
     public Inventory getStorage() {
         return storage;
+    }
+
+    public List<Building> getBuildings() {
+        return buildings;
     }
 }

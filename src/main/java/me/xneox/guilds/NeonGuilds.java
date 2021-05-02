@@ -41,15 +41,16 @@ public class NeonGuilds extends JavaPlugin {
         this.cooldownManager = new CooldownManager();
         this.inventoryManager = new InventoryManager(this);
 
-        inventoryManager.addInventory(new ManagementGui(this));
-        inventoryManager.addInventory(new ClaimGui(this));
-        inventoryManager.addInventory(new MembersGui(this));
-        inventoryManager.addInventory(new RankEditorGui(this));
-        inventoryManager.addInventory(new AlliesGui(this));
-        inventoryManager.addInventory(new UpgradesGui(this));
-        inventoryManager.addInventory(new LeaderboardsGui(this));
-        inventoryManager.addInventory(new WarGui(this));
-        inventoryManager.addInventory(new BrowseGui(this));
+        inventoryManager.register("management", new ManagementGui(this));
+        inventoryManager.register("claim", new ClaimGui(this));
+        inventoryManager.register("members", new MembersGui(this));
+        inventoryManager.register("rank_editor", new RankEditorGui(this));
+        inventoryManager.register("allies", new AlliesGui(this));
+        inventoryManager.register("upgrades", new UpgradesGui(this));
+        inventoryManager.register("leaderboards", new LeaderboardsGui(this));
+        inventoryManager.register("war", new WarGui(this));
+        inventoryManager.register("browse", new BrowseGui(this));
+        inventoryManager.register("newbie", new NewbieGui(this));
 
         GuildCommand command = new GuildCommand(this);
         registerCommand("guild", command, command.getCommandCompleter());
@@ -68,7 +69,7 @@ public class NeonGuilds extends JavaPlugin {
         registerListener(new WarListener(this));
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotifierTask(this), 0L, 40L);
-        Bukkit.getScheduler().runTaskTimer(this, new HoloRefreshTask(this), 0L, 20 * 20L);
+        Bukkit.getScheduler().runTaskTimer(this, new HoloRefreshTask(this), 0L,  60L);
         Bukkit.getScheduler().runTaskTimer(this, new PlayerTeleportTask(this), 0L, 20L);
         Bukkit.getScheduler().runTaskTimer(this, new ArenaControllerTask(this), 0L, 20L);
 

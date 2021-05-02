@@ -4,21 +4,17 @@ import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.util.*;
+import me.xneox.guilds.util.gui.ClickEvent;
+import me.xneox.guilds.util.gui.ClickableInventory;
 import me.xneox.guilds.util.gui.InventorySize;
-import me.xneox.guilds.util.gui.inventories.ClickableInventory;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class ManagementGui extends ClickableInventory {
-    private final NeonGuilds plugin;
-
     public ManagementGui(NeonGuilds plugin) {
-        super("Menu zarządzania gildią", "manage", InventorySize.BIGGEST);
-        this.plugin = plugin;
+        super(plugin, "Menu zarządzania gildią", InventorySize.BIGGEST);
     }
 
     @Override
@@ -28,10 +24,10 @@ public class ManagementGui extends ClickableInventory {
         Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
         if (guild == null) {
             player.closeInventory();
+            return;
         }
 
         User user = this.plugin.getUserManager().getUser(player);
-
         ItemStack claims = new ItemBuilder(Material.PLAYER_HEAD)
                 .setName("&6Zajęte Ziemie")
                 .addLore("")
@@ -245,9 +241,8 @@ public class ManagementGui extends ClickableInventory {
     }
 
     @Override
-    public void onClick(InventoryClickEvent event, Player player) {
-        event.setCancelled(true);
-        VisualUtils.playSound(player, Sound.BLOCK_WOODEN_BUTTON_CLICK_ON);
+    public void onClick(ClickEvent event, Player player) {
+        VisualUtils.click(player);
         Guild guild = this.plugin.getGuildManager().getGuild(player);
 
         switch (event.getSlot()) {

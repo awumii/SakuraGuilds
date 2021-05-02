@@ -5,22 +5,18 @@ import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
 import me.xneox.guilds.util.VisualUtils;
+import me.xneox.guilds.util.gui.ClickEvent;
+import me.xneox.guilds.util.gui.ClickableInventory;
 import me.xneox.guilds.util.gui.InventorySize;
-import me.xneox.guilds.util.gui.inventories.ClickableInventory;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class BrowseGui extends ClickableInventory {
-    private final NeonGuilds plugin;
-
     public BrowseGui(NeonGuilds plugin) {
-        super("Przeglądanie publicznych gildii", "browse", InventorySize.BIGGEST);
-        this.plugin = plugin;
+        super(plugin, "Przeglądanie publicznych gildii", InventorySize.BIGGEST);
     }
 
     @Override
@@ -49,35 +45,18 @@ public class BrowseGui extends ClickableInventory {
                     .build();
             inventory.addItem(item);
         }
-
-        ItemStack close = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&cPowrót")
-                .addLore("&7Cofnij do menu gildii.")
-                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
-                .build();
-
-        inventory.setItem(8, close);
     }
 
     @Override
-    public void onClick(InventoryClickEvent event, Player player) {
-        event.setCancelled(true);
-        VisualUtils.playSound(player, Sound.BLOCK_WOODEN_BUTTON_CLICK_ON);
+    public void onClick(ClickEvent event, Player player) {
+        VisualUtils.click(player);
 
-        ItemStack item = event.getCurrentItem();
-        if (item == null) {
-            return;
-        }
-
+        ItemStack item = event.getItem();
         if (item.getType() == Material.PLAYER_HEAD) {
-            if (item.getItemMeta().getDisplayName().contains("Powrót")) {
-                this.plugin.getInventoryManager().open("manage", player);
-            } else {
-                Guild otherGuild = this.plugin.getGuildManager().getGuildExact(ChatColor.stripColor(item.getItemMeta().getDisplayName()));
+            Guild otherGuild = this.plugin.getGuildManager().getGuildExact(ChatColor.stripColor(item.getItemMeta().getDisplayName()));
 
-                player.closeInventory();
-                player.performCommand("g join " + otherGuild.getName());
-            }
+            player.closeInventory();
+            player.performCommand("g join " + otherGuild.getName());
         }
     }
 }
