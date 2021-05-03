@@ -54,7 +54,7 @@ public class CreateCommand implements SubCommand {
         nexusLoc.setY(30);
 
         Guild guild = new Guild(args[1], new HashMap<>(), nexusLoc, new Date().getTime(), new ArrayList<>(), player.getLocation(), new ArrayList<>(),
-                0, 3, 0, 6, 4, 100, 0, 0, false, new ItemStack[0], new ArrayList<>());
+                0, 3, 0, 100, 0, 0, false, new ItemStack[0], new ArrayList<>());
 
         manager.getGuildMap().put(args[1], guild);
 

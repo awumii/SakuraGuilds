@@ -69,7 +69,7 @@ public class AlliesGui extends ClickableInventory {
         ItemStack item = event.getItem();
         if (item.getType() == Material.PLAYER_HEAD) {
             if (item.getItemMeta().getDisplayName().contains("Powrót")) {
-                this.plugin.getInventoryManager().open("manage", player);
+                this.plugin.getInventoryManager().open("management", player);
             } else {
                 Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
                 Guild otherGuild = this.plugin.getGuildManager().getGuildExact(ChatColor.stripColor(item.getItemMeta().getDisplayName()));

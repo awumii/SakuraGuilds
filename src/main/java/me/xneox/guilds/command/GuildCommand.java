@@ -54,7 +54,7 @@ public class GuildCommand implements CommandExecutor {
         commandMap.put("setfirstspawn", new SetFirstSpawnCommand());
         commandMap.put("setsecondspawn", new SetSecondSpawnCommand());
         commandMap.put("teleport", new GuildTeleportCommand());
-        commandMap.put("placeleaderholo", new SetLeaderboardCommand());
+        commandMap.put("setleaderboard", new SetLeaderboardCommand());
     }
 
     @Override
@@ -63,7 +63,7 @@ public class GuildCommand implements CommandExecutor {
         GuildManager guildManager = this.plugin.getGuildManager();
 
         if (args.length < 1) {
-            this.plugin.getInventoryManager().open(this.plugin.getGuildManager().getGuild(player.getName()) == null ? "newbie" : "manage", player);
+            this.plugin.getInventoryManager().open(this.plugin.getGuildManager().getGuild(player.getName()) == null ? "newbie" : "management", player);
             return true;
         }
 
@@ -78,7 +78,12 @@ public class GuildCommand implements CommandExecutor {
             ChatUtils.sendMessage(player, "&cNie posiadasz uprawnień do tej komendy.");
         }
 
-        subCommand.handle(guildManager, player, args);
+        try {
+            subCommand.handle(guildManager, player, args);
+        } catch (Exception e) {
+            ChatUtils.sendMessage(player, "&cWystąpił błąd podczas wykonywania komendy: &4" + e.getMessage());
+            e.printStackTrace();
+        }
         return true;
     }
 

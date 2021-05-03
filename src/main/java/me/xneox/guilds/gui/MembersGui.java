@@ -65,7 +65,7 @@ public class MembersGui extends ClickableInventory {
         ItemStack item = event.getItem();
         if (item.getType() == Material.PLAYER_HEAD) {
             if (item.getItemMeta().getDisplayName().contains("Powrót")) {
-                this.plugin.getInventoryManager().open("manage", player);
+                this.plugin.getInventoryManager().open("management", player);
             } else  {
                 String target = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 

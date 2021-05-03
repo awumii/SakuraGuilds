@@ -21,6 +21,7 @@ public final class SchematicUtils {
                     .load(file)
                     .paste(world, vector)
                     .close();
+            System.out.println("[FAWE-API] The schematic " + schematic + " has been succesfully pasted.");
         } catch (IOException e) {
             System.err.println("[FAWE-API] Could not paste the schematic " + schematic);
             e.printStackTrace();

@@ -32,11 +32,11 @@ public class GuildNotifierTask implements Runnable {
                     this.areaMap.put(player.getUniqueId(), guild.getName());
 
                     if (guild.getMembers().containsKey(player.getName())) {
-                        ChatUtils.sendTitle(player, "&6&l" + guild.getName(), "Witaj w domu! To bezpieczny teren twojej gildii...");
+                        ChatUtils.sendTitle(player, "&6&l&n" + guild.getName() + "&6 ☮", "&f&oWitaj w domu! To bezpieczny teren twojej gildii...");
                     } else if (guild.isNexusChunk(player.getChunk())) {
-                        ChatUtils.sendTitle(player, "&c&l" + guild.getName() + " (NEXUS)", "Wkraczasz na teren nexusa wrogiej gildii!");
+                        ChatUtils.sendTitle(player, "&c&l&n" + guild.getName() + "&c ⚠ (NEXUS)", "&f&oWkraczasz na teren nexusa wrogiej gildii!");
                     } else {
-                        ChatUtils.sendTitle(player, "&c&l" + guild.getName(), "Wkraczasz na teren wrogiej gildii!");
+                        ChatUtils.sendTitle(player, "&c&l&n" + guild.getName() + "&c ⚠", "&f&oWkraczasz na teren wrogiej gildii!");
                     }
 
                     VisualUtils.playSound(player, Sound.BLOCK_NOTE_BLOCK_XYLOPHONE);
@@ -57,7 +57,7 @@ public class GuildNotifierTask implements Runnable {
                     }
                 }
             } else if (this.areaMap.containsKey(player.getUniqueId())) {
-                ChatUtils.sendTitle(player, "&2&lWILDERNESS", "&fWolny, ale niebezpieczny teren...");
+                ChatUtils.sendTitle(player, "&2&l&nŚwiat&2 ❆", "&f&oPowodzenia w eksploracji, uważaj na siebie!");
                 this.areaMap.remove(player.getUniqueId());
                 VisualUtils.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS);
             }

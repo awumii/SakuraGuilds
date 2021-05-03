@@ -70,7 +70,7 @@ public class ManagementGui extends ClickableInventory {
                 .addLore("")
                 .addLore("&eWojna:")
                 .addLore(" &7→ Zabójstwa: &f" + user.getKills())
-                .addLore(" &7→ Śmierci: &f" + guild.getDeaths())
+                .addLore(" &7→ Śmierci: &f" + user.getDeaths())
                 .addLore("")
                 .setSkullOwner(player.getName())
                 .build();
@@ -113,11 +113,11 @@ public class ManagementGui extends ClickableInventory {
                 .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJkZmJlMmQzMzhjZTI0NmIzYTBhMzRhNDAwM2RiODM5ZTA3NjMxOTMwYTQzZTBlMGU5NWM5YWZhYWE3YTVlMyJ9fX0=")
                 .build();
 
-        ItemStack upgrades = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&6Ulepszenia Gildii")
+        ItemStack buildings = new ItemBuilder(Material.PLAYER_HEAD)
+                .setName("&6Budowle Gildyjne")
                 .addLore("")
-                .addLore("&7Kliknij, aby zakupić ulepszenia dla gildii.")
-                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWE2OWNjZjdhZDkwNGM5YTg1MmVhMmZmM2Y1YjRlMjNhZGViZjcyZWQxMmQ1ZjI0Yjc4Y2UyZDQ0YjRhMiJ9fX0=")
+                .addLore("&7Kliknij, aby wyświetlić dostępne budowle.")
+                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTQwMmM2MjVkYzA0MWExYTQxOGFhNmU1MTQ3MGMyMDNmMDMwZmZkNjMxYTQ3YWFlNDAxNTliMDg5YzkyNmQ1NSJ9fX0=")
                 .build();
 
         ItemStack nexus = new ItemBuilder(Material.PLAYER_HEAD)
@@ -191,7 +191,7 @@ public class ManagementGui extends ClickableInventory {
                 .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTIzMTJlNzJkMDMwMTJiZTEwNmI0OGFjY2QzMzgyY2VjN2NiY2VjZWIxNDJlYzc2MjM3OTM0NjM5YTZhMmU5In19fQ==");
 
          */
-        ItemStack storage = new ItemBuilder(Material.PLAYER_HEAD)
+        ItemStack storage = new ItemBuilder(Material.PLAYER_HEAD, guild.getStorageRows())
                 .setName("&6Magazyn Gildyjny")
                 .addLore("")
                 .addLore("&7Przechowuj przedmioty, dostępne dla")
@@ -233,7 +233,7 @@ public class ManagementGui extends ClickableInventory {
         inventory.setItem(29, division);
         inventory.setItem(30, leaderboard);
         inventory.setItem(31, nexus);
-        inventory.setItem(32, upgrades);
+        inventory.setItem(32, buildings);
         inventory.setItem(33, storage);
 
         inventory.setItem(48, info);
@@ -264,7 +264,7 @@ public class ManagementGui extends ClickableInventory {
                 player.performCommand("g public");
                 break;
             case 32:
-                this.plugin.getInventoryManager().open("upgrades", player);
+                this.plugin.getInventoryManager().open("buildings", player);
                 break;
             case 23:
                 this.plugin.getInventoryManager().open("allies", player);

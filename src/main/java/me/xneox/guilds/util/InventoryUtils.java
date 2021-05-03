@@ -75,15 +75,6 @@ public final class InventoryUtils {
     }
 
     public static void removeItems(Inventory inventory, Material type, int amount) {
-        if (type == null || inventory == null || amount <= 0) {
-            return;
-        }
-
-        if (amount == Integer.MAX_VALUE) {
-            inventory.remove(type);
-            return;
-        }
-
         inventory.removeItem(new ItemStack(type, amount));
     }
 

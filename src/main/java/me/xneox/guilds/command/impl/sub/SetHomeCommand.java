@@ -5,7 +5,6 @@ import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.ChunkUtils;
 import org.bukkit.entity.Player;
 
 public class SetHomeCommand implements SubCommand {
@@ -23,7 +22,7 @@ public class SetHomeCommand implements SubCommand {
             return;
         }
 
-        if (!guild.getChunks().contains(ChunkUtils.toString(player.getChunk()))) {
+        if (!guild.isClaimed(player.getChunk())) {
             ChatUtils.sendMessage(player, "&cBazę można ustawić tylko na zajętym terenie.");
             return;
         }

@@ -1,16 +1,13 @@
 package me.xneox.guilds;
 
 import me.xneox.guilds.command.GuildCommand;
+import me.xneox.guilds.manager.*;
 import me.xneox.guilds.xdronizja.CrazyAuctionsListener;
 import me.xneox.guilds.xdronizja.HelpCommand;
 import me.xneox.guilds.xdronizja.LiveCommand;
 import me.xneox.guilds.xdronizja.RestrictionFeature;
 import me.xneox.guilds.gui.*;
 import me.xneox.guilds.listener.*;
-import me.xneox.guilds.manager.ArenaManager;
-import me.xneox.guilds.manager.CooldownManager;
-import me.xneox.guilds.manager.GuildManager;
-import me.xneox.guilds.manager.UserManager;
 import me.xneox.guilds.task.GuildNotifierTask;
 import me.xneox.guilds.task.HoloRefreshTask;
 import me.xneox.guilds.task.PlayerTeleportTask;
@@ -31,6 +28,7 @@ public class NeonGuilds extends JavaPlugin {
     private UserManager userManager;
     private InventoryManager inventoryManager;
     private CooldownManager cooldownManager;
+    private ConfigManager configManager;
 
     @Override
     public void onEnable() {
@@ -39,6 +37,7 @@ public class NeonGuilds extends JavaPlugin {
         this.arenaManager = new ArenaManager();
         this.userManager = new UserManager();
         this.cooldownManager = new CooldownManager();
+        this.configManager = new ConfigManager();
         this.inventoryManager = new InventoryManager(this);
 
         inventoryManager.register("management", new ManagementGui(this));
@@ -46,7 +45,7 @@ public class NeonGuilds extends JavaPlugin {
         inventoryManager.register("members", new MembersGui(this));
         inventoryManager.register("rank_editor", new RankEditorGui(this));
         inventoryManager.register("allies", new AlliesGui(this));
-        inventoryManager.register("upgrades", new UpgradesGui(this));
+        inventoryManager.register("buildings", new BuildingsGui(this));
         inventoryManager.register("leaderboards", new LeaderboardsGui(this));
         inventoryManager.register("war", new WarGui(this));
         inventoryManager.register("browse", new BrowseGui(this));
@@ -102,6 +101,10 @@ public class NeonGuilds extends JavaPlugin {
 
     public CooldownManager getCooldownManager() {
         return cooldownManager;
+    }
+
+    public ConfigManager getConfigManager() {
+        return configManager;
     }
 
     private void registerCommand(String name, CommandExecutor executor, TabCompleter tabCompleter) {

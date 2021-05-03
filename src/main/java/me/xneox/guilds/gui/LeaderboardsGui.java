@@ -87,7 +87,7 @@ public class LeaderboardsGui extends ClickableInventory {
 
         ItemStack item = event.getItem();
         if (item.getItemMeta().getDisplayName().contains("Powrót")) {
-            this.plugin.getInventoryManager().open("manage", player);
+            this.plugin.getInventoryManager().open("management", player);
         }
     }
 }

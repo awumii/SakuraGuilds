@@ -63,7 +63,7 @@ public class ClaimGui extends ClickableInventory {
 
             player.closeInventory();
         } else if (item.getType() == Material.PLAYER_HEAD) {
-            this.plugin.getInventoryManager().open("manage", player);
+            this.plugin.getInventoryManager().open("management", player);
         }
     }
 }
