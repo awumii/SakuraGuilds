@@ -2,8 +2,8 @@ package me.xneox.guilds.element;
 
 import me.xneox.guilds.type.BuildingType;
 import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.LocationUtils;
-import me.xneox.guilds.util.SchematicUtils;
 import me.xneox.guilds.util.VisualUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Location;
@@ -21,6 +21,21 @@ public class Building {
         this.type = type;
         this.state = state;
         this.level = level;
+    }
+
+    public void process(Guild guild) {
+        if (this.state == State.INBUILT && System.currentTimeMillis() > this.completeTime) {
+            this.level++;
+            this.state = State.BUILT;
+
+            if (this.type == BuildingType.STORAGE) {
+                guild.updateStorage();
+            }
+
+            HookUtils.pasteSchematic(this.location, WordUtils.capitalizeFully(this.type.name()) + "_L_" + this.level);
+            ChatUtils.guildAlert(guild, "&7Budynek &6" + this.type.getName() + " &7został wybudowany na poziom &e" + this.level);
+        }
+        VisualUtils.createBuildingInfo(guild, this);
     }
 
     public static Building parse(String string) {
@@ -54,21 +69,6 @@ public class Building {
 
     public void setCompleteTime(long completeTime) {
         this.completeTime = completeTime;
-    }
-
-    public void refresh(Guild guild) {
-        if (this.state == State.INBUILT && System.currentTimeMillis() > this.completeTime) {
-            this.level++;
-            this.state = State.BUILT;
-
-            if (this.type == BuildingType.STORAGE) {
-                guild.updateStorage();
-            }
-
-            SchematicUtils.pasteSchematic(this.location, WordUtils.capitalizeFully(this.type.name()) + "_L_" + this.level);
-            ChatUtils.guildAlert(guild, "&7Budynek &6" + this.type.getName() + " &7został wybudowany na poziom &e" + this.level);
-        }
-        VisualUtils.createBuildingInfo(guild, this);
     }
 
     @Override

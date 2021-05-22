@@ -1,9 +1,9 @@
 package me.xneox.guilds.manager;
 
-import de.leonhard.storage.Json;
+import me.xneox.epicguard.libs.storage.Json;
 import me.xneox.guilds.element.Building;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.type.Rank;
+import me.xneox.guilds.element.Member;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.ItemSerialization;
 import me.xneox.guilds.util.LocationUtils;
@@ -32,9 +32,7 @@ public class GuildManager {
                 Json json = new Json(file);
 
                 // Parsing members
-                Map<String, String> membersRaw = json.getMapParameterized("Members");
-                Map<String, Rank> members = new HashMap<>();
-                membersRaw.forEach((name, rank) -> members.put(name, Rank.valueOf(rank)));
+                List<Member> members = json.getStringList("Members").stream().map(Member::parse).collect(Collectors.toList());
 
                 // Parsing buildings
                 List<Building> buildings = json.getStringList("Buildings")
@@ -81,10 +79,7 @@ public class GuildManager {
 
                 Json json = new Json(guildFile);
 
-                Map<String, String> membersRaw = new HashMap<>();
-                guild.getMembers().forEach((player, rank) -> membersRaw.put(player, rank.name()));
-
-                json.set("Members", membersRaw);
+                json.set("Members", guild.getMembers().stream().map(Member::toString).collect(Collectors.toList()));
                 json.set("Allies", guild.getAllies());
                 json.set("Home", LocationUtils.toString(guild.getHome()));
                 json.set("Nexus", LocationUtils.toString(guild.getNexusLocation()));
@@ -129,12 +124,15 @@ public class GuildManager {
     }
 
     public Guild getGuild(Player player) {
+        if (!player.getWorld().getName().startsWith("world")) {
+            return null;
+        }
         return this.getGuild(player.getName());
     }
 
     public Guild getGuild(String player) {
         for (Guild guild : this.guildMap.values()) {
-            if (guild.getMembers().containsKey(player)) {
+            if (guild.isMember(player)) {
                 return guild;
             }
         }

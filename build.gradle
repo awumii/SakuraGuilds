@@ -17,6 +17,7 @@ repositories {
     maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
     maven { url 'https://nexus.badbones69.com/repository/maven-releases/' }
     maven { url 'https://mvn.intellectualsites.com/content/repositories/releases/' }
+    maven { url 'https://maven.enginehub.org/repo/' }
 }
 
 dependencies {
@@ -30,14 +31,12 @@ dependencies {
     compileOnly 'me.badbones69:crazyauctions:1.2.12'
     compileOnly 'me.clip:placeholderapi:2.10.9'
     compileOnly 'com.intellectualsites.fawe:FAWE-Bukkit:1.16-637'
+    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.4'
+    compileOnly files('EpicGuard-6.0-SNAPSHOT-all.jar')
 }
 
 // Fixing broken encoding on Windows.
 compileJava.options.encoding = 'UTF-8'
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
 
 processResources {
     expand projectVersion: project.version

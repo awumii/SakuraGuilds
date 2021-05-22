@@ -2,7 +2,7 @@ package me.xneox.guilds.util;
 
 import org.bukkit.Material;
 
-public class MaterialUtils {
+public final class MaterialUtils {
     public static boolean isWood(Material material) {
         return material.name().endsWith("_WOOD") || material.name().endsWith("_LOG");
     }

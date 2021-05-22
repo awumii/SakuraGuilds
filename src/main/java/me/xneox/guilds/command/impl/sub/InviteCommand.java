@@ -4,7 +4,7 @@ import me.xneox.guilds.command.SubCommand;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.ServiceUtils;
+import me.xneox.guilds.util.HookUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -41,14 +41,14 @@ public class InviteCommand implements SubCommand {
             return;
         }
 
-        if (guild.getMembers().containsKey(args[1])) {
+        if (guild.isMember(args[1])) {
             ChatUtils.sendMessage(player, "&cTen gracz jest już dodany do gildii.");
             return;
         }
 
-        if (ServiceUtils.INSTANCE.getCooldownManager().hasCooldown(player, "invite-" + target.getName())) {
+        if (HookUtils.INSTANCE.getCooldownManager().hasCooldown(player, "invite-" + target.getName())) {
             ChatUtils.sendMessage(player, "&cMusisz poczekać &6"
-                    + ServiceUtils.INSTANCE.getCooldownManager().getRemaining(player, "invite-" + target.getName()) + " &cprzed wysłaniem zaproszenia.");
+                    + HookUtils.INSTANCE.getCooldownManager().getRemaining(player, "invite-" + target.getName()) + " &cprzed wysłaniem zaproszenia.");
             return;
         }
 
@@ -61,6 +61,6 @@ public class InviteCommand implements SubCommand {
                 "&aPo kliknięciu dołączysz do gildii!", "/g join " + guild.getName());
         ChatUtils.sendRaw(target, "");
 
-        ServiceUtils.INSTANCE.getCooldownManager().add(player, "invite-" + target.getName(), 10, TimeUnit.MINUTES);
+        HookUtils.INSTANCE.getCooldownManager().add(player, "invite-" + target.getName(), 10, TimeUnit.MINUTES);
     }
 }

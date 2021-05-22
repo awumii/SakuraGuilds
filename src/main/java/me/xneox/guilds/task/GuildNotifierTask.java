@@ -31,7 +31,7 @@ public class GuildNotifierTask implements Runnable {
                 if (!this.areaMap.containsKey(player.getUniqueId())) {
                     this.areaMap.put(player.getUniqueId(), guild.getName());
 
-                    if (guild.getMembers().containsKey(player.getName())) {
+                    if (guild.isMember(player.getName())) {
                         ChatUtils.sendTitle(player, "&6&l&n" + guild.getName() + "&6 ☮", "&f&oWitaj w domu! To bezpieczny teren twojej gildii...");
                     } else if (guild.isNexusChunk(player.getChunk())) {
                         ChatUtils.sendTitle(player, "&c&l&n" + guild.getName() + "&c ⚠ (NEXUS)", "&f&oWkraczasz na teren nexusa wrogiej gildii!");
@@ -44,7 +44,7 @@ public class GuildNotifierTask implements Runnable {
                         VisualUtils.drawBorderAtChunk(ChunkUtils.toChunk(chunk), player);
                     }
 
-                    if (!player.isOp() && !guild.getMembers().containsKey(player.getName())) {
+                    if (!player.isOp() && !guild.isMember(player.getName())) {
                         ChatUtils.forGuildMembers(guild, member -> {
                             VisualUtils.playSound(member, Sound.ENTITY_ELDER_GUARDIAN_CURSE);
 

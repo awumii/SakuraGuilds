@@ -71,7 +71,7 @@ public final class VisualUtils {
         location.setX(location.getX() + 0.5);
         location.setZ(location.getZ() + 0.5);
 
-        Hologram hologram = HologramsAPI.createHologram(ServiceUtils.INSTANCE, location);
+        Hologram hologram = HologramsAPI.createHologram(HookUtils.INSTANCE, location);
         hologram.appendItemLine(new ItemStack(icon));
         Arrays.stream(text).map(ChatUtils::colored).forEach(hologram::appendTextLine);
         return hologram;
@@ -79,7 +79,7 @@ public final class VisualUtils {
 
     public static void createTimedHologram(Location location, Duration duration, Material icon, String... text) {
         Hologram hologram = createHologram(location, icon, text);
-        Bukkit.getScheduler().runTaskLater(ServiceUtils.INSTANCE, hologram::delete, duration.getSeconds() * 20);
+        Bukkit.getScheduler().runTaskLater(HookUtils.INSTANCE, hologram::delete, duration.getSeconds() * 20);
     }
 
 

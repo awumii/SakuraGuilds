@@ -2,8 +2,9 @@ package me.xneox.guilds.command.impl.sub;
 
 import me.xneox.guilds.command.SubCommand;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.type.Rank;
+import me.xneox.guilds.element.Member;
 import me.xneox.guilds.manager.GuildManager;
+import me.xneox.guilds.type.Rank;
 import me.xneox.guilds.util.*;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 public class CreateCommand implements SubCommand {
 
@@ -48,18 +48,18 @@ public class CreateCommand implements SubCommand {
             return;
         }
 
-        ServiceUtils.INSTANCE.getUserManager().getUser(player).setJoinDate();
+        HookUtils.INSTANCE.getUserManager().getUser(player).setJoinDate();
 
         Location nexusLoc = ChunkUtils.getCenter(ChunkUtils.toString(player.getChunk()));
         nexusLoc.setY(30);
 
-        Guild guild = new Guild(args[1], new HashMap<>(), nexusLoc, new Date().getTime(), new ArrayList<>(), player.getLocation(), new ArrayList<>(),
+        Guild guild = new Guild(args[1], new ArrayList<>(), nexusLoc, new Date().getTime(), new ArrayList<>(), player.getLocation(), new ArrayList<>(),
                 0, 3, 0, 100, 0, 0, false, new ItemStack[0], new ArrayList<>());
 
         manager.getGuildMap().put(args[1], guild);
 
         guild.setShield(Duration.ofDays(3));
-        guild.getMembers().put(player.getName(), Rank.LEADER);
+        guild.getMembers().add(new Member(player.getName(), Rank.LEADER, Rank.LEADER.getDefaultPermissions()));
         guild.getChunks().add(ChunkUtils.toString(player.getLocation().getChunk()));
 
         ChatUtils.broadcast("&e" + player.getName() + " &7zakłada gildię &6" + args[1]);
@@ -74,6 +74,8 @@ public class CreateCommand implements SubCommand {
 
         player.getWorld().getBlockAt(nexusLoc).setType(Material.END_PORTAL_FRAME);
         player.teleport(nexusLoc);
+
+        HookUtils.INSTANCE.getInventoryManager().open("management", player);
 
         Location light;
 

@@ -2,6 +2,7 @@ package me.xneox.guilds.element;
 
 import me.xneox.guilds.type.BuildingType;
 import me.xneox.guilds.type.Division;
+import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.type.Rank;
 import me.xneox.guilds.util.ChunkUtils;
 import org.bukkit.Bukkit;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class Guild {
     // PERMANENT DATA
     private final String name;
-    private final Map<String, Rank> members;
+    private final List<Member> members;
     private final List<String> chunks;
     private final Location nexusLocation;
     private final long creation;
@@ -46,7 +47,7 @@ public class Guild {
 
     private Guild warEnemy;
 
-    public Guild(String name, Map<String, Rank> members, Location nexusLocation, long creation, List<String> allies, Location home,
+    public Guild(String name, List<Member> members, Location nexusLocation, long creation, List<String> allies, Location home,
                  List<String> chunks, long shield, int health, int money, int trophies, int kills,
                  int deaths, boolean isPublic, ItemStack[] storageContent, List<Building> buildings) {
 
@@ -110,15 +111,37 @@ public class Guild {
 
     @Deprecated
     public Rank getPlayerRank(String player) {
-        return members.get(player);
+        return this.members.stream()
+                .filter(member -> member.getName().equals(player))
+                .map(Member::getRank)
+                .findFirst()
+                .orElse(null);
     }
 
     public Rank getPlayerRank(Player player) {
         return this.getPlayerRank(player.getName());
     }
 
-    public String getLeader() {
-        return members.keySet().stream().filter(member -> members.get(member) == Rank.LEADER).findFirst().orElse(null);
+    public boolean isLeader(Player player) {
+        return this.isLeader(player.getName());
+    }
+
+    public boolean isLeader(String player) {
+        return this.getLeader().getName().equals(player);
+    }
+
+    public Member getLeader() {
+        return members.stream()
+                .filter(member -> member.getRank() == Rank.LEADER)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Member findMember(String name) {
+        return members.stream()
+                .filter(member -> member.getName().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 
     public boolean isHigher(String compareFrom, String compareTo) {
@@ -150,14 +173,27 @@ public class Guild {
 
     public void changeRank(String player, Rank rank) {
         if (rank == Rank.LEADER) {
-            String leader = this.getLeader();
-            this.members.put(leader, Rank.GENERAL);
+            Member leader = this.getLeader();
+            this.members.remove(leader);
+            this.members.add(new Member(leader.getName(), Rank.GENERAL, Rank.GENERAL.getDefaultPermissions()));
         }
-        this.members.put(player, rank);
+
+        this.members.remove(findMember(player));
+        this.members.add(new Member(player, rank, rank.getDefaultPermissions()));
+    }
+
+    public void changePermission(String player, Permission permission, boolean state) {
+        Member member = this.findMember(player);
+        if (state) {
+            member.getPermissions().add(permission);
+        } else {
+            member.getPermissions().remove(permission);
+        }
     }
 
     public List<Player> getOnlineMembers() {
-        return this.members.keySet().stream()
+        return this.members.stream()
+                .map(Member::getName)
                 .map(Bukkit::getPlayerExact)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
@@ -165,12 +201,12 @@ public class Guild {
 
     public int getMaxMembers() {
         Building townhall = this.getBuildingOfType(BuildingType.TOWNHALL);
-        return townhall != null ? (townhall.getLevel() + 1) * 4 : 4;
+        return townhall != null ? (townhall.getLevel() + 1) * 6 : 6;
     }
 
     public int getMaxChunks() {
         Building barrack = this.getBuildingOfType(BuildingType.BARRACK);
-        return barrack != null ? (barrack.getLevel() + 1) * 4 : 4;
+        return barrack != null ? (barrack.getLevel() + 1) * 6 : 6;
     }
 
     public int getStorageRows() {
@@ -178,8 +214,20 @@ public class Guild {
         return storage != null ? (storage.getLevel() + 1) * 9 : 9;
     }
 
+    public int getTakenStorageRows() {
+        return (int) Arrays.stream(this.storage.getContents()).filter(Objects::nonNull).count();
+    }
+
+    public int getStorageItems() {
+        return Arrays.stream(this.storage.getContents()).filter(Objects::nonNull).mapToInt(ItemStack::getAmount).sum();
+    }
+
     public boolean isShieldActive() {
         return shield >= System.currentTimeMillis();
+    }
+
+    public boolean isMember(String player) {
+        return this.findMember(player) != null;
     }
 
     // -----------------------------------------
@@ -202,7 +250,8 @@ public class Guild {
         this.home = home;
     }
 
-    public Map<String, Rank> getMembers() {
+    @Deprecated
+    public List<Member> getMembers() {
         return members;
     }
 
@@ -296,5 +345,20 @@ public class Guild {
 
     public List<Building> getBuildings() {
         return buildings;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Guild guild = (Guild) o;
+
+        return name.equals(guild.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 }

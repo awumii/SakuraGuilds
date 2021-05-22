@@ -1,13 +1,10 @@
 package me.xneox.guilds;
 
 import me.xneox.guilds.command.GuildCommand;
-import me.xneox.guilds.manager.*;
-import me.xneox.guilds.xdronizja.CrazyAuctionsListener;
-import me.xneox.guilds.xdronizja.HelpCommand;
-import me.xneox.guilds.xdronizja.LiveCommand;
-import me.xneox.guilds.xdronizja.RestrictionFeature;
 import me.xneox.guilds.gui.*;
 import me.xneox.guilds.listener.*;
+import me.xneox.guilds.manager.*;
+import me.xneox.guilds.task.DataSaveTask;
 import me.xneox.guilds.task.GuildNotifierTask;
 import me.xneox.guilds.task.HoloRefreshTask;
 import me.xneox.guilds.task.PlayerTeleportTask;
@@ -15,6 +12,10 @@ import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.gui.InventoryManager;
 import me.xneox.guilds.war.ArenaControllerTask;
 import me.xneox.guilds.war.WarListener;
+import me.xneox.guilds.xdronizja.CrazyAuctionsListener;
+import me.xneox.guilds.xdronizja.HelpCommand;
+import me.xneox.guilds.xdronizja.LiveCommand;
+import me.xneox.guilds.xdronizja.RestrictionFeature;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -39,6 +40,7 @@ public class NeonGuilds extends JavaPlugin {
         this.cooldownManager = new CooldownManager();
         this.configManager = new ConfigManager();
         this.inventoryManager = new InventoryManager(this);
+
 
         inventoryManager.register("management", new ManagementGui(this));
         inventoryManager.register("claim", new ClaimGui(this));
@@ -68,7 +70,9 @@ public class NeonGuilds extends JavaPlugin {
         registerListener(new WarListener(this));
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotifierTask(this), 0L, 40L);
-        Bukkit.getScheduler().runTaskTimer(this, new HoloRefreshTask(this), 0L,  60L);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new DataSaveTask(this), 0L, 20 * 60L);
+
+        Bukkit.getScheduler().runTaskTimer(this, new HoloRefreshTask(this), 0L,  30 * 20L);
         Bukkit.getScheduler().runTaskTimer(this, new PlayerTeleportTask(this), 0L, 20L);
         Bukkit.getScheduler().runTaskTimer(this, new ArenaControllerTask(this), 0L, 20L);
 

@@ -6,7 +6,7 @@ import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.ServiceUtils;
+import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.war.Arena;
 import me.xneox.guilds.war.ArenaState;
 import me.xneox.guilds.war.WarGuild;
@@ -24,13 +24,13 @@ public class WarAcceptCommand implements SubCommand {
             return;
         }
 
-        if (!guild.getPlayerRank(player).hasPermission(Permission.WAR)) {
+        if (!guild.findMember(player.getName()).hasPermission(Permission.WAR)) {
             ChatUtils.sendMessage(player, "&cTwoja ranga w gildii jest zbyt niska!");
             return;
         }
 
         if (args[1].equals("IJAD98jdksldM")) {
-            Arena arena = ServiceUtils.INSTANCE.getArenaManager().getFreeArena();
+            Arena arena = HookUtils.INSTANCE.getArenaManager().getFreeArena();
             if (arena == null) {
                 ChatUtils.broadcast("&cBrakuje wolnych aren, wojna została anulowana!");
                 return;

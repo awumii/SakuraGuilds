@@ -55,6 +55,7 @@ public class GuildCommand implements CommandExecutor {
         commandMap.put("setsecondspawn", new SetSecondSpawnCommand());
         commandMap.put("teleport", new GuildTeleportCommand());
         commandMap.put("setleaderboard", new SetLeaderboardCommand());
+        commandMap.put("buildinstant", new BuildInstantCommand());
     }
 
     @Override

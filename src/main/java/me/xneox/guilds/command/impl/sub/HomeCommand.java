@@ -4,7 +4,7 @@ import me.xneox.guilds.command.SubCommand;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.ServiceUtils;
+import me.xneox.guilds.util.HookUtils;
 import org.bukkit.entity.Player;
 
 public class HomeCommand implements SubCommand {
@@ -17,6 +17,6 @@ public class HomeCommand implements SubCommand {
             return;
         }
 
-        ServiceUtils.INSTANCE.getUserManager().getUser(player).beginTeleport(player.getLocation(), guild.getHome());
+        HookUtils.INSTANCE.getUserManager().getUser(player).beginTeleport(player.getLocation(), guild.getHome());
     }
 }

@@ -9,6 +9,8 @@ depend:
   - Vault
   - HolographicDisplays
   - PlaceholderAPI
+  - WorldGuard
+  - EpicGuard
 
 commands:
   guild:

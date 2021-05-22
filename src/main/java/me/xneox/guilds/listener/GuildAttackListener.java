@@ -52,7 +52,7 @@ public class GuildAttackListener implements Listener {
                 return;
             }
 
-            if (guild.getMembers().containsKey(player.getName())) {
+            if (guild.isMember(player.getName())) {
                 this.plugin.getInventoryManager().open("management", player);
                 return;
             }

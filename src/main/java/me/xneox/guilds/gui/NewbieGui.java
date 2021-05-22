@@ -22,17 +22,17 @@ public class NewbieGui extends ClickableInventory {
         InventoryUtils.fillInventory(inventory, Material.BLACK_STAINED_GLASS_PANE);
 
         ItemStack browse = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&6Publiczne gildie")
-                .addLore("")
-                .addLore("&7Kliknij, aby przeglądać gildie.")
-                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTJlYzlhOGE5MGQ5MGM3ODY1MWFmMmY5NjIwMTUxMTFmY2JmMTFhYzg3MzhmNTJiOGUyNGRhODYyYTM4NzFiYSJ9fX0=")
+                .name("&6Publiczne gildie")
+                .lore("")
+                .lore("&7Kliknij, aby przeglądać gildie.")
+                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTJlYzlhOGE5MGQ5MGM3ODY1MWFmMmY5NjIwMTUxMTFmY2JmMTFhYzg3MzhmNTJiOGUyNGRhODYyYTM4NzFiYSJ9fX0=")
                 .build();
 
         ItemStack help = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&6Lista komend")
-                .addLore("")
-                .addLore("&7Kliknij, aby wyświetlić pomoc.")
-                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzEwYTI2YTg3NTQ5ZTA2ZTA2NjlmNmM0OGY2MTQ3OGQyMzAyNWI5MWQ5MGVhMmM0YjlmODA0YjlmNzk2ZDA0YyJ9fX0=")
+                .name("&6Lista komend")
+                .lore("")
+                .lore("&7Kliknij, aby wyświetlić pomoc.")
+                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzEwYTI2YTg3NTQ5ZTA2ZTA2NjlmNmM0OGY2MTQ3OGQyMzAyNWI5MWQ5MGVhMmM0YjlmODA0YjlmNzk2ZDA0YyJ9fX0=")
                 .build();
 
         inventory.setItem(11, browse);

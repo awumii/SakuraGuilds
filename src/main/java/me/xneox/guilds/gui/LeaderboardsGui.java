@@ -41,9 +41,9 @@ public class LeaderboardsGui extends ClickableInventory {
         inventory.setItem(43, getForGuild(9));
 
         ItemStack close = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&cPowrót")
-                .addLore("&7Cofnij do menu gildii.")
-                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
+                .name("&cPowrót")
+                .lore("&7Cofnij do menu gildii.")
+                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
                 .build();
 
         inventory.setItem(8, close);
@@ -53,31 +53,31 @@ public class LeaderboardsGui extends ClickableInventory {
         int realPosition = position + 1;
         if (position >= this.guilds.size()) {
             return new ItemBuilder(Material.PLAYER_HEAD)
-                    .setName("&cNikt nie zajął " + realPosition + " pozycji.")
-                    .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjk3ZTJjOGI4Mjc2Mjc2ZTM4ZGVjYTg4NTA4NzJkNTllY2M5YzFmMzhmMmFkY2U0MDg1OGVkYjllNjM0ZDdiYSJ9fX0=")
+                    .name("&cNikt nie zajął " + realPosition + " pozycji.")
+                    .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjk3ZTJjOGI4Mjc2Mjc2ZTM4ZGVjYTg4NTA4NzJkNTllY2M5YzFmMzhmMmFkY2U0MDg1OGVkYjllNjM0ZDdiYSJ9fX0=")
                     .build();
         }
 
         Guild guild = this.guilds.get(position);
         return new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&7" + realPosition + ". &6" + guild.getName())
-                .addLore("")
-                .addLore("&eLider:")
-                .addLore("&f" + guild.getLeader())
-                .addLore("")
-                .addLore("&eLiczba członków:")
-                .addLore("&f" + guild.getMembers().size() + "/" + guild.getMaxMembers() + " &7(&a" + guild.getOnlineMembers().size() + " &fonline&7)")
-                .addLore("")
-                .addLore("&eZajęte ziemie:")
-                .addLore("&f" + guild.getChunks().size() + " &7(Limit: &f" + guild.getMaxChunks() + "&7)")
-                .addLore("")
-                .addLore("&eStatystyki Wojny:")
-                .addLore("  &7→ &7Dywizja: " + guild.getDivision().getName())
-                .addLore("  &7→ &7Puchary rankingowe: &f" + guild.getTrophies())
-                .addLore("  &7→ &7Zabójstwa: &f" + guild.getKills())
-                .addLore("  &7→ &7Śmierci: &f" + guild.getDeaths())
-                .addLore("")
-                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRkZTRkOTViYTRhNDZkYjdlNTY2YjM0NWY3ODk0ZDFkMjU4Zjg5M2ViOTJjNzgwYjNkYTc3NWVlZGY5MSJ9fX0=")
+                .name("&7" + realPosition + ". &6" + guild.getName())
+                .lore("")
+                .lore("&eLider:")
+                .lore("&f" + guild.getLeader().getName())
+                .lore("")
+                .lore("&eLiczba członków:")
+                .lore("&f" + guild.getMembers().size() + "/" + guild.getMaxMembers() + " &7(&a" + guild.getOnlineMembers().size() + " &fonline&7)")
+                .lore("")
+                .lore("&eZajęte ziemie:")
+                .lore("&f" + guild.getChunks().size() + " &7(Limit: &f" + guild.getMaxChunks() + "&7)")
+                .lore("")
+                .lore("&eStatystyki Wojny:")
+                .lore("  &7→ &7Dywizja: " + guild.getDivision().getName())
+                .lore("  &7→ &7Puchary rankingowe: &f" + guild.getTrophies())
+                .lore("  &7→ &7Zabójstwa: &f" + guild.getKills())
+                .lore("  &7→ &7Śmierci: &f" + guild.getDeaths())
+                .lore("")
+                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRkZTRkOTViYTRhNDZkYjdlNTY2YjM0NWY3ODk0ZDFkMjU4Zjg5M2ViOTJjNzgwYjNkYTc3NWVlZGY5MSJ9fX0=")
                 .build();
     }
 

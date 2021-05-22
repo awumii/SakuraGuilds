@@ -28,31 +28,31 @@ public class MembersGui extends ClickableInventory {
         InventoryUtils.drawBorder(inventory);
         Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
 
-        guild.getMembers().forEach((name, rank) -> {
-            User user = this.plugin.getUserManager().getUser(name);
+        guild.getMembers().forEach(member -> {
+            User user = this.plugin.getUserManager().getUser(member.getName());
             ItemStack skull = new ItemBuilder(Material.PLAYER_HEAD)
-                    .setName("&6" + name)
-                    .addLore("&e(Widziany ostatnio: &f" + TimeUtils.formatDate(Bukkit.getOfflinePlayer(name).getLastSeen()) + "&e)")
-                    .addLore("")
-                    .addLore("&eRanga: " + rank.getDisplay())
-                    .addLore("&eWojna: ")
-                    .addLore(" &7→ Zabójstwa: &f" + user.getKills())
-                    .addLore(" &7→ Śmierci: &f" + user.getDeaths())
-                    .addLore("")
-                    .addLore("&7&nKliknij PRAWYM aby")
-                    .addLore("  &fzarządzać rangą w gildii")
-                    .addLore("")
-                    .addLore("&7&nKliknij ŚRODKOWYM aby")
-                    .addLore("  &fwyrzucić gracza z gildii.")
-                    .setSkullOwner(name)
+                    .name("&6" + member.getName())
+                    .lore("&e(Widziany ostatnio: &f" + TimeUtils.formatDate(Bukkit.getOfflinePlayer(member.getName()).getLastSeen()) + "&e)")
+                    .lore("")
+                    .lore("&eRanga: " + member.getRank().getDisplay())
+                    .lore("&eWojna: ")
+                    .lore(" &7→ Zabójstwa: &f" + user.getKills())
+                    .lore(" &7→ Śmierci: &f" + user.getDeaths())
+                    .lore("")
+                    .lore("&7&nKliknij PRAWYM aby")
+                    .lore("  &fzarządzać rangą w gildii")
+                    .lore("")
+                    .lore("&7&nKliknij ŚRODKOWYM aby")
+                    .lore("  &fwyrzucić gracza z gildii.")
+                    .skullOwner(member.getName())
                     .build();
             inventory.addItem(skull);
         });
 
         ItemStack close = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&cPowrót")
-                .addLore("&7Cofnij do menu gildii.")
-                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
+                .name("&cPowrót")
+                .lore("&7Cofnij do menu gildii.")
+                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
                 .build();
 
         inventory.setItem(8, close);

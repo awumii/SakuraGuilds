@@ -2,10 +2,11 @@ package me.xneox.guilds.command.impl.sub;
 
 import me.xneox.guilds.command.SubCommand;
 import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.element.Member;
 import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.ServiceUtils;
+import me.xneox.guilds.util.HookUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -27,7 +28,7 @@ public class AllyCommand implements SubCommand {
             return;
         }
 
-        if (!guild.getPlayerRank(player).hasPermission(Permission.ALLIES)) {
+        if (!guild.findMember(player.getName()).hasPermission(Permission.ALLIES)) {
             ChatUtils.sendMessage(player, "&cTwoja ranga w gildii jest zbyt niska!");
             return;
         }
@@ -48,9 +49,9 @@ public class AllyCommand implements SubCommand {
             return;
         }
 
-        if (ServiceUtils.INSTANCE.getCooldownManager().hasCooldown(player, "ally-" + otherGuild.getName())) {
+        if (HookUtils.INSTANCE.getCooldownManager().hasCooldown(player, "ally-" + otherGuild.getName())) {
             ChatUtils.sendMessage(player, "&cMusisz poczekać &6"
-                    + ServiceUtils.INSTANCE.getCooldownManager().getRemaining(player, "ally-" + otherGuild.getName()) + " &cprzed wysłaniem zaproszenia.");
+                    + HookUtils.INSTANCE.getCooldownManager().getRemaining(player, "ally-" + otherGuild.getName()) + " &cprzed wysłaniem zaproszenia.");
             return;
         }
 
@@ -60,7 +61,7 @@ public class AllyCommand implements SubCommand {
         ChatUtils.guildAlertRaw(otherGuild, "  &7Otrzymano zaproszenie do sojuszu od &6" + guild.getName());
         ChatUtils.guildAlertRaw(otherGuild, " ");
 
-        otherGuild.getMembers().keySet().stream().map(Bukkit::getPlayerExact).filter(Objects::nonNull).forEach(member -> {
+        otherGuild.getMembers().stream().map(Member::getName).map(Bukkit::getPlayerExact).filter(Objects::nonNull).forEach(member -> {
             ChatUtils.sendClickableMessage(member, "  &aKliknij, aby zaakceptować.",
                     "&aPo kliknięciu zostaniecie sojusznikami!", "/g acceptally IJAD98jdksldM " + guild.getName());
             ChatUtils.sendClickableMessage(member, "  &cKliknij, aby odrzucić.",
@@ -68,6 +69,6 @@ public class AllyCommand implements SubCommand {
         });
 
         ChatUtils.guildAlertRaw(otherGuild, " ");
-        ServiceUtils.INSTANCE.getCooldownManager().add(player, "ally-" + otherGuild.getName(), 10, TimeUnit.MINUTES);
+        HookUtils.INSTANCE.getCooldownManager().add(player, "ally-" + otherGuild.getName(), 10, TimeUnit.MINUTES);
     }
 }

@@ -30,30 +30,30 @@ public class WarGui extends ClickableInventory {
             }
 
             ItemStack item = new ItemBuilder(Material.PLAYER_HEAD)
-                    .setName("&6" + other.getName())
-                    .addLore("")
-                    .addLore("&eLider:")
-                    .addLore("&f" + other.getLeader())
-                    .addLore("")
-                    .addLore("&eLiczba członków:")
-                    .addLore("&f" + other.getMembers().size() + "/" + other.getMaxMembers() + " &7(&a" + other.getOnlineMembers().size() + " &fonline&7)")
-                    .addLore("")
-                    .addLore("&eStatystyki Wojny:")
-                    .addLore("  &7→ &7Dywizja: " + other.getDivision().getName())
-                    .addLore("  &7→ &7Puchary rankingowe: &f" + other.getTrophies())
-                    .addLore("  &7→ &7Zabójstwa: &f" + other.getKills())
-                    .addLore("  &7→ &7Śmierci: &f" + other.getDeaths())
-                    .addLore("")
-                    .addLore("&cKliknij aby wypowiedzieć wojnę")
-                    .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTMyMWMwNzAzNzg2ZWVmYTMxODA5YTc1NmY5NmY1NmExMmQ3OWE1ZGMwMDJlZTRiNWUzZDA0YzlhZDZkM2JhYSJ9fX0=")
+                    .name("&6" + other.getName())
+                    .lore("")
+                    .lore("&eLider:")
+                    .lore("&f" + other.getLeader().getName())
+                    .lore("")
+                    .lore("&eLiczba członków:")
+                    .lore("&f" + other.getMembers().size() + "/" + other.getMaxMembers() + " &7(&a" + other.getOnlineMembers().size() + " &fonline&7)")
+                    .lore("")
+                    .lore("&eStatystyki Wojny:")
+                    .lore("  &7→ &7Dywizja: " + other.getDivision().getName())
+                    .lore("  &7→ &7Puchary rankingowe: &f" + other.getTrophies())
+                    .lore("  &7→ &7Zabójstwa: &f" + other.getKills())
+                    .lore("  &7→ &7Śmierci: &f" + other.getDeaths())
+                    .lore("")
+                    .lore("&cKliknij aby wypowiedzieć wojnę")
+                    .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTMyMWMwNzAzNzg2ZWVmYTMxODA5YTc1NmY5NmY1NmExMmQ3OWE1ZGMwMDJlZTRiNWUzZDA0YzlhZDZkM2JhYSJ9fX0=")
                     .build();
             inventory.addItem(item);
         }
 
         ItemStack close = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&cPowrót")
-                .addLore("&7Cofnij do menu gildii.")
-                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
+                .name("&cPowrót")
+                .lore("&7Cofnij do menu gildii.")
+                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
                 .build();
 
         inventory.setItem(8, close);

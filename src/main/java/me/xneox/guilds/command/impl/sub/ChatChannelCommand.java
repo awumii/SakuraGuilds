@@ -6,7 +6,7 @@ import me.xneox.guilds.element.User;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.type.ChatChannel;
 import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.ServiceUtils;
+import me.xneox.guilds.util.HookUtils;
 import org.bukkit.entity.Player;
 
 public class ChatChannelCommand implements SubCommand {
@@ -19,7 +19,7 @@ public class ChatChannelCommand implements SubCommand {
             return;
         }
 
-        User user = ServiceUtils.INSTANCE.getUserManager().getUser(player);
+        User user = HookUtils.INSTANCE.getUserManager().getUser(player);
         switch (user.getChatChannel()) {
             case GLOBAL:
                 user.setChatChannel(ChatChannel.GUILD);

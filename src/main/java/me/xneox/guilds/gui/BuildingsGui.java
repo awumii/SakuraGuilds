@@ -31,69 +31,54 @@ public class BuildingsGui extends ClickableInventory {
         Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
 
         ItemBuilder townhall = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&6Ratusz")
-                .addLore("&7&oZwiększa ilość slotów o +4.")
-                .addLore("")
-                .addLore("&ePoziom: &f" + getLevel(guild, BuildingType.TOWNHALL))
-                .addLore("&eDługość budowy: &f" + getTime(guild, BuildingType.TOWNHALL))
-                .addLore("")
-                .addLore("&eKoszt ulepszenia: &f");
+                .name("&6Ratusz")
+                .lore("&7&oZwiększa ilość slotów o +6.")
+                .lore("")
+                .lore("&ePoziom: &f" + getLevel(guild, BuildingType.TOWNHALL))
+                .lore("&eDługość budowy: &f" + getTime(guild, BuildingType.TOWNHALL))
+                .lore("")
+                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQ0YzFlOGU4MjY3MmJiYTU4OTJmZDQ2NTlmOGRhZDg0ZDE1NDVkYjI2ZGI1MmVjYzkxOGYzMmExMzkxNTEzIn19fQ==");
 
                 printMaterials(townhall, BuildingType.TOWNHALL, guild);
 
-                townhall.addLore("")
-                        .addLore("&7Kliknij, aby budować.")
-                        .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQ0YzFlOGU4MjY3MmJiYTU4OTJmZDQ2NTlmOGRhZDg0ZDE1NDVkYjI2ZGI1MmVjYzkxOGYzMmExMzkxNTEzIn19fQ==");
-
         ItemBuilder barrack = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&6Koszary")
-                .addLore("&7&oZwieksza ilość max. terenu o +4.")
-                .addLore("")
-                .addLore("&ePoziom: &f" + getLevel(guild, BuildingType.BARRACK))
-                .addLore("&eDługość budowy: &f" + getTime(guild, BuildingType.BARRACK))
-                .addLore("")
-                .addLore("&eKoszt ulepszenia: &f");
+                .name("&6Koszary")
+                .lore("&7&oZwieksza ilość max. terenu o +6.")
+                .lore("")
+                .lore("&ePoziom: &f" + getLevel(guild, BuildingType.BARRACK))
+                .lore("&eDługość budowy: &f" + getTime(guild, BuildingType.BARRACK))
+                .lore("")
+                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzgyZWU4NWZlNmRjNjMyN2RhZDIwMmZjYTkzYzlhOTRhYzk5YjdiMTY5NzUyNGJmZTk0MTc1ZDg4NzI1In19fQ==");
 
                 printMaterials(barrack, BuildingType.BARRACK, guild);
 
-                barrack.addLore("")
-                        .addLore("&7Kliknij, aby budować.")
-                        .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzgyZWU4NWZlNmRjNjMyN2RhZDIwMmZjYTkzYzlhOTRhYzk5YjdiMTY5NzUyNGJmZTk0MTc1ZDg4NzI1In19fQ==");
-
         ItemBuilder storage = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&6Magazyn")
-                .addLore("&7&oZwiększa ilość slotów magazynu o +9.")
-                .addLore("")
-                .addLore("&ePoziom: &f" + getLevel(guild, BuildingType.STORAGE))
-                .addLore("&eDługość budowy: &f" + getTime(guild, BuildingType.STORAGE))
-                .addLore("")
-                .addLore("&eKoszt ulepszenia: &f");
+                .name("&6Magazyn")
+                .lore("&7&oZwiększa ilość slotów magazynu o +9.")
+                .lore("")
+                .lore("&ePoziom: &f" + getLevel(guild, BuildingType.STORAGE))
+                .lore("&eDługość budowy: &f" + getTime(guild, BuildingType.STORAGE))
+                .lore("")
+                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2UyMjM5MWUzNWEzZTViY2VlODlkYjMxMmU4NzRmZGM5ZDllN2E2MzUxMzE0YjgyYmRhOTdmYmQyYmU4N2ViOCJ9fX0=");
 
                 printMaterials(storage, BuildingType.STORAGE, guild);
 
-                storage.addLore("")
-                        .addLore("&7Kliknij, aby budować.")
-                        .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2UyMjM5MWUzNWEzZTViY2VlODlkYjMxMmU4NzRmZGM5ZDllN2E2MzUxMzE0YjgyYmRhOTdmYmQyYmU4N2ViOCJ9fX0=");
-
         ItemBuilder alchemy = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&6Labolatorium")
-                .addLore("&7&oPolepsza dostępne bonusy dla gildii.")
-                .addLore("")
-                .addLore("&ePoziom: &f" + getLevel(guild, BuildingType.ALCHEMY))
-                .addLore("&eDługość budowy: &f" + getTime(guild, BuildingType.ALCHEMY))
-                .addLore("")
-                .addLore("&eKoszt ulepszenia: &f");
+                .name("&6Labolatorium")
+                .lore("&7&oPolepsza dostępne bonusy dla gildii.")
+                .lore("&c&nW chwili obecnej nie robi nic.")
+                .lore("")
+                .lore("&ePoziom: &f" + getLevel(guild, BuildingType.ALCHEMY))
+                .lore("&eDługość budowy: &f" + getTime(guild, BuildingType.ALCHEMY))
+                .lore("")
+                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmEwODU5OTdjYThkZWJlZTU5ZmVjMTE4MjM2MjRhNDA4NWYyZWQzZGE1NzIwMTViNDljNzVhOWYyOGRmYiJ9fX0=");
 
                 printMaterials(alchemy, BuildingType.ALCHEMY, guild);
 
-                alchemy.addLore("")
-                        .addLore("&7Kliknij, aby budować.")
-                        .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmEwODU5OTdjYThkZWJlZTU5ZmVjMTE4MjM2MjRhNDA4NWYyZWQzZGE1NzIwMTViNDljNzVhOWYyOGRmYiJ9fX0=");
-
         ItemStack close = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&cPowrót")
-                .addLore("&7Cofnij do menu gildii.")
-                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
+                .name("&cPowrót")
+                .lore("&7Cofnij do menu gildii.")
+                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
                 .build();
 
         inventory.setItem(10, townhall.build());
@@ -135,11 +120,20 @@ public class BuildingsGui extends ClickableInventory {
 
     private void printMaterials(ItemBuilder builder, BuildingType type, Guild guild) {
         Building building = guild.getBuildingOfType(type);
-        List<Pair<Material, Integer>> materials = this.plugin.getConfigManager().getMaterialsFor(type, building != null ? building.getLevel() + 1 : 1);
-
-        for (Pair<Material, Integer> pair : materials) {
-            builder.addLore(" &8▸ &f" + new ItemStack(pair.getLeft()).getI18NDisplayName() + " &7x" + pair.getRight());
+        if (building != null && building.getLevel() >= type.getMaxLevel()) {
+            builder.lore("&cOsiągnięto maksymalny poziom.");
+            return;
         }
+
+        builder.lore("&eKoszt ulepszenia: &f");
+
+        List<Pair<Material, Integer>> materials = this.plugin.getConfigManager().getMaterialsFor(type, building != null ? building.getLevel() + 1 : 1);
+        for (Pair<Material, Integer> pair : materials) {
+            builder.lore(" &8▸ &f" + new ItemStack(pair.getLeft()).getI18NDisplayName() + " &7x" + pair.getRight());
+        }
+
+        builder.lore("");
+        builder.lore("&7Kliknij, aby budować.");
     }
 
     private String getLevel(Guild guild, BuildingType type) {

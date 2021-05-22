@@ -5,7 +5,7 @@ import me.xneox.guilds.command.SubCommand;
 import me.xneox.guilds.war.Arena;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.ServiceUtils;
+import me.xneox.guilds.util.HookUtils;
 import org.bukkit.entity.Player;
 
 @AdminOnly
@@ -18,7 +18,7 @@ public class SetFirstSpawnCommand implements SubCommand {
             return;
         }
 
-        Arena arena = ServiceUtils.INSTANCE.getArenaManager().getArena(args[1]);
+        Arena arena = HookUtils.INSTANCE.getArenaManager().getArena(args[1]);
         if (arena == null) {
             ChatUtils.sendMessage(player, "&cTaka arena nie istnieje.");
             return;

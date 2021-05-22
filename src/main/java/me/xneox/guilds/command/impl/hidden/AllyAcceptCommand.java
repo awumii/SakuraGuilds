@@ -21,7 +21,7 @@ public class AllyAcceptCommand implements SubCommand {
             return;
         }
 
-        if (!guild.getPlayerRank(player).hasPermission(Permission.ALLIES)) {
+        if (!guild.findMember(player.getName()).hasPermission(Permission.ALLIES)) {
             ChatUtils.sendMessage(player, "&cTwoja ranga w gildii jest zbyt niska!");
             return;
         }

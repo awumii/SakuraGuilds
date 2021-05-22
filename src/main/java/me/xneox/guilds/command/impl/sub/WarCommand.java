@@ -2,9 +2,10 @@ package me.xneox.guilds.command.impl.sub;
 
 import me.xneox.guilds.command.SubCommand;
 import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.element.Member;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.ServiceUtils;
+import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -52,8 +53,8 @@ public class WarCommand implements SubCommand {
             return;
         }
 
-        if (ServiceUtils.INSTANCE.getCooldownManager().hasCooldown(player, "war-" + target.getName())) {
-            ChatUtils.sendMessage(player, "&cMusisz poczekać &6" + ServiceUtils.INSTANCE.getCooldownManager().getRemaining(player, "war-" + target.getName()) + " &cprzed wypowiedzeniem wojny.");
+        if (HookUtils.INSTANCE.getCooldownManager().hasCooldown(player, "war-" + target.getName())) {
+            ChatUtils.sendMessage(player, "&cMusisz poczekać &6" + HookUtils.INSTANCE.getCooldownManager().getRemaining(player, "war-" + target.getName()) + " &cprzed wypowiedzeniem wojny.");
             return;
         }
 
@@ -64,7 +65,7 @@ public class WarCommand implements SubCommand {
         ChatUtils.guildAlertRaw(target, "  &7Otrzymano zaproszenie do &c&lWOJNY &7od gildii &6" + guild.getName());
         ChatUtils.guildAlertRaw(target, " ");
 
-        target.getMembers().keySet().stream().map(Bukkit::getPlayerExact).filter(Objects::nonNull).forEach(member -> {
+        target.getMembers().stream().map(Member::getName).map(Bukkit::getPlayerExact).filter(Objects::nonNull).forEach(member -> {
             ChatUtils.sendClickableMessage(member, "  &aKliknij, aby zaakceptować.",
                     "&aPo kliknięciu wojna się rozpocznie!", "/g acceptwar IJAD98jdksldM " + guild.getName());
             ChatUtils.sendClickableMessage(member, "  &cKliknij, aby odrzucić.",
@@ -72,6 +73,6 @@ public class WarCommand implements SubCommand {
         });
 
         ChatUtils.guildAlertRaw(target, " ");
-        ServiceUtils.INSTANCE.getCooldownManager().add(player, "war-" + target.getName(), 1, TimeUnit.HOURS);
+        HookUtils.INSTANCE.getCooldownManager().add(player, "war-" + target.getName(), 1, TimeUnit.HOURS);
     }
 }

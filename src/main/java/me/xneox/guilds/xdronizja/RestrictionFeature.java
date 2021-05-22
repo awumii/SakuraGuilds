@@ -20,10 +20,10 @@ import java.util.Date;
 public class RestrictionFeature implements Listener {
 
     private static final Date DIAMOND_GEAR = parseDate("2021-03-02-14:00");
-    private static final Date NETHERITE_GEAR = parseDate("2021-04-03-20:00");
+    private static final Date NETHERITE_GEAR = parseDate("2021-05-24-22:00");
 
     private static final Date NETHER_OPEN = parseDate("2021-03-28-12:14");
-    private static final Date END_OPEN = parseDate("2021-04-02-20:00");
+    private static final Date END_OPEN = parseDate("2021-05-24-22:00");
 
     public RestrictionFeature(JavaPlugin plugin) {
         Bukkit.getScheduler().runTaskTimer(plugin, () -> {

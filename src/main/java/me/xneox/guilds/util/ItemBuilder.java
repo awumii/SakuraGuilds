@@ -39,38 +39,33 @@ public class ItemBuilder {
         this.amount = amount;
     }
 
-    public ItemBuilder setName(String title) {
+    public ItemBuilder name(String title) {
         this.title = ChatUtils.colored(title);
         return this;
     }
 
-    public ItemBuilder addLore(String lore) {
+    public ItemBuilder lore(String lore) {
         this.lore.add(ChatUtils.colored(lore));
         return this;
     }
 
-    public ItemBuilder setLore(List<String> lore) {
-        lore.forEach(s -> this.lore.add(ChatUtils.colored(s)));
-        return this;
-    }
-
-    public ItemBuilder setFlags(ItemFlag... flags) {
+    public ItemBuilder flags(ItemFlag... flags) {
         this.flags = flags;
         return this;
     }
 
-    public ItemBuilder addEnchantment(Enchantment enchant, int level) {
+    public ItemBuilder enchantment(Enchantment enchant, int level) {
         this.enchants.remove(enchant);
         this.enchants.put(enchant, level);
         return this;
     }
 
-    public ItemBuilder setSkullTexture(String texture) {
+    public ItemBuilder skullTexture(String texture) {
         this.skullTexture = texture;
         return this;
     }
 
-    public ItemBuilder setSkullOwner(String owner) {
+    public ItemBuilder skullOwner(String owner) {
         this.skullOwner = owner;
         return this;
     }

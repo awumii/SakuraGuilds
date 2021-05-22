@@ -10,9 +10,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class ItemSerialization {
-    public static String EMPTY_INVENTORY = "rO0ABXcEAAAAKXBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBw\n";
-
+// Copied from gist i don't remember lol
+public final class ItemSerialization {
     /**
      * Converts the player inventory to a Base64 encoded string.
      *

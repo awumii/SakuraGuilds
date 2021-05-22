@@ -27,7 +27,7 @@ public class HoloRefreshTask implements Runnable {
             guild.setDeleteConfirm(false);
 
             VisualUtils.createGuildInfo(guild);
-            guild.getBuildings().forEach(building -> building.refresh(guild));
+            guild.getBuildings().forEach(building -> building.process(guild));
         });
 
         createRankTop();

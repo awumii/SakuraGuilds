@@ -6,7 +6,7 @@ import me.xneox.guilds.war.Arena;
 import me.xneox.guilds.manager.ArenaManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.ServiceUtils;
+import me.xneox.guilds.util.HookUtils;
 import org.bukkit.entity.Player;
 
 @AdminOnly
@@ -19,7 +19,7 @@ public class ArenaCreateCommand implements SubCommand {
             return;
         }
 
-        ArenaManager arenaManager = ServiceUtils.INSTANCE.getArenaManager();
+        ArenaManager arenaManager = HookUtils.INSTANCE.getArenaManager();
         if (arenaManager.getArena(args[1]) != null) {
             ChatUtils.sendMessage(player, "&cTaka arena już istnieje.");
             return;

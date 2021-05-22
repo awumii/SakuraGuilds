@@ -22,8 +22,8 @@ public class KickCommand implements SubCommand {
             return;
         }
 
-        if (guild.getMembers().containsKey(args[1])) {
-            if (!guild.isHigher(player.getName(), args[1]) || !guild.getPlayerRank(player).hasPermission(Permission.KICK)) {
+        if (guild.isMember(args[1])) {
+            if (!guild.isHigher(player.getName(), args[1]) || !guild.findMember(player.getName()).hasPermission(Permission.KICK)) {
                 ChatUtils.sendMessage(player, "&cTwoja ranga w gildii jest zbyt niska.");
                 return;
             }

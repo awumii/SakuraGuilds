@@ -16,7 +16,7 @@ public class DeleteCommand implements SubCommand {
             return;
         }
 
-        if (!guild.getLeader().equals(player.getName())) {
+        if (!guild.isLeader(player)) {
             ChatUtils.sendMessage(player, "&cMusisz być liderem gildii.");
             return;
         }

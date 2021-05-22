@@ -2,10 +2,11 @@ package me.xneox.guilds.command.impl.sub;
 
 import me.xneox.guilds.command.SubCommand;
 import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.element.Member;
 import me.xneox.guilds.type.Rank;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.ServiceUtils;
+import me.xneox.guilds.util.HookUtils;
 import org.bukkit.entity.Player;
 
 public class JoinCommand implements SubCommand {
@@ -38,8 +39,9 @@ public class JoinCommand implements SubCommand {
             return;
         }
 
-        guild.getMembers().put(player.getName(), Rank.REKRUT);
-        ServiceUtils.INSTANCE.getUserManager().getUser(player).setJoinDate();
+        guild.getMembers().add(new Member(player.getName(), Rank.REKRUT, Rank.REKRUT.getDefaultPermissions()));
+        HookUtils.INSTANCE.getUserManager().getUser(player).setJoinDate();
+        HookUtils.INSTANCE.getInventoryManager().open("management", player);
         ChatUtils.broadcast("&e" + player.getName() + " &7dołącza do gildii &6" + guild.getName());
     }
 }

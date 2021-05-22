@@ -36,7 +36,7 @@ public class GuildProtectionListener implements Listener {
             return false;
         }
 
-        if (guild.getMembers().containsKey(player.getName())) {
+        if (guild.isMember(player.getName())) {
             return false;
         }
 

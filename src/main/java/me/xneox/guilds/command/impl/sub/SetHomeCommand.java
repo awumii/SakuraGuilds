@@ -17,7 +17,7 @@ public class SetHomeCommand implements SubCommand {
             return;
         }
 
-        if (!guild.getPlayerRank(player).hasPermission(Permission.SET_HOME)) {
+        if (!guild.findMember(player.getName()).hasPermission(Permission.SET_HOME)) {
             ChatUtils.sendMessage(player, "&cTwoja pozycja jest zbyt niska.");
             return;
         }

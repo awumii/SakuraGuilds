@@ -28,20 +28,20 @@ public class ClaimGui extends ClickableInventory {
         for (String chunk : guild.getChunks()) {
             List<Player> players = ChunkUtils.getPlayersAt(ChunkUtils.toChunk(chunk));
             ItemStack item = new ItemBuilder(Material.GRASS_BLOCK, players.isEmpty() ? 1 : players.size())
-                    .setName("&6#" + guild.getChunks().indexOf(chunk) + " (" + LocationUtils.toSimpleString(ChunkUtils.getCenter(chunk)) + ")")
-                    .addLore("&7&oTwoja gildia posiada ten chunk.")
-                    .addLore("")
-                    .addLore("&7Gracze: &c" + (players.isEmpty() ? "Brak" : ChatUtils.formatPlayers(players)))
-                    .addLore("")
-                    .addLore("&eKliknij, aby się przeteleportować")
+                    .name("&6#" + guild.getChunks().indexOf(chunk) + " (" + LocationUtils.toSimpleString(ChunkUtils.getCenter(chunk)) + ")")
+                    .lore("&7&oTwoja gildia posiada ten chunk.")
+                    .lore("")
+                    .lore("&7Gracze: &c" + (players.isEmpty() ? "Brak" : ChatUtils.formatPlayers(players)))
+                    .lore("")
+                    .lore("&eKliknij, aby się przeteleportować")
                     .build();
             inventory.addItem(item);
         }
 
         ItemStack close = new ItemBuilder(Material.PLAYER_HEAD)
-                .setName("&cPowrót")
-                .addLore("&7Cofnij do menu gildii.")
-                .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
+                .name("&cPowrót")
+                .lore("&7Cofnij do menu gildii.")
+                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
                 .build();
 
         inventory.setItem(8, close);

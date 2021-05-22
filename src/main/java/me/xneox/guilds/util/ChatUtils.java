@@ -13,9 +13,9 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -25,6 +25,7 @@ public final class ChatUtils {
     public static final String PREFIX = "&6&lGILDIE &8➥ &7";
     private final static int CENTER_PX = 154;
 
+    @Nonnull
     public static String colored(@Nonnull String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
@@ -37,6 +38,7 @@ public final class ChatUtils {
         sender.sendMessage(colored(message));
     }
 
+    @ParametersAreNonnullByDefault
     public static void sendClickableMessage(Player player, String message, String hover, String runCommand) {
         TextComponent component = new TextComponent(colored(message));
         component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, runCommand));
@@ -45,7 +47,8 @@ public final class ChatUtils {
         player.sendMessage(component);
     }
 
-    public static void sendTitle(@Nonnull Player player, @Nonnull String title, @Nonnull String subtitle) {
+    @ParametersAreNonnullByDefault
+    public static void sendTitle(Player player, String title, String subtitle) {
         player.sendTitle(Title.builder()
                 .title(colored(title))
                 .subtitle(colored(subtitle))
@@ -55,6 +58,7 @@ public final class ChatUtils {
                 .build());
     }
 
+    @ParametersAreNonnullByDefault
     public static void sendBossBar(Player player, BarColor color, String message) {
         BossBar bossBar = Bukkit.createBossBar(colored(message), color, BarStyle.SOLID);
         new BukkitRunnable() {
@@ -69,13 +73,14 @@ public final class ChatUtils {
                     bossBar.setProgress(remaining / 10D);
                 }
             }
-        }.runTaskTimer(ServiceUtils.INSTANCE, 0, 20);
+        }.runTaskTimer(HookUtils.INSTANCE, 0, 20);
 
         bossBar.setVisible(true);
         bossBar.addPlayer(player);
     }
 
-    public static String formatPlayers(List<Player> list) {
+    @Nonnull
+    public static String formatPlayers(@Nonnull List<Player> list) {
         StringBuilder builder = new StringBuilder();
         for (Player player : list) {
             builder.append(player.getName()).append(", ");
@@ -83,39 +88,52 @@ public final class ChatUtils {
         return builder.toString();
     }
 
-    public static void sendAction(Player player, String message) {
+    public static int percentage(double i, double of) {
+        return (int) ((i * 100) / of);
+    }
+
+    @Nonnull
+    public static String progressBar(int done, int total) {
+        int size = 10;
+        int donePercents = (100 * done) / total;
+        int doneLength = size * donePercents / 100;
+        return IntStream.range(0, size).mapToObj(i -> i < doneLength ? "&6⬛" : "&6⬜").collect(Collectors.joining());
+    }
+
+    public static void sendAction(@Nonnull Player player, @Nonnull String message) {
         player.sendActionBar(colored(message));
     }
 
-    public static void broadcast(String message) {
+    public static void broadcast(@Nonnull String message) {
         broadcastRaw(PREFIX + message);
     }
 
-    public static void broadcastRaw(String message) {
+    public static void broadcastRaw(@Nonnull String message) {
         Bukkit.broadcastMessage(colored(message));
     }
 
-    public static void guildAlert(Guild guild, String message) {
+    public static void guildAlert(@Nonnull Guild guild, @Nonnull String message) {
         guildAlertRaw(guild, PREFIX + message);
     }
 
-    public static void guildAlertRaw(Guild guild, String message) {
+    public static void guildAlertRaw(@Nonnull Guild guild, @Nonnull String message) {
         forGuildMembers(guild, player -> sendRaw(player, message));
     }
 
-    public static void forGuildMembers(Guild guild, Consumer<Player> action) {
+    public static void forGuildMembers(@Nonnull Guild guild, @Nonnull Consumer<Player> action) {
         guild.getOnlineMembers().forEach(action);
     }
 
-    public static String buildString(String[] args, int index) {
+    @Nonnull
+    public static String buildString(@Nonnull String[] args, int index) {
         return IntStream.range(index, args.length).mapToObj(i -> args[i] + " ").collect(Collectors.joining());
     }
 
-    public static void broadcastCenteredMessage(String message) {
+    public static void broadcastCenteredMessage(@Nonnull String message) {
         Bukkit.getOnlinePlayers().forEach(player -> sendCenteredMessage(player, message));
     }
 
-    public static void sendCenteredMessage(Player player, String message){
+    public static void sendCenteredMessage(@Nonnull Player player, @Nonnull String message){
         message = ChatColor.translateAlternateColorCodes('&', message);
 
         int messagePxSize = 0;
@@ -144,7 +162,7 @@ public final class ChatUtils {
             sb.append(" ");
             compensated += spaceLength;
         }
-        player.sendMessage(sb.toString() + message);
+        player.sendMessage(sb + message);
     }
 
     private ChatUtils() {}

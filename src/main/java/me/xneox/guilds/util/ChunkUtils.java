@@ -47,7 +47,7 @@ public final class ChunkUtils {
     }
 
     public static boolean isProtected(Player player) {
-        if (ServiceUtils.INSTANCE.getGuildManager().getGuildAt(player.getLocation()) != null) {
+        if (HookUtils.INSTANCE.getGuildManager().getGuildAt(player.getLocation()) != null) {
             ChatUtils.sendMessage(player, "&cTen teren jest zajęty.");
             return true;
         }

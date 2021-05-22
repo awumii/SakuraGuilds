@@ -24,7 +24,7 @@ public class ClaimCommand implements SubCommand {
             return;
         }
 
-        if (!guild.getPlayerRank(player).hasPermission(Permission.CLAIM)) {
+        if (!guild.findMember(player.getName()).hasPermission(Permission.CLAIM)) {
             ChatUtils.sendMessage(player, "&cNie posiadasz uprawnień do zajmowania terenu.");
             return;
         }
