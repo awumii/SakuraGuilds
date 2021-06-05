@@ -13,17 +13,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package me.xneox.guilds.util.gui.basic;
+package me.xneox.guilds.util.gui.api;
 
-import me.xneox.guilds.util.gui.ClickEvent;
-import org.bukkit.entity.Player;
+public enum InventorySize {
+    SMALLEST(9),
+    SMALL(18),
+    MEDIUM(27),
+    BIG(36),
+    HUGE(45),
+    BIGGEST(54);
 
-public interface Clickable {
+    private final int slots;
+
     /**
-     * This method is called when a player
-     * clicks in the current inventory.
-     *
-     * @param event Called event.
+     * @param slots Size of the Inventory, must be from 9 to 54, and a multiple of 9.
      */
-    void onClick(ClickEvent event, Player player);
+    InventorySize(int slots) {
+        this.slots = slots;
+    }
+
+    /**
+     * @return Integer value of the specified {@link InventorySize}
+     */
+    public int slots() {
+        return slots;
+    }
 }

@@ -3,12 +3,12 @@ package me.xneox.guilds.type;
 import me.xneox.guilds.util.Colors;
 
 public enum Division {
-    CHAMPION(500, Colors.ALIZARIN_RED + "Czempion"),
-    ADAMANT(300, "&2Adamantyt"),
-    RUBY(250, "&cRubin"),
-    CRYSTAL(200, "&bKryształ"),
-    GOLDEN(150, "&6Złoto"),
-    STEEL(100, "&fStal"),
+    CHAMPION(1500, Colors.ALIZARIN_RED + "Czempion"),
+    ADAMANT(1000, "&2Adamantyt"),
+    RUBY(800, "&cRubin"),
+    CRYSTAL(600, "&bKryształ"),
+    GOLDEN(400, "&6Złoto"),
+    STEEL(200, "&fStal"),
     BRONZE(0, Colors.BRONZE + "Brąz");
 
     private final int minPoints;

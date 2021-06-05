@@ -8,9 +8,9 @@ import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
 import me.xneox.guilds.util.TimeUtils;
 import me.xneox.guilds.util.VisualUtils;
-import me.xneox.guilds.util.gui.ClickEvent;
-import me.xneox.guilds.util.gui.ClickableInventory;
-import me.xneox.guilds.util.gui.InventorySize;
+import me.xneox.guilds.util.gui.api.ClickEvent;
+import me.xneox.guilds.util.gui.InventoryProviderImpl;
+import me.xneox.guilds.util.gui.api.InventorySize;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,13 +20,13 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class BuildingsGui extends ClickableInventory {
+public class BuildingsGui extends InventoryProviderImpl {
     public BuildingsGui(NeonGuilds plugin) {
         super(plugin, "Menu ulepszeń gildyjnych", InventorySize.MEDIUM);
     }
 
     @Override
-    public void onOpen(Player player, Inventory inventory) {
+    public void open(Player player, Inventory inventory) {
         InventoryUtils.fillInventory(inventory, Material.BLACK_STAINED_GLASS_PANE);
         Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
 
@@ -90,10 +90,10 @@ public class BuildingsGui extends ClickableInventory {
     }
 
     @Override
-    public void onClick(ClickEvent event, Player player) {
+    public void event(ClickEvent event, Player player) {
         VisualUtils.click(player);
 
-        ItemStack item = event.getItem();
+        ItemStack item = event.item();
         if (item.getType() == Material.PLAYER_HEAD) {
             if (item.getItemMeta().getDisplayName().contains("Powrót")) {
                 this.plugin.getInventoryManager().open("management", player);
@@ -101,7 +101,7 @@ public class BuildingsGui extends ClickableInventory {
             }
 
             player.closeInventory();
-            switch (event.getSlot()) {
+            switch (event.slot()) {
                 case 10:
                     player.performCommand("g build TOWNHALL");
                     break;

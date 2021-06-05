@@ -52,7 +52,7 @@ public class GuildNotifierTask implements Runnable {
                                     " (" + LocationUtils.toSimpleString(player.getLocation()) + ")";
 
                             ChatUtils.sendBossBar(member, BarColor.RED, "&4&l⚠ &c" + player.getName() + sub);
-                            ChatUtils.sendTitle(member, "&4&l⚠", "&c" + player.getName() + sub);
+                            ChatUtils.sendAction(member, "&4&l⚠ &c" + player.getName() + sub);
                         });
                     }
                 }

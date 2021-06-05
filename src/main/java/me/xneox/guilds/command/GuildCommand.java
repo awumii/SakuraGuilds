@@ -39,7 +39,6 @@ public class GuildCommand implements CommandExecutor {
         commandMap.put("sethome", new SetHomeCommand());
         commandMap.put("help", new HelpCommand());
         commandMap.put("ally", new AllyCommand());
-        commandMap.put("donate", new DonateCommand());
         commandMap.put("top", new TopCommand());
         commandMap.put("chat", new ChatChannelCommand());
         commandMap.put("war", new WarCommand());
@@ -56,6 +55,7 @@ public class GuildCommand implements CommandExecutor {
         commandMap.put("teleport", new GuildTeleportCommand());
         commandMap.put("setleaderboard", new SetLeaderboardCommand());
         commandMap.put("buildinstant", new BuildInstantCommand());
+        commandMap.put("settrophies", new SetTrophiesCommand());
     }
 
     @Override

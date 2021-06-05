@@ -13,26 +13,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package me.xneox.guilds.util.gui;
+package me.xneox.guilds.util.gui.api;
 
-import me.xneox.guilds.util.gui.basic.CustomInventory;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
-public class InventoryTask implements Runnable {
-    private final InventoryManager manager;
+import javax.annotation.Nonnull;
 
-    public InventoryTask(InventoryManager manager) {
-        this.manager = manager;
-    }
+public interface InventoryProvider {
+    @Nonnull
+    String title();
 
-    @Override
-    public void run() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            CustomInventory inventory = this.manager.findByName(player.getOpenInventory().getTitle());
-            if (inventory != null && inventory.isRefreshable()) {
-                this.manager.open(inventory, player);
-            }
-        }
-    }
+    int size();
+
+    void open(Player player, Inventory inventory);
+
+    void event(ClickEvent event, Player player);
 }

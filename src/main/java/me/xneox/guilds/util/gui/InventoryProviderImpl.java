@@ -16,28 +16,29 @@
 package me.xneox.guilds.util.gui;
 
 import me.xneox.guilds.NeonGuilds;
-import me.xneox.guilds.util.gui.basic.Clickable;
-import me.xneox.guilds.util.gui.basic.CustomInventory;
+import me.xneox.guilds.util.gui.api.InventoryProvider;
+import me.xneox.guilds.util.gui.api.InventorySize;
 import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class ClickableInventory implements CustomInventory, Clickable {
+public abstract class InventoryProviderImpl implements InventoryProvider {
     protected final NeonGuilds plugin;
     private final String title;
     private final int size;
 
-    public ClickableInventory(NeonGuilds plugin, String title, InventorySize size) {
+    public InventoryProviderImpl(NeonGuilds plugin, String title, InventorySize size) {
         this.plugin = plugin;
         this.title = ChatColor.translateAlternateColorCodes('&', title);
-        this.size = size.getSize();
+        this.size = size.slots();
     }
 
     @Override
-    public String getTitle() {
+    public @NotNull String title() {
         return this.title;
     }
 
     @Override
-    public int getSize() {
+    public int size() {
         return this.size;
     }
 }

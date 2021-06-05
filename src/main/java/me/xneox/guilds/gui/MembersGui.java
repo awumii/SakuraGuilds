@@ -7,9 +7,9 @@ import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
 import me.xneox.guilds.util.TimeUtils;
 import me.xneox.guilds.util.VisualUtils;
-import me.xneox.guilds.util.gui.ClickEvent;
-import me.xneox.guilds.util.gui.ClickableInventory;
-import me.xneox.guilds.util.gui.InventorySize;
+import me.xneox.guilds.util.gui.api.ClickEvent;
+import me.xneox.guilds.util.gui.InventoryProviderImpl;
+import me.xneox.guilds.util.gui.api.InventorySize;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,13 +18,13 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class MembersGui extends ClickableInventory {
+public class MembersGui extends InventoryProviderImpl {
     public MembersGui(NeonGuilds plugin) {
         super(plugin, "Menu zarządzania członkami", InventorySize.BIGGEST);
     }
 
     @Override
-    public void onOpen(Player player, Inventory inventory) {
+    public void open(Player player, Inventory inventory) {
         InventoryUtils.drawBorder(inventory);
         Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
 
@@ -59,17 +59,17 @@ public class MembersGui extends ClickableInventory {
     }
 
     @Override
-    public void onClick(ClickEvent event, Player player) {
+    public void event(ClickEvent event, Player player) {
         VisualUtils.click(player);
 
-        ItemStack item = event.getItem();
+        ItemStack item = event.item();
         if (item.getType() == Material.PLAYER_HEAD) {
             if (item.getItemMeta().getDisplayName().contains("Powrót")) {
                 this.plugin.getInventoryManager().open("management", player);
             } else  {
                 String target = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 
-                if (event.getClickType() == ClickType.MIDDLE) {
+                if (event.type() == ClickType.MIDDLE) {
                     player.performCommand("g kick " + target);
                 } else {
                     this.plugin.getUserManager().getUser(player).setEditorSubject(target);

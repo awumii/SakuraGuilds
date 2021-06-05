@@ -20,3 +20,4 @@ commands:
     permission-message: '&cNie posiadasz uprawnień.'
   help:
     aliases: [ pomoc ]
+  butelkaxp:

@@ -4,21 +4,21 @@ import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
 import me.xneox.guilds.util.VisualUtils;
-import me.xneox.guilds.util.gui.ClickEvent;
-import me.xneox.guilds.util.gui.InventorySize;
-import me.xneox.guilds.util.gui.ClickableInventory;
+import me.xneox.guilds.util.gui.api.ClickEvent;
+import me.xneox.guilds.util.gui.api.InventorySize;
+import me.xneox.guilds.util.gui.InventoryProviderImpl;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class NewbieGui extends ClickableInventory {
+public class NewbieGui extends InventoryProviderImpl {
     public NewbieGui(NeonGuilds plugin) {
         super(plugin, "Menu Nowicjusza", InventorySize.MEDIUM);
     }
 
     @Override
-    public void onOpen(Player player, Inventory inventory) {
+    public void open(Player player, Inventory inventory) {
         InventoryUtils.fillInventory(inventory, Material.BLACK_STAINED_GLASS_PANE);
 
         ItemStack browse = new ItemBuilder(Material.PLAYER_HEAD)
@@ -40,12 +40,12 @@ public class NewbieGui extends ClickableInventory {
     }
 
     @Override
-    public void onClick(ClickEvent event, Player player) {
+    public void event(ClickEvent event, Player player) {
         VisualUtils.click(player);
 
-        if (event.getSlot() == 11) {
+        if (event.slot() == 11) {
             this.plugin.getInventoryManager().open("browse", player);
-        } else if (event.getSlot() == 15) {
+        } else if (event.slot() == 15) {
             player.closeInventory();
             player.performCommand("g help");
         }

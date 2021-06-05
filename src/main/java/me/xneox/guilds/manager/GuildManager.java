@@ -46,7 +46,6 @@ public class GuildManager {
                 List<String> allies = json.getStringList("Allies");
                 ItemStack[] storage = ItemSerialization.deserializeInventory(json.getString("Storage"));
 
-                int money = json.getInt("Money");
                 int kills = json.getInt("Kills");
                 int deaths = json.getInt("Deaths");
                 int trophies = json.getInt("Trophies");
@@ -57,7 +56,7 @@ public class GuildManager {
 
                 String name = file.getName().replace(".json", "");
                 this.guildMap.put(name, new Guild(name, members, nexusLocation, creation, allies, home, chunks,
-                        shield, health, money, trophies, kills, deaths, isPublic, storage, buildings));
+                        shield, health, trophies, kills, deaths, isPublic, storage, buildings));
             } catch (Exception e) {
                 ChatUtils.broadcast("&cWystąpił błąd podczas wczytywania danych gildii: &4" + file.getName());
                 e.printStackTrace();
@@ -83,7 +82,6 @@ public class GuildManager {
                 json.set("Allies", guild.getAllies());
                 json.set("Home", LocationUtils.toString(guild.getHome()));
                 json.set("Nexus", LocationUtils.toString(guild.getNexusLocation()));
-                json.set("Money", guild.getMoney());
                 json.set("Chunks", guild.getChunks());
                 json.set("Kills", guild.getKills());
                 json.set("Deaths", guild.getDeaths());
@@ -124,19 +122,14 @@ public class GuildManager {
     }
 
     public Guild getGuild(Player player) {
-        if (!player.getWorld().getName().startsWith("world")) {
-            return null;
-        }
         return this.getGuild(player.getName());
     }
 
     public Guild getGuild(String player) {
-        for (Guild guild : this.guildMap.values()) {
-            if (guild.isMember(player)) {
-                return guild;
-            }
-        }
-        return null;
+        return this.guildMap.values().stream()
+                .filter(guild -> guild.isMember(player))
+                .findFirst()
+                .orElse(null);
     }
 
     public Guild getGuildExact(String name) {

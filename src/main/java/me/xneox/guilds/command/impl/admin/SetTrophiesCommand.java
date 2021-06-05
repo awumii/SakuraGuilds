@@ -1,0 +1,29 @@
+package me.xneox.guilds.command.impl.admin;
+
+import me.xneox.guilds.command.SubCommand;
+import me.xneox.guilds.command.annotations.AdminOnly;
+import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.manager.GuildManager;
+import me.xneox.guilds.util.ChatUtils;
+import org.bukkit.entity.Player;
+
+@AdminOnly
+public class SetTrophiesCommand implements SubCommand {
+    @Override
+    public void handle(GuildManager manager, Player player, String[] args) {
+        if (args.length < 3) {
+            ChatUtils.sendMessage(player, "&cPodaj nazwę gildii.");
+            return;
+        }
+
+        Guild guild = manager.getGuildExact(args[1]);
+        if (guild == null) {
+            ChatUtils.sendMessage(player, "&cNie odnaleziono takiej gildii.");
+            return;
+        }
+
+        int trophies = Integer.parseInt(args[2]);
+        guild.setTrophies(trophies);
+        ChatUtils.sendMessage(player, "&7Ustawiono pucharki na " + trophies);
+    }
+}

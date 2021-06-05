@@ -22,6 +22,6 @@ public class LeaveCommand implements SubCommand {
         }
 
         ChatUtils.broadcast("&e" + player.getName() + " &7opuszcza gildię &6" + guild.getName());
-        guild.getMembers().remove(player.getName());
+        guild.getMembers().remove(guild.findMember(player.getName()));
     }
 }

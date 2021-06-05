@@ -6,9 +6,9 @@ import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
 import me.xneox.guilds.util.RankedUtils;
 import me.xneox.guilds.util.VisualUtils;
-import me.xneox.guilds.util.gui.ClickEvent;
-import me.xneox.guilds.util.gui.ClickableInventory;
-import me.xneox.guilds.util.gui.InventorySize;
+import me.xneox.guilds.util.gui.api.ClickEvent;
+import me.xneox.guilds.util.gui.InventoryProviderImpl;
+import me.xneox.guilds.util.gui.api.InventorySize;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class LeaderboardsGui extends ClickableInventory {
+public class LeaderboardsGui extends InventoryProviderImpl {
     private List<Guild> guilds;
 
     public LeaderboardsGui(NeonGuilds plugin) {
@@ -24,7 +24,7 @@ public class LeaderboardsGui extends ClickableInventory {
     }
 
     @Override
-    public void onOpen(Player player, Inventory inventory) {
+    public void open(Player player, Inventory inventory) {
         InventoryUtils.drawBorder(inventory);
 
         this.guilds = RankedUtils.getLeaderboard(this.plugin.getGuildManager().getGuildMap().values());
@@ -82,10 +82,10 @@ public class LeaderboardsGui extends ClickableInventory {
     }
 
     @Override
-    public void onClick(ClickEvent event, Player player) {
+    public void event(ClickEvent event, Player player) {
         VisualUtils.click(player);
 
-        ItemStack item = event.getItem();
+        ItemStack item = event.item();
         if (item.getItemMeta().getDisplayName().contains("Powrót")) {
             this.plugin.getInventoryManager().open("management", player);
         }

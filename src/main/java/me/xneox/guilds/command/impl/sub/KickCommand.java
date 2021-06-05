@@ -33,7 +33,7 @@ public class KickCommand implements SubCommand {
                 return;
             }
 
-            guild.getMembers().remove(args[1]);
+            guild.getMembers().remove(guild.findMember(args[1]));
             ChatUtils.broadcast(guild.getDisplayName(player) + " &7wyrzuca &e" + args[1] + " &7z gildii &6" + guild.getName());
         }
     }

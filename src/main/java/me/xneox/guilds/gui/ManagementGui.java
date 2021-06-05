@@ -4,21 +4,21 @@ import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.util.*;
-import me.xneox.guilds.util.gui.ClickEvent;
-import me.xneox.guilds.util.gui.ClickableInventory;
-import me.xneox.guilds.util.gui.InventorySize;
+import me.xneox.guilds.util.gui.api.ClickEvent;
+import me.xneox.guilds.util.gui.InventoryProviderImpl;
+import me.xneox.guilds.util.gui.api.InventorySize;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class ManagementGui extends ClickableInventory {
+public class ManagementGui extends InventoryProviderImpl {
     public ManagementGui(NeonGuilds plugin) {
         super(plugin, "Menu zarządzania gildią", InventorySize.BIGGEST);
     }
 
     @Override
-    public void onOpen(Player player, Inventory inventory) {
+    public void open(Player player, Inventory inventory) {
         InventoryUtils.drawBorder(inventory);
 
         Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
@@ -238,11 +238,11 @@ public class ManagementGui extends ClickableInventory {
     }
 
     @Override
-    public void onClick(ClickEvent event, Player player) {
+    public void event(ClickEvent event, Player player) {
         VisualUtils.click(player);
         Guild guild = this.plugin.getGuildManager().getGuild(player);
 
-        switch (event.getSlot()) {
+        switch (event.slot()) {
             case 20:
                 this.plugin.getInventoryManager().open("claim", player);
                 break;

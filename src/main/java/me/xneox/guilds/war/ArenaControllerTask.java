@@ -23,14 +23,14 @@ public class ArenaControllerTask implements Runnable {
                 continue;
             }
 
-            Guild firstGuild = arena.getFirstGuild().getGuild();
-            Guild secondGuild = arena.getSecondGuild().getGuild();
+            WarParticipant firstGuild = arena.getFirstGuild();
+            WarParticipant secondGuild = arena.getSecondGuild();
 
              if (arena.getState() == ArenaState.PREPARING) {
-                 if (arena.getTime() <= 0) {
+                 if (arena.getTime() == 0) {
                      ChatUtils.broadcastCenteredMessage("");
-                     ChatUtils.broadcastCenteredMessage("&6&l⚔ " + firstGuild.getName() + " vs " + secondGuild.getName() + " ⚔");
-                     ChatUtils.broadcastCenteredMessage("&fRozpoczyna się wojna pomiędzy tymi gildiami!");
+                     ChatUtils.broadcastCenteredMessage("&6&l⚔ " + firstGuild.getGuild().getName() + " vs " + secondGuild.getGuild().getName() + " ⚔");
+                     ChatUtils.broadcastCenteredMessage("&fRozpoczyna się pojedynek pomiędzy tymi gildiami!");
                      ChatUtils.broadcastCenteredMessage("");
 
                      // Teleporting players and sending title
@@ -46,19 +46,18 @@ public class ArenaControllerTask implements Runnable {
                      arena.getSecondGuild().getMembers().forEach(player -> handleArenaCountdown(player, arena));
                  }
             } else if (arena.getState() == ArenaState.INGAME) {
-                if (arena.getTime() <= 0 || firstGuild.getTrophies() >= 100 || secondGuild.getTrophies() >= 100) {
+                if (arena.getTime() == 0 || firstGuild.getPoints() > 100 || secondGuild.getPoints() > 100) {
                     // Handling teleport and backup for players.
                     arena.getFirstGuild().getMembers().forEach(this::handleArenaEnd);
                     arena.getSecondGuild().getMembers().forEach(this::handleArenaEnd);
 
                     // Ranking system.
-                    int points = arena.getWinner().getPoints();
                     ChatUtils.broadcastCenteredMessage("");
-                    ChatUtils.broadcastCenteredMessage("&6&l⚔ " + firstGuild.getName() + " vs " + secondGuild.getName() + " ⚔");
+                    ChatUtils.broadcastCenteredMessage("&6&l⚔ " + firstGuild.getGuild().getName() + " vs " + secondGuild.getGuild().getName() + " ⚔");
                     ChatUtils.broadcastCenteredMessage("&fWygrała gildia: &e" + arena.getWinner().getGuild().getName());
                     ChatUtils.broadcastCenteredMessage("&fIlość punktów:");
-                    ChatUtils.broadcastCenteredMessage("&8▸ &6" + firstGuild.getName() + "&7: &e" + points + "★");
-                    ChatUtils.broadcastCenteredMessage("&8▸ &6" + secondGuild.getName() + "&7: &e" + points + "★");
+                    ChatUtils.broadcastCenteredMessage("&8▸ &6" + firstGuild.getGuild().getName() + "&7: &e" + firstGuild.getPoints() + "★");
+                    ChatUtils.broadcastCenteredMessage("&8▸ &6" + secondGuild.getGuild().getName() + "&7: &e" + secondGuild.getPoints() + "★");
                     ChatUtils.broadcastCenteredMessage("");
 
                     arena.getWinner().getGuild().addTrophies(arena.getWinner().getPoints());
@@ -74,8 +73,8 @@ public class ArenaControllerTask implements Runnable {
                     arena.getBossBar().removeAll();
                     arena.setState(ArenaState.FREE);
 
-                    generateRewards(firstGuild);
-                    generateRewards(secondGuild);
+                    generateRewards(firstGuild.getGuild());
+                    generateRewards(secondGuild.getGuild());
                 } else {
                     arena.setTime(arena.getTime() - 1);
                     arena.getBossBar().setTitle(ChatUtils.colored("&e⊙ Czas: &f" + TimeUtils.secondsToTime(arena.getTime())
@@ -97,22 +96,20 @@ public class ArenaControllerTask implements Runnable {
         this.plugin.getArenaManager().createBackup(player);
 
         ChatUtils.sendTitle(player, "&6&l⚔ " + arena.getFirstGuild().getGuild().getName() + " vs " + arena.getSecondGuild().getGuild().getName() + " ⚔",
-                "&fRozpoczyna się wojna, niech wygra najlepsza gildia!");
+                "&fRozpoczyna się pojedynek, niech wygra najlepsza gildia!");
     }
 
     private void handleArenaCountdown(Player player, Arena arena) {
         VisualUtils.playSound(player, Sound.ENTITY_EVOKER_CAST_SPELL);
         ChatUtils.sendTitle(player, "&6&l⚔ " + arena.getFirstGuild().getGuild().getName() + " vs " + arena.getSecondGuild().getGuild().getName() + " ⚔",
-                "&fWojna rozpocznie się za &e" + arena.getTime() + " sekund!");
+                "&fPojedynek rozpocznie się za &e" + arena.getTime() + " sekund!");
     }
 
     private void generateRewards(Guild guild) {
-        int cashAmount = RandomUtils.getInt(500, 5000);
         int expAmount = RandomUtils.getInt(16);
         int diamondAmount = RandomUtils.getInt(6);
         int emeraldAmount = RandomUtils.getInt(4, 8);
 
-        guild.setMoney(guild.getMoney() + cashAmount);
         guild.getStorage().addItem(new ItemStack(Material.EXPERIENCE_BOTTLE, expAmount));
         guild.getStorage().addItem(new ItemStack(Material.DIAMOND, diamondAmount));
         guild.getStorage().addItem(new ItemStack(Material.EMERALD, emeraldAmount));

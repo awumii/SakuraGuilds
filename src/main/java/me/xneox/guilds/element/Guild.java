@@ -36,7 +36,6 @@ public class Guild {
     private long shield;
 
     private int health;
-    private int money;
     private int trophies;
     private int kills;
     private int deaths;
@@ -48,7 +47,7 @@ public class Guild {
     private Guild warEnemy;
 
     public Guild(String name, List<Member> members, Location nexusLocation, long creation, List<String> allies, Location home,
-                 List<String> chunks, long shield, int health, int money, int trophies, int kills,
+                 List<String> chunks, long shield, int health, int trophies, int kills,
                  int deaths, boolean isPublic, ItemStack[] storageContent, List<Building> buildings) {
 
         this.name = name;
@@ -61,7 +60,6 @@ public class Guild {
         this.shield = shield;
         this.health = health;
         this.trophies = trophies;
-        this.money = money;
         this.kills = kills;
         this.deaths = deaths;
         this.isPublic = isPublic;
@@ -257,14 +255,6 @@ public class Guild {
 
     public List<String> getChunks() {
         return chunks;
-    }
-
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
     }
 
     public List<String> getInvitations() {

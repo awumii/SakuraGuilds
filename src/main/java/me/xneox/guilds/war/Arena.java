@@ -20,8 +20,8 @@ public class Arena {
 
     // ARENA CONTROLLERS
     private final BossBar bossBar;
-    private WarGuild firstGuild;
-    private WarGuild secondGuild;
+    private WarParticipant firstGuild;
+    private WarParticipant secondGuild;
 
     private int time;
     private ArenaState state = ArenaState.FREE;
@@ -67,23 +67,23 @@ public class Arena {
         this.state = state;
     }
 
-    public WarGuild getFirstGuild() {
+    public WarParticipant getFirstGuild() {
         return firstGuild;
     }
 
-    public WarGuild getSecondGuild() {
+    public WarParticipant getSecondGuild() {
         return secondGuild;
     }
 
-    public void setFirstGuild(WarGuild firstGuild) {
+    public void setFirstGuild(WarParticipant firstGuild) {
         this.firstGuild = firstGuild;
     }
 
-    public void setSecondGuild(WarGuild secondGuild) {
+    public void setSecondGuild(WarParticipant secondGuild) {
         this.secondGuild = secondGuild;
     }
 
-    public WarGuild getWinner() {
+    public WarParticipant getWinner() {
         return this.firstGuild.getPoints() > this.secondGuild.getPoints() ? this.firstGuild : this.secondGuild;
     }
 

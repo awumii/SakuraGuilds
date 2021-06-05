@@ -1,4 +1,4 @@
-package me.xneox.guilds.util.gui;
+package me.xneox.guilds.util.gui.api;
 
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -17,15 +17,15 @@ public class ClickEvent {
     }
 
     @Nonnull
-    public ItemStack getItem() {
-        return item;
+    public ItemStack item() {
+        return this.item;
     }
 
-    public int getSlot() {
-        return slot;
+    public int slot() {
+        return this.slot;
     }
 
-    public ClickType getClickType() {
-        return clickType;
+    public ClickType type() {
+        return this.clickType;
     }
 }

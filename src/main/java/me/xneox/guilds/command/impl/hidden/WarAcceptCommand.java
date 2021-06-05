@@ -9,7 +9,7 @@ import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.war.Arena;
 import me.xneox.guilds.war.ArenaState;
-import me.xneox.guilds.war.WarGuild;
+import me.xneox.guilds.war.WarParticipant;
 import org.bukkit.entity.Player;
 
 @Hidden
@@ -39,17 +39,17 @@ public class WarAcceptCommand implements SubCommand {
             // Enabling the arena for war.
             arena.setTime(30);
             arena.setState(ArenaState.PREPARING);
-            arena.setFirstGuild(new WarGuild(other));
-            arena.setSecondGuild(new WarGuild(guild));
+            arena.setFirstGuild(new WarParticipant(other));
+            arena.setSecondGuild(new WarParticipant(guild));
 
             // Setting war enemies
             guild.setWarEnemy(other);
             other.setWarEnemy(guild);
 
-            ChatUtils.broadcast("&7Gildie &6" + guild.getName() + " &7oraz &6" + other.getName() + " &7wypowidziały &4&lWOJNĘ!");
+            ChatUtils.broadcast("&7Gildie &6" + guild.getName() + " &7oraz &6" + other.getName() + " &7rozpoczęły &4&lPOJEDYNEK!");
         } else if (args[1].equals("dh98jadOAKD")) {
-            ChatUtils.guildAlert(guild, guild.getDisplayName(player) + " &7odrzucił zaproszenie wojny od &6" + other.getName());
-            ChatUtils.guildAlert(other, guild.getDisplayName(player) + " &7z gildii &6" + guild.getName() + " &7odrzucił wasze zaproszenie do wojny.");
+            ChatUtils.guildAlert(guild, guild.getDisplayName(player) + " &7odrzucił zaproszenie pojedynku od &6" + other.getName());
+            ChatUtils.guildAlert(other, guild.getDisplayName(player) + " &7z gildii &6" + guild.getName() + " &7odrzucił wasze zaproszenie do pojedynku.");
         }
     }
 }

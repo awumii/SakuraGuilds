@@ -15,14 +15,12 @@
 
 package me.xneox.guilds.util.gui;
 
-import me.xneox.guilds.util.gui.basic.CustomInventory;
-import me.xneox.guilds.util.gui.basic.Clickable;
-import me.xneox.guilds.util.gui.basic.Closeable;
+import me.xneox.guilds.util.gui.api.ClickEvent;
+import me.xneox.guilds.util.gui.api.InventoryProvider;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 
 public class InventoryListener implements Listener {
     private final InventoryManager manager;
@@ -38,21 +36,12 @@ public class InventoryListener implements Listener {
             return;
         }
 
-        CustomInventory inventory = this.manager.findByName(title);
-        if (inventory instanceof Clickable) {
-            ClickEvent customEvent = new ClickEvent(event.getCurrentItem(), event.getSlot(), event.getClick());
-            ((Clickable) inventory).onClick(customEvent, (Player) event.getWhoClicked());
+        InventoryProvider inventory = this.manager.findByName(title);
+        if (inventory != null) {
+            ClickEvent clickEvent = new ClickEvent(event.getCurrentItem(), event.getSlot(), event.getClick());
+            inventory.event(clickEvent, (Player) event.getWhoClicked());
 
             event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onInventoryClose(InventoryCloseEvent event) {
-        String title = event.getView().getTitle();
-        CustomInventory inventory = this.manager.findByName(title);
-        if (inventory instanceof Closeable) {
-            ((Closeable) inventory).onClose(event);
         }
     }
 }

@@ -26,7 +26,7 @@ public final class VisualUtils {
         int minY = player.getLocation().getBlockY();
 
         for (int x = minX; x < minX + 17; x++) {
-            for (int y = minY; y < minY + 4; y++) {
+            for (int y = minY; y < minY + 1; y++) {
                 for (int z = minZ; z < minZ + 17; z++) {
                     player.spawnParticle(Particle.VILLAGER_HAPPY, minX, y, z, 1);
                     player.spawnParticle(Particle.VILLAGER_HAPPY, x, y, minZ, 1);

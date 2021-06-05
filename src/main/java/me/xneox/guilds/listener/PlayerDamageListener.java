@@ -21,6 +21,10 @@ public class PlayerDamageListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
+        if (!event.getEntity().getWorld().getName().startsWith("world")) {
+            return;
+        }
+
         if (event.getEntity() instanceof Player && event.getDamager() instanceof Arrow) {
             ProjectileSource source = ((Arrow) event.getDamager()).getShooter();
             if (source instanceof Player) {
@@ -45,7 +49,7 @@ public class PlayerDamageListener implements Listener {
     private boolean isProtected(Player victim, Player attacker) {
         Guild guild = this.plugin.getGuildManager().getGuildAt(victim.getLocation());
         if (guild != null && guild.isShieldActive()) {
-            ChatUtils.sendMessage(attacker, "&cTa gildia posiada tarczę wojenną przez: &6" + TimeUtils.futureMillisToTime(guild.getShield()));
+            ChatUtils.sendAction(attacker, "&cTa gildia posiada tarczę wojenną przez: &6" + TimeUtils.futureMillisToTime(guild.getShield()));
             return true;
         }
 

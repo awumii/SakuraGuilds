@@ -6,12 +6,12 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WarGuild {
+public class WarParticipant {
     private final Guild guild;
     private final List<Player> members;
     private int points;
 
-    public WarGuild(Guild guild) {
+    public WarParticipant(Guild guild) {
         this.guild = guild;
         this.members = new ArrayList<>(guild.getOnlineMembers());
     }

@@ -9,22 +9,22 @@ import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
 import me.xneox.guilds.util.VisualUtils;
-import me.xneox.guilds.util.gui.ClickEvent;
-import me.xneox.guilds.util.gui.ClickableInventory;
-import me.xneox.guilds.util.gui.InventorySize;
+import me.xneox.guilds.util.gui.api.ClickEvent;
+import me.xneox.guilds.util.gui.InventoryProviderImpl;
+import me.xneox.guilds.util.gui.api.InventorySize;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class RankEditorGui extends ClickableInventory {
+public class RankEditorGui extends InventoryProviderImpl {
     public RankEditorGui(NeonGuilds plugin) {
         super(plugin, "Zarządzanie rangami użytkownika", InventorySize.BIG);
     }
 
     @Override
-    public void onOpen(Player player, Inventory inventory) {
+    public void open(Player player, Inventory inventory) {
         Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
         String target = this.plugin.getUserManager().getUser(player).getEditorSubject();
         Member member = guild.findMember(target);
@@ -133,11 +133,11 @@ public class RankEditorGui extends ClickableInventory {
     }
 
     @Override
-    public void onClick(ClickEvent event, Player player) {
+    public void event(ClickEvent event, Player player) {
         VisualUtils.click(player);
 
-        int slot = event.getSlot();
-        ItemStack item = event.getItem();
+        int slot = event.slot();
+        ItemStack item = event.item();
 
         if (item.getType() == Material.PLAYER_HEAD) {
             if (item.getItemMeta().getDisplayName().contains("Powrót")) {

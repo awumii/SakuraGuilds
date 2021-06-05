@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ArenaManager {
-    private final Map<UUID, Pair<String, Float>> backupMap = new HashMap<>();
+    private final Map<UUID, Pair<String, Integer>> backupMap = new HashMap<>();
     private final Map<String, Arena> arenaMap = new HashMap<>();
     private final Json data;
 
@@ -56,18 +56,18 @@ public class ArenaManager {
     }
 
     public void createBackup(Player player) {
-        this.backupMap.put(player.getUniqueId(), Pair.of(ItemSerialization.serializeInventory(player.getInventory()), player.getExp()));
+        this.backupMap.put(player.getUniqueId(), Pair.of(ItemSerialization.serializeInventory(player.getInventory()), player.getLevel()));
     }
 
     public void loadBackup(Player player) {
-        Pair<String, Float> data = this.backupMap.get(player.getUniqueId());
+        Pair<String, Integer> data = this.backupMap.get(player.getUniqueId());
         if (data == null) {
             ChatUtils.sendMessage(player, "&cNie można wczytać ekwipunku, nie został zapisany backup!");
             return;
         }
 
         player.getInventory().setContents(ItemSerialization.deserializeInventory(data.getLeft()));
-        player.setExp(data.getRight());
+        player.setLevel(data.getRight());
     }
 
     public Map<String, Arena> getArenaMap() {

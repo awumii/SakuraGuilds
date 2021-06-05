@@ -15,64 +15,42 @@
 
 package me.xneox.guilds.util.gui;
 
-import me.xneox.guilds.util.gui.basic.CustomInventory;
+import me.xneox.guilds.util.gui.api.InventoryProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
 public class InventoryManager {
-    private final Map<String, CustomInventory> inventories = new HashMap<>();
+    private final Map<String, InventoryProvider> inventories = new HashMap<>();
 
     public InventoryManager(JavaPlugin plugin) {
         Bukkit.getPluginManager().registerEvents(new InventoryListener(this), plugin);
-        Bukkit.getScheduler().runTaskTimer(plugin, new InventoryTask(this), 20L, 40L);
     }
 
-    /**
-     * Registering a new Inventory.
-     *
-     * @param inventory Implementation of the {@link CustomInventory}.
-     */
-    public void register(String id, CustomInventory inventory) {
+    public void register(@Nonnull String id, @Nonnull InventoryProvider inventory) {
         this.inventories.put(id, inventory);
     }
 
-    /**
-     * Opens the specified inventory.
-     * Throws {@link IllegalArgumentException} if the inventory with the provided ID does not exist.
-     *
-     * @param id String ID of the inventory.
-     * @param player The player to open the GUI.
-     */
-    public void open(String id, Player player) {
-        CustomInventory inventory = this.inventories.get(id);
-        if (inventory == null) {
-            throw new IllegalArgumentException("Can't find an Inventory with the provided ID '" + id + "'");
+    public void open(@Nonnull String id, @Nonnull Player player) {
+        InventoryProvider inventory = this.inventories.get(id);
+        if (inventory != null) {
+            Inventory bukkitInventory = Bukkit.createInventory(player, inventory.size(), inventory.title());
+            player.openInventory(bukkitInventory);
+
+            inventory.open(player, bukkitInventory);
         }
-
-        this.open(inventory, player);
     }
 
-    public void open(CustomInventory inventory, Player player) {
-        Inventory bukkitInventory = Bukkit.createInventory(player, inventory.getSize(), inventory.getTitle());
-        player.openInventory(bukkitInventory);
-        inventory.onOpen(player, bukkitInventory);
-        player.updateInventory();
-    }
-
-    /**
-     * Searches for the {@link CustomInventory} from the item name.
-     *
-     * @param name Inventory title of the searched GUI.
-     * @return The searched {@link CustomInventory}, or null if not found.
-     */
-    public CustomInventory findByName(String name) {
+    @Nullable
+    public InventoryProvider findByName(String name) {
         return this.inventories.values().stream()
-                .filter(inventory -> inventory.getTitle().equals(name))
+                .filter(inventory -> inventory.title().equals(name))
                 .findFirst()
                 .orElse(null);
     }

@@ -42,16 +42,16 @@ public class PlayerChatListener implements Listener {
         User user = this.plugin.getUserManager().getUser(player);
         switch (user.getChatChannel()) {
             case GLOBAL:
-                event.setFormat(event.getFormat().replace("{GUILD}", ChatUtils.colored("&8(&7" + Colors.ALIZARIN_RED + guild.getName() + "&8) ")));
+                event.setFormat(event.getFormat().replace("{GUILD}", ChatUtils.colored("&8[&7" + Colors.ALIZARIN_RED + guild.getName() + "&8] ")));
                 break;
             case GUILD:
-                ChatUtils.guildAlertRaw(guild, " &7[CHAT GILDYJNY&7] " +
-                        guild.getPlayerRank(player).getIcon() + " " + player.getName() + " &8» &f" + event.getMessage());
+                ChatUtils.guildAlertRaw(guild, " &8[&aGILDIA&8] " +
+                        guild.getPlayerRank(player).getIcon() + " " + player.getName() + "&8: &a" + event.getMessage());
                 event.setCancelled(true);
                 break;
             case ALLY:
-                String message = " &7[CHAT SOJUSZNICZY&7] &7(&d" + guild.getName() + "&7) " +
-                        guild.getPlayerRank(player).getIcon() + " " + player.getName() + " &8» &f" + event.getMessage();
+                String message = " &8[&bSOJUSZ&8] &7(&d" + guild.getName() + "&7) " +
+                        guild.getPlayerRank(player).getIcon() + " " + player.getName() + "&8: &d" + event.getMessage();
 
                 ChatUtils.guildAlertRaw(guild, message);
                 for (String ally : guild.getAllies()) {
