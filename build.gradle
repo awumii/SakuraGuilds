@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.simplix-softworks:SimplixStorage:3.2.2'
+    implementation 'com.github.simplix-softworks:SimplixStorage:3.2.3'
     implementation 'commons-io:commons-io:2.8.0'
 
     compileOnly 'com.mojang:authlib:1.5.21'
