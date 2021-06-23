@@ -31,7 +31,7 @@ dependencies {
     compileOnly 'me.badbones69:crazyauctions:1.2.16'
     compileOnly 'me.clip:placeholderapi:2.10.9'
     compileOnly 'com.intellectualsites.fawe:FAWE-Bukkit:1.16-725'
-    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.4'
+    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.5'
     compileOnly files('EpicGuard-6.0-SNAPSHOT-all.jar')
 }
 
