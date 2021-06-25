@@ -69,7 +69,6 @@ public class NeonGuilds extends JavaPlugin {
 
         // To remove
         registerListener(new CrazyAuctionsListener());
-        registerListener(new ExpBottleFeature.BottleListener());
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotifierTask(this), 0L, 40L);
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new DataSaveTask(this), 0L, 20 * 60L);
