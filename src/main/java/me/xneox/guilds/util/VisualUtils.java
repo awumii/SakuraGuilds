@@ -2,7 +2,6 @@ package me.xneox.guilds.util;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import me.xneox.guilds.element.Building;
 import me.xneox.guilds.element.Guild;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -12,12 +11,12 @@ import java.time.Duration;
 import java.util.Arrays;
 
 public final class VisualUtils {
-    public static void playSound(Player player, Sound sound) {
+    public static void sound(Player player, Sound sound) {
         player.playSound(player.getLocation(), sound, 1f, 1f);
     }
 
     public static void click(Player player) {
-        playSound(player, Sound.BLOCK_WOODEN_BUTTON_CLICK_ON);
+        sound(player, Sound.BLOCK_WOODEN_BUTTON_CLICK_ON);
     }
 
     public static void drawBorderAtChunk(Chunk chunk, Player player) {
@@ -47,25 +46,6 @@ public final class VisualUtils {
                 "&7Tarcza: &c" + TimeUtils.futureMillisToTime(guild.getShield()));
     }
 
-    public static void createBuildingInfo(Guild guild, Building building) {
-        Location location = building.getLocation().clone();
-        location.setY(location.getY() + 3);
-
-        switch (building.getState()) {
-            case INBUILT:
-                createHologram(location, Material.CLOCK,
-                        "&6&l" + building.getType().getName() + " gildii " + guild.getName(),
-                        "&7W trakcie budowy...",
-                        "&c" + TimeUtils.futureMillisToTime(building.getCompleteTime()));
-                break;
-            case BUILT:
-                createHologram(location, Material.EMERALD_BLOCK,
-                        "&6&l" + building.getType().getName() + " gildii " + guild.getName(),
-                        "&7Poziom: " + building.getLevel());
-                break;
-        }
-    }
-
     public static Hologram createHologram(Location baseLocation, Material icon, String... text) {
         Location location = baseLocation.clone();
         location.setX(location.getX() + 0.5);
@@ -73,7 +53,7 @@ public final class VisualUtils {
 
         Hologram hologram = HologramsAPI.createHologram(HookUtils.INSTANCE, location);
         hologram.appendItemLine(new ItemStack(icon));
-        Arrays.stream(text).map(ChatUtils::colored).forEach(hologram::appendTextLine);
+        Arrays.stream(text).map(ChatUtils::legacyColor).forEach(hologram::appendTextLine);
         return hologram;
     }
 
@@ -81,7 +61,6 @@ public final class VisualUtils {
         Hologram hologram = createHologram(location, icon, text);
         Bukkit.getScheduler().runTaskLater(HookUtils.INSTANCE, hologram::delete, duration.getSeconds() * 20);
     }
-
 
     private VisualUtils() {}
 }

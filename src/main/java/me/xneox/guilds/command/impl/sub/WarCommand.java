@@ -68,7 +68,7 @@ public class WarCommand implements SubCommand {
         ChatUtils.guildAlertRaw(target, " &fNikt nie traci przedmiotów, a obie strony dostają nagrodę za uczestnictwo.");
         ChatUtils.guildAlertRaw(target, " ");
 
-        target.getMembers().stream().map(Member::getName).map(Bukkit::getPlayerExact).filter(Objects::nonNull).forEach(member -> {
+        target.getMembers().stream().map(Member::nickname).map(Bukkit::getPlayerExact).filter(Objects::nonNull).forEach(member -> {
             ChatUtils.sendClickableMessage(member, "  &aKliknij, aby zaakceptować.",
                     "&aPo kliknięciu wojna się rozpocznie!", "/g acceptwar IJAD98jdksldM " + guild.getName());
             ChatUtils.sendClickableMessage(member, "  &cKliknij, aby odrzucić.",

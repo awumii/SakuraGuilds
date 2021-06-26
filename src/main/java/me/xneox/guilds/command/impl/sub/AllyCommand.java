@@ -28,7 +28,7 @@ public class AllyCommand implements SubCommand {
             return;
         }
 
-        if (!guild.findMember(player.getName()).hasPermission(Permission.ALLIES)) {
+        if (!guild.member(player.getName()).hasPermission(Permission.ALLIES)) {
             ChatUtils.sendMessage(player, "&cTwoja ranga w gildii jest zbyt niska!");
             return;
         }
@@ -61,7 +61,7 @@ public class AllyCommand implements SubCommand {
         ChatUtils.guildAlertRaw(otherGuild, "  &7Otrzymano zaproszenie do sojuszu od &6" + guild.getName());
         ChatUtils.guildAlertRaw(otherGuild, " ");
 
-        otherGuild.getMembers().stream().map(Member::getName).map(Bukkit::getPlayerExact).filter(Objects::nonNull).forEach(member -> {
+        otherGuild.getMembers().stream().map(Member::nickname).map(Bukkit::getPlayerExact).filter(Objects::nonNull).forEach(member -> {
             ChatUtils.sendClickableMessage(member, "  &aKliknij, aby zaakceptować.",
                     "&aPo kliknięciu zostaniecie sojusznikami!", "/g acceptally IJAD98jdksldM " + guild.getName());
             ChatUtils.sendClickableMessage(member, "  &cKliknij, aby odrzucić.",

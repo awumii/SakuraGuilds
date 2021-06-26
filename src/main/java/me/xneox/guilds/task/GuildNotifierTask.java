@@ -39,27 +39,27 @@ public class GuildNotifierTask implements Runnable {
                         ChatUtils.sendTitle(player, "&c&l&n" + guild.getName() + "&c ⚠", "&f&oWkraczasz na teren wrogiej gildii!");
                     }
 
-                    VisualUtils.playSound(player, Sound.BLOCK_NOTE_BLOCK_XYLOPHONE);
+                    VisualUtils.sound(player, Sound.BLOCK_NOTE_BLOCK_XYLOPHONE);
                     for (String chunk : guild.getChunks()) {
                         VisualUtils.drawBorderAtChunk(ChunkUtils.toChunk(chunk), player);
                     }
 
                     if (!player.isOp() && !guild.isMember(player.getName())) {
                         ChatUtils.forGuildMembers(guild, member -> {
-                            VisualUtils.playSound(member, Sound.ENTITY_ELDER_GUARDIAN_CURSE);
+                            VisualUtils.sound(member, Sound.ENTITY_ELDER_GUARDIAN_CURSE);
 
                             String sub = " &7wkroczył na teren: &6" + guild.getChunks().indexOf(ChunkUtils.toString(player.getChunk())) +
                                     " (" + LocationUtils.toSimpleString(player.getLocation()) + ")";
 
                             ChatUtils.sendBossBar(member, BarColor.RED, "&4&l⚠ &c" + player.getName() + sub);
-                            ChatUtils.sendAction(member, "&4&l⚠ &c" + player.getName() + sub);
+                            ChatUtils.showActionBar(member, "&4&l⚠ &c" + player.getName() + sub);
                         });
                     }
                 }
             } else if (this.areaMap.containsKey(player.getUniqueId())) {
                 ChatUtils.sendTitle(player, "&2&l&nŚwiat&2 ❆", "&f&oPowodzenia w eksploracji, uważaj na siebie!");
                 this.areaMap.remove(player.getUniqueId());
-                VisualUtils.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS);
+                VisualUtils.sound(player, Sound.BLOCK_NOTE_BLOCK_BASS);
             }
         }
     }

@@ -31,7 +31,7 @@ public class ClaimGui extends InventoryProviderImpl {
                     .name("&6#" + guild.getChunks().indexOf(chunk) + " (" + LocationUtils.toSimpleString(ChunkUtils.getCenter(chunk)) + ")")
                     .lore("&7&oTwoja gildia posiada ten chunk.")
                     .lore("")
-                    .lore("&7Gracze: &c" + (players.isEmpty() ? "Brak" : ChatUtils.formatPlayers(players)))
+                    .lore("&7Gracze: &c" + (players.isEmpty() ? "Brak" : ChatUtils.formatPlayerList(players)))
                     .lore("")
                     .lore("&eKliknij, aby się przeteleportować")
                     .build();

@@ -1,4 +1,4 @@
-package me.xneox.guilds.xdronizja;
+package me.xneox.guilds.command.misc;
 
 import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.command.Command;
@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class HelpCommand implements CommandExecutor {
+public class GlobalHelpCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
@@ -17,7 +17,7 @@ public class HelpCommand implements CommandExecutor {
         }
 
         switch (args[0]) {
-            case "1":
+            case "1" -> {
                 ChatUtils.sendRaw(player, "&8&m----------------(&r &6&lPOMOC &8&m)----------------");
                 ChatUtils.sendRaw(player, "  &e/g help &8- &7Wyświetla komendy gildyjne.");
                 ChatUtils.sendRaw(player, "  &e/praca &8- &7Wyświetla menu zatrudnienia.");
@@ -28,8 +28,8 @@ public class HelpCommand implements CommandExecutor {
                 ChatUtils.sendRaw(player, "  &e/bal (gracz) &8- &7Wyświetla stan konta.");
                 ChatUtils.sendRaw(player, "  &e/baltop &8- &7Wyświetla najbogatszych graczy.");
                 ChatUtils.sendRaw(player, "&8&m--------&r &7Użyj &6/pomoc 2 &7aby przejść dalej. &8&m-------");
-                break;
-            case "2":
+            }
+            case "2" -> {
                 ChatUtils.sendRaw(player, "&8&m----------------(&r &6&lPOMOC &8&m)----------------");
                 ChatUtils.sendRaw(player, "  &e/ah &8- &7Otwiera menu rynku społeczności.");
                 ChatUtils.sendRaw(player, "  &e/ah sell <cena> &8- &7Sprzedaje trzymany przedmiot na rynku.");
@@ -39,8 +39,8 @@ public class HelpCommand implements CommandExecutor {
                 ChatUtils.sendRaw(player, "  &e/skin <nick> &8- &7Ustawia skina podanego gracza premium.");
                 ChatUtils.sendRaw(player, "  &e/suicide &8- &7Samobójstwo.");
                 ChatUtils.sendRaw(player, "&8&m--------&r &7Użyj &6/pomoc 3 &7aby przejść dalej. &8&m-------");
-                break;
-            case "3":
+            }
+            case "3" -> {
                 ChatUtils.sendRaw(player, "&8&m----------------(&r &6&lPOMOC &8&m)----------------");
                 ChatUtils.sendRaw(player, "  &e/mcmmo &8- &7Wyświetla pomoc od pluginu do umiejętności.");
                 ChatUtils.sendRaw(player, "  &e/mctop &8- &7Wyświetla graczy z najwyższym poziomem umiejętności.");
@@ -50,8 +50,8 @@ public class HelpCommand implements CommandExecutor {
                 ChatUtils.sendRaw(player, "  &e/pay <nick> <ilość> &8- &7Wysyła donejta graczowi.");
                 ChatUtils.sendRaw(player, "  &e/graves &8- &7Wyświetla twoje groby (teleportacja za 400$).");
                 ChatUtils.sendRaw(player, "&8&m--------&r &7Użyj &6/pomoc 4 &7aby przejść dalej. &8&m-------");
-                break;
-            case "4":
+            }
+            case "4" -> {
                 ChatUtils.sendRaw(player, "&8&m----------------(&r &6&lPOMOC &8&m)----------------");
                 ChatUtils.sendRaw(player, "  &e/quests &8- &7Otwiera menu zadań.");
                 ChatUtils.sendRaw(player, "  &e/msgtoggle &8- &7Wyłącza otrzymywanie prywatnych wiadomości.");
@@ -61,10 +61,8 @@ public class HelpCommand implements CommandExecutor {
                 ChatUtils.sendRaw(player, "  &e/ec &8- &7Otwiera enderchest (&6VIP&7).");
                 ChatUtils.sendRaw(player, "  &e/pp &8- &7Otwiera menu cząsteczek (&dSVIP&7).");
                 ChatUtils.sendRaw(player, "&8&m--------------------------------------------");
-                break;
-            default:
-                ChatUtils.sendMessage(player, "&cNie odnaleziono takiej strony.");
-                break;
+            }
+            default -> ChatUtils.sendMessage(player, "&cNie odnaleziono takiej strony.");
         }
         return true;
     }

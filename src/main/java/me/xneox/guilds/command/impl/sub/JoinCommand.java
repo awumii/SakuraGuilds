@@ -34,12 +34,12 @@ public class JoinCommand implements SubCommand {
             return;
         }
 
-        if (guild.getMembers().size() >= guild.getMaxMembers()) {
+        if (guild.getMembers().size() >= guild.maxSlots()) {
             ChatUtils.sendMessage(player, "&cTa gildia osiągnęła limit członków!");
             return;
         }
 
-        guild.getMembers().add(new Member(player.getName(), Rank.REKRUT, Rank.REKRUT.getDefaultPermissions()));
+        guild.getMembers().add(new Member(player.getName(), Rank.REKRUT, Rank.REKRUT.defaultPermissions()));
         HookUtils.INSTANCE.getUserManager().getUser(player).setJoinDate();
         HookUtils.INSTANCE.getInventoryManager().open("management", player);
         ChatUtils.broadcast("&e" + player.getName() + " &7dołącza do gildii &6" + guild.getName());

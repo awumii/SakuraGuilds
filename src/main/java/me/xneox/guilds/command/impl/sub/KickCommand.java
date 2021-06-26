@@ -23,7 +23,7 @@ public class KickCommand implements SubCommand {
         }
 
         if (guild.isMember(args[1])) {
-            if (!guild.isHigher(player.getName(), args[1]) || !guild.findMember(player.getName()).hasPermission(Permission.KICK)) {
+            if (!guild.isHigher(player.getName(), args[1]) || !guild.member(player.getName()).hasPermission(Permission.KICK)) {
                 ChatUtils.sendMessage(player, "&cTwoja ranga w gildii jest zbyt niska.");
                 return;
             }
@@ -33,7 +33,7 @@ public class KickCommand implements SubCommand {
                 return;
             }
 
-            guild.getMembers().remove(guild.findMember(args[1]));
+            guild.getMembers().remove(guild.member(args[1]));
             ChatUtils.broadcast(guild.getDisplayName(player) + " &7wyrzuca &e" + args[1] + " &7z gildii &6" + guild.getName());
         }
     }

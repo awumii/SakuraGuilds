@@ -1,4 +1,4 @@
-package me.xneox.guilds.xdronizja;
+package me.xneox.guilds.command.misc;
 
 import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.util.ChatUtils;

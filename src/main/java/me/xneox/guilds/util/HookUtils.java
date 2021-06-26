@@ -40,20 +40,6 @@ public final class HookUtils {
                 .orElse(null);
     }
 
-    public static void pasteSchematic(@Nonnull Location location, @Nonnull String schematic) {
-        try {
-            File file = new File("plugins/FastAsyncWorldEdit/schematics", schematic + ".schematic");
-
-            ClipboardFormats.findByFile(file)
-                    .load(file)
-                    .paste(new BukkitWorld(location.getWorld()), locationToVector(location))
-                    .close();
-        } catch (IOException e) {
-            System.err.println("[FAWE-API] Could not paste the schematic " + schematic);
-            e.printStackTrace();
-        }
-    }
-
     @Nonnull
     public static BlockVector3 locationToVector(@Nonnull Location location) {
         return BlockVector3.at(location.getBlockX(), location.getBlockY(), location.getBlockZ());

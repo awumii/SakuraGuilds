@@ -24,12 +24,12 @@ public class ClaimCommand implements SubCommand {
             return;
         }
 
-        if (!guild.findMember(player.getName()).hasPermission(Permission.CLAIM)) {
+        if (!guild.member(player.getName()).hasPermission(Permission.CLAIM)) {
             ChatUtils.sendMessage(player, "&cNie posiadasz uprawnień do zajmowania terenu.");
             return;
         }
 
-        if (guild.getChunks().size() >= guild.getMaxChunks()) {
+        if (guild.getChunks().size() >= guild.maxChunks()) {
             ChatUtils.sendMessage(player, "&cPrzekroczono limit chunków. Zakup ulepszenie gildii!");
             return;
         }

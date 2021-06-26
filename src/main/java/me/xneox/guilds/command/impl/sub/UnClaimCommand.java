@@ -18,7 +18,7 @@ public class UnClaimCommand implements SubCommand {
             return;
         }
 
-        if (!guild.findMember(player.getName()).hasPermission(Permission.CLAIM)) {
+        if (!guild.member(player.getName()).hasPermission(Permission.CLAIM)) {
             ChatUtils.sendMessage(player, "&cNie posiadasz uprawnień do zajmowania terenu.");
             return;
         }

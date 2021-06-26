@@ -17,12 +17,12 @@ public class SetHomeCommand implements SubCommand {
             return;
         }
 
-        if (!guild.findMember(player.getName()).hasPermission(Permission.SET_HOME)) {
+        if (!guild.member(player.getName()).hasPermission(Permission.SET_HOME)) {
             ChatUtils.sendMessage(player, "&cTwoja pozycja jest zbyt niska.");
             return;
         }
 
-        if (!guild.isClaimed(player.getChunk())) {
+        if (!guild.inside(player.getLocation())) {
             ChatUtils.sendMessage(player, "&cBazę można ustawić tylko na zajętym terenie.");
             return;
         }

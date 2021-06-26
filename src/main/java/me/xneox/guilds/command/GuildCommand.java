@@ -6,6 +6,7 @@ import me.xneox.guilds.command.annotations.AdminOnly;
 import me.xneox.guilds.command.impl.hidden.AllyAcceptCommand;
 import me.xneox.guilds.command.impl.hidden.WarAcceptCommand;
 import me.xneox.guilds.command.impl.sub.*;
+import me.xneox.guilds.command.misc.GlobalHelpCommand;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.command.Command;
@@ -44,7 +45,7 @@ public class GuildCommand implements CommandExecutor {
         commandMap.put("war", new WarCommand());
         commandMap.put("public", new PublicCommand());
         commandMap.put("browse", new BrowseCommand());
-        commandMap.put("build", new BuildCommand());
+        commandMap.put("donate", new DonateCommand());
 
         commandMap.put("acceptally", new AllyAcceptCommand());
         commandMap.put("acceptwar", new WarAcceptCommand());
@@ -54,7 +55,6 @@ public class GuildCommand implements CommandExecutor {
         commandMap.put("setsecondspawn", new SetSecondSpawnCommand());
         commandMap.put("teleport", new GuildTeleportCommand());
         commandMap.put("setleaderboard", new SetLeaderboardCommand());
-        commandMap.put("buildinstant", new BuildInstantCommand());
         commandMap.put("settrophies", new SetTrophiesCommand());
     }
 

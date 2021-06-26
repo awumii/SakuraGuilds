@@ -74,7 +74,7 @@ public class GuildAttackListener implements Listener {
                 manager.deleteGuild(guild);
 
                 for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                    VisualUtils.playSound(onlinePlayer, Sound.ENTITY_ENDER_DRAGON_DEATH);
+                    VisualUtils.sound(onlinePlayer, Sound.ENTITY_ENDER_DRAGON_DEATH);
                 }
             } else {
                 guild.setShield(Duration.ofDays(1));

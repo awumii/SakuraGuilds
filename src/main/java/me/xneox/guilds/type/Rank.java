@@ -1,9 +1,11 @@
 package me.xneox.guilds.type;
 
+import com.google.common.collect.Sets;
 import me.xneox.guilds.util.Colors;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 
 import static me.xneox.guilds.type.Permission.*;
@@ -18,21 +20,21 @@ public enum Rank {
     private final int priority;
     private final String name;
     private final String icon;
-    private final List<Permission> defaultPermissions;
+    private final EnumSet<Permission> defaultPermissions;
 
     Rank(int priority, String name, String icon, Permission... defaultPermissions) {
         this.priority = priority;
         this.name = name;
         this.icon = icon;
-        this.defaultPermissions = new ArrayList<>(Arrays.asList(defaultPermissions));
+        this.defaultPermissions = Sets.newEnumSet(Arrays.asList(defaultPermissions), Permission.class);
     }
 
     public boolean isHigher(Rank compareTo) {
         return this.priority > compareTo.getPriority();
     }
 
-    public List<Permission> getDefaultPermissions() {
-        return defaultPermissions;
+    public EnumSet<Permission> defaultPermissions() {
+        return this.defaultPermissions;
     }
 
     public String getDisplay() {

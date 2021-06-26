@@ -3,48 +3,55 @@ package me.xneox.guilds.element;
 import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.type.Rank;
 
-import java.util.List;
+import java.util.EnumSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Member {
-    private final String name;
-    private final List<Permission> permissions;
+    private final String nickname;
+
+    private EnumSet<Permission> permissions;
     private Rank rank;
 
-    public Member(String name, Rank rank, List<Permission> permissions) {
-        this.name = name;
+    public Member(String nickname, Rank rank, EnumSet<Permission> permissions) {
+        this.nickname = nickname;
         this.rank = rank;
         this.permissions = permissions;
     }
 
-    public static Member parse(String string) {
-        String[] split = string.split(";");
-        return new Member(split[0], Rank.valueOf(split[1]), IntStream.range(2, split.length).mapToObj(i -> Permission.valueOf(split[i])).collect(Collectors.toList()));
+    public String nickname() {
+        return nickname;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Rank getRank() {
+    public Rank rank() {
         return rank;
     }
 
-    public void setRank(Rank rank) {
+    public void rank(Rank rank) {
         this.rank = rank;
+        this.permissions = rank.defaultPermissions();
     }
 
     public boolean hasPermission(Permission permission) {
         return this.permissions.contains(permission);
     }
 
-    public List<Permission> getPermissions() {
-        return permissions;
+    public Set<Permission> permissions() {
+        return this.permissions;
+    }
+
+    public static Member parse(String string) {
+        String[] split = string.split(";");
+
+        return new Member(split[0], Rank.valueOf(split[1]),
+                IntStream.range(2, split.length)
+                        .mapToObj(i -> Permission.valueOf(split[i]))
+                        .collect(Collectors.toCollection(() -> EnumSet.noneOf(Permission.class))));
     }
 
     @Override
     public String toString() {
-        return this.name + ";" + this.rank.name() + ";" + this.permissions.stream().map(Enum::name).collect(Collectors.joining(";"));
+        return this.nickname + ";" + this.rank.name() + ";" + this.permissions.stream().map(Enum::name).collect(Collectors.joining(";"));
     }
 }

@@ -49,7 +49,7 @@ public class PlayerDamageListener implements Listener {
     private boolean isProtected(Player victim, Player attacker) {
         Guild guild = this.plugin.getGuildManager().getGuildAt(victim.getLocation());
         if (guild != null && guild.isShieldActive()) {
-            ChatUtils.sendAction(attacker, "&cTa gildia posiada tarczę wojenną przez: &6" + TimeUtils.futureMillisToTime(guild.getShield()));
+            ChatUtils.showActionBar(attacker, "&cTa gildia posiada tarczę wojenną przez: &6" + TimeUtils.futureMillisToTime(guild.getShield()));
             return true;
         }
 
@@ -61,7 +61,7 @@ public class PlayerDamageListener implements Listener {
         }
 
         if (victimGuild.getName().equals(attackerGuild.getName()) || victimGuild.getAllies().contains(attackerGuild.getName())) {
-            ChatUtils.sendAction(attacker, "&cNie możesz atakować członków/sojuszników gildii!");
+            ChatUtils.showActionBar(attacker, "&cNie możesz atakować członków/sojuszników gildii!");
             return true;
         }
         return false;

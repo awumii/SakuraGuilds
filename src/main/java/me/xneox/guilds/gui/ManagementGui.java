@@ -39,7 +39,7 @@ public class ManagementGui extends InventoryProviderImpl {
                 .name("&6Członkowie")
                 .lore("")
                 .lore("&7Kliknij, aby zarządzać członkami gildii")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTJmMzU3YWI1OWUwNGU2NzY3MjRjNjNkNzA0YzNkMWYyZjlhZTFhZDQyODNlOTFkN2RhMjZlZmM2YzQ4MDgifX19")
+                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzgyZWU4NWZlNmRjNjMyN2RhZDIwMmZjYTkzYzlhOTRhYzk5YjdiMTY5NzUyNGJmZTk0MTc1ZDg4NzI1In19fQ==")
                 .build();
 
         ItemStack home = new ItemBuilder(Material.PLAYER_HEAD)
@@ -79,13 +79,13 @@ public class ManagementGui extends InventoryProviderImpl {
                 .lore("&f" + guild.getName())
                 .lore("")
                 .lore("&eLider:")
-                .lore("&f" + guild.getLeader().getName())
+                .lore("&f" + guild.getLeader().nickname())
                 .lore("")
                 .lore("&eLiczba członków:")
-                .lore("&f" + guild.getMembers().size() + "/" + guild.getMaxMembers() + " &7(&a" + guild.getOnlineMembers().size() + " &fonline&7)")
+                .lore("&f" + guild.getMembers().size() + "/" + guild.maxSlots() + " &7(&a" + guild.getOnlineMembers().size() + " &fonline&7)")
                 .lore("")
                 .lore("&eZajęte ziemie:")
-                .lore("&f" + guild.getChunks().size() + " &7(Limit: &f" + guild.getMaxChunks() + "&7)")
+                .lore("&f" + guild.getChunks().size() + " &7(Limit: &f" + guild.maxChunks() + "&7)")
                 .lore("")
                 .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzBjZjc0ZTI2MzhiYTVhZDMyMjM3YTM3YjFkNzZhYTEyM2QxODU0NmU3ZWI5YTZiOTk2MWU0YmYxYzNhOTE5In19fQ==")
                 .build();
@@ -111,9 +111,9 @@ public class ManagementGui extends InventoryProviderImpl {
                 .build();
 
         ItemStack buildings = new ItemBuilder(Material.PLAYER_HEAD)
-                .name("&6Budowle Gildyjne")
+                .name("&6Ulepszenia Gildii")
                 .lore("")
-                .lore("&7Kliknij, aby wyświetlić dostępne budowle.")
+                .lore("&7Kliknij, aby zakupić ulepszenia.")
                 .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTQwMmM2MjVkYzA0MWExYTQxOGFhNmU1MTQ3MGMyMDNmMDMwZmZkNjMxYTQ3YWFlNDAxNTliMDg5YzkyNmQ1NSJ9fX0=")
                 .build();
 
@@ -188,12 +188,8 @@ public class ManagementGui extends InventoryProviderImpl {
                 .setSkullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTIzMTJlNzJkMDMwMTJiZTEwNmI0OGFjY2QzMzgyY2VjN2NiY2VjZWIxNDJlYzc2MjM3OTM0NjM5YTZhMmU5In19fQ==");
 
          */
-        ItemStack storage = new ItemBuilder(Material.PLAYER_HEAD, guild.getStorageRows())
+        ItemStack storage = new ItemBuilder(Material.PLAYER_HEAD, guild.maxStorage())
                 .name("&6Magazyn Gildyjny")
-                .lore("")
-                .lore("&7Zawartość magazynu: &f" + guild.getStorageItems() + "x"
-                        + " (" + ChatUtils.percentage(guild.getTakenStorageRows(), guild.getStorageRows()) + "%)")
-                .lore(" &8⇨ " + ChatUtils.progressBar(guild.getTakenStorageRows(), guild.getStorageRows()))
                 .lore("")
                 .lore("&7Kliknij, aby otworzyć magazyn.")
                 .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzc0ZWUxNTQyYzQ1NjNmZDZlN2Q3MmRlMjZlNzM3Y2YxOGZiZDA0Y2NhYjFiOGIyODM1M2RhODczNDhlY2ZiIn19fQ==")
@@ -243,39 +239,25 @@ public class ManagementGui extends InventoryProviderImpl {
         Guild guild = this.plugin.getGuildManager().getGuild(player);
 
         switch (event.slot()) {
-            case 20:
-                this.plugin.getInventoryManager().open("claim", player);
-                break;
-            case 21:
-                this.plugin.getInventoryManager().open("members", player);
-                break;
-            case 22:
+            case 20 -> this.plugin.getInventoryManager().open("claim", player);
+            case 21 -> this.plugin.getInventoryManager().open("members", player);
+            case 22 -> {
                 player.closeInventory();
                 player.performCommand("g home");
-                break;
-            case 5:
+            }
+            case 5 -> {
                 player.closeInventory();
                 player.performCommand("g help");
-                break;
-            case 50:
+            }
+            case 50 -> {
                 this.plugin.getInventoryManager().open("management", player);
                 player.performCommand("g public");
-                break;
-            case 32:
-                this.plugin.getInventoryManager().open("buildings", player);
-                break;
-            case 23:
-                this.plugin.getInventoryManager().open("allies", player);
-                break;
-            case 30:
-                this.plugin.getInventoryManager().open("leaderboards", player);
-                break;
-            case 24:
-                this.plugin.getInventoryManager().open("war", player);
-                break;
-            case 33:
-                player.openInventory(guild.getStorage());
-                break;
+            }
+            case 32 -> this.plugin.getInventoryManager().open("upgrades", player);
+            case 23 -> this.plugin.getInventoryManager().open("allies", player);
+            case 30 -> this.plugin.getInventoryManager().open("leaderboards", player);
+            case 24 -> this.plugin.getInventoryManager().open("war", player);
+            case 33 -> player.openInventory(guild.getStorage());
         }
     }
 }

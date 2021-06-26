@@ -29,12 +29,12 @@ public class MembersGui extends InventoryProviderImpl {
         Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
 
         guild.getMembers().forEach(member -> {
-            User user = this.plugin.getUserManager().getUser(member.getName());
+            User user = this.plugin.getUserManager().getUser(member.nickname());
             ItemStack skull = new ItemBuilder(Material.PLAYER_HEAD)
-                    .name("&6" + member.getName())
-                    .lore("&e(Widziany ostatnio: &f" + TimeUtils.formatDate(Bukkit.getOfflinePlayer(member.getName()).getLastSeen()) + "&e)")
+                    .name("&6" + member.nickname())
+                    .lore("&e(Widziany ostatnio: &f" + TimeUtils.formatDate(Bukkit.getOfflinePlayer(member.nickname()).getLastSeen()) + "&e)")
                     .lore("")
-                    .lore("&eRanga: " + member.getRank().getDisplay())
+                    .lore("&eRanga: " + member.rank().getDisplay())
                     .lore("&eWojna: ")
                     .lore(" &7→ Zabójstwa: &f" + user.getKills())
                     .lore(" &7→ Śmierci: &f" + user.getDeaths())
@@ -44,7 +44,7 @@ public class MembersGui extends InventoryProviderImpl {
                     .lore("")
                     .lore("&7&nKliknij ŚRODKOWYM aby")
                     .lore("  &fwyrzucić gracza z gildii.")
-                    .skullOwner(member.getName())
+                    .skullOwner(member.nickname())
                     .build();
             inventory.addItem(skull);
         });

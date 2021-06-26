@@ -16,13 +16,13 @@ repositories {
     maven { url 'https://repo.codemc.io/repository/maven-public/' }
     maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
     maven { url 'https://nexus.badbones69.com/repository/maven-releases/' }
-    maven { url 'https://mvn.intellectualsites.com/content/repositories/releases/' }
     maven { url 'https://maven.enginehub.org/repo/' }
 }
 
 dependencies {
-    implementation 'com.github.simplix-softworks:SimplixStorage:3.2.3'
     implementation 'commons-io:commons-io:2.10.0'
+
+    compileOnly files('EpicGuard-6.0-SNAPSHOT-all.jar')
 
     compileOnly 'com.mojang:authlib:1.5.25'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
@@ -30,9 +30,7 @@ dependencies {
     compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
     compileOnly 'me.badbones69:crazyauctions:1.2.16'
     compileOnly 'me.clip:placeholderapi:2.10.9'
-    compileOnly 'com.intellectualsites.fawe:FAWE-Bukkit:1.16-725'
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.5'
-    compileOnly files('EpicGuard-6.0-SNAPSHOT-all.jar')
 }
 
 // Fixing broken encoding on Windows.
@@ -42,11 +40,7 @@ processResources {
     expand projectVersion: project.version
 }
 
-
 // Compiling dependencies in the jar file.
 shadowJar {
     minimize()
-
-    relocate 'de.leonhard.storage', 'neonguilds.storage'
-    exclude 'mozilla/'
 }

@@ -1,8 +1,8 @@
 package me.xneox.guilds;
 
 import me.xneox.guilds.command.GuildCommand;
-import me.xneox.guilds.element.Building;
-import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.command.misc.GlobalHelpCommand;
+import me.xneox.guilds.command.misc.LiveCommand;
 import me.xneox.guilds.gui.*;
 import me.xneox.guilds.listener.*;
 import me.xneox.guilds.manager.*;
@@ -13,7 +13,6 @@ import me.xneox.guilds.task.PlayerTeleportTask;
 import me.xneox.guilds.util.gui.InventoryManager;
 import me.xneox.guilds.war.ArenaControllerTask;
 import me.xneox.guilds.war.WarListener;
-import me.xneox.guilds.xdronizja.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -27,25 +26,21 @@ public class NeonGuilds extends JavaPlugin {
     private UserManager userManager;
     private InventoryManager inventoryManager;
     private CooldownManager cooldownManager;
-    private ConfigManager configManager;
 
     @Override
     public void onEnable() {
-        long ms = System.currentTimeMillis();
         this.guildManager = new GuildManager();
         this.arenaManager = new ArenaManager();
         this.userManager = new UserManager();
         this.cooldownManager = new CooldownManager();
-        this.configManager = new ConfigManager();
         this.inventoryManager = new InventoryManager(this);
-
 
         inventoryManager.register("management", new ManagementGui(this));
         inventoryManager.register("claim", new ClaimGui(this));
         inventoryManager.register("members", new MembersGui(this));
         inventoryManager.register("rank_editor", new RankEditorGui(this));
         inventoryManager.register("allies", new AlliesGui(this));
-        inventoryManager.register("buildings", new BuildingsGui(this));
+        inventoryManager.register("upgrades", new UpgradesGui(this));
         inventoryManager.register("leaderboards", new LeaderboardsGui(this));
         inventoryManager.register("war", new WarGui(this));
         inventoryManager.register("browse", new BrowseGui(this));
@@ -54,8 +49,7 @@ public class NeonGuilds extends JavaPlugin {
         GuildCommand command = new GuildCommand(this);
         registerCommand("guild", command, command.getCommandCompleter());
         registerCommand("live", new LiveCommand(this), null);
-        registerCommand("help", new HelpCommand(), null);
-        registerCommand("butelkaxp", new ExpBottleFeature.BottleCommand(), null);
+        registerCommand("help", new GlobalHelpCommand(), null);
 
         registerListener(new GuildProtectionListener(this));
         registerListener(new PlayerDeathListener(this));
@@ -63,7 +57,7 @@ public class NeonGuilds extends JavaPlugin {
         registerListener(new PlayerChatListener(this));
         registerListener(new GuildAttackListener(this));
         registerListener(new ItemCooldownListener(this));
-        registerListener(new RestrictionFeature(this));
+        registerListener(new PlayerPortalListener());
         registerListener(new PlayerJoinLeaveListener(this));
         registerListener(new WarListener(this));
 
@@ -73,13 +67,11 @@ public class NeonGuilds extends JavaPlugin {
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotifierTask(this), 0L, 40L);
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new DataSaveTask(this), 0L, 20 * 60L);
 
-        Bukkit.getScheduler().runTaskTimer(this, new HoloRefreshTask(this), 0L,  30 * 20L);
+        Bukkit.getScheduler().runTaskTimer(this, new HoloRefreshTask(this), 0L,  120 * 20L);
         Bukkit.getScheduler().runTaskTimer(this, new PlayerTeleportTask(this), 0L, 20L);
         Bukkit.getScheduler().runTaskTimer(this, new ArenaControllerTask(this), 0L, 20L);
 
         new PlaceholderApiHook(this).register();
-        //ChatUtils.broadcast("Zrestartowano w &6" + (System.currentTimeMillis() - ms) + "ms &8(" + this.guildManager.getGuildMap().size() + " gildii)");
-        this.fixBuildings();
     }
 
     @Override
@@ -87,17 +79,6 @@ public class NeonGuilds extends JavaPlugin {
         this.guildManager.save();
         this.arenaManager.save();
         this.userManager.saveAll();
-    }
-
-    private void fixBuildings() {
-        for (Guild guild : this.guildManager.getGuildMap().values()) {
-            for (Building building : guild.getBuildings()) {
-                if (building.getState() == Building.State.INBUILT) {
-                    //ChatUtils.broadcast("&7Naprawiono postęp budowli " + building.getType() + " w " + guild.getName());
-                    building.setCompleteTime(System.currentTimeMillis());
-                }
-            }
-        }
     }
 
     public GuildManager getGuildManager() {
@@ -118,10 +99,6 @@ public class NeonGuilds extends JavaPlugin {
 
     public CooldownManager getCooldownManager() {
         return cooldownManager;
-    }
-
-    public ConfigManager getConfigManager() {
-        return configManager;
     }
 
     private void registerCommand(String name, CommandExecutor executor, TabCompleter tabCompleter) {

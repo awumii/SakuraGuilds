@@ -24,12 +24,12 @@ public class InfoCommand implements SubCommand {
         ChatUtils.sendRaw(player, "&3&m--&8&m------------------------------------------&3&m--");
         ChatUtils.sendRaw(player, "&6&lInformacje o gildii:");
         ChatUtils.sendRaw(player, "&eNazwa: &6" + guild.getName());
-        ChatUtils.sendRaw(player, "&eLider: &6" + guild.getLeader().getName());
-        ChatUtils.sendRaw(player, "&eLimit chunków: &6" + guild.getMaxChunks());
-        ChatUtils.sendRaw(player, "&eLimit członków: &6" + guild.getMaxMembers());
+        ChatUtils.sendRaw(player, "&eLider: &6" + guild.getLeader().nickname());
+        ChatUtils.sendRaw(player, "&eLimit chunków: &6" + guild.maxChunks());
+        ChatUtils.sendRaw(player, "&eLimit członków: &6" + guild.maxSlots());
         ChatUtils.sendRaw(player, "");
         ChatUtils.sendRaw(player, "&eCzłonkowie: &7");
-        guild.getMembers().forEach(member -> ChatUtils.sendRaw(player, " &8- " + guild.getDisplayName(member.getName())));
+        guild.getMembers().forEach(member -> ChatUtils.sendRaw(player, " &8- " + guild.getDisplayName(member.nickname())));
         ChatUtils.sendRaw(player, "");
         ChatUtils.sendRaw(player, "&eZajęte Chunki: &7" + guild.getChunks().size());
         ChatUtils.sendRaw(player, "&3&m--&8&m------------------------------------------&3&m--");

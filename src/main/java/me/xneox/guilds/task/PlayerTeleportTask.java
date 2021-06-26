@@ -26,7 +26,7 @@ public class PlayerTeleportTask implements Runnable {
                             "&cPoruszyłeś się w trakcie teleportacji!");
                     user.clearTeleport();
 
-                    VisualUtils.playSound(player, Sound.BLOCK_ANVIL_DESTROY);
+                    VisualUtils.sound(player, Sound.BLOCK_ANVIL_DESTROY);
                     continue;
                 }
 
@@ -35,14 +35,14 @@ public class PlayerTeleportTask implements Runnable {
                     ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
                             "&7Zostaniesz przeteleportowany za &e" + user.getTeleportCountdown() + " sekund...");
 
-                    VisualUtils.playSound(player, Sound.BLOCK_NOTE_BLOCK_GUITAR);
+                    VisualUtils.sound(player, Sound.BLOCK_NOTE_BLOCK_GUITAR);
                 } else {
                     ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
                             "&7Zostałeś przeteleportowany &apomyślnie!");
                     player.teleport(user.getTeleportTarget());
                     user.clearTeleport();
 
-                    VisualUtils.playSound(player, Sound.BLOCK_PISTON_EXTEND);
+                    VisualUtils.sound(player, Sound.BLOCK_PISTON_EXTEND);
                 }
             }
         }

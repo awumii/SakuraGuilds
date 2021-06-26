@@ -2,6 +2,7 @@ package me.xneox.guilds.util;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -17,12 +18,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class ItemBuilder {
-    private final List<String> lore;
+    private final List<Component> lore;
     private final HashMap<Enchantment, Integer> enchants;
     private final Material material;
     private final int amount;
 
-    private String title;
+    private Component title;
     private ItemFlag[] flags;
     private String skullTexture;
     private String skullOwner;
@@ -40,12 +41,12 @@ public class ItemBuilder {
     }
 
     public ItemBuilder name(String title) {
-        this.title = ChatUtils.colored(title);
+        this.title = ChatUtils.color(title);
         return this;
     }
 
     public ItemBuilder lore(String lore) {
-        this.lore.add(ChatUtils.colored(lore));
+        this.lore.add(ChatUtils.color(lore));
         return this;
     }
 
@@ -75,11 +76,11 @@ public class ItemBuilder {
         ItemMeta meta = item.getItemMeta();
 
         if (this.title != null) {
-            meta.setDisplayName(this.title);
+            meta.displayName(this.title);
         }
 
         if (!this.lore.isEmpty()) {
-            meta.setLore(this.lore);
+            meta.lore(this.lore);
         }
 
         if (this.flags != null) {

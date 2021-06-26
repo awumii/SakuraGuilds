@@ -36,7 +36,7 @@ public class InviteCommand implements SubCommand {
             return;
         }
 
-        if (guild.getMembers().size() >= guild.getMaxMembers()) {
+        if (guild.getMembers().size() >= guild.maxSlots()) {
             ChatUtils.sendMessage(player, "&cOsiągnięto limit graczy dodanych do gildii. Zakup ulepszenie gildii!");
             return;
         }

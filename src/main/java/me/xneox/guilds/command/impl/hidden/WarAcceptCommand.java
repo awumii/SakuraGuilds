@@ -24,7 +24,7 @@ public class WarAcceptCommand implements SubCommand {
             return;
         }
 
-        if (!guild.findMember(player.getName()).hasPermission(Permission.WAR)) {
+        if (!guild.member(player.getName()).hasPermission(Permission.WAR)) {
             ChatUtils.sendMessage(player, "&cTwoja ranga w gildii jest zbyt niska!");
             return;
         }

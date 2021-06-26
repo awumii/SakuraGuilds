@@ -50,36 +50,17 @@ public class PlaceholderApiHook extends PlaceholderExpansion {
             return "-/-";
         }
 
-        switch (params) {
-            case "kills":
-                return String.valueOf(user.getKills());
-            case "deaths":
-                return String.valueOf(user.getDeaths());
-            case "channel":
-                return user.getChatChannel().getName();
-            case "icon":
-                return guild.getPlayerRank(player).getIcon();
-            case "guild":
-                return guild.getName();
-            case "trophies":
-                return String.valueOf(guild.getTrophies());
-            case "division":
-                return guild.getDivision().getName();
-            case "rank":
-                return guild.getPlayerRank(player).getDisplay();
-            case "rankedposition":
-                return "#" + RankedUtils.getLeaderboard(this.plugin.getGuildManager().getGuildMap().values()).indexOf(guild);
-            case "location":
-                // WHAT THE FUCK IS THIS
-                // Explanation so i won't forget it later:
-                // If region is present at player's location, display it (capitalized since worldguard forces lowercase)
-                // If region is not present, searches for guild at player's location, and formats it whether it is ally or enemy.
-                // If both conditions fail, it will display "Wilderness".
-
-                Guild at = this.plugin.getGuildManager().getGuildAt(player.getLocation());
-                String region = HookUtils.getWorldGuardRegion(player.getLocation());
-                return region != null ? WordUtils.capitalize(region) : at != null ? at.equals(guild) ? "&a" + at.getName() + " ☮" : "&c" + at.getName() + " ⚠" : "&2Świat";
-        }
-        return "<unknown_placeholder>";
+        return switch (params) {
+            case "kills" -> String.valueOf(user.getKills());
+            case "deaths" -> String.valueOf(user.getDeaths());
+            case "channel" -> user.getChatChannel().getName();
+            case "icon" -> guild.getPlayerRank(player).getIcon();
+            case "guild" -> guild.getName();
+            case "trophies" -> String.valueOf(guild.getTrophies());
+            case "division" -> guild.getDivision().getName();
+            case "rank" -> guild.getPlayerRank(player).getDisplay();
+            case "rankedposition" -> "#" + RankedUtils.getLeaderboard(this.plugin.getGuildManager().getGuildMap().values()).indexOf(guild);
+            default -> "<unknown>";
+        };
     }
 }

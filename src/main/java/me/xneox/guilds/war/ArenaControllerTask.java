@@ -77,7 +77,7 @@ public class ArenaControllerTask implements Runnable {
                     generateRewards(secondGuild.getGuild());
                 } else {
                     arena.setTime(arena.getTime() - 1);
-                    arena.getBossBar().setTitle(ChatUtils.colored("&e⊙ Czas: &f" + TimeUtils.secondsToTime(arena.getTime())
+                    arena.getBossBar().setTitle(ChatUtils.legacyColor("&e⊙ Czas: &f" + TimeUtils.secondsToTime(arena.getTime())
                             + " &9➙ " + arena.getFirstGuild().getGuild().getName() + ": &f" + arena.getFirstGuild().getPoints() + "/100 ☆" +
                             " &c➙ " + arena.getSecondGuild().getGuild().getName() + ": &f" + arena.getSecondGuild().getPoints() + "/100 ☆"));
                 }
@@ -100,7 +100,7 @@ public class ArenaControllerTask implements Runnable {
     }
 
     private void handleArenaCountdown(Player player, Arena arena) {
-        VisualUtils.playSound(player, Sound.ENTITY_EVOKER_CAST_SPELL);
+        VisualUtils.sound(player, Sound.ENTITY_EVOKER_CAST_SPELL);
         ChatUtils.sendTitle(player, "&6&l⚔ " + arena.getFirstGuild().getGuild().getName() + " vs " + arena.getSecondGuild().getGuild().getName() + " ⚔",
                 "&fPojedynek rozpocznie się za &e" + arena.getTime() + " sekund!");
     }

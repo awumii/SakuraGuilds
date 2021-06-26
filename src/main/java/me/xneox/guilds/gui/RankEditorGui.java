@@ -27,11 +27,11 @@ public class RankEditorGui extends InventoryProviderImpl {
     public void open(Player player, Inventory inventory) {
         Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
         String target = this.plugin.getUserManager().getUser(player).getEditorSubject();
-        Member member = guild.findMember(target);
+        Member member = guild.member(target);
 
         ItemStack user = new ItemBuilder(Material.PLAYER_HEAD)
                 .name("&6" + target)
-                .lore("&7Ranga: " + member.getRank().getDisplay())
+                .lore("&7Ranga: " + member.rank().getDisplay())
                 .skullOwner(target)
                 .build();
 
@@ -147,18 +147,18 @@ public class RankEditorGui extends InventoryProviderImpl {
 
             Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
             String target = this.plugin.getUserManager().getUser(player).getEditorSubject();
-            Member member = guild.findMember(target);
+            Member member = guild.member(target);
 
             // Block editing your own rank.
             if (player.getName().equals(target)) {
-                VisualUtils.playSound(player, Sound.ENTITY_VILLAGER_NO);
+                VisualUtils.sound(player, Sound.ENTITY_VILLAGER_NO);
                 ChatUtils.sendMessage(player, "&cNie możesz zarządzać własnymi uprawnieniami!");
                 return;
             }
 
             // Block editing if lower rank or no permission.
-            if (!guild.findMember(player.getName()).getPermissions().contains(Permission.RANKS) || !guild.isHigher(player.getName(), target)) {
-                VisualUtils.playSound(player, Sound.ENTITY_VILLAGER_NO);
+            if (!guild.member(player.getName()).permissions().contains(Permission.RANKS) || !guild.isHigher(player.getName(), target)) {
+                VisualUtils.sound(player, Sound.ENTITY_VILLAGER_NO);
                 ChatUtils.sendMessage(player, "&cTwoja ranga w gildii jest zbyt niska!");
                 return;
             }

@@ -33,13 +33,13 @@ public class AlliesGui extends InventoryProviderImpl {
                     .name("&6" + ally)
                     .lore("")
                     .lore("&eLider:")
-                    .lore("&f" + other.getLeader().getName())
+                    .lore("&f" + other.getLeader().nickname())
                     .lore("")
                     .lore("&eLiczba członków:")
-                    .lore("&f" + other.getMembers().size() + "/" + other.getMaxMembers() + " &7(&a" + other.getOnlineMembers().size() + " &fonline&7)")
+                    .lore("&f" + other.getMembers().size() + "/" + other.maxSlots() + " &7(&a" + other.getOnlineMembers().size() + " &fonline&7)")
                     .lore("")
                     .lore("&eZajęte ziemie:")
-                    .lore("&f" + other.getChunks().size() + " &7(Limit: &f" + other.getMaxChunks() + "&7)")
+                    .lore("&f" + other.getChunks().size() + " &7(Limit: &f" + other.maxChunks() + "&7)")
                     .lore("")
                     .lore("&eStatystyki Wojny:")
                     .lore("  &7→ &7Dywizja: " + other.getDivision().getName())
@@ -48,7 +48,7 @@ public class AlliesGui extends InventoryProviderImpl {
                     .lore("  &7→ &7Śmierci: &f" + other.getDeaths())
                     .lore("")
                     .lore("&cKliknij aby zerwać sojusz")
-                    .skullOwner(other.getLeader().getName())
+                    .skullOwner(other.getLeader().nickname())
                     .build();
             inventory.addItem(item);
         }
@@ -78,7 +78,7 @@ public class AlliesGui extends InventoryProviderImpl {
                 otherGuild.getAllies().remove(guild.getName());
 
                 player.closeInventory();
-                VisualUtils.playSound(player, Sound.BLOCK_ANVIL_DESTROY);
+                VisualUtils.sound(player, Sound.BLOCK_ANVIL_DESTROY);
                 ChatUtils.broadcast("&7Gildia &6" + guild.getName() + " &7zrywa sojusz z &6" + otherGuild.getName());
             }
         }
