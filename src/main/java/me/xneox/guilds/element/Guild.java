@@ -43,8 +43,6 @@ public class Guild {
     private final List<String> invitations = new ArrayList<>();
     private boolean deleteConfirm;
 
-    private Guild warEnemy;
-
     public Guild(String name, List<Member> members, Location nexusLocation, long creation, List<String> allies, Location home,
                  List<String> chunks, long shield, int health, int trophies, int kills, int deaths, int money,
                  int maxSlots, int maxChunks, int maxStorage, ItemStack[] storageContent) {
@@ -274,16 +272,6 @@ public class Guild {
 
     public void health(int health) {
         this.health = health;
-    }
-
-    @Deprecated
-    public Guild warEnemy() {
-        return warEnemy;
-    }
-
-    @Deprecated
-    public void warEnemy(Guild warEnemy) {
-        this.warEnemy = warEnemy;
     }
 
     public Inventory storage() {

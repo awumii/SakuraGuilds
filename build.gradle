@@ -8,6 +8,9 @@ version '3.0.0'
 
 defaultTasks 'clean', 'shadowJar', 'build'
 
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
+
 repositories {
     mavenCentral()
     maven { url 'https://papermc.io/repo/repository/maven-public/' }

@@ -11,7 +11,7 @@ public class DataSaveTask implements Runnable {
 
     @Override
     public void run() {
-        this.plugin.userManager().saveAll();
+        this.plugin.userManager().save();
         this.plugin.guildManager().save();
     }
 }

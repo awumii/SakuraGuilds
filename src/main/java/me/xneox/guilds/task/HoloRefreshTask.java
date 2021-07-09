@@ -47,6 +47,6 @@ public class HoloRefreshTask implements Runnable {
             lines.add(" &e" + (i + 1) + ". &b" + guild.name() + " &7- &e" + guild.trophies() + "★");
         }
 
-        VisualUtils.createHologram(this.plugin.arenaManager().leaderboardLocation(), Material.GOLD_BLOCK, lines.toArray(new String[0]));
+        VisualUtils.createHologram(this.plugin.dataManager().leaderboardLocation(), Material.GOLD_BLOCK, lines.toArray(new String[0]));
     }
 }

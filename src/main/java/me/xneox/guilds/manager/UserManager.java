@@ -22,7 +22,7 @@ public class UserManager {
         userMap.remove(name);
     }
 
-    public void saveAll() {
+    public void save() {
         this.userMap.values().forEach(User::save);
     }
 }
