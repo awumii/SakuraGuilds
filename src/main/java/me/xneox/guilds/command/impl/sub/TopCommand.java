@@ -9,6 +9,6 @@ public class TopCommand implements SubCommand {
 
     @Override
     public void handle(GuildManager manager, Player player, String[] args) {
-        HookUtils.INSTANCE.getInventoryManager().open("leaderboards", player);
+        HookUtils.INSTANCE.inventoryManager().open("leaderboards", player);
     }
 }

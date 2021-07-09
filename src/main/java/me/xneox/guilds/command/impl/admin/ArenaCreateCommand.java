@@ -19,13 +19,13 @@ public class ArenaCreateCommand implements SubCommand {
             return;
         }
 
-        ArenaManager arenaManager = HookUtils.INSTANCE.getArenaManager();
-        if (arenaManager.getArena(args[1]) != null) {
+        ArenaManager arenaManager = HookUtils.INSTANCE.arenaManager();
+        if (arenaManager.find(args[1]) != null) {
             ChatUtils.sendMessage(player, "&cTaka arena już istnieje.");
             return;
         }
 
-        arenaManager.getArenaMap().put(args[1], new Arena(args[1]));
+        arenaManager.arenaMap().put(args[1], new Arena(args[1]));
         ChatUtils.sendMessage(player, "&7Stworzono pomyślnie arenę &6" + args[1]);
     }
 }

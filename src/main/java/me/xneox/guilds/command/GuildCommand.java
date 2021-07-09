@@ -6,7 +6,6 @@ import me.xneox.guilds.command.annotations.AdminOnly;
 import me.xneox.guilds.command.impl.hidden.AllyAcceptCommand;
 import me.xneox.guilds.command.impl.hidden.WarAcceptCommand;
 import me.xneox.guilds.command.impl.sub.*;
-import me.xneox.guilds.command.misc.GlobalHelpCommand;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.command.Command;
@@ -43,7 +42,6 @@ public class GuildCommand implements CommandExecutor {
         commandMap.put("top", new TopCommand());
         commandMap.put("chat", new ChatChannelCommand());
         commandMap.put("war", new WarCommand());
-        commandMap.put("public", new PublicCommand());
         commandMap.put("browse", new BrowseCommand());
         commandMap.put("donate", new DonateCommand());
 
@@ -61,10 +59,10 @@ public class GuildCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
-        GuildManager guildManager = this.plugin.getGuildManager();
+        GuildManager guildManager = this.plugin.guildManager();
 
         if (args.length < 1) {
-            this.plugin.getInventoryManager().open(this.plugin.getGuildManager().getGuild(player.getName()) == null ? "newbie" : "management", player);
+            this.plugin.inventoryManager().open(this.plugin.guildManager().playerGuild(player.getName()) == null ? "newbie" : "management", player);
             return true;
         }
 

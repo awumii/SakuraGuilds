@@ -13,13 +13,13 @@ public class ChatChannelCommand implements SubCommand {
 
     @Override
     public void handle(GuildManager manager, Player player, String[] args) {
-        Guild guild = manager.getGuild(player.getName());
+        Guild guild = manager.playerGuild(player.getName());
         if (guild == null) {
             ChatUtils.sendMessage(player, "&cNie posiadasz gildii.");
             return;
         }
 
-        User user = HookUtils.INSTANCE.getUserManager().getUser(player);
+        User user = HookUtils.INSTANCE.userManager().getUser(player);
         switch (user.getChatChannel()) {
             case GLOBAL -> {
                 user.setChatChannel(ChatChannel.GUILD);

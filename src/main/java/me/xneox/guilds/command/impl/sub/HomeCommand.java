@@ -11,12 +11,12 @@ public class HomeCommand implements SubCommand {
 
     @Override
     public void handle(GuildManager manager, Player player, String[] args) {
-        Guild guild = manager.getGuild(player.getName());
+        Guild guild = manager.playerGuild(player.getName());
         if (guild == null) {
             ChatUtils.sendMessage(player, "&cNie posiadasz gildii.");
             return;
         }
 
-        HookUtils.INSTANCE.getUserManager().getUser(player).beginTeleport(player.getLocation(), guild.getHome());
+        HookUtils.INSTANCE.userManager().getUser(player).beginTeleport(player.getLocation(), guild.homeLocation());
     }
 }

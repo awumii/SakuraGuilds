@@ -50,11 +50,10 @@ public class GuildManager {
                 int maxStorage = json.getInt("MaxStorage");
                 long shield = json.getLong("Shield");
                 long creation = json.getLong("Creation");
-                boolean isPublic = json.getBoolean("Public");
 
                 String name = file.getName().replace(".json", "");
                 this.guildMap.put(name, new Guild(name, members, nexusLocation, creation, allies, home, chunks,
-                        shield, health, trophies, kills, deaths, money, isPublic, maxSlots, maxChunks, maxStorage, storage));
+                        shield, health, trophies, kills, deaths, money, maxSlots, maxChunks, maxStorage, storage));
             } catch (Exception e) {
                 ChatUtils.broadcast("&cWystąpił błąd podczas wczytywania danych gildii: &4" + file.getName());
                 e.printStackTrace();
@@ -76,23 +75,22 @@ public class GuildManager {
 
                 Json json = new Json(guildFile);
 
-                json.set("Members", guild.getMembers().stream().map(Member::toString).collect(Collectors.toList()));
-                json.set("Allies", guild.getAllies());
-                json.set("Home", LocationUtils.toString(guild.getHome()));
-                json.set("Nexus", LocationUtils.toString(guild.getNexusLocation()));
-                json.set("Chunks", guild.getChunks());
+                json.set("Members", guild.members().stream().map(Member::toString).collect(Collectors.toList()));
+                json.set("Allies", guild.allies());
+                json.set("Home", LocationUtils.toString(guild.homeLocation()));
+                json.set("Nexus", LocationUtils.toString(guild.nexusLocation()));
+                json.set("Chunks", guild.claims());
                 json.set("Money", guild.money());
-                json.set("Kills", guild.getKills());
-                json.set("Deaths", guild.getDeaths());
+                json.set("Kills", guild.kills());
+                json.set("Deaths", guild.deaths());
                 json.set("MaxSlots", guild.maxSlots());
                 json.set("MaxChunks", guild.maxChunks());
                 json.set("MaxStorage", guild.maxStorage());
-                json.set("Trophies", guild.getTrophies());
-                json.set("Shield", guild.getShield());
-                json.set("Health", guild.getHealth());
-                json.set("Creation", guild.getCreationLong());
-                json.set("Public", guild.isPublic());
-                json.set("Storage", ItemSerialization.serializeInventory(guild.getStorage()));
+                json.set("Trophies", guild.trophies());
+                json.set("Shield", guild.shieldDuration());
+                json.set("Health", guild.health());
+                json.set("Creation", guild.creationLong());
+                json.set("Storage", ItemSerialization.serializeInventory(guild.storage()));
             } catch (Exception e) {
                 ChatUtils.broadcast("&cNie udało się zapisać danych gildii &4" + name + "&c, kopia zapasowa utworzona.");
                 e.printStackTrace();
@@ -101,19 +99,19 @@ public class GuildManager {
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void deleteGuild(Guild guild) {
+    public void delete(Guild guild) {
         for (Guild value : this.guildMap.values()) {
-            value.getAllies().remove(guild.getName());
+            value.allies().remove(guild.name());
         }
 
-        guild.getNexusLocation().getBlock().setType(Material.AIR);
-        guild.getNexusLocation().createExplosion(5, true, true);
+        guild.nexusLocation().getBlock().setType(Material.AIR);
+        guild.nexusLocation().createExplosion(5, true, true);
 
-        this.getGuildMap().remove(guild.getName());
-        new File("plugins/NeonGuilds/guilds", guild.getName() + ".json").delete();
+        this.guildMap.remove(guild.name());
+        new File("plugins/NeonGuilds/guilds", guild.name() + ".json").delete();
     }
 
-    public Guild getGuildAt(Location location) {
+    public Guild findAt(Location location) {
         for (Guild guild : this.guildMap.values()) {
             if (guild.inside(location)) {
                 return guild;
@@ -122,22 +120,22 @@ public class GuildManager {
         return null;
     }
 
-    public Guild getGuild(Player player) {
-        return this.getGuild(player.getName());
+    public Guild playerGuild(Player player) {
+        return this.playerGuild(player.getName());
     }
 
-    public Guild getGuild(String player) {
+    public Guild playerGuild(String player) {
         return this.guildMap.values().stream()
                 .filter(guild -> guild.isMember(player))
                 .findFirst()
                 .orElse(null);
     }
 
-    public Guild getGuildExact(String name) {
+    public Guild get(String name) {
         return this.guildMap.get(name);
     }
 
-    public Map<String, Guild> getGuildMap() {
+    public Map<String, Guild> guildMap() {
         return guildMap;
     }
 }

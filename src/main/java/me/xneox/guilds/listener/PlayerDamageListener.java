@@ -47,20 +47,20 @@ public class PlayerDamageListener implements Listener {
      * @return whenever the event should be cancelled.
      */
     private boolean isProtected(Player victim, Player attacker) {
-        Guild guild = this.plugin.getGuildManager().getGuildAt(victim.getLocation());
+        Guild guild = this.plugin.guildManager().findAt(victim.getLocation());
         if (guild != null && guild.isShieldActive()) {
-            ChatUtils.showActionBar(attacker, "&cTa gildia posiada tarczę wojenną przez: &6" + TimeUtils.futureMillisToTime(guild.getShield()));
+            ChatUtils.showActionBar(attacker, "&cTa gildia posiada tarczę wojenną przez: &6" + TimeUtils.futureMillisToTime(guild.shieldDuration()));
             return true;
         }
 
-        Guild victimGuild = this.plugin.getGuildManager().getGuild(victim.getName());
-        Guild attackerGuild = this.plugin.getGuildManager().getGuild(attacker.getName());
+        Guild victimGuild = this.plugin.guildManager().playerGuild(victim.getName());
+        Guild attackerGuild = this.plugin.guildManager().playerGuild(attacker.getName());
 
         if (victimGuild == null || attackerGuild == null) {
             return false;
         }
 
-        if (victimGuild.getName().equals(attackerGuild.getName()) || victimGuild.getAllies().contains(attackerGuild.getName())) {
+        if (victimGuild.name().equals(attackerGuild.name()) || victimGuild.allies().contains(attackerGuild.name())) {
             ChatUtils.showActionBar(attacker, "&cNie możesz atakować członków/sojuszników gildii!");
             return true;
         }

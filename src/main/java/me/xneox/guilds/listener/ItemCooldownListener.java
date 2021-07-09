@@ -42,12 +42,12 @@ public class ItemCooldownListener implements Listener {
      */
     private boolean handleCooldown(Player player) {
         Material material = player.getInventory().getItemInMainHand().getType();
-        if (this.plugin.getCooldownManager().hasCooldown(player, material.name())) {
-            ChatUtils.sendMessage(player, "&7Poczekaj jeszcze &c" + this.plugin.getCooldownManager().getRemaining(player, material.name()));
+        if (this.plugin.cooldownManager().hasCooldown(player, material.name())) {
+            ChatUtils.sendMessage(player, "&7Poczekaj jeszcze &c" + this.plugin.cooldownManager().getRemaining(player, material.name()));
             return true;
         }
 
-        this.plugin.getCooldownManager().add(player, material.name(), 15, TimeUnit.SECONDS);
+        this.plugin.cooldownManager().add(player, material.name(), 15, TimeUnit.SECONDS);
         return false;
     }
 }

@@ -21,23 +21,34 @@ public class ItemBuilder {
     private final List<Component> lore;
     private final HashMap<Enchantment, Integer> enchants;
     private final Material material;
-    private final int amount;
 
+    private int amount;
     private Component title;
     private ItemFlag[] flags;
     private String skullTexture;
     private String skullOwner;
 
-    public ItemBuilder(Material material) {
-        this(material, 1);
+    public static ItemBuilder of(Material material) {
+        return new ItemBuilder(material);
     }
 
-    public ItemBuilder(Material material, int amount) {
+    public static ItemBuilder skull(String skullTexture) {
+        ItemBuilder builder = new ItemBuilder(Material.PLAYER_HEAD);
+        builder.skullTexture(skullTexture);
+        return builder;
+    }
+
+    public static ItemBuilder skullOf(String skullOwner) {
+        ItemBuilder builder = new ItemBuilder(Material.PLAYER_HEAD);
+        builder.skullOwner(skullOwner);
+        return builder;
+    }
+
+    private ItemBuilder(Material material) {
         this.title = null;
         this.lore = new ArrayList<>();
         this.enchants = new HashMap<>();
         this.material = material;
-        this.amount = amount;
     }
 
     public ItemBuilder name(String title) {
@@ -47,6 +58,11 @@ public class ItemBuilder {
 
     public ItemBuilder lore(String lore) {
         this.lore.add(ChatUtils.color(lore));
+        return this;
+    }
+
+    public ItemBuilder amount(int amout) {
+        this.amount = amout;
         return this;
     }
 
@@ -61,11 +77,13 @@ public class ItemBuilder {
         return this;
     }
 
+    @Deprecated
     public ItemBuilder skullTexture(String texture) {
         this.skullTexture = texture;
         return this;
     }
 
+    @Deprecated
     public ItemBuilder skullOwner(String owner) {
         this.skullOwner = owner;
         return this;

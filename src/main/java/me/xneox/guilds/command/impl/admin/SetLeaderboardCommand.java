@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class SetLeaderboardCommand implements SubCommand {
     @Override
     public void handle(GuildManager manager, Player player, String[] args) {
-        HookUtils.INSTANCE.getArenaManager().setLeaderboard(player.getLocation());
+        HookUtils.INSTANCE.arenaManager().leaderboardLocation(player.getLocation());
         ChatUtils.sendMessage(player, "&7Ustawiono lokalizację topki.");
     }
 }

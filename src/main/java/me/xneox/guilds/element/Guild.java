@@ -1,7 +1,6 @@
 package me.xneox.guilds.element;
 
 import me.xneox.guilds.type.Division;
-import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.type.Rank;
 import me.xneox.guilds.util.ChunkUtils;
 import org.bukkit.Bukkit;
@@ -28,8 +27,6 @@ public class Guild {
     private final List<String> allies;
     private Location home;
     private Inventory storage;
-
-    private boolean isPublic;
     private long shield;
 
     private int health;
@@ -49,7 +46,7 @@ public class Guild {
     private Guild warEnemy;
 
     public Guild(String name, List<Member> members, Location nexusLocation, long creation, List<String> allies, Location home,
-                 List<String> chunks, long shield, int health, int trophies, int kills, int deaths, int money, boolean isPublic,
+                 List<String> chunks, long shield, int health, int trophies, int kills, int deaths, int money,
                  int maxSlots, int maxChunks, int maxStorage, ItemStack[] storageContent) {
 
         this.name = name;
@@ -68,7 +65,6 @@ public class Guild {
         this.maxChunks = maxChunks;
         this.maxStorage = maxStorage;
         this.money = money;
-        this.isPublic = isPublic;
         this.storage = Bukkit.createInventory(null, this.maxStorage);
         this.storage.setContents(storageContent);
     }
@@ -77,7 +73,7 @@ public class Guild {
     // CONTROLLERS
     // -----------------------------------------
 
-    public String getCreationDate() {
+    public String creationDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm");
         return sdf.format(new Date(this.creation));
     }
@@ -96,40 +92,15 @@ public class Guild {
         return this.nexusLocation.getChunk().equals(chunk);
     }
 
-    public String getDisplayName(Player player) {
-        return getDisplayName(player.getName());
-    }
-
-    public String getDisplayName(String player) {
-        return getPlayerRank(player).getIcon() + " " + player;
-    }
-
-    @Deprecated
-    public Rank getPlayerRank(String player) {
-        return this.members.stream()
-                .filter(member -> member.nickname().equals(player))
-                .map(Member::rank)
-                .findFirst()
-                .orElse(null);
-    }
-
-    public Rank getPlayerRank(Player player) {
-        return this.getPlayerRank(player.getName());
-    }
-
-    public boolean isLeader(Player player) {
-        return this.isLeader(player.getName());
-    }
-
-    public boolean isLeader(String player) {
-        return this.getLeader().nickname().equals(player);
-    }
-
-    public Member getLeader() {
+    public Member leader() {
         return members.stream()
                 .filter(member -> member.rank() == Rank.LEADER)
                 .findFirst()
                 .orElse(null);
+    }
+
+    public Member member(Player player) {
+        return this.member(player.getName());
     }
 
     public Member member(String name) {
@@ -139,26 +110,18 @@ public class Guild {
                 .orElse(null);
     }
 
-    public Member member(Player player) {
-        return this.member(player.getName());
-    }
-
-    public boolean isHigher(String compareFrom, String compareTo) {
-        return getPlayerRank(compareFrom).isHigher(getPlayerRank(compareTo));
-    }
-
     public void addTrophies(int amount) {
-        this.setTrophies(this.trophies + amount);
+        this.trophies(this.trophies + amount);
     }
 
-    public void setTrophies(int trophies) {
+    public void trophies(int trophies) {
         this.trophies = trophies;
         if (this.trophies < 0) {
             this.trophies = 0;
         }
     }
 
-    public Division getDivision() {
+    public Division division() {
         return Arrays.stream(Division.values())
                 .filter(value -> this.trophies >= value.getMinPoints())
                 .findFirst()
@@ -176,17 +139,8 @@ public class Guild {
 
         // Handle a situation where a leader is changed.
         if (rank == Rank.LEADER) {
-            Member leader = this.getLeader();
+            Member leader = this.leader();
             leader.rank(Rank.GENERAL);
-        }
-    }
-
-    public void changePermission(String player, Permission permission, boolean state) {
-        Member member = this.member(player);
-        if (state) {
-            member.permissions().add(permission);
-        } else {
-            member.permissions().remove(permission);
         }
     }
 
@@ -210,68 +164,67 @@ public class Guild {
     // GETTERS AND SETTERS
     // -----------------------------------------
 
-    public String getName() {
+    public String name() {
         return name;
     }
 
-    public long getCreationLong() {
+    public long creationLong() {
         return creation;
     }
 
-    public Location getHome() {
+    public Location homeLocation() {
         return home;
     }
 
-    public void setHome(Location home) {
+    public void homeLocation(Location home) {
         this.home = home;
     }
 
-    @Deprecated
-    public List<Member> getMembers() {
+    public List<Member> members() {
         return members;
     }
 
-    public List<String> getChunks() {
+    public List<String> claims() {
         return chunks;
     }
 
-    public List<String> getInvitations() {
+    public List<String> invitations() {
         return invitations;
     }
 
-    public List<String> getAllies() {
+    public List<String> allies() {
         return allies;
     }
 
-    public boolean isDeleteConfirm() {
+    public boolean deleteConfirmation() {
         return deleteConfirm;
     }
 
-    public void setDeleteConfirm(boolean deleteConfirm) {
+    public void deleteConfirmation(boolean deleteConfirm) {
         this.deleteConfirm = deleteConfirm;
     }
 
-    public int getTrophies() {
+    public int trophies() {
         return trophies;
     }
 
-    public long getShield() {
+    public long shieldDuration() {
         return shield;
     }
 
-    public void setShield(Duration duration) {
+    public void shieldDuration(Duration duration) {
         this.shield = System.currentTimeMillis() + duration.toMillis();
     }
 
-    public Location getNexusLocation() {
+    public Location nexusLocation() {
         return nexusLocation;
     }
 
-    public int getDeaths() {
+    public int deaths() {
         return deaths;
     }
 
-    public int getKills() {
+    public int kills() {
         return kills;
     }
 
@@ -315,31 +268,25 @@ public class Guild {
         this.money = money;
     }
 
-    public int getHealth() {
+    public int health() {
         return health;
     }
 
-    public void setHealth(int health) {
+    public void health(int health) {
         this.health = health;
     }
 
-    public Guild getWarEnemy() {
+    @Deprecated
+    public Guild warEnemy() {
         return warEnemy;
     }
 
-    public void setWarEnemy(Guild warEnemy) {
+    @Deprecated
+    public void warEnemy(Guild warEnemy) {
         this.warEnemy = warEnemy;
     }
 
-    public boolean isPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
-    }
-
-    public Inventory getStorage() {
+    public Inventory storage() {
         return storage;
     }
 

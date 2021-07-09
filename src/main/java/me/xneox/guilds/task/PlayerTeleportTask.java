@@ -19,7 +19,7 @@ public class PlayerTeleportTask implements Runnable {
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            User user = this.plugin.getUserManager().getUser(player);
+            User user = this.plugin.userManager().getUser(player);
             if (user.getTeleportTarget() != null) {
                 if (!LocationUtils.equalsSoft(player.getLocation(), user.getStartLocation())) {
                     ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",

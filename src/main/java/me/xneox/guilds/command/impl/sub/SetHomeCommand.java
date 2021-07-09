@@ -11,7 +11,7 @@ public class SetHomeCommand implements SubCommand {
 
     @Override
     public void handle(GuildManager manager, Player player, String[] args) {
-        Guild guild = manager.getGuild(player.getName());
+        Guild guild = manager.playerGuild(player.getName());
         if (guild == null) {
             ChatUtils.sendMessage(player, "&cNie posiadasz gildii.");
             return;
@@ -27,7 +27,7 @@ public class SetHomeCommand implements SubCommand {
             return;
         }
 
-        guild.setHome(player.getLocation());
-        ChatUtils.guildAlert(guild, guild.getDisplayName(player) + " &7zmienił lokalizację bazy.");
+        guild.homeLocation(player.getLocation());
+        ChatUtils.guildAlert(guild, guild.member(player).displayName() + " &7zmienił lokalizację bazy.");
     }
 }

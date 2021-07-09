@@ -3,9 +3,7 @@ package me.xneox.guilds;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
-import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.RankedUtils;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,8 +41,8 @@ public class PlaceholderApiHook extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String params) {
-        Guild guild = this.plugin.getGuildManager().getGuild(player);
-        User user = this.plugin.getUserManager().getUser(player);
+        Guild guild = this.plugin.guildManager().playerGuild(player);
+        User user = this.plugin.userManager().getUser(player);
 
         if (guild == null && !params.equals("location")) {
             return "-/-";
@@ -54,12 +52,12 @@ public class PlaceholderApiHook extends PlaceholderExpansion {
             case "kills" -> String.valueOf(user.getKills());
             case "deaths" -> String.valueOf(user.getDeaths());
             case "channel" -> user.getChatChannel().getName();
-            case "icon" -> guild.getPlayerRank(player).getIcon();
-            case "guild" -> guild.getName();
-            case "trophies" -> String.valueOf(guild.getTrophies());
-            case "division" -> guild.getDivision().getName();
-            case "rank" -> guild.getPlayerRank(player).getDisplay();
-            case "rankedposition" -> "#" + RankedUtils.getLeaderboard(this.plugin.getGuildManager().getGuildMap().values()).indexOf(guild);
+            case "icon" -> guild.member(player).rank().icon();
+            case "guild" -> guild.name();
+            case "trophies" -> String.valueOf(guild.trophies());
+            case "division" -> guild.division().getName();
+            case "rank" -> guild.member(player).rank().title();
+            case "rankedposition" -> "#" + RankedUtils.getLeaderboard(this.plugin.guildManager().guildMap().values()).indexOf(guild);
             default -> "<unknown>";
         };
     }

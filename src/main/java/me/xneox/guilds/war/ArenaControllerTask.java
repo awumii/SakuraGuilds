@@ -18,7 +18,7 @@ public class ArenaControllerTask implements Runnable {
 
     @Override
     public void run() {
-        for (Arena arena : this.plugin.getArenaManager().getArenaMap().values()) {
+        for (Arena arena : this.plugin.arenaManager().arenaMap().values()) {
             if (arena.getState() == ArenaState.FREE) {
                 continue;
             }
@@ -29,7 +29,7 @@ public class ArenaControllerTask implements Runnable {
              if (arena.getState() == ArenaState.PREPARING) {
                  if (arena.getTime() == 0) {
                      ChatUtils.broadcastCenteredMessage("");
-                     ChatUtils.broadcastCenteredMessage("&6&l⚔ " + firstGuild.getGuild().getName() + " vs " + secondGuild.getGuild().getName() + " ⚔");
+                     ChatUtils.broadcastCenteredMessage("&6&l⚔ " + firstGuild.getGuild().name() + " vs " + secondGuild.getGuild().name() + " ⚔");
                      ChatUtils.broadcastCenteredMessage("&fRozpoczyna się pojedynek pomiędzy tymi gildiami!");
                      ChatUtils.broadcastCenteredMessage("");
 
@@ -53,18 +53,18 @@ public class ArenaControllerTask implements Runnable {
 
                     // Ranking system.
                     ChatUtils.broadcastCenteredMessage("");
-                    ChatUtils.broadcastCenteredMessage("&6&l⚔ " + firstGuild.getGuild().getName() + " vs " + secondGuild.getGuild().getName() + " ⚔");
-                    ChatUtils.broadcastCenteredMessage("&fWygrała gildia: &e" + arena.getWinner().getGuild().getName());
+                    ChatUtils.broadcastCenteredMessage("&6&l⚔ " + firstGuild.getGuild().name() + " vs " + secondGuild.getGuild().name() + " ⚔");
+                    ChatUtils.broadcastCenteredMessage("&fWygrała gildia: &e" + arena.getWinner().getGuild().name());
                     ChatUtils.broadcastCenteredMessage("&fIlość punktów:");
-                    ChatUtils.broadcastCenteredMessage("&8▸ &6" + firstGuild.getGuild().getName() + "&7: &e" + firstGuild.getPoints() + "★");
-                    ChatUtils.broadcastCenteredMessage("&8▸ &6" + secondGuild.getGuild().getName() + "&7: &e" + secondGuild.getPoints() + "★");
+                    ChatUtils.broadcastCenteredMessage("&8▸ &6" + firstGuild.getGuild().name() + "&7: &e" + firstGuild.getPoints() + "★");
+                    ChatUtils.broadcastCenteredMessage("&8▸ &6" + secondGuild.getGuild().name() + "&7: &e" + secondGuild.getPoints() + "★");
                     ChatUtils.broadcastCenteredMessage("");
 
                     arena.getWinner().getGuild().addTrophies(arena.getWinner().getPoints());
 
                     // Clearing guild war locks.
-                    arena.getFirstGuild().getGuild().setWarEnemy(null);
-                    arena.getSecondGuild().getGuild().setWarEnemy(null);
+                    arena.getFirstGuild().getGuild().warEnemy(null);
+                    arena.getSecondGuild().getGuild().warEnemy(null);
 
                     arena.setFirstGuild(null);
                     arena.setSecondGuild(null);
@@ -78,8 +78,8 @@ public class ArenaControllerTask implements Runnable {
                 } else {
                     arena.setTime(arena.getTime() - 1);
                     arena.getBossBar().setTitle(ChatUtils.legacyColor("&e⊙ Czas: &f" + TimeUtils.secondsToTime(arena.getTime())
-                            + " &9➙ " + arena.getFirstGuild().getGuild().getName() + ": &f" + arena.getFirstGuild().getPoints() + "/100 ☆" +
-                            " &c➙ " + arena.getSecondGuild().getGuild().getName() + ": &f" + arena.getSecondGuild().getPoints() + "/100 ☆"));
+                            + " &9➙ " + arena.getFirstGuild().getGuild().name() + ": &f" + arena.getFirstGuild().getPoints() + "/100 ☆" +
+                            " &c➙ " + arena.getSecondGuild().getGuild().name() + ": &f" + arena.getSecondGuild().getPoints() + "/100 ☆"));
                 }
             }
         }
@@ -87,21 +87,21 @@ public class ArenaControllerTask implements Runnable {
 
     private void handleArenaEnd(Player player) {
         player.teleport(ChunkUtils.WORLD.getSpawnLocation());
-        this.plugin.getArenaManager().loadBackup(player);
+        this.plugin.arenaManager().loadBackup(player);
     }
 
     private void handleArenaStart(Player player, Arena arena, Location spawn) {
         arena.getBossBar().addPlayer(player);
         player.teleport(spawn);
-        this.plugin.getArenaManager().createBackup(player);
+        this.plugin.arenaManager().createBackup(player);
 
-        ChatUtils.sendTitle(player, "&6&l⚔ " + arena.getFirstGuild().getGuild().getName() + " vs " + arena.getSecondGuild().getGuild().getName() + " ⚔",
+        ChatUtils.sendTitle(player, "&6&l⚔ " + arena.getFirstGuild().getGuild().name() + " vs " + arena.getSecondGuild().getGuild().name() + " ⚔",
                 "&fRozpoczyna się pojedynek, niech wygra najlepsza gildia!");
     }
 
     private void handleArenaCountdown(Player player, Arena arena) {
         VisualUtils.sound(player, Sound.ENTITY_EVOKER_CAST_SPELL);
-        ChatUtils.sendTitle(player, "&6&l⚔ " + arena.getFirstGuild().getGuild().getName() + " vs " + arena.getSecondGuild().getGuild().getName() + " ⚔",
+        ChatUtils.sendTitle(player, "&6&l⚔ " + arena.getFirstGuild().getGuild().name() + " vs " + arena.getSecondGuild().getGuild().name() + " ⚔",
                 "&fPojedynek rozpocznie się za &e" + arena.getTime() + " sekund!");
     }
 
@@ -110,8 +110,8 @@ public class ArenaControllerTask implements Runnable {
         int diamondAmount = RandomUtils.getInt(6);
         int emeraldAmount = RandomUtils.getInt(4, 8);
 
-        guild.getStorage().addItem(new ItemStack(Material.EXPERIENCE_BOTTLE, expAmount));
-        guild.getStorage().addItem(new ItemStack(Material.DIAMOND, diamondAmount));
-        guild.getStorage().addItem(new ItemStack(Material.EMERALD, emeraldAmount));
+        guild.storage().addItem(new ItemStack(Material.EXPERIENCE_BOTTLE, expAmount));
+        guild.storage().addItem(new ItemStack(Material.DIAMOND, diamondAmount));
+        guild.storage().addItem(new ItemStack(Material.EMERALD, emeraldAmount));
     }
 }

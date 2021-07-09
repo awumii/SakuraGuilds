@@ -15,11 +15,11 @@ public class PlayerJoinLeaveListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        this.plugin.getUserManager().getUser(event.getPlayer());
+        this.plugin.userManager().getUser(event.getPlayer());
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        this.plugin.getUserManager().removeUser(event.getPlayer().getName());
+        this.plugin.userManager().removeUser(event.getPlayer().getName());
     }
 }

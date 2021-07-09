@@ -22,16 +22,16 @@ public class HoloRefreshTask implements Runnable {
     public void run() {
         HologramsAPI.getHolograms(this.plugin).forEach(Hologram::delete);
 
-        this.plugin.getGuildManager().getGuildMap().values().forEach(guild -> {
-            guild.getInvitations().clear();
-            guild.setDeleteConfirm(false);
+        this.plugin.guildManager().guildMap().values().forEach(guild -> {
+            guild.invitations().clear();
+            guild.deleteConfirmation(false);
         });
 
         createRankTop();
     }
 
     private void createRankTop() {
-        List<Guild> leaderboard = RankedUtils.getLeaderboard(this.plugin.getGuildManager().getGuildMap().values());
+        List<Guild> leaderboard = RankedUtils.getLeaderboard(this.plugin.guildManager().guildMap().values());
         List<String> lines = new ArrayList<>();
         lines.add("&6&l10 Najlepszych gildii");
         lines.add("&7Ilość pucharków");
@@ -44,9 +44,9 @@ public class HoloRefreshTask implements Runnable {
             }
 
             Guild guild = leaderboard.get(i);
-            lines.add(" &e" + (i + 1) + ". &b" + guild.getName() + " &7- &e" + guild.getTrophies() + "★");
+            lines.add(" &e" + (i + 1) + ". &b" + guild.name() + " &7- &e" + guild.trophies() + "★");
         }
 
-        VisualUtils.createHologram(this.plugin.getArenaManager().getLeaderboard(), Material.GOLD_BLOCK, lines.toArray(new String[0]));
+        VisualUtils.createHologram(this.plugin.arenaManager().leaderboardLocation(), Material.GOLD_BLOCK, lines.toArray(new String[0]));
     }
 }

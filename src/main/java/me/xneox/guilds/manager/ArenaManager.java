@@ -46,12 +46,12 @@ public class ArenaManager {
     }
 
     @Nullable
-    public Arena getArena(String name) {
+    public Arena find(String name) {
         return this.arenaMap.get(name);
     }
 
     @Nullable
-    public Arena getFreeArena() {
+    public Arena findFree() {
         return this.arenaMap.values().stream().filter(arena -> arena.getState() == ArenaState.FREE).findFirst().orElse(null);
     }
 
@@ -70,15 +70,15 @@ public class ArenaManager {
         player.setLevel(data.getRight());
     }
 
-    public Map<String, Arena> getArenaMap() {
+    public Map<String, Arena> arenaMap() {
         return arenaMap;
     }
 
-    public Location getLeaderboard() {
+    public Location leaderboardLocation() {
         return leaderboard;
     }
 
-    public void setLeaderboard(Location leaderboard) {
+    public void leaderboardLocation(Location leaderboard) {
         this.leaderboard = leaderboard;
     }
 }

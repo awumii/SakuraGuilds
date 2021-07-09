@@ -30,7 +30,7 @@ public class WarListener implements Listener {
             arena.getSecondGuild().getMembers().remove(player);
             arena.getFirstGuild().getMembers().remove(player);
 
-            this.plugin.getArenaManager().loadBackup(player);
+            this.plugin.arenaManager().loadBackup(player);
             player.teleport(ChunkUtils.WORLD.getSpawnLocation());
             ChatUtils.broadcast("&7Gracz &e" + player.getName() + " &7opuścił wojnę!");
         }
@@ -74,20 +74,20 @@ public class WarListener implements Listener {
                 player.teleport(arena.getFirstSpawn());
                 arena.getSecondGuild().setPoints(arena.getSecondGuild().getPoints() + points);
                 arena.forPlayers(p -> ChatUtils.sendTitle(p, "&6&lZabójstwo!",
-                        "&fGildia &e" + arena.getSecondGuild().getGuild().getName() + " &fzdobywa &e" + points + "★"));
+                        "&fGildia &e" + arena.getSecondGuild().getGuild().name() + " &fzdobywa &e" + points + "★"));
             } else if (arena.getSecondGuild().getMembers().contains(player)) {
                 this.handleRespawn(event, arena.getSecondSpawn());
 
                 player.teleport(arena.getSecondSpawn());
                 arena.getFirstGuild().setPoints(arena.getFirstGuild().getPoints() + points);
                 arena.forPlayers(p -> ChatUtils.sendTitle(p, "&6&lZabójstwo!",
-                        "&fGildia &e" + arena.getFirstGuild().getGuild().getName() + " &fzdobywa &e" + points + "★"));
+                        "&fGildia &e" + arena.getFirstGuild().getGuild().name() + " &fzdobywa &e" + points + "★"));
             }
         }
     }
 
     private Arena getArena(Player player) {
-        for (Arena arena : this.plugin.getArenaManager().getArenaMap().values()) {
+        for (Arena arena : this.plugin.arenaManager().arenaMap().values()) {
             if (arena.getState() != ArenaState.INGAME) {
                 continue;
             }
@@ -105,7 +105,7 @@ public class WarListener implements Listener {
 
         Bukkit.getScheduler().runTaskLater(this.plugin, () -> player.spigot().respawn(), 2L);
         Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
-            plugin.getArenaManager().loadBackup(player);
+            plugin.arenaManager().loadBackup(player);
             player.teleport(spawn);
         }, 4L);
     }

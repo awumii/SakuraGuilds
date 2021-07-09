@@ -21,11 +21,11 @@ public class Member {
     }
 
     public String nickname() {
-        return nickname;
+        return this.nickname;
     }
 
     public Rank rank() {
-        return rank;
+        return this.rank;
     }
 
     public void rank(Rank rank) {
@@ -39,6 +39,10 @@ public class Member {
 
     public Set<Permission> permissions() {
         return this.permissions;
+    }
+
+    public String displayName() {
+        return this.rank.icon() + " " + nickname;
     }
 
     public static Member parse(String string) {

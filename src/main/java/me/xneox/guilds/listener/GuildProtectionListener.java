@@ -31,7 +31,7 @@ public class GuildProtectionListener implements Listener {
      * @return whenever the event should be cancelled.
      */
     private boolean isProtected(Player player, Location location) {
-        Guild guild = this.plugin.getGuildManager().getGuildAt(location);
+        Guild guild = this.plugin.guildManager().findAt(location);
         if (guild == null) {
             return false;
         }
@@ -80,11 +80,11 @@ public class GuildProtectionListener implements Listener {
 
     @EventHandler
     public void onBlockFromTo(BlockFromToEvent event) {
-        if (this.plugin.getGuildManager().getGuildAt(event.getBlock().getLocation()) != null) {
+        if (this.plugin.guildManager().findAt(event.getBlock().getLocation()) != null) {
             return;
         }
 
-        if (this.plugin.getGuildManager().getGuildAt(event.getToBlock().getLocation()) != null) {
+        if (this.plugin.guildManager().findAt(event.getToBlock().getLocation()) != null) {
             event.setCancelled(true);
         }
     }
@@ -92,7 +92,7 @@ public class GuildProtectionListener implements Listener {
     @EventHandler
     public void onPistonExtend(BlockPistonExtendEvent event) {
         for (Block block : event.getBlocks()) {
-            if (this.plugin.getGuildManager().getGuildAt(block.getLocation()) != null) {
+            if (this.plugin.guildManager().findAt(block.getLocation()) != null) {
                 event.setCancelled(true);
             }
         }
@@ -101,7 +101,7 @@ public class GuildProtectionListener implements Listener {
     @EventHandler
     public void onPistonRetread(BlockPistonRetractEvent event) {
         for (Block block : event.getBlocks()) {
-            if (this.plugin.getGuildManager().getGuildAt(block.getLocation()) != null) {
+            if (this.plugin.guildManager().findAt(block.getLocation()) != null) {
                 event.setCancelled(true);
             }
         }
@@ -127,7 +127,7 @@ public class GuildProtectionListener implements Listener {
 
         while (affectedBlocks.hasNext()) {
             Block block = affectedBlocks.next();
-            Guild guild = this.plugin.getGuildManager().getGuildAt(block.getLocation());
+            Guild guild = this.plugin.guildManager().findAt(block.getLocation());
 
             if (guild != null && guild.isShieldActive()) {
                 affectedBlocks.remove();

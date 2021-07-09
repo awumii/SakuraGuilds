@@ -18,30 +18,30 @@ public class JoinCommand implements SubCommand {
             return;
         }
 
-        if (manager.getGuild(player.getName()) != null) {
+        if (manager.playerGuild(player.getName()) != null) {
             ChatUtils.sendMessage(player, "&cJuż posiadasz gildię.");
             return;
         }
 
-        Guild guild = manager.getGuildExact(args[1]);
+        Guild guild = manager.get(args[1]);
         if (guild == null) {
             ChatUtils.sendMessage(player, "&cTaka gildia nie istnieje.");
             return;
         }
 
-        if (!guild.isPublic() && !guild.getInvitations().contains(player.getName()) && !player.isOp()) {
+        if (!guild.invitations().contains(player.getName()) && !player.isOp()) {
             ChatUtils.sendMessage(player, "&cNie zostałeś zaproszony do tej gildii.");
             return;
         }
 
-        if (guild.getMembers().size() >= guild.maxSlots()) {
+        if (guild.members().size() >= guild.maxSlots()) {
             ChatUtils.sendMessage(player, "&cTa gildia osiągnęła limit członków!");
             return;
         }
 
-        guild.getMembers().add(new Member(player.getName(), Rank.REKRUT, Rank.REKRUT.defaultPermissions()));
-        HookUtils.INSTANCE.getUserManager().getUser(player).setJoinDate();
-        HookUtils.INSTANCE.getInventoryManager().open("management", player);
-        ChatUtils.broadcast("&e" + player.getName() + " &7dołącza do gildii &6" + guild.getName());
+        guild.members().add(new Member(player.getName(), Rank.REKRUT, Rank.REKRUT.defaultPermissions()));
+        HookUtils.INSTANCE.userManager().getUser(player).setJoinDate();
+        HookUtils.INSTANCE.inventoryManager().open("management", player);
+        ChatUtils.broadcast("&e" + player.getName() + " &7dołącza do gildii &6" + guild.name());
     }
 }

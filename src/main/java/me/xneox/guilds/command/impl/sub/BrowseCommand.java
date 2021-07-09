@@ -8,6 +8,6 @@ import org.bukkit.entity.Player;
 public class BrowseCommand implements SubCommand {
     @Override
     public void handle(GuildManager manager, Player player, String[] args) {
-        HookUtils.INSTANCE.getInventoryManager().open("browse", player);
+        HookUtils.INSTANCE.inventoryManager().open("browse", player);
     }
 }

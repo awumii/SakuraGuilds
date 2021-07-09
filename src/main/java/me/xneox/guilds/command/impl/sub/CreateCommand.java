@@ -34,12 +34,12 @@ public class CreateCommand implements SubCommand {
             return;
         }
 
-        if (manager.getGuildMap().containsKey(args[1])) {
+        if (manager.guildMap().containsKey(args[1])) {
             ChatUtils.sendMessage(player, "&cGildia o takiej nazwie już istnieje!");
             return;
         }
 
-        if (manager.getGuild(player.getName()) != null) {
+        if (manager.playerGuild(player.getName()) != null) {
             ChatUtils.sendMessage(player, "&cJuż posiadasz gildię!");
             return;
         }
@@ -48,19 +48,19 @@ public class CreateCommand implements SubCommand {
             return;
         }
 
-        HookUtils.INSTANCE.getUserManager().getUser(player).setJoinDate();
+        HookUtils.INSTANCE.userManager().getUser(player).setJoinDate();
 
         Location nexusLoc = ChunkUtils.getCenter(ChunkUtils.toString(player.getChunk()));
         nexusLoc.setY(30);
 
         Guild guild = new Guild(args[1], new ArrayList<>(), nexusLoc, new Date().getTime(), new ArrayList<>(), player.getLocation(), new ArrayList<>(),
-                0, 3, 100, 0, 0, 0, false, 6, 6, 9, new ItemStack[0]);
+                0, 3, 100, 0, 0, 0, 6, 6, 9, new ItemStack[0]);
 
-        manager.getGuildMap().put(args[1], guild);
+        manager.guildMap().put(args[1], guild);
 
-        guild.setShield(Duration.ofDays(1));
-        guild.getMembers().add(new Member(player.getName(), Rank.LEADER, Rank.LEADER.defaultPermissions()));
-        guild.getChunks().add(ChunkUtils.toString(player.getLocation().getChunk()));
+        guild.shieldDuration(Duration.ofDays(1));
+        guild.members().add(new Member(player.getName(), Rank.LEADER, Rank.LEADER.defaultPermissions()));
+        guild.claims().add(ChunkUtils.toString(player.getLocation().getChunk()));
 
         ChatUtils.broadcast("&e" + player.getName() + " &7zakłada gildię &6" + args[1]);
 
@@ -75,7 +75,7 @@ public class CreateCommand implements SubCommand {
         player.getWorld().getBlockAt(nexusLoc).setType(Material.END_PORTAL_FRAME);
         player.teleport(nexusLoc);
 
-        HookUtils.INSTANCE.getInventoryManager().open("management", player);
+        HookUtils.INSTANCE.inventoryManager().open("management", player);
 
         Location light;
 

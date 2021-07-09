@@ -16,14 +16,14 @@ public class SetTrophiesCommand implements SubCommand {
             return;
         }
 
-        Guild guild = manager.getGuildExact(args[1]);
+        Guild guild = manager.get(args[1]);
         if (guild == null) {
             ChatUtils.sendMessage(player, "&cNie odnaleziono takiej gildii.");
             return;
         }
 
         int trophies = Integer.parseInt(args[2]);
-        guild.setTrophies(trophies);
+        guild.trophies(trophies);
         ChatUtils.sendMessage(player, "&7Ustawiono pucharki na " + trophies);
     }
 }

@@ -17,7 +17,7 @@ public final class RankedUtils {
     public static class TrophyComparator implements Comparator<Guild> {
         @Override
         public int compare(Guild o1, Guild o2) {
-            return Integer.compare(o2.getTrophies(), o1.getTrophies());
+            return Integer.compare(o2.trophies(), o1.trophies());
         }
     }
 

@@ -5,7 +5,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public final class InventoryUtils {
-    public static final ItemStack BLACK_GLASS = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).name("&r").build();
+    public static final ItemStack BLACK_GLASS = ItemBuilder.of(Material.BLACK_STAINED_GLASS_PANE).name("&r").build();
 
     public static void drawBorder(Inventory inventory) {
         inventory.setItem(0, BLACK_GLASS);
@@ -48,7 +48,7 @@ public final class InventoryUtils {
 
     public static void fillInventory(Inventory inventory, Material material) {
         for (int i = 0; i < inventory.getSize(); i++) {
-            inventory.setItem(i, new ItemBuilder(material).name("&8 ").build());
+            inventory.setItem(i, ItemBuilder.of(material).name("&8 ").build());
         }
     }
 

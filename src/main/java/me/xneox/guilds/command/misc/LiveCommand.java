@@ -25,8 +25,8 @@ public class LiveCommand implements CommandExecutor {
             ChatUtils.sendRaw(player, "&cPodaj link do swojego live!");
             return true;
         }
-        if (this.plugin.getCooldownManager().hasCooldown(player, "live")) {
-            ChatUtils.sendRaw(player, "&cPoczekaj &4" + this.plugin.getCooldownManager().getRemaining(player, "live") + " &cprzed zareklamowaniem.");
+        if (this.plugin.cooldownManager().hasCooldown(player, "live")) {
+            ChatUtils.sendRaw(player, "&cPoczekaj &4" + this.plugin.cooldownManager().getRemaining(player, "live") + " &cprzed zareklamowaniem.");
             return true;
         }
         for (Player target : Bukkit.getOnlinePlayers()) {
@@ -35,7 +35,7 @@ public class LiveCommand implements CommandExecutor {
             ChatUtils.sendCenteredMessage(target, "&f&n" + args[0]);
             ChatUtils.sendCenteredMessage(target, "");
         }
-        this.plugin.getCooldownManager().add(player, "live", 5, TimeUnit.MINUTES);
+        this.plugin.cooldownManager().add(player, "live", 5, TimeUnit.MINUTES);
         return true;
     }
 }

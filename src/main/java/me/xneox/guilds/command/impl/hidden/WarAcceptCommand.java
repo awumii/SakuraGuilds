@@ -16,10 +16,10 @@ import org.bukkit.entity.Player;
 public class WarAcceptCommand implements SubCommand {
     @Override
     public void handle(GuildManager manager, Player player, String[] args) {
-        Guild guild = manager.getGuild(player);
-        Guild other = manager.getGuildExact(args[2]);
+        Guild guild = manager.playerGuild(player);
+        Guild other = manager.get(args[2]);
 
-        if (other.getWarEnemy() != null || guild.getWarEnemy() != null) {
+        if (other.warEnemy() != null || guild.warEnemy() != null) {
             ChatUtils.sendMessage(player, "&cJedna ze stron już jest w trakcie wojny!");
             return;
         }
@@ -30,7 +30,7 @@ public class WarAcceptCommand implements SubCommand {
         }
 
         if (args[1].equals("IJAD98jdksldM")) {
-            Arena arena = HookUtils.INSTANCE.getArenaManager().getFreeArena();
+            Arena arena = HookUtils.INSTANCE.arenaManager().findFree();
             if (arena == null) {
                 ChatUtils.broadcast("&cBrakuje wolnych aren, wojna została anulowana!");
                 return;
@@ -43,13 +43,13 @@ public class WarAcceptCommand implements SubCommand {
             arena.setSecondGuild(new WarParticipant(guild));
 
             // Setting war enemies
-            guild.setWarEnemy(other);
-            other.setWarEnemy(guild);
+            guild.warEnemy(other);
+            other.warEnemy(guild);
 
-            ChatUtils.broadcast("&7Gildie &6" + guild.getName() + " &7oraz &6" + other.getName() + " &7rozpoczęły &4&lPOJEDYNEK!");
+            ChatUtils.broadcast("&7Gildie &6" + guild.name() + " &7oraz &6" + other.name() + " &7rozpoczęły &4&lPOJEDYNEK!");
         } else if (args[1].equals("dh98jadOAKD")) {
-            ChatUtils.guildAlert(guild, guild.getDisplayName(player) + " &7odrzucił zaproszenie pojedynku od &6" + other.getName());
-            ChatUtils.guildAlert(other, guild.getDisplayName(player) + " &7z gildii &6" + guild.getName() + " &7odrzucił wasze zaproszenie do pojedynku.");
+            ChatUtils.guildAlert(guild, guild.member(player).displayName() + " &7odrzucił zaproszenie pojedynku od &6" + other.name());
+            ChatUtils.guildAlert(other, guild.member(player).displayName() + " &7z gildii &6" + guild.name() + " &7odrzucił wasze zaproszenie do pojedynku.");
         }
     }
 }

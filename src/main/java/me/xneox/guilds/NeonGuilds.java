@@ -62,7 +62,7 @@ public class NeonGuilds extends JavaPlugin {
         registerListener(new WarListener(this));
 
         // To remove
-        registerListener(new CrazyAuctionsListener());
+        registerListener(new CompatibilityListener());
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotifierTask(this), 0L, 40L);
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new DataSaveTask(this), 0L, 20 * 60L);
@@ -81,24 +81,24 @@ public class NeonGuilds extends JavaPlugin {
         this.userManager.saveAll();
     }
 
-    public GuildManager getGuildManager() {
-        return guildManager;
+    public GuildManager guildManager() {
+        return this.guildManager;
     }
 
-    public ArenaManager getArenaManager() {
-        return arenaManager;
+    public ArenaManager arenaManager() {
+        return this.arenaManager;
     }
 
-    public UserManager getUserManager() {
-        return userManager;
+    public UserManager userManager() {
+        return this.userManager;
     }
 
-    public InventoryManager getInventoryManager() {
-        return inventoryManager;
+    public InventoryManager inventoryManager() {
+        return this.inventoryManager;
     }
 
-    public CooldownManager getCooldownManager() {
-        return cooldownManager;
+    public CooldownManager cooldownManager() {
+        return this.cooldownManager;
     }
 
     private void registerCommand(String name, CommandExecutor executor, TabCompleter tabCompleter) {

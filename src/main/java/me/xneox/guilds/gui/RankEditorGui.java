@@ -25,18 +25,18 @@ public class RankEditorGui extends InventoryProviderImpl {
 
     @Override
     public void open(Player player, Inventory inventory) {
-        Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
-        String target = this.plugin.getUserManager().getUser(player).getEditorSubject();
+        Guild guild = this.plugin.guildManager().playerGuild(player.getName());
+        String target = this.plugin.userManager().getUser(player).getEditorSubject();
         Member member = guild.member(target);
 
-        ItemStack user = new ItemBuilder(Material.PLAYER_HEAD)
+        ItemStack user = ItemBuilder.of(Material.PLAYER_HEAD)
                 .name("&6" + target)
-                .lore("&7Ranga: " + member.rank().getDisplay())
+                .lore("&7Ranga: " + member.rank().title())
                 .skullOwner(target)
                 .build();
 
-        ItemStack leader = new ItemBuilder(Material.PLAYER_HEAD)
-                .name(Rank.LEADER.getDisplay())
+        ItemStack leader = ItemBuilder.of(Material.PLAYER_HEAD)
+                .name(Rank.LEADER.title())
                 .lore("")
                 .lore("&cUWAGA: Po nadaniu tej rangi,")
                 .lore("&cutracisz status lidera gildii!")
@@ -45,8 +45,8 @@ public class RankEditorGui extends InventoryProviderImpl {
                 .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQxNWFhY2I3MjEzYzgzMTFlZWQ3YmFmMzdlYmI1OGE1ZjRiOTI1NjMxN2Q4NDU4ZDE1ZDMzN2E3NGU0YmU2In19fQ==")
                 .build();
 
-        ItemStack oficer = new ItemBuilder(Material.PLAYER_HEAD)
-                .name(Rank.GENERAL.getDisplay())
+        ItemStack oficer = ItemBuilder.of(Material.PLAYER_HEAD)
+                .name(Rank.GENERAL.title())
                 .lore("")
                 .lore("&eDomyślne Uprawnienia:")
                 .lore(" &8▸ &7Budowanie")
@@ -61,8 +61,8 @@ public class RankEditorGui extends InventoryProviderImpl {
                 .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTZlZjMwNzBmNmQyZTQ3YjViMTA1OWI0NWRiYzMyMmIyNDI1ZWEzZGUxZjFiY2I5NDI5MzM3ZmQ2OTNmYzYifX19")
                 .build();
 
-        ItemStack general = new ItemBuilder(Material.PLAYER_HEAD)
-                .name(Rank.OFICER.getDisplay())
+        ItemStack general = ItemBuilder.of(Material.PLAYER_HEAD)
+                .name(Rank.OFICER.title())
                 .lore("")
                 .lore("&eDomyślne Uprawnienia:")
                 .lore(" &8▸ &7Budowanie")
@@ -75,8 +75,8 @@ public class RankEditorGui extends InventoryProviderImpl {
                 .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmI0MTZiM2Q5NzNlMzQ4MDY2NDE2MmM5MjhjMGY3ZDJmNGYzMmI4ZDIwMjIyNWFiNjIyN2ZmNTllZTFjNWMzMSJ9fX0=")
                 .build();
 
-        ItemStack kapral = new ItemBuilder(Material.PLAYER_HEAD)
-                .name(Rank.KAPRAL.getDisplay())
+        ItemStack kapral = ItemBuilder.of(Material.PLAYER_HEAD)
+                .name(Rank.KAPRAL.title())
                 .lore("")
                 .lore("&eDomyślne Uprawnienia:")
                 .lore(" &8▸ &7Budowanie")
@@ -87,8 +87,8 @@ public class RankEditorGui extends InventoryProviderImpl {
                 .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTY3ZWRhNjhhZTJmZmY1MjRlODNmOGE5MTZlYzMzOTBhZGVjYTM5NGY3ZDg2MTdhNGQ3N2ZiYTNlNjg5Yjc1In19fQ==")
                 .build();
 
-        ItemStack rekrut = new ItemBuilder(Material.PLAYER_HEAD)
-                .name(Rank.REKRUT.getDisplay())
+        ItemStack rekrut = ItemBuilder.of(Material.PLAYER_HEAD)
+                .name(Rank.REKRUT.title())
                 .lore("")
                 .lore("&eDomyślne Uprawnienia:")
                 .lore(" &8▸ &7Budowanie")
@@ -97,7 +97,7 @@ public class RankEditorGui extends InventoryProviderImpl {
                 .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZThiOGM2YTQ2ZDg3Y2Y4NmE1NWRmMjE0Y2Y4NGJmNDVjY2EyNWVkYjlhNjc2ZTk2MzY0ZGQ2YTZlZWEyMzViMyJ9fX0=")
                 .build();
 
-        ItemStack close = new ItemBuilder(Material.PLAYER_HEAD)
+        ItemStack close = ItemBuilder.of(Material.PLAYER_HEAD)
                 .name("&cPowrót")
                 .lore("&7Cofnij do menu gildii.")
                 .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
@@ -118,7 +118,7 @@ public class RankEditorGui extends InventoryProviderImpl {
         }
 
         for (Permission permission : Permission.values()) {
-            ItemStack stack = new ItemBuilder(Material.PLAYER_HEAD)
+            ItemStack stack = ItemBuilder.of(Material.PLAYER_HEAD)
                     .name((member.hasPermission(permission) ? "&a" : "&c") + permission.getDescription())
                     .skullTexture(member.hasPermission(permission)
                             ? "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDMxMmNhNDYzMmRlZjVmZmFmMmViMGQ5ZDdjYzdiNTVhNTBjNGUzOTIwZDkwMzcyYWFiMTQwNzgxZjVkZmJjNCJ9fX0="
@@ -136,57 +136,66 @@ public class RankEditorGui extends InventoryProviderImpl {
     public void event(ClickEvent event, Player player) {
         VisualUtils.click(player);
 
-        int slot = event.slot();
         ItemStack item = event.item();
-
-        if (item.getType() == Material.PLAYER_HEAD) {
-            if (item.getItemMeta().getDisplayName().contains("Powrót")) {
-                this.plugin.getInventoryManager().open("members", player);
-                return;
-            }
-
-            Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
-            String target = this.plugin.getUserManager().getUser(player).getEditorSubject();
-            Member member = guild.member(target);
-
-            // Block editing your own rank.
-            if (player.getName().equals(target)) {
-                VisualUtils.sound(player, Sound.ENTITY_VILLAGER_NO);
-                ChatUtils.sendMessage(player, "&cNie możesz zarządzać własnymi uprawnieniami!");
-                return;
-            }
-
-            // Block editing if lower rank or no permission.
-            if (!guild.member(player.getName()).permissions().contains(Permission.RANKS) || !guild.isHigher(player.getName(), target)) {
-                VisualUtils.sound(player, Sound.ENTITY_VILLAGER_NO);
-                ChatUtils.sendMessage(player, "&cTwoja ranga w gildii jest zbyt niska!");
-                return;
-            }
-
-            // Editing the member's rank
-            if (item.getItemMeta().getLore() != null) {
-                Rank rank = Rank.REKRUT;
-                if (slot == 2) {
-                    rank = Rank.LEADER;
-                } else if (slot == 4) {
-                    rank = Rank.GENERAL;
-                } else if (slot == 3) {
-                    rank = Rank.OFICER;
-                } else if (slot == 5) {
-                    rank = Rank.KAPRAL;
-                }
-
-                guild.changeRank(target, rank);
-                ChatUtils.guildAlert(guild, guild.getDisplayName(player) + " &7zmienił pozycję gracza &6" + target + " &7na " + rank.getDisplay());
-            } else {
-                // Editing the member's custom permissions.
-                Permission permission = Permission.find(item.getItemMeta().getDisplayName());
-                if (permission != null) {
-                    guild.changePermission(target, permission, !member.hasPermission(permission));
-                }
-            }
-
-            this.plugin.getInventoryManager().open("rank_editor", player);
+        if (item.getType() != Material.PLAYER_HEAD) {
+            return;
         }
+
+        if (isBackButton(item)) {
+            this.plugin.inventoryManager().open("members", player);
+            return;
+        }
+
+        Guild guild = this.plugin.guildManager().playerGuild(player.getName());
+        String targetName = this.plugin.userManager().getUser(player).getEditorSubject();
+
+        Member member = guild.member(player);
+        Member targetMember = guild.member(targetName);
+
+        // Block editing your own rank.
+        if (player.getName().equals(targetName)) {
+            VisualUtils.sound(player, Sound.ENTITY_VILLAGER_NO);
+            ChatUtils.sendMessage(player, "&cNie możesz zarządzać własnymi uprawnieniami!");
+            return;
+        }
+
+        // Block editing if lower rank or no permission.
+        if (!member.hasPermission(Permission.RANKS)) {
+            VisualUtils.sound(player, Sound.ENTITY_VILLAGER_NO);
+            ChatUtils.sendMessage(player, "&cNie posiadasz uprawnień do zarządzania uprawnieniami.");
+            return;
+        }
+
+        if (!member.rank().isHigher(targetMember.rank())) {
+            VisualUtils.sound(player, Sound.ENTITY_VILLAGER_NO);
+            ChatUtils.sendMessage(player, "&cTwoja ranga w gildii jest niższa od docelowego gracza.");
+            return;
+        }
+
+        // Editing the targetMember's rank
+        if (item.getItemMeta().getLore() != null) {
+            Rank rank = switch (event.slot()) {
+                case 2 -> Rank.LEADER;
+                case 4 -> Rank.GENERAL;
+                case 3 -> Rank.OFICER;
+                case 5 -> Rank.KAPRAL;
+                default -> Rank.REKRUT;
+            };
+
+            guild.changeRank(targetName, rank);
+            ChatUtils.guildAlert(guild, member.displayName() + " &7zmienił pozycję gracza &6" + targetName + " &7na " + rank.title());
+        } else {
+            // Editing the targetMember's custom permissions.
+            Permission permission = Permission.find(ChatUtils.plainString(item.getItemMeta().displayName()));
+            if (permission != null) {
+                if (targetMember.hasPermission(permission)) {
+                    targetMember.permissions().remove(permission);
+                } else {
+                    targetMember.permissions().add(permission);
+                }
+            }
+        }
+
+        this.plugin.inventoryManager().open("rank_editor", player);
     }
 }

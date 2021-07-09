@@ -16,29 +16,37 @@
 package me.xneox.guilds.util.gui;
 
 import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.gui.api.InventoryProvider;
 import me.xneox.guilds.util.gui.api.InventorySize;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class InventoryProviderImpl implements InventoryProvider {
     protected final NeonGuilds plugin;
-    private final String title;
+    private final TextComponent title;
     private final int size;
 
     public InventoryProviderImpl(NeonGuilds plugin, String title, InventorySize size) {
         this.plugin = plugin;
-        this.title = ChatColor.translateAlternateColorCodes('&', title);
+        this.title = LegacyComponentSerializer.legacyAmpersand().deserialize(title);
         this.size = size.slots();
     }
 
     @Override
-    public @NotNull String title() {
+    public @NotNull TextComponent title() {
         return this.title;
     }
 
     @Override
     public int size() {
         return this.size;
+    }
+
+    public boolean isBackButton(ItemStack stack) {
+        return stack.getType() == Material.PLAYER_HEAD && ChatUtils.plainString(stack.getItemMeta().displayName()).contains("Powrót");
     }
 }

@@ -21,14 +21,14 @@ public class NewbieGui extends InventoryProviderImpl {
     public void open(Player player, Inventory inventory) {
         InventoryUtils.fillInventory(inventory, Material.BLACK_STAINED_GLASS_PANE);
 
-        ItemStack browse = new ItemBuilder(Material.PLAYER_HEAD)
+        ItemStack browse = ItemBuilder.of(Material.PLAYER_HEAD)
                 .name("&6Publiczne gildie")
                 .lore("")
                 .lore("&7Kliknij, aby przeglądać gildie.")
                 .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTJlYzlhOGE5MGQ5MGM3ODY1MWFmMmY5NjIwMTUxMTFmY2JmMTFhYzg3MzhmNTJiOGUyNGRhODYyYTM4NzFiYSJ9fX0=")
                 .build();
 
-        ItemStack help = new ItemBuilder(Material.PLAYER_HEAD)
+        ItemStack help = ItemBuilder.of(Material.PLAYER_HEAD)
                 .name("&6Lista komend")
                 .lore("")
                 .lore("&7Kliknij, aby wyświetlić pomoc.")
@@ -44,7 +44,7 @@ public class NewbieGui extends InventoryProviderImpl {
         VisualUtils.click(player);
 
         if (event.slot() == 11) {
-            this.plugin.getInventoryManager().open("browse", player);
+            this.plugin.inventoryManager().open("browse", player);
         } else if (event.slot() == 15) {
             player.closeInventory();
             player.performCommand("g help");

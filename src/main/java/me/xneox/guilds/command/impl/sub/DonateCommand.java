@@ -17,7 +17,7 @@ public class DonateCommand implements SubCommand {
             return;
         }
 
-        Guild guild = manager.getGuild(player.getName());
+        Guild guild = manager.playerGuild(player.getName());
         if (guild == null) {
             ChatUtils.sendMessage(player, "&cNie posiadasz gildii.");
             return;
@@ -29,7 +29,7 @@ public class DonateCommand implements SubCommand {
             HookUtils.ECONOMY.withdrawPlayer(player, money);
 
             guild.money(guild.money() + money);
-            ChatUtils.guildAlert(guild, guild.getDisplayName(player) + " &7wpłacił &6" + money + "$ &7do banku gildii.");
+            ChatUtils.guildAlert(guild, guild.member(player).displayName() + " &7wpłacił &6" + money + "$ &7do banku gildii.");
         } else {
             ChatUtils.sendMessage(player, "&cNie posiadasz tyle pieniędzy!");
         }

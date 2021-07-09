@@ -12,7 +12,7 @@ public class UnClaimCommand implements SubCommand {
 
     @Override
     public void handle(GuildManager manager, Player player, String[] args) {
-        Guild guild = manager.getGuild(player.getName());
+        Guild guild = manager.playerGuild(player.getName());
         if (guild == null) {
             ChatUtils.sendMessage(player, "&cNie posiadasz gildii.");
             return;
@@ -24,7 +24,7 @@ public class UnClaimCommand implements SubCommand {
         }
 
         String chunk = ChunkUtils.toString(player.getChunk());
-        if (!guild.getChunks().contains(chunk)) {
+        if (!guild.claims().contains(chunk)) {
             ChatUtils.sendMessage(player, "&cTen chunk nie został zajęty.");
             return;
         }
@@ -34,7 +34,7 @@ public class UnClaimCommand implements SubCommand {
             return;
         }
 
-        guild.getChunks().remove(chunk);
-        ChatUtils.guildAlert(guild, guild.getDisplayName(player) + " &cporzuca chunk: &6" + chunk);
+        guild.claims().remove(chunk);
+        ChatUtils.guildAlert(guild, guild.member(player).displayName() + " &cporzuca chunk: &6" + chunk);
     }
 }

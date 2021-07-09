@@ -25,18 +25,18 @@ public class InviteCommand implements SubCommand {
             return;
         }
 
-        if (manager.getGuild(args[1]) != null) {
+        if (manager.playerGuild(args[1]) != null) {
             ChatUtils.sendMessage(player, "&cTen gracz już posiada gildię.");
             return;
         }
 
-        Guild guild = manager.getGuild(player.getName());
+        Guild guild = manager.playerGuild(player.getName());
         if (guild == null) {
             ChatUtils.sendMessage(player, "&cNie posiadasz gildii.");
             return;
         }
 
-        if (guild.getMembers().size() >= guild.maxSlots()) {
+        if (guild.members().size() >= guild.maxSlots()) {
             ChatUtils.sendMessage(player, "&cOsiągnięto limit graczy dodanych do gildii. Zakup ulepszenie gildii!");
             return;
         }
@@ -46,21 +46,21 @@ public class InviteCommand implements SubCommand {
             return;
         }
 
-        if (HookUtils.INSTANCE.getCooldownManager().hasCooldown(player, "invite-" + target.getName())) {
+        if (HookUtils.INSTANCE.cooldownManager().hasCooldown(player, "invite-" + target.getName())) {
             ChatUtils.sendMessage(player, "&cMusisz poczekać &6"
-                    + HookUtils.INSTANCE.getCooldownManager().getRemaining(player, "invite-" + target.getName()) + " &cprzed wysłaniem zaproszenia.");
+                    + HookUtils.INSTANCE.cooldownManager().getRemaining(player, "invite-" + target.getName()) + " &cprzed wysłaniem zaproszenia.");
             return;
         }
 
-        guild.getInvitations().add(args[1]);
+        guild.invitations().add(args[1]);
         ChatUtils.sendMessage(player, "Zaproszono gracza &6" + args[1] + " &7do twojej gildii.");
 
         ChatUtils.sendRaw(target, "");
-        ChatUtils.sendRaw(target, "  &7Otrzymano zaproszenie do gildii &6" + manager.getGuild(player.getName()).getName());
+        ChatUtils.sendRaw(target, "  &7Otrzymano zaproszenie do gildii &6" + manager.playerGuild(player.getName()).name());
         ChatUtils.sendClickableMessage(target, "  &aKliknij, aby zaakceptować.",
-                "&aPo kliknięciu dołączysz do gildii!", "/g join " + guild.getName());
+                "&aPo kliknięciu dołączysz do gildii!", "/g join " + guild.name());
         ChatUtils.sendRaw(target, "");
 
-        HookUtils.INSTANCE.getCooldownManager().add(player, "invite-" + target.getName(), 10, TimeUnit.MINUTES);
+        HookUtils.INSTANCE.cooldownManager().add(player, "invite-" + target.getName(), 10, TimeUnit.MINUTES);
     }
 }

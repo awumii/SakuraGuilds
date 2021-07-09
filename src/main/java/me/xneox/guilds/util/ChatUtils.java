@@ -6,6 +6,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,15 +23,15 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public final class ChatUtils {
-    public static final String PREFIX = " &6&lGILDIE ⚔ &7";
+    public static final String PREFIX = " &6&lGILDIE &8▶";
     private final static int CENTER_PX = 154;
 
     public static TextComponent color(String string) {
-        return LegacyComponentSerializer.legacy('&').deserialize(string);
+        return LegacyComponentSerializer.legacyAmpersand().deserialize(string);
     }
 
     public static String plainString(Component component) {
-        return PlainComponentSerializer.plain().serialize(component);
+        return PlainTextComponentSerializer.plainText().serialize(component);
     }
 
     public static void sendMessage(Player sender, String message) {

@@ -16,12 +16,12 @@ public class GuildTeleportCommand implements SubCommand {
             return;
         }
 
-        Guild guild = manager.getGuildExact(args[1]);
+        Guild guild = manager.get(args[1]);
         if (guild == null) {
             ChatUtils.sendMessage(player, "&cNie odnaleziono takiej gildii.");
             return;
         }
 
-        player.teleport(guild.getNexusLocation());
+        player.teleport(guild.nexusLocation());
     }
 }

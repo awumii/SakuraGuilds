@@ -22,7 +22,7 @@ public class AllyCommand implements SubCommand {
             return;
         }
 
-        Guild guild = manager.getGuild(player.getName());
+        Guild guild = manager.playerGuild(player.getName());
         if (guild == null) {
             ChatUtils.sendMessage(player, "&cNie posiadasz gildii.");
             return;
@@ -33,42 +33,42 @@ public class AllyCommand implements SubCommand {
             return;
         }
 
-        Guild otherGuild = manager.getGuildExact(args[1]);
+        Guild otherGuild = manager.get(args[1]);
         if (otherGuild == null) {
             ChatUtils.sendMessage(player, "&cPodana gildia nie istnieje.");
             return;
         }
 
-        if (guild.getName().equals(otherGuild.getName())) {
+        if (guild.name().equals(otherGuild.name())) {
             ChatUtils.sendMessage(player, "&cNie możesz zawrzeć sojuszu ze sobą XDDXDxdDXdx.");
             return;
         }
 
-        if (guild.getAllies().contains(otherGuild.getName())) {
+        if (guild.allies().contains(otherGuild.name())) {
             ChatUtils.sendMessage(player, "&cJuż posiadacie sojusz.");
             return;
         }
 
-        if (HookUtils.INSTANCE.getCooldownManager().hasCooldown(player, "ally-" + otherGuild.getName())) {
+        if (HookUtils.INSTANCE.cooldownManager().hasCooldown(player, "ally-" + otherGuild.name())) {
             ChatUtils.sendMessage(player, "&cMusisz poczekać &6"
-                    + HookUtils.INSTANCE.getCooldownManager().getRemaining(player, "ally-" + otherGuild.getName()) + " &cprzed wysłaniem zaproszenia.");
+                    + HookUtils.INSTANCE.cooldownManager().getRemaining(player, "ally-" + otherGuild.name()) + " &cprzed wysłaniem zaproszenia.");
             return;
         }
 
-        ChatUtils.sendMessage(player, "&7Wysłano zaproszenie sojuszu do &6" + otherGuild.getName());
+        ChatUtils.sendMessage(player, "&7Wysłano zaproszenie sojuszu do &6" + otherGuild.name());
 
         ChatUtils.guildAlertRaw(otherGuild, " ");
-        ChatUtils.guildAlertRaw(otherGuild, "  &7Otrzymano zaproszenie do sojuszu od &6" + guild.getName());
+        ChatUtils.guildAlertRaw(otherGuild, "  &7Otrzymano zaproszenie do sojuszu od &6" + guild.name());
         ChatUtils.guildAlertRaw(otherGuild, " ");
 
-        otherGuild.getMembers().stream().map(Member::nickname).map(Bukkit::getPlayerExact).filter(Objects::nonNull).forEach(member -> {
+        otherGuild.members().stream().map(Member::nickname).map(Bukkit::getPlayerExact).filter(Objects::nonNull).forEach(member -> {
             ChatUtils.sendClickableMessage(member, "  &aKliknij, aby zaakceptować.",
-                    "&aPo kliknięciu zostaniecie sojusznikami!", "/g acceptally IJAD98jdksldM " + guild.getName());
+                    "&aPo kliknięciu zostaniecie sojusznikami!", "/g acceptally IJAD98jdksldM " + guild.name());
             ChatUtils.sendClickableMessage(member, "  &cKliknij, aby odrzucić.",
-                    "&cOdrzuca zaproszenie.", "/g acceptally dh98jadOAKD " + guild.getName());
+                    "&cOdrzuca zaproszenie.", "/g acceptally dh98jadOAKD " + guild.name());
         });
 
         ChatUtils.guildAlertRaw(otherGuild, " ");
-        HookUtils.INSTANCE.getCooldownManager().add(player, "ally-" + otherGuild.getName(), 10, TimeUnit.MINUTES);
+        HookUtils.INSTANCE.cooldownManager().add(player, "ally-" + otherGuild.name(), 10, TimeUnit.MINUTES);
     }
 }

@@ -6,7 +6,6 @@ import me.xneox.guilds.util.*;
 import me.xneox.guilds.util.gui.api.ClickEvent;
 import me.xneox.guilds.util.gui.InventoryProviderImpl;
 import me.xneox.guilds.util.gui.api.InventorySize;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,25 +22,25 @@ public class ClaimGui extends InventoryProviderImpl {
     @Override
     public void open(Player player, Inventory inventory) {
         InventoryUtils.drawBorder(inventory);
-        Guild guild = this.plugin.getGuildManager().getGuild(player.getName());
+        Guild guild = this.plugin.guildManager().playerGuild(player.getName());
 
-        for (String chunk : guild.getChunks()) {
+        for (String chunk : guild.claims()) {
             List<Player> players = ChunkUtils.getPlayersAt(ChunkUtils.toChunk(chunk));
-            ItemStack item = new ItemBuilder(Material.GRASS_BLOCK, players.isEmpty() ? 1 : players.size())
-                    .name("&6#" + guild.getChunks().indexOf(chunk) + " (" + LocationUtils.toSimpleString(ChunkUtils.getCenter(chunk)) + ")")
+            ItemStack item = ItemBuilder.of(Material.GRASS_BLOCK)
+                    .name("&6#" + guild.claims().indexOf(chunk) + " (" + LocationUtils.toSimpleString(ChunkUtils.getCenter(chunk)) + ")")
                     .lore("&7&oTwoja gildia posiada ten chunk.")
                     .lore("")
                     .lore("&7Gracze: &c" + (players.isEmpty() ? "Brak" : ChatUtils.formatPlayerList(players)))
                     .lore("")
                     .lore("&eKliknij, aby się przeteleportować")
+                    .amount(players.isEmpty() ? 1 : players.size())
                     .build();
             inventory.addItem(item);
         }
 
-        ItemStack close = new ItemBuilder(Material.PLAYER_HEAD)
+        ItemStack close = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
                 .name("&cPowrót")
                 .lore("&7Cofnij do menu gildii.")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
                 .build();
 
         inventory.setItem(8, close);
@@ -52,18 +51,21 @@ public class ClaimGui extends InventoryProviderImpl {
         VisualUtils.click(player);
 
         ItemStack item = event.item();
-        if (item.getType() == Material.GRASS_BLOCK) {
-            Guild guild = this.plugin.getGuildManager().getGuild(player);
+        if (isBackButton(item)) {
+            this.plugin.inventoryManager().open("management", player);
+            return;
+        }
 
-            String name = ChatColor.stripColor(item.getItemMeta().getDisplayName()).split(" \\(")[0];
+        if (item.getType() == Material.GRASS_BLOCK) {
+            Guild guild = this.plugin.guildManager().playerGuild(player);
+
+            String name = ChatUtils.plainString(item.getItemMeta().displayName()).split(" \\(")[0];
             int index = Integer.parseInt(name.replace("#", ""));
 
-            Location center = ChunkUtils.getCenter(guild.getChunks().get(index));
-            this.plugin.getUserManager().getUser(player).beginTeleport(player.getLocation(), center);
+            Location center = ChunkUtils.getCenter(guild.claims().get(index));
+            this.plugin.userManager().getUser(player).beginTeleport(player.getLocation(), center);
 
             player.closeInventory();
-        } else if (item.getType() == Material.PLAYER_HEAD) {
-            this.plugin.getInventoryManager().open("management", player);
         }
     }
 }

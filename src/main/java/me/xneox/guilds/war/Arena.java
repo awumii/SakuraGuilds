@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+@Deprecated
 public class Arena {
     // ARENA DATA
     private final String name;

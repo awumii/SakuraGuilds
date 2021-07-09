@@ -18,7 +18,7 @@ public class SetSecondSpawnCommand implements SubCommand {
             return;
         }
 
-        Arena arena = HookUtils.INSTANCE.getArenaManager().getArena(args[1]);
+        Arena arena = HookUtils.INSTANCE.arenaManager().find(args[1]);
         if (arena == null) {
             ChatUtils.sendMessage(player, "&cTaka arena nie istnieje.");
             return;

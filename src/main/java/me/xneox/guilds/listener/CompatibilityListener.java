@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public class CrazyAuctionsListener implements Listener {
+public class CompatibilityListener implements Listener {
 
     @EventHandler
     public void onAuctionList(AuctionListEvent event) {

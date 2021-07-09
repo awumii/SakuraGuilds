@@ -37,13 +37,13 @@ public final class VisualUtils {
     }
 
     public static void createGuildInfo(Guild guild) {
-        Location location = guild.getNexusLocation().clone();
+        Location location = guild.nexusLocation().clone();
         location.setY(location.getY() + 3);
 
         createHologram(location, Material.ENDER_EYE,
-                "&6&lNEXUS GILDII " + guild.getName(),
-                "&7Ilość żyć: &c" + guild.getHealth() + "/3",
-                "&7Tarcza: &c" + TimeUtils.futureMillisToTime(guild.getShield()));
+                "&6&lNEXUS GILDII " + guild.name(),
+                "&7Ilość żyć: &c" + guild.health() + "/3",
+                "&7Tarcza: &c" + TimeUtils.futureMillisToTime(guild.shieldDuration()));
     }
 
     public static Hologram createHologram(Location baseLocation, Material icon, String... text) {

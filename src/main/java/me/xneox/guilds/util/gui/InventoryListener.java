@@ -15,12 +15,14 @@
 
 package me.xneox.guilds.util.gui;
 
+import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.gui.api.ClickEvent;
 import me.xneox.guilds.util.gui.api.InventoryProvider;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class InventoryListener implements Listener {
     private final InventoryManager manager;
@@ -31,14 +33,16 @@ public class InventoryListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        String title = event.getView().getTitle();
-        if (event.getClickedInventory() == null || event.getCurrentItem() == null || event.getCurrentItem().getItemMeta() == null) {
+        String title = ChatUtils.plainString(event.getView().title());
+        ItemStack item = event.getCurrentItem();
+
+        if (event.getClickedInventory() == null || item == null || item.getItemMeta() == null) {
             return;
         }
 
         InventoryProvider inventory = this.manager.findByName(title);
         if (inventory != null) {
-            ClickEvent clickEvent = new ClickEvent(event.getCurrentItem(), event.getSlot(), event.getClick());
+            ClickEvent clickEvent = new ClickEvent(item, event.getSlot(), event.getClick());
             inventory.event(clickEvent, (Player) event.getWhoClicked());
 
             event.setCancelled(true);
