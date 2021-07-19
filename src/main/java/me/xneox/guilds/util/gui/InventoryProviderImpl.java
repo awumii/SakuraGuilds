@@ -19,7 +19,7 @@ import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.gui.api.InventoryProvider;
 import me.xneox.guilds.util.gui.api.InventorySize;
-import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class InventoryProviderImpl implements InventoryProvider {
     protected final NeonGuilds plugin;
-    private final TextComponent title;
+    private final Component title;
     private final int size;
 
     public InventoryProviderImpl(NeonGuilds plugin, String title, InventorySize size) {
@@ -37,7 +37,7 @@ public abstract class InventoryProviderImpl implements InventoryProvider {
     }
 
     @Override
-    public @NotNull TextComponent title() {
+    public @NotNull Component title() {
         return this.title;
     }
 

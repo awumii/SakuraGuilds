@@ -3,6 +3,7 @@ package me.xneox.guilds.util;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -34,13 +35,13 @@ public class ItemBuilder {
 
     public static ItemBuilder skull(String skullTexture) {
         ItemBuilder builder = new ItemBuilder(Material.PLAYER_HEAD);
-        builder.skullTexture(skullTexture);
+        builder.skullTexture = skullTexture;
         return builder;
     }
 
     public static ItemBuilder skullOf(String skullOwner) {
         ItemBuilder builder = new ItemBuilder(Material.PLAYER_HEAD);
-        builder.skullOwner(skullOwner);
+        builder.skullOwner = skullOwner;
         return builder;
     }
 
@@ -49,20 +50,21 @@ public class ItemBuilder {
         this.lore = new ArrayList<>();
         this.enchants = new HashMap<>();
         this.material = material;
+        this.amount = 1;
     }
 
     public ItemBuilder name(String title) {
-        this.title = ChatUtils.color(title);
+        this.title = ChatUtils.color(title).decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE); //italic is default for item stacks.
         return this;
     }
 
     public ItemBuilder lore(String lore) {
-        this.lore.add(ChatUtils.color(lore));
+        this.lore.add(ChatUtils.color(lore).decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE)); //italic is default for item stacks.
         return this;
     }
 
-    public ItemBuilder amount(int amout) {
-        this.amount = amout;
+    public ItemBuilder amount(int amount) {
+        this.amount = amount;
         return this;
     }
 
@@ -74,18 +76,6 @@ public class ItemBuilder {
     public ItemBuilder enchantment(Enchantment enchant, int level) {
         this.enchants.remove(enchant);
         this.enchants.put(enchant, level);
-        return this;
-    }
-
-    @Deprecated
-    public ItemBuilder skullTexture(String texture) {
-        this.skullTexture = texture;
-        return this;
-    }
-
-    @Deprecated
-    public ItemBuilder skullOwner(String owner) {
-        this.skullOwner = owner;
         return this;
     }
 

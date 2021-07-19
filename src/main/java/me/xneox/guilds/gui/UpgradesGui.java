@@ -26,27 +26,25 @@ public class UpgradesGui extends InventoryProviderImpl {
         InventoryUtils.fillInventory(inventory, Material.BLACK_STAINED_GLASS_PANE);
         Guild guild = this.plugin.guildManager().playerGuild(player.getName());
 
-        ItemStack members = ItemBuilder.of(Material.PLAYER_HEAD)
+        ItemStack members = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQ0YzFlOGU4MjY3MmJiYTU4OTJmZDQ2NTlmOGRhZDg0ZDE1NDVkYjI2ZGI1MmVjYzkxOGYzMmExMzkxNTEzIn19fQ==")
                 .name("&6Zwiększenie miejsc")
                 .lore("")
                 .lore("&7Limit członków: &b" + guild.maxSlots() + " &7→ &b" + (guild.maxSlots() + 1))
                 .lore("&7Koszt ulepszenia: &6" + cost(guild.maxSlots() / 5) + "$")
                 .lore("")
                 .lore("&eKliknij, aby ulepszyć.")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQ0YzFlOGU4MjY3MmJiYTU4OTJmZDQ2NTlmOGRhZDg0ZDE1NDVkYjI2ZGI1MmVjYzkxOGYzMmExMzkxNTEzIn19fQ==")
                 .build();
 
-        ItemStack claims = ItemBuilder.of(Material.PLAYER_HEAD)
+        ItemStack claims = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzgyZWU4NWZlNmRjNjMyN2RhZDIwMmZjYTkzYzlhOTRhYzk5YjdiMTY5NzUyNGJmZTk0MTc1ZDg4NzI1In19fQ==")
                 .name("&6Więcej terenu")
                 .lore("")
                 .lore("&7Limit chunków: &b" + guild.maxChunks() + " &7→ &b" + (guild.maxChunks() + 1))
                 .lore("&7Koszt ulepszenia: &6" + cost(guild.maxSlots()) + "$")
                 .lore("")
                 .lore("&eKliknij, aby ulepszyć.")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzgyZWU4NWZlNmRjNjMyN2RhZDIwMmZjYTkzYzlhOTRhYzk5YjdiMTY5NzUyNGJmZTk0MTc1ZDg4NzI1In19fQ==")
                 .build();
 
-        ItemStack bank = ItemBuilder.of(Material.PLAYER_HEAD)
+        ItemStack bank = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTM2ZTk0ZjZjMzRhMzU0NjVmY2U0YTkwZjJlMjU5NzYzODllYjk3MDlhMTIyNzM1NzRmZjcwZmQ0ZGFhNjg1MiJ9fX0=")
                 .name("&6Bank gildyjny")
                 .lore("")
                 .lore("&7W banku znajduje się: &6" + guild.money() + "$")
@@ -55,13 +53,11 @@ public class UpgradesGui extends InventoryProviderImpl {
                 .lore(" &7→ &6/g donate <ilość>")
                 .lore("")
                 .lore("&cWpłaconych pieniędzy nie można wypłacić!")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTM2ZTk0ZjZjMzRhMzU0NjVmY2U0YTkwZjJlMjU5NzYzODllYjk3MDlhMTIyNzM1NzRmZjcwZmQ0ZGFhNjg1MiJ9fX0=")
                 .build();
 
-        ItemStack close = ItemBuilder.of(Material.PLAYER_HEAD)
+        ItemStack close = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
                 .name("&cPowrót")
                 .lore("&7Cofnij do menu gildii.")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
                 .build();
 
         inventory.setItem(10, members);

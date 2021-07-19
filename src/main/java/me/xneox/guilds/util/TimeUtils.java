@@ -1,10 +1,30 @@
 package me.xneox.guilds.util;
 
+import javax.annotation.Nonnull;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 public final class TimeUtils {
+
+    /**
+     * Date in format dd/MM/yyyy HH:mm.
+     * Defaults timezone to GMT+2
+     */
+    @Nonnull
+    public static Date parseDate(String date) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+            return sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new Date();
+    }
+
     public static String secondsToTime(int seconds) {
         return millisToTime(TimeUnit.SECONDS.toMillis(seconds));
     }

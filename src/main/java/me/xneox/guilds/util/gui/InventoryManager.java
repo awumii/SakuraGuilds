@@ -16,6 +16,7 @@
 package me.xneox.guilds.util.gui;
 
 import me.xneox.guilds.util.gui.api.InventoryProvider;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -48,7 +49,7 @@ public class InventoryManager {
     }
 
     @Nullable
-    public InventoryProvider findByName(String name) {
+    public InventoryProvider findByName(Component name) {
         return this.inventories.values().stream()
                 .filter(inventory -> inventory.title().equals(name))
                 .findFirst()

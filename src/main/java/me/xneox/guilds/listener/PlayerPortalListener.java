@@ -12,31 +12,19 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class PlayerPortalListener implements Listener {
-    private static final Date END_OPEN = parseDate();
+    private final Date END_OPEN = TimeUtils.parseDate("01/08/2021 20:00");
 
     @EventHandler
     public void onPortal(PlayerPortalEvent event) {
         Player player = event.getPlayer();
 
-        if (event.getCause() == PlayerTeleportEvent.TeleportCause.END_PORTAL) if (new Date().before(END_OPEN)) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            String toOpen = sdf.format(END_OPEN) + " (za " + TimeUtils.futureMillisToTime(END_OPEN.getTime()) + ")";
-
+        if (event.getCause() == PlayerTeleportEvent.TeleportCause.END_PORTAL && new Date().before(END_OPEN)) {
             ChatUtils.sendMessage(player, "&7Portale do endu są jeszcze wyłączone.");
-            ChatUtils.sendMessage(player, "&7Zostaną włączone: &c" + toOpen);
+            ChatUtils.sendMessage(player, "&7Zostaną włączone za: &c" + TimeUtils.futureMillisToTime(END_OPEN.getTime()));
             event.setCancelled(true);
         }
-    }
-
-    @NonNull
-    private static Date parseDate() {
-        try {
-            return new SimpleDateFormat("yyyy-MM-dd-HH:mm").parse("2021-05-24-22:00");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return new Date();
     }
 }

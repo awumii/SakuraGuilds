@@ -41,7 +41,6 @@ public class NeonGuilds extends JavaPlugin {
         inventoryManager.register("allies", new AlliesGui(this));
         inventoryManager.register("upgrades", new UpgradesGui(this));
         inventoryManager.register("leaderboards", new LeaderboardsGui(this));
-        inventoryManager.register("browse", new BrowseGui(this));
         inventoryManager.register("newbie", new NewbieGui(this));
 
         CommandManager commandManager = new CommandManager(this);

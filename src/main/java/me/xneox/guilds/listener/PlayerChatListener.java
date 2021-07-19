@@ -5,6 +5,7 @@ import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.Colors;
+import me.xneox.guilds.util.HookUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,13 +36,17 @@ public class PlayerChatListener implements Listener {
 
         Guild guild = this.plugin.guildManager().playerGuild(player);
         if (guild == null) {
-            event.setFormat(event.getFormat().replace("{GUILD}", ""));
+            event.setFormat(event.getFormat()
+                    .replace("{GUILD}", "")
+                    .replace("{LEVEL}", String.valueOf(HookUtils.getAureliumLevel(player))));
             return;
         }
 
         User user = this.plugin.userManager().getUser(player);
         switch (user.getChatChannel()) {
-            case GLOBAL -> event.setFormat(event.getFormat().replace("{GUILD}", ChatUtils.legacyColor("&8[" + Colors.ALIZARIN_RED + guild.name() + "&8] ")));
+            case GLOBAL -> event.setFormat(event.getFormat()
+                    .replace("{GUILD}", ChatUtils.legacyColor("&8[" + Colors.ALIZARIN_RED + guild.name() + "&8] "))
+                    .replace("{LEVEL}", String.valueOf(HookUtils.getAureliumLevel(player))));
             case GUILD -> {
                 ChatUtils.guildAlertRaw(guild, " &8[&aGILDIA&8] " +
                         guild.member(player).displayName() + "&8: &a" + event.getMessage());

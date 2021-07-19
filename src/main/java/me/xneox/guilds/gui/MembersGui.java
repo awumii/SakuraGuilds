@@ -26,7 +26,7 @@ public class MembersGui extends InventoryProviderImpl {
 
         guild.members().forEach(member -> {
             User user = this.plugin.userManager().getUser(member.nickname());
-            ItemStack skull = ItemBuilder.of(Material.PLAYER_HEAD)
+            ItemStack skull = ItemBuilder.skullOf(member.nickname())
                     .name("&6" + member.nickname())
                     .lore("&e(Widziany ostatnio: &f" + TimeUtils.formatDate(Bukkit.getOfflinePlayer(member.nickname()).getLastSeen()) + "&e)")
                     .lore("")
@@ -40,15 +40,13 @@ public class MembersGui extends InventoryProviderImpl {
                     .lore("")
                     .lore("&7&nKliknij ŚRODKOWYM aby")
                     .lore("  &fwyrzucić gracza z gildii.")
-                    .skullOwner(member.nickname())
                     .build();
             inventory.addItem(skull);
         });
 
-        ItemStack close = ItemBuilder.of(Material.PLAYER_HEAD)
+        ItemStack close = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
                 .name("&cPowrót")
                 .lore("&7Cofnij do menu gildii.")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
                 .build();
 
         inventory.setItem(8, close);

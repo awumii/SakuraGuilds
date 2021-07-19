@@ -41,7 +41,7 @@ public class CommandManager {
         commandMap.put("ally", new AllyCommand());
         commandMap.put("top", new TopCommand());
         commandMap.put("chat", new ChatChannelCommand());
-        commandMap.put("browse", new BrowseCommand());
+        commandMap.put("upgrade", new UpgradeCommand());
         commandMap.put("donate", new DonateCommand());
 
         // admin commands

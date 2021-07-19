@@ -3,13 +3,14 @@ version: ${projectVersion}
 main: me.xneox.guilds.NeonGuilds
 author: xNeox
 description: Plugin na gildie, dla serwera dronizja.pl
-api-version: 1.16
+api-version: 1.17
 
 depend:
   - Vault
   - HolographicDisplays
   - PlaceholderAPI
   - EpicGuard
+  - AureliumSkills
 
 commands:
   guild:

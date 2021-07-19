@@ -29,23 +29,21 @@ public class RankEditorGui extends InventoryProviderImpl {
         String target = this.plugin.userManager().getUser(player).getEditorSubject();
         Member member = guild.member(target);
 
-        ItemStack user = ItemBuilder.of(Material.PLAYER_HEAD)
+        ItemStack user = ItemBuilder.skullOf(target)
                 .name("&6" + target)
                 .lore("&7Ranga: " + member.rank().title())
-                .skullOwner(target)
                 .build();
 
-        ItemStack leader = ItemBuilder.of(Material.PLAYER_HEAD)
+        ItemStack leader = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQxNWFhY2I3MjEzYzgzMTFlZWQ3YmFmMzdlYmI1OGE1ZjRiOTI1NjMxN2Q4NDU4ZDE1ZDMzN2E3NGU0YmU2In19fQ==")
                 .name(Rank.LEADER.title())
                 .lore("")
                 .lore("&cUWAGA: Po nadaniu tej rangi,")
                 .lore("&cutracisz status lidera gildii!")
                 .lore("")
                 .lore("&eKliknij aby nadać.")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQxNWFhY2I3MjEzYzgzMTFlZWQ3YmFmMzdlYmI1OGE1ZjRiOTI1NjMxN2Q4NDU4ZDE1ZDMzN2E3NGU0YmU2In19fQ==")
                 .build();
 
-        ItemStack oficer = ItemBuilder.of(Material.PLAYER_HEAD)
+        ItemStack oficer = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTZlZjMwNzBmNmQyZTQ3YjViMTA1OWI0NWRiYzMyMmIyNDI1ZWEzZGUxZjFiY2I5NDI5MzM3ZmQ2OTNmYzYifX19")
                 .name(Rank.GENERAL.title())
                 .lore("")
                 .lore("&eDomyślne Uprawnienia:")
@@ -58,10 +56,9 @@ public class RankEditorGui extends InventoryProviderImpl {
                 .lore(" &8▸ &7Zarządzanie sojuszami")
                 .lore("")
                 .lore("&eKliknij aby nadać.")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTZlZjMwNzBmNmQyZTQ3YjViMTA1OWI0NWRiYzMyMmIyNDI1ZWEzZGUxZjFiY2I5NDI5MzM3ZmQ2OTNmYzYifX19")
                 .build();
 
-        ItemStack general = ItemBuilder.of(Material.PLAYER_HEAD)
+        ItemStack general = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmI0MTZiM2Q5NzNlMzQ4MDY2NDE2MmM5MjhjMGY3ZDJmNGYzMmI4ZDIwMjIyNWFiNjIyN2ZmNTllZTFjNWMzMSJ9fX0=")
                 .name(Rank.OFICER.title())
                 .lore("")
                 .lore("&eDomyślne Uprawnienia:")
@@ -72,10 +69,9 @@ public class RankEditorGui extends InventoryProviderImpl {
                 .lore(" &8▸ &7Zarządzanie sojuszami")
                 .lore("")
                 .lore("&eKliknij aby nadać.")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmI0MTZiM2Q5NzNlMzQ4MDY2NDE2MmM5MjhjMGY3ZDJmNGYzMmI4ZDIwMjIyNWFiNjIyN2ZmNTllZTFjNWMzMSJ9fX0=")
                 .build();
 
-        ItemStack kapral = ItemBuilder.of(Material.PLAYER_HEAD)
+        ItemStack kapral = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTY3ZWRhNjhhZTJmZmY1MjRlODNmOGE5MTZlYzMzOTBhZGVjYTM5NGY3ZDg2MTdhNGQ3N2ZiYTNlNjg5Yjc1In19fQ==")
                 .name(Rank.KAPRAL.title())
                 .lore("")
                 .lore("&eDomyślne Uprawnienia:")
@@ -84,23 +80,20 @@ public class RankEditorGui extends InventoryProviderImpl {
                 .lore(" &8▸ &7Zajmowanie terenu")
                 .lore("")
                 .lore("&eKliknij aby nadać.")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTY3ZWRhNjhhZTJmZmY1MjRlODNmOGE5MTZlYzMzOTBhZGVjYTM5NGY3ZDg2MTdhNGQ3N2ZiYTNlNjg5Yjc1In19fQ==")
                 .build();
 
-        ItemStack rekrut = ItemBuilder.of(Material.PLAYER_HEAD)
+        ItemStack rekrut = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZThiOGM2YTQ2ZDg3Y2Y4NmE1NWRmMjE0Y2Y4NGJmNDVjY2EyNWVkYjlhNjc2ZTk2MzY0ZGQ2YTZlZWEyMzViMyJ9fX0=")
                 .name(Rank.REKRUT.title())
                 .lore("")
                 .lore("&eDomyślne Uprawnienia:")
                 .lore(" &8▸ &7Budowanie")
                 .lore("")
                 .lore("&eKliknij aby nadać.")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZThiOGM2YTQ2ZDg3Y2Y4NmE1NWRmMjE0Y2Y4NGJmNDVjY2EyNWVkYjlhNjc2ZTk2MzY0ZGQ2YTZlZWEyMzViMyJ9fX0=")
                 .build();
 
-        ItemStack close = ItemBuilder.of(Material.PLAYER_HEAD)
+        ItemStack close = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
                 .name("&cPowrót")
                 .lore("&7Cofnij do menu gildii.")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
                 .build();
 
         inventory.setItem(0, user);
@@ -118,11 +111,10 @@ public class RankEditorGui extends InventoryProviderImpl {
         }
 
         for (Permission permission : Permission.values()) {
-            ItemStack stack = ItemBuilder.of(Material.PLAYER_HEAD)
+            ItemStack stack = ItemBuilder.skull(member.hasPermission(permission)
+                    ? "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDMxMmNhNDYzMmRlZjVmZmFmMmViMGQ5ZDdjYzdiNTVhNTBjNGUzOTIwZDkwMzcyYWFiMTQwNzgxZjVkZmJjNCJ9fX0="
+                    : "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==")
                     .name((member.hasPermission(permission) ? "&a" : "&c") + permission.getDescription())
-                    .skullTexture(member.hasPermission(permission)
-                            ? "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDMxMmNhNDYzMmRlZjVmZmFmMmViMGQ5ZDdjYzdiNTVhNTBjNGUzOTIwZDkwMzcyYWFiMTQwNzgxZjVkZmJjNCJ9fX0="
-                            : "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==")
                     .build();
 
             inventory.addItem(stack);

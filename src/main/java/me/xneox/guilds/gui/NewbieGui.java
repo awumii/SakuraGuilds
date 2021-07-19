@@ -21,18 +21,16 @@ public class NewbieGui extends InventoryProviderImpl {
     public void open(Player player, Inventory inventory) {
         InventoryUtils.fillInventory(inventory, Material.BLACK_STAINED_GLASS_PANE);
 
-        ItemStack browse = ItemBuilder.of(Material.PLAYER_HEAD)
-                .name("&6Publiczne gildie")
+        ItemStack browse = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTJlYzlhOGE5MGQ5MGM3ODY1MWFmMmY5NjIwMTUxMTFmY2JmMTFhYzg3MzhmNTJiOGUyNGRhODYyYTM4NzFiYSJ9fX0=")
+                .name("&cNie posiadasz gildii!")
                 .lore("")
-                .lore("&7Kliknij, aby przeglądać gildie.")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTJlYzlhOGE5MGQ5MGM3ODY1MWFmMmY5NjIwMTUxMTFmY2JmMTFhYzg3MzhmNTJiOGUyNGRhODYyYTM4NzFiYSJ9fX0=")
+                .lore("&7Dołącz do gildii aby wyświetlić panel.")
                 .build();
 
-        ItemStack help = ItemBuilder.of(Material.PLAYER_HEAD)
+        ItemStack help = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzEwYTI2YTg3NTQ5ZTA2ZTA2NjlmNmM0OGY2MTQ3OGQyMzAyNWI5MWQ5MGVhMmM0YjlmODA0YjlmNzk2ZDA0YyJ9fX0=")
                 .name("&6Lista komend")
                 .lore("")
                 .lore("&7Kliknij, aby wyświetlić pomoc.")
-                .skullTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzEwYTI2YTg3NTQ5ZTA2ZTA2NjlmNmM0OGY2MTQ3OGQyMzAyNWI5MWQ5MGVhMmM0YjlmODA0YjlmNzk2ZDA0YyJ9fX0=")
                 .build();
 
         inventory.setItem(11, browse);
@@ -44,8 +42,6 @@ public class NewbieGui extends InventoryProviderImpl {
         VisualUtils.click(player);
 
         if (event.slot() == 11) {
-            this.plugin.inventoryManager().open("browse", player);
-        } else if (event.slot() == 15) {
             player.closeInventory();
             player.performCommand("g help");
         }

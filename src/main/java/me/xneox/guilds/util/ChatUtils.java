@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public final class ChatUtils {
-    public static final String PREFIX = " &6&lGILDIE &8▶";
+    public static final String PREFIX = " &6&lGILDIE &8▶ &7";
     private final static int CENTER_PX = 154;
 
     public static TextComponent color(String string) {
