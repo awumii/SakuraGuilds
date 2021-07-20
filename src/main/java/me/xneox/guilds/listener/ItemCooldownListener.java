@@ -1,5 +1,6 @@
 package me.xneox.guilds.listener;
 
+import com.destroystokyo.paper.event.player.PlayerElytraBoostEvent;
 import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.Material;
@@ -21,9 +22,16 @@ public class ItemCooldownListener implements Listener {
     }
 
     @EventHandler
+    public void onElytraBoost(PlayerElytraBoostEvent event) {
+        if (handleCooldown(event.getPlayer(), 3)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
     public void onAppleEat(PlayerItemConsumeEvent event) {
         Material material = event.getItem().getType();
-        if ((material == Material.GOLDEN_APPLE || material == Material.ENCHANTED_GOLDEN_APPLE) && this.handleCooldown(event.getPlayer())) {
+        if ((material == Material.GOLDEN_APPLE || material == Material.ENCHANTED_GOLDEN_APPLE) && handleCooldown(event.getPlayer(), 15)) {
             event.setCancelled(true);
         }
     }
@@ -31,7 +39,7 @@ public class ItemCooldownListener implements Listener {
     @EventHandler
     public void onPearlThrow(ProjectileLaunchEvent event) {
         ProjectileSource source = event.getEntity().getShooter();
-        if (source instanceof Player && event.getEntity().getType() == EntityType.ENDER_PEARL && this.handleCooldown((Player) source)) {
+        if (source instanceof Player && event.getEntity().getType() == EntityType.ENDER_PEARL && handleCooldown((Player) source, 10)) {
             event.setCancelled(true);
         }
     }
@@ -40,14 +48,14 @@ public class ItemCooldownListener implements Listener {
      * @param player The player who consumed.
      * @return whenever the event should be cancelled.
      */
-    private boolean handleCooldown(Player player) {
+    private boolean handleCooldown(Player player, int duration) {
         Material material = player.getInventory().getItemInMainHand().getType();
         if (this.plugin.cooldownManager().hasCooldown(player, material.name())) {
             ChatUtils.sendMessage(player, "&7Poczekaj jeszcze &c" + this.plugin.cooldownManager().getRemaining(player, material.name()));
             return true;
         }
 
-        this.plugin.cooldownManager().add(player, material.name(), 15, TimeUnit.SECONDS);
+        this.plugin.cooldownManager().add(player, material.name(), duration, TimeUnit.SECONDS);
         return false;
     }
 }

@@ -11,6 +11,7 @@ depend:
   - PlaceholderAPI
   - EpicGuard
   - AureliumSkills
+  - CombatLogX
 
 commands:
   guild:

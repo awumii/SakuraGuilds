@@ -3,6 +3,7 @@ package me.xneox.guilds;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
+import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.RankedUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -57,6 +58,7 @@ public class PlaceholderApiHook extends PlaceholderExpansion {
             case "trophies" -> String.valueOf(guild.trophies());
             case "division" -> guild.division().getName();
             case "rank" -> guild.member(player).rank().title();
+            case "level" -> String.valueOf(HookUtils.getAureliumLevel(player));
             case "rankedposition" -> "#" + RankedUtils.getLeaderboard(this.plugin.guildManager().guildMap().values()).indexOf(guild);
             default -> "<unknown>";
         };

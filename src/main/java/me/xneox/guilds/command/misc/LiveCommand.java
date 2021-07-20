@@ -22,11 +22,11 @@ public class LiveCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         if (args.length != 1) {
-            ChatUtils.sendRaw(player, "&cPodaj link do swojego live!");
+            ChatUtils.sendNoPrefix(player, "&cPodaj link do swojego live!");
             return true;
         }
         if (this.plugin.cooldownManager().hasCooldown(player, "live")) {
-            ChatUtils.sendRaw(player, "&cPoczekaj &4" + this.plugin.cooldownManager().getRemaining(player, "live") + " &cprzed zareklamowaniem.");
+            ChatUtils.sendNoPrefix(player, "&cPoczekaj &4" + this.plugin.cooldownManager().getRemaining(player, "live") + " &cprzed zareklamowaniem.");
             return true;
         }
         for (Player target : Bukkit.getOnlinePlayers()) {

@@ -28,7 +28,7 @@ public class ManagementGui extends InventoryProviderImpl {
         }
 
         User user = this.plugin.userManager().getUser(player);
-        ItemStack claims = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI4OWQ1YjE3ODYyNmVhMjNkMGIwYzNkMmRmNWMwODVlODM3NTA1NmJmNjg1YjVlZDViYjQ3N2ZlODQ3MmQ5NCJ9fX0=")
+        ItemStack claims = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOThkYWExZTNlZDk0ZmYzZTMzZTFkNGM2ZTQzZjAyNGM0N2Q3OGE1N2JhNGQzOGU3NWU3YzkyNjQxMDYifX19")
                 .name("&6Zajęte Ziemie")
                 .lore("")
                 .lore("&7Kliknij, aby przeglądnąć zajęte tereny.")
@@ -68,7 +68,7 @@ public class ManagementGui extends InventoryProviderImpl {
                 .lore("")
                 .build();
 
-        ItemStack info = ItemBuilder.skullOf("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzBjZjc0ZTI2MzhiYTVhZDMyMjM3YTM3YjFkNzZhYTEyM2QxODU0NmU3ZWI5YTZiOTk2MWU0YmYxYzNhOTE5In19fQ==")
+        ItemStack info = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmUzZjUwYmE2MmNiZGEzZWNmNTQ3OWI2MmZlZGViZDYxZDc2NTg5NzcxY2MxOTI4NmJmMjc0NWNkNzFlNDdjNiJ9fX0=")
                 .name("&6Informacje o Gildii")
                 .lore("")
                 .lore("&eNazwa:")
@@ -85,7 +85,7 @@ public class ManagementGui extends InventoryProviderImpl {
                 .lore("")
                 .build();
 
-        ItemStack division = ItemBuilder.skullOf("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRkZTRkOTViYTRhNDZkYjdlNTY2YjM0NWY3ODk0ZDFkMjU4Zjg5M2ViOTJjNzgwYjNkYTc3NWVlZGY5MSJ9fX0=")
+        ItemStack division = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRkZTRkOTViYTRhNDZkYjdlNTY2YjM0NWY3ODk0ZDFkMjU4Zjg5M2ViOTJjNzgwYjNkYTc3NWVlZGY5MSJ9fX0=")
                 .name("&6Statystyki Wojny")
                 .lore("")
                 .lore("&eRanking:")
@@ -97,19 +97,19 @@ public class ManagementGui extends InventoryProviderImpl {
                 .lore(" &7→ Śmierci: &f" + guild.deaths())
                 .build();
 
-        ItemStack allies = ItemBuilder.skullOf("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJkZmJlMmQzMzhjZTI0NmIzYTBhMzRhNDAwM2RiODM5ZTA3NjMxOTMwYTQzZTBlMGU5NWM5YWZhYWE3YTVlMyJ9fX0=")
+        ItemStack allies = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg0MzI2MDdlODZiMDJlYTNjYWFmOTM1NzA2NmNhM2Y1ZTRlZGVlZjdiZTllZGNiYjVlNDU3MTFjNjU1NyJ9fX0=")
                 .name("&6Zawarte Sojusze")
                 .lore("")
                 .lore("&7Kliknij, aby przeglądać zawarte sojusze.")
                 .build();
 
-        ItemStack buildings = ItemBuilder.skullOf("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTQwMmM2MjVkYzA0MWExYTQxOGFhNmU1MTQ3MGMyMDNmMDMwZmZkNjMxYTQ3YWFlNDAxNTliMDg5YzkyNmQ1NSJ9fX0=")
+        ItemStack buildings = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQzMTZhNjQwOTlkODk2ZjY2OWQwZjA4ODUyMDIxN2E4M2RlY2Q0YTNiNjdlNTdhZjg5YjMzZDIwYzMyMWYzNCJ9fX0=")
                 .name("&6Ulepszenia Gildii")
                 .lore("")
                 .lore("&7Kliknij, aby zakupić ulepszenia.")
                 .build();
 
-        ItemStack nexus = ItemBuilder.skullOf("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmQ4NzYxN2E2NTQ3ZmY5MDE3NzdmYzYzNGU1MzFkZWU0MDhiZTNiYzQyM2ViODZhYWNiZTcyODU5M2I0ZWVjYyJ9fX0=")
+        ItemStack nexus = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTZhNzY2MzFjMjNlZTJhNzAwZjMzZGNmYTY1Yzc0ZGQzMGQwZjE1N2YzNTE1ZGIyMjU3Y2FkNjhlMmRjN2MzYSJ9fX0=")
                 .name("&c❤ Zdrowie Nexusa: &f" + guild.health() + "/3 HP")
                 .lore("")
                 .lore("&7Nexus to serce twojej gildii.")
@@ -121,7 +121,7 @@ public class ManagementGui extends InventoryProviderImpl {
                 .lore(guild.isShieldActive() ? "&a(Tarcza wojenna jest aktywna)" : "&c(Tarcza wojenna jest nieaktywna)")
                 .build();
 
-        ItemStack shield = ItemBuilder.skullOf("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzhjZWI4NjMxYWRkN2NiYjU2NWRjYjcwNWYxMjEyMzQ5Y2NjZDc1NTk2NWM0NmE5MjI4NTJjOWZkOTQ4YjRiYiJ9fX0=")
+        ItemStack shield = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzhjZWI4NjMxYWRkN2NiYjU2NWRjYjcwNWYxMjEyMzQ5Y2NjZDc1NTk2NWM0NmE5MjI4NTJjOWZkOTQ4YjRiYiJ9fX0=")
                 .name("&6Tarcza Wojenna")
                 .lore("")
                 .lore("&7Tarcza wojenna chroni twoją gildię")
@@ -130,7 +130,7 @@ public class ManagementGui extends InventoryProviderImpl {
                 .lore("&7Status tarczy: &c" + TimeUtils.futureMillisToTime(guild.shieldDuration()))
                 .build();
 
-        ItemStack leaderboard = ItemBuilder.skullOf("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGJlNjIyNmQ2MWVjY2NkYjU3MzJiNmY3MTU2MGQ2NDAxZDJjYTBlZmY4ZTFhYWZiYmUzY2I3M2ZiNWE5ZiJ9fX0=")
+        ItemStack leaderboard = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGJlNjIyNmQ2MWVjY2NkYjU3MzJiNmY3MTU2MGQ2NDAxZDJjYTBlZmY4ZTFhYWZiYmUzY2I3M2ZiNWE5ZiJ9fX0=")
                 .name("&6Ranking Gildii")
                 .lore("")
                 .lore("&7Kliknij, aby przeglądać topowe gildie.")
@@ -140,7 +140,7 @@ public class ManagementGui extends InventoryProviderImpl {
                 .name("&cWkrótce...")
                 .build();
 
-        ItemStack storage = ItemBuilder.skullOf("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzc0ZWUxNTQyYzQ1NjNmZDZlN2Q3MmRlMjZlNzM3Y2YxOGZiZDA0Y2NhYjFiOGIyODM1M2RhODczNDhlY2ZiIn19fQ==")
+        ItemStack storage = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGMxYmQwYWNmMmY5NDA2NGNjYTI3YjBhZWYzNWQ4YzEyYTg5MjhkNDM2MzdhN2ZlNzFmNWVlZTQ1ODk3NWUxYSJ9fX0=")
                 .name("&6Magazyn Gildyjny")
                 .lore("")
                 .lore("&7Kliknij, aby otworzyć magazyn.")

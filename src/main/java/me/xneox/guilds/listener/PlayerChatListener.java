@@ -26,7 +26,7 @@ public class PlayerChatListener implements Listener {
         Player player = event.getPlayer();
 
         if (this.plugin.cooldownManager().hasCooldown(player, "chat")) {
-            ChatUtils.sendRaw(player, " &4&l! &cPoczekaj chwilę przed następną wiadomością!");
+            ChatUtils.sendNoPrefix(player, " &4&l! &cPoczekaj chwilę przed następną wiadomością!");
             event.setCancelled(true);
             return;
         }

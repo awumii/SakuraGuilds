@@ -5,7 +5,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.kyori.adventure.text.serializer.plain.PlainComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
@@ -16,7 +15,6 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -24,22 +22,28 @@ import java.util.stream.IntStream;
 
 public final class ChatUtils {
     public static final String PREFIX = " &6&lGILDIE &8▶ &7";
-    private final static int CENTER_PX = 154;
+    private static final int CENTER_PX = 154;
+    private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
+            .character('&')
+            .hexCharacter('#')
+            .hexColors()
+            .extractUrls()
+            .build();
 
-    public static TextComponent color(String string) {
-        return LegacyComponentSerializer.legacyAmpersand().deserialize(string);
+    public static TextComponent color(String message) {
+        return SERIALIZER.deserialize(message);
+    }
+
+    public static void sendMessage(Player sender, String message) {
+        sendNoPrefix(sender, PREFIX + message);
+    }
+
+    public static void sendNoPrefix(Player sender, String message) {
+        sender.sendMessage(color(message));
     }
 
     public static String plainString(Component component) {
         return PlainTextComponentSerializer.plainText().serialize(component);
-    }
-
-    public static void sendMessage(Player sender, String message) {
-        sendRaw(sender, PREFIX + message);
-    }
-
-    public static void sendRaw(Player sender,String message) {
-        sender.sendMessage(color(message));
     }
 
     public static void sendClickableMessage(Player player, String message, String hover, String runCommand) {
@@ -54,11 +58,14 @@ public final class ChatUtils {
         player.showTitle(Title.title(color(title), color(subtitle)));
     }
 
+    /**
+     * Only used when interacting with plugins not supporting Adventure.
+     */
+    @Deprecated
     public static String legacyColor(String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
-    @ParametersAreNonnullByDefault
     public static void sendBossBar(Player player, BarColor color, String message) {
         BossBar bossBar = Bukkit.createBossBar(legacyColor(message), color, BarStyle.SOLID);
         new BukkitRunnable() {
@@ -115,7 +122,7 @@ public final class ChatUtils {
     }
 
     public static void guildAlertRaw(Guild guild, String message) {
-        forGuildMembers(guild, player -> sendRaw(player, message));
+        forGuildMembers(guild, player -> sendNoPrefix(player, message));
     }
 
     public static void forGuildMembers(Guild guild, Consumer<Player> action) {

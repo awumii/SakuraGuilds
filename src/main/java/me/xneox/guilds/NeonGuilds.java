@@ -42,6 +42,7 @@ public class NeonGuilds extends JavaPlugin {
         inventoryManager.register("upgrades", new UpgradesGui(this));
         inventoryManager.register("leaderboards", new LeaderboardsGui(this));
         inventoryManager.register("newbie", new NewbieGui(this));
+        inventoryManager.register("profile", new HelpProfileGui(this));
 
         CommandManager commandManager = new CommandManager(this);
         registerCommand("guild", commandManager.executor(), commandManager.completer());
@@ -57,9 +58,10 @@ public class NeonGuilds extends JavaPlugin {
         registerListener(new PlayerChatListener(this));
         registerListener(new GuildAttackListener(this));
         registerListener(new ItemCooldownListener(this));
-        registerListener(new PlayerPortalListener());
         registerListener(new PlayerJoinLeaveListener(this));
+        registerListener(new PlayerMenuListener(this));
         registerListener(new CompatibilityListener());
+        registerListener(new PlayerPortalListener());
 
         // Registering tasks
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotifierTask(this), 0L, 40L);

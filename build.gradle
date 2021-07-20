@@ -6,11 +6,6 @@ plugins {
 group 'me.xneox'
 version '3.0.0'
 
-defaultTasks 'clean', 'shadowJar', 'build'
-
-sourceCompatibility = JavaVersion.VERSION_16
-targetCompatibility = JavaVersion.VERSION_16
-
 repositories {
     mavenCentral()
     maven { url 'https://papermc.io/repo/repository/maven-public/' }
@@ -20,6 +15,7 @@ repositories {
     maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
     maven { url 'https://nexus.badbones69.com/repository/maven-releases/' }
     maven { url 'https://maven.enginehub.org/repo/' }
+    maven { url 'https://nexus.sirblobman.xyz/repository/public/' }
 }
 
 dependencies {
@@ -34,6 +30,7 @@ dependencies {
     compileOnly 'me.badbones69:crazyauctions:1.2.16'
     compileOnly 'me.clip:placeholderapi:2.10.9'
     compileOnly 'com.github.Archy-X:AureliumSkills:Beta1.1.3'
+    compileOnly 'com.SirBlobman.combatlogx:CombatLogX-API:10.0.0.0-SNAPSHOT'
 }
 
 // Fixing broken encoding on Windows.
@@ -42,6 +39,8 @@ compileJava.options.encoding = 'UTF-8'
 processResources {
     expand projectVersion: project.version
 }
+
+tasks.build.dependsOn tasks.shadowJar
 
 // Compiling dependencies in the jar file.
 shadowJar {

@@ -21,17 +21,17 @@ public class InfoCommand implements SubCommand {
             return;
         }
 
-        ChatUtils.sendRaw(player, "&3&m--&8&m------------------------------------------&3&m--");
-        ChatUtils.sendRaw(player, "&6&lInformacje o gildii:");
-        ChatUtils.sendRaw(player, "&eNazwa: &6" + guild.name());
-        ChatUtils.sendRaw(player, "&eLider: &6" + guild.leader().nickname());
-        ChatUtils.sendRaw(player, "&eLimit chunków: &6" + guild.maxChunks());
-        ChatUtils.sendRaw(player, "&eLimit członków: &6" + guild.maxSlots());
-        ChatUtils.sendRaw(player, "");
-        ChatUtils.sendRaw(player, "&eCzłonkowie: &7");
-        guild.members().forEach(member -> ChatUtils.sendRaw(player, " &8- " + member.displayName()));
-        ChatUtils.sendRaw(player, "");
-        ChatUtils.sendRaw(player, "&eZajęte Chunki: &7" + guild.claims().size());
-        ChatUtils.sendRaw(player, "&3&m--&8&m------------------------------------------&3&m--");
+        ChatUtils.sendNoPrefix(player, "&3&m--&8&m------------------------------------------&3&m--");
+        ChatUtils.sendNoPrefix(player, "&6&lInformacje o gildii:");
+        ChatUtils.sendNoPrefix(player, "&eNazwa: &6" + guild.name());
+        ChatUtils.sendNoPrefix(player, "&eLider: &6" + guild.leader().nickname());
+        ChatUtils.sendNoPrefix(player, "&eLimit chunków: &6" + guild.maxChunks());
+        ChatUtils.sendNoPrefix(player, "&eLimit członków: &6" + guild.maxSlots());
+        ChatUtils.sendNoPrefix(player, "");
+        ChatUtils.sendNoPrefix(player, "&eCzłonkowie: &7");
+        guild.members().forEach(member -> ChatUtils.sendNoPrefix(player, " &8- " + member.displayName()));
+        ChatUtils.sendNoPrefix(player, "");
+        ChatUtils.sendNoPrefix(player, "&eZajęte Chunki: &7" + guild.claims().size());
+        ChatUtils.sendNoPrefix(player, "&3&m--&8&m------------------------------------------&3&m--");
     }
 }

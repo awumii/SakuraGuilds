@@ -55,11 +55,11 @@ public class InviteCommand implements SubCommand {
         guild.invitations().add(args[1]);
         ChatUtils.sendMessage(player, "Zaproszono gracza &6" + args[1] + " &7do twojej gildii.");
 
-        ChatUtils.sendRaw(target, "");
-        ChatUtils.sendRaw(target, "  &7Otrzymano zaproszenie do gildii &6" + manager.playerGuild(player.getName()).name());
+        ChatUtils.sendNoPrefix(target, "");
+        ChatUtils.sendNoPrefix(target, "  &7Otrzymano zaproszenie do gildii &6" + manager.playerGuild(player.getName()).name());
         ChatUtils.sendClickableMessage(target, "  &aKliknij, aby zaakceptować.",
                 "&aPo kliknięciu dołączysz do gildii!", "/g join " + guild.name());
-        ChatUtils.sendRaw(target, "");
+        ChatUtils.sendNoPrefix(target, "");
 
         HookUtils.INSTANCE.cooldownManager().add(player, "invite-" + target.getName(), 10, TimeUnit.MINUTES);
     }
