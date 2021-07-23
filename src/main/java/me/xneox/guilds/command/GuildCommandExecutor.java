@@ -9,12 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class GuildCommandExecutor implements CommandExecutor {
-    private final CommandManager commandManager;
-
-    public GuildCommandExecutor(CommandManager commandManager) {
-        this.commandManager = commandManager;
-    }
+public record GuildCommandExecutor(CommandManager commandManager) implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

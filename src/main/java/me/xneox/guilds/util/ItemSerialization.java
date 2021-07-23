@@ -24,7 +24,6 @@ public final class ItemSerialization {
     }
 
     /**
-     *
      * A method to serialize an {@link ItemStack} array to Base64 String.
      *
      * @param items to turn into a Base64 String.

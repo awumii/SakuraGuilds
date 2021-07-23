@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 public final class ChunkUtils {
     public static final World WORLD = Objects.requireNonNull(Bukkit.getWorld("world"));
 
+    private ChunkUtils() {
+    }
+
     public static String toString(Chunk chunk) {
         return chunk.getX() + ", " + chunk.getZ();
     }
@@ -63,6 +66,4 @@ public final class ChunkUtils {
         }
         return false;
     }
-
-    private ChunkUtils() {}
 }

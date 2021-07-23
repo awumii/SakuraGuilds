@@ -20,6 +20,15 @@ public class Member {
         this.permissions = permissions;
     }
 
+    public static Member parse(String string) {
+        String[] split = string.split(";");
+
+        return new Member(split[0], Rank.valueOf(split[1]),
+                IntStream.range(2, split.length)
+                        .mapToObj(i -> Permission.valueOf(split[i]))
+                        .collect(Collectors.toCollection(() -> EnumSet.noneOf(Permission.class))));
+    }
+
     public String nickname() {
         return this.nickname;
     }
@@ -43,15 +52,6 @@ public class Member {
 
     public String displayName() {
         return this.rank.icon() + " " + nickname;
-    }
-
-    public static Member parse(String string) {
-        String[] split = string.split(";");
-
-        return new Member(split[0], Rank.valueOf(split[1]),
-                IntStream.range(2, split.length)
-                        .mapToObj(i -> Permission.valueOf(split[i]))
-                        .collect(Collectors.toCollection(() -> EnumSet.noneOf(Permission.class))));
     }
 
     @Override

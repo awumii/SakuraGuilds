@@ -11,14 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-public class PlayerDamageListener implements Listener {
-    private final NeonGuilds plugin;
-
-    public PlayerDamageListener(NeonGuilds plugin) {
-        this.plugin = plugin;
-    }
-
-
+public record PlayerDamageListener(NeonGuilds plugin) implements Listener {
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
         if (!event.getEntity().getWorld().getName().startsWith("world")) {
@@ -42,11 +35,15 @@ public class PlayerDamageListener implements Listener {
     }
 
     /**
-     * @param victim Attacked player.
+     * @param victim   Attacked player.
      * @param attacker The player who attacked.
      * @return whenever the event should be cancelled.
      */
     private boolean isProtected(Player victim, Player attacker) {
+        if (victim.equals(attacker)) {
+            return false;
+        }
+
         Guild guild = this.plugin.guildManager().findAt(victim.getLocation());
         if (guild != null && guild.isShieldActive()) {
             ChatUtils.showActionBar(attacker, "&cTa gildia posiada tarczę wojenną przez: &6" + TimeUtils.futureMillisToTime(guild.shieldDuration()));

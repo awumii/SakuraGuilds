@@ -8,6 +8,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public final class RankedUtils {
+    private RankedUtils() {
+    }
+
     public static List<Guild> getLeaderboard(Collection<Guild> guilds) {
         List<Guild> copy = new ArrayList<>(guilds);
         copy.sort(new TrophyComparator());
@@ -20,6 +23,4 @@ public final class RankedUtils {
             return Integer.compare(o2.trophies(), o1.trophies());
         }
     }
-
-    private RankedUtils() {}
 }

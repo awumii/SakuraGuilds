@@ -9,12 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-public class PlayerTeleportTask implements Runnable {
-    private final NeonGuilds plugin;
-
-    public PlayerTeleportTask(NeonGuilds plugin) {
-        this.plugin = plugin;
-    }
+public record PlayerTeleportTask(NeonGuilds plugin) implements Runnable {
 
     @Override
     public void run() {

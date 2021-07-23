@@ -6,13 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class PlayerJoinLeaveListener implements Listener {
-    private final NeonGuilds plugin;
-
-    public PlayerJoinLeaveListener(NeonGuilds plugin) {
-        this.plugin = plugin;
-    }
-
+public record PlayerJoinLeaveListener(NeonGuilds plugin) implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         this.plugin.userManager().getUser(event.getPlayer());

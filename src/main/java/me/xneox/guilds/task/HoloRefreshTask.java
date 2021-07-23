@@ -11,12 +11,7 @@ import org.bukkit.Material;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HoloRefreshTask implements Runnable {
-    private final NeonGuilds plugin;
-
-    public HoloRefreshTask(NeonGuilds plugin) {
-        this.plugin = plugin;
-    }
+public record HoloRefreshTask(NeonGuilds plugin) implements Runnable {
 
     @Override
     public void run() {

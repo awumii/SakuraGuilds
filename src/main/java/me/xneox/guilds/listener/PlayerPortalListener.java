@@ -7,12 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class PlayerPortalListener implements Listener {
     private final Date END_OPEN = TimeUtils.parseDate("01/08/2069 20:00");

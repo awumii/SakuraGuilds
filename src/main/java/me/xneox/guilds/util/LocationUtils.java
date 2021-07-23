@@ -6,13 +6,16 @@ import org.bukkit.Location;
 public final class LocationUtils {
     public static final String EMPTY = "world:0:0:0:0:0";
 
+    private LocationUtils() {
+    }
+
     public static String toString(Location location) {
         return location.getWorld().getName() + ":" + location.getX() + ":" + location.getY() + ":" + location.getZ() + ":" + location.getYaw() + ":" + location.getPitch();
     }
 
     public static String toSimpleString(Location location) {
         // Te (int) są po to, żeby nie było 10 liczb po kropce :p
-       return "X: " + (int) location.getX() + ", Y: " + (int) location.getY() + ", Z: " + (int) location.getZ();
+        return "X: " + (int) location.getX() + ", Y: " + (int) location.getY() + ", Z: " + (int) location.getZ();
     }
 
     public static Location fromString(String string) {
@@ -32,6 +35,4 @@ public final class LocationUtils {
                 && first.getBlockZ() == second.getBlockZ()
                 && first.getBlockY() == second.getBlockY();
     }
-
-    private LocationUtils() {}
 }

@@ -11,6 +11,9 @@ import java.time.Duration;
 import java.util.Arrays;
 
 public final class VisualUtils {
+    private VisualUtils() {
+    }
+
     public static void sound(Player player, Sound sound) {
         player.playSound(player.getLocation(), sound, 1f, 1f);
     }
@@ -61,6 +64,4 @@ public final class VisualUtils {
         Hologram hologram = createHologram(location, icon, text);
         Bukkit.getScheduler().runTaskLater(HookUtils.INSTANCE, hologram::delete, duration.getSeconds() * 20);
     }
-
-    private VisualUtils() {}
 }

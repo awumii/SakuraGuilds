@@ -18,13 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-public class GuildAttackListener implements Listener {
-    private final NeonGuilds plugin;
-
-    public GuildAttackListener(NeonGuilds plugin) {
-        this.plugin = plugin;
-    }
-
+public record GuildAttackListener(NeonGuilds plugin) implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -64,7 +58,7 @@ public class GuildAttackListener implements Listener {
             }
 
             Guild attackerGuild = manager.playerGuild(player);
-            ChatUtils.broadcast("&c[" + attackerGuild.name() +  "] " + player.getName() + " &7zaatakował nexusa &6" + guild.name() + "!");
+            ChatUtils.broadcast("&c[" + attackerGuild.name() + "] " + player.getName() + " &7zaatakował nexusa &6" + guild.name() + "!");
 
             if (guild.health() <= 1) {
                 ChatUtils.broadcastCenteredMessage(" ");

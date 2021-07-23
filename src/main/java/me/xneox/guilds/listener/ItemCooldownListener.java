@@ -14,13 +14,7 @@ import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.concurrent.TimeUnit;
 
-public class ItemCooldownListener implements Listener {
-    private final NeonGuilds plugin;
-
-    public ItemCooldownListener(NeonGuilds plugin) {
-        this.plugin = plugin;
-    }
-
+public record ItemCooldownListener(NeonGuilds plugin) implements Listener {
     @EventHandler
     public void onElytraBoost(PlayerElytraBoostEvent event) {
         if (handleCooldown(event.getPlayer(), 3)) {

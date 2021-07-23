@@ -30,6 +30,9 @@ public final class ChatUtils {
             .extractUrls()
             .build();
 
+    private ChatUtils() {
+    }
+
     public static TextComponent color(String message) {
         return SERIALIZER.deserialize(message);
     }
@@ -137,7 +140,7 @@ public final class ChatUtils {
         Bukkit.getOnlinePlayers().forEach(player -> sendCenteredMessage(player, message));
     }
 
-    public static void sendCenteredMessage(Player player, String message){
+    public static void sendCenteredMessage(Player player, String message) {
         message = ChatColor.translateAlternateColorCodes('&', message);
 
         int messagePxSize = 0;
@@ -145,12 +148,12 @@ public final class ChatUtils {
         boolean isBold = false;
 
         for (char c : message.toCharArray()) {
-            if (c == '§'){
+            if (c == '§') {
                 previousCode = true;
-            } else if(previousCode){
+            } else if (previousCode) {
                 previousCode = false;
                 isBold = c == 'l' || c == 'L';
-            }else{
+            } else {
                 DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
                 messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
                 messagePxSize++;
@@ -162,12 +165,10 @@ public final class ChatUtils {
         int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
         int compensated = 0;
         StringBuilder sb = new StringBuilder();
-        while(compensated < toCompensate){
+        while (compensated < toCompensate) {
             sb.append(" ");
             compensated += spaceLength;
         }
         player.sendMessage(sb + message);
     }
-
-    private ChatUtils() {}
 }

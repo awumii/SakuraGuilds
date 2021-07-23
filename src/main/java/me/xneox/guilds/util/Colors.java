@@ -8,5 +8,6 @@ public final class Colors {
     public static final String ALIZARIN_RED = "&#E74C3C";
     public static final String POMEGRANTE_RED = "&#C0392B";
 
-    private Colors() {}
+    private Colors() {
+    }
 }

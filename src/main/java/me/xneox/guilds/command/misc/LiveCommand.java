@@ -11,12 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
-public class LiveCommand implements CommandExecutor {
-    private final NeonGuilds plugin;
-
-    public LiveCommand(NeonGuilds plugin) {
-        this.plugin = plugin;
-    }
+public record LiveCommand(NeonGuilds plugin) implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

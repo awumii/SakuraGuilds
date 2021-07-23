@@ -2,8 +2,8 @@ package me.xneox.guilds.command.impl;
 
 import me.xneox.guilds.command.internal.SubCommand;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.manager.GuildManager;
+import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.ChunkUtils;
 import me.xneox.guilds.util.LocationUtils;

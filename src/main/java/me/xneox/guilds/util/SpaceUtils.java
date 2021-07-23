@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public final class SpaceUtils {
-    private SpaceUtils() {}
+    private SpaceUtils() {
+    }
 
     public static List<Location> sphere(Location sphereCenter, int radius, int height, boolean hollow, boolean sphere, int plusY) {
         return mapSphereCoordinates(sphereCenter, radius, height, plusY, hollow, sphere, ArrayList::new, Location::new);

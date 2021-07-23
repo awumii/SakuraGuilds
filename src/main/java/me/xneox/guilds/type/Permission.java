@@ -19,15 +19,15 @@ public enum Permission {
         this.description = description;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     @Nullable
     public static Permission find(String description) {
         return Arrays.stream(Permission.values())
                 .filter(permission -> description.contains(permission.getDescription()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

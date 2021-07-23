@@ -5,7 +5,6 @@ import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.ItemBuilder;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,13 +17,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
-public class PlayerMenuListener implements Listener {
-    private final NeonGuilds plugin;
-
-    public PlayerMenuListener(NeonGuilds plugin) {
-        this.plugin = plugin;
-    }
-
+public record PlayerMenuListener(NeonGuilds plugin) implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         giveMenuItem(event.getPlayer());

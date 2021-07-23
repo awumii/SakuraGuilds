@@ -18,15 +18,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Iterator;
 
-public class GuildProtectionListener implements Listener {
-    private final NeonGuilds plugin;
-
-    public GuildProtectionListener(NeonGuilds plugin) {
-        this.plugin = plugin;
-    }
-
+public record GuildProtectionListener(NeonGuilds plugin) implements Listener {
     /**
-     * @param player The player who invoked the event.
+     * @param player   The player who invoked the event.
      * @param location Location where the event happened.
      * @return whenever the event should be cancelled.
      */

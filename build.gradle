@@ -13,7 +13,6 @@ repositories {
     maven { url 'https://libraries.minecraft.net/' }
     maven { url 'https://repo.codemc.io/repository/maven-public/' }
     maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
-    maven { url 'https://nexus.badbones69.com/repository/maven-releases/' }
     maven { url 'https://maven.enginehub.org/repo/' }
     maven { url 'https://nexus.sirblobman.xyz/repository/public/' }
 }
@@ -26,7 +25,6 @@ dependencies {
     compileOnly 'com.mojang:authlib:1.5.25'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.8'
-    compileOnly 'me.badbones69:crazyauctions:1.2.16'
     compileOnly 'me.clip:placeholderapi:2.10.10'
     compileOnly 'com.github.Archy-X:AureliumSkills:Beta1.1.3'
     compileOnly 'com.SirBlobman.combatlogx:CombatLogX-API:10.0.0.0-SNAPSHOT'

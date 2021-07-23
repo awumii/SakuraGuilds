@@ -29,6 +29,14 @@ public class ItemBuilder {
     private String skullTexture;
     private String skullOwner;
 
+    private ItemBuilder(Material material) {
+        this.title = null;
+        this.lore = new ArrayList<>();
+        this.enchants = new HashMap<>();
+        this.material = material;
+        this.amount = 1;
+    }
+
     public static ItemBuilder of(Material material) {
         return new ItemBuilder(material);
     }
@@ -43,14 +51,6 @@ public class ItemBuilder {
         ItemBuilder builder = new ItemBuilder(Material.PLAYER_HEAD);
         builder.skullOwner = skullOwner;
         return builder;
-    }
-
-    private ItemBuilder(Material material) {
-        this.title = null;
-        this.lore = new ArrayList<>();
-        this.enchants = new HashMap<>();
-        this.material = material;
-        this.amount = 1;
     }
 
     public ItemBuilder name(String title) {

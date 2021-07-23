@@ -9,7 +9,8 @@ import java.util.List;
 public interface SubCommand {
     void handle(GuildManager manager, Player player, String[] args);
 
-    default @Nullable List<String> suggest(String[] args) {
+    default @Nullable
+    List<String> suggest(String[] args) {
         return null;
     }
 }

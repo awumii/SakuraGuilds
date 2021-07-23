@@ -1,7 +1,7 @@
 package me.xneox.guilds.command.impl;
 
-import me.xneox.guilds.command.internal.SubCommand;
 import me.xneox.guilds.command.internal.AdminOnly;
+import me.xneox.guilds.command.internal.SubCommand;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;

@@ -2,12 +2,7 @@ package me.xneox.guilds.task;
 
 import me.xneox.guilds.NeonGuilds;
 
-public class DataSaveTask implements Runnable {
-    private final NeonGuilds plugin;
-
-    public DataSaveTask(NeonGuilds plugin) {
-        this.plugin = plugin;
-    }
+public record DataSaveTask(NeonGuilds plugin) implements Runnable {
 
     @Override
     public void run() {

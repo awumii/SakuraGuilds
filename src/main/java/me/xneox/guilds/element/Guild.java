@@ -25,22 +25,19 @@ public class Guild {
 
     // CHANGEABLE DATA
     private final List<String> allies;
+    // TEMPORARY DATA
+    private final List<String> invitations = new ArrayList<>();
     private Location home;
     private Inventory storage;
     private long shield;
-
     private int health;
     private int trophies;
     private int kills;
     private int deaths;
-
     private int money;
     private int maxSlots;
     private int maxChunks;
     private int maxStorage;
-
-    // TEMPORARY DATA
-    private final List<String> invitations = new ArrayList<>();
     private boolean deleteConfirm;
 
     public Guild(String name, List<Member> members, Location nexusLocation, long creation, List<String> allies, Location home,

@@ -7,13 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-public class PlayerDeathListener implements Listener {
-    private final NeonGuilds plugin;
-
-    public PlayerDeathListener(NeonGuilds plugin) {
-        this.plugin = plugin;
-    }
-
+public record PlayerDeathListener(NeonGuilds plugin) implements Listener {
     @EventHandler
     public void onPlayerKill(PlayerDeathEvent event) {
         Player victim = event.getEntity();

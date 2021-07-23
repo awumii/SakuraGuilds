@@ -7,6 +7,9 @@ import org.bukkit.inventory.ItemStack;
 public final class InventoryUtils {
     public static final ItemStack BLACK_GLASS = ItemBuilder.of(Material.BLACK_STAINED_GLASS_PANE).name("&r").build();
 
+    private InventoryUtils() {
+    }
+
     public static void drawBorder(Inventory inventory) {
         inventory.setItem(0, BLACK_GLASS);
         inventory.setItem(1, BLACK_GLASS);
@@ -55,6 +58,4 @@ public final class InventoryUtils {
     public static void removeItems(Inventory inventory, Material type, int amount) {
         inventory.removeItem(new ItemStack(type, amount));
     }
-
-    private InventoryUtils() {}
 }

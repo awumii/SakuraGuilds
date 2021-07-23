@@ -11,15 +11,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GuildCommandCompleter implements TabCompleter {
-    private final CommandManager commandManager;
-
-    public GuildCommandCompleter(@NotNull CommandManager commandManager) {
-        this.commandManager = commandManager;
-    }
+public record GuildCommandCompleter(CommandManager commandManager) implements TabCompleter {
 
     @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+    public @Nullable
+    List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (args.length == 1) {
             return this.commandManager.commandMap().keySet()
                     .stream()

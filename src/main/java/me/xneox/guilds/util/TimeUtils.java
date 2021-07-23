@@ -9,6 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 public final class TimeUtils {
 
+    private TimeUtils() {
+    }
+
     /**
      * Date in format dd/MM/yyyy HH:mm.
      * Defaults timezone to GMT+2
@@ -63,6 +66,4 @@ public final class TimeUtils {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return sdf.format(new Date(millis));
     }
-
-    private TimeUtils() {}
 }

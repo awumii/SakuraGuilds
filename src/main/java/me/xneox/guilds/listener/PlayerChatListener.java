@@ -4,7 +4,6 @@ import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.Colors;
 import me.xneox.guilds.util.HookUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,12 +13,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.concurrent.TimeUnit;
 
-public class PlayerChatListener implements Listener {
-    private final NeonGuilds plugin;
-
-    public PlayerChatListener(NeonGuilds plugin) {
-        this.plugin = plugin;
-    }
+public record PlayerChatListener(NeonGuilds plugin) implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onChat(AsyncPlayerChatEvent event) {
