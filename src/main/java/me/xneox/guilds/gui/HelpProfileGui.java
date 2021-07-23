@@ -5,10 +5,12 @@ import me.xneox.guilds.NeonGuilds;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.ItemBuilder;
+import me.xneox.guilds.util.VisualUtils;
 import me.xneox.guilds.util.gui.InventoryProviderImpl;
 import me.xneox.guilds.util.gui.api.ClickEvent;
 import me.xneox.guilds.util.gui.api.InventorySize;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -23,6 +25,7 @@ public class HelpProfileGui extends InventoryProviderImpl {
     @Override
     public void open(Player player, Inventory inventory) {
         Guild guild = this.plugin.guildManager().playerGuild(player);
+        VisualUtils.sound(player, Sound.BLOCK_NOTE_BLOCK_PLING);
 
         // FIRST ROW
         ItemStack stats = ItemBuilder.skullOf(player.getName())
@@ -194,6 +197,7 @@ public class HelpProfileGui extends InventoryProviderImpl {
 
     @Override
     public void event(ClickEvent event, Player player) {
+        VisualUtils.click(player);
         switch (event.slot()) {
             case 13 -> player.performCommand("staty");
 

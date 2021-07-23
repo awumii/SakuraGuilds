@@ -1,6 +1,6 @@
 package me.xneox.guilds.manager;
 
-import me.xneox.epicguard.libs.storage.Json;
+import de.leonhard.storage.Json;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
 import me.xneox.guilds.util.ChatUtils;

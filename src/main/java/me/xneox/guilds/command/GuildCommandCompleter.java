@@ -25,11 +25,11 @@ public class GuildCommandCompleter implements TabCompleter {
                     .stream()
                     .filter(cmd -> !cmd.getClass().isAnnotationPresent(Hidden.class))
                     .collect(Collectors.toList());
-        } else {
-            SubCommand subCommand = this.commandManager.commandMap().get(args[0]);
-            if (subCommand != null) {
-                return subCommand.suggest(args);
-            }
+        }
+
+        SubCommand subCommand = this.commandManager.commandMap().get(args[0]);
+        if (subCommand != null) {
+            return subCommand.suggest(args);
         }
         return null;
     }

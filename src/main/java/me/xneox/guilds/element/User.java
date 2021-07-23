@@ -1,6 +1,6 @@
 package me.xneox.guilds.element;
 
-import me.xneox.epicguard.libs.storage.Json;
+import de.leonhard.storage.Json;
 import me.xneox.guilds.type.ChatChannel;
 import org.bukkit.Location;
 
