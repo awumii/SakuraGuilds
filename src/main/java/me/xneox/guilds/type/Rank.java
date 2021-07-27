@@ -1,7 +1,7 @@
 package me.xneox.guilds.type;
 
 import com.google.common.collect.Sets;
-import me.xneox.guilds.util.Colors;
+import me.xneox.guilds.util.ChatUtils;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -9,11 +9,11 @@ import java.util.EnumSet;
 import static me.xneox.guilds.type.Permission.*;
 
 public enum Rank {
-    LEADER(5, "Lider", Colors.CRIMSON + "★★★★", Permission.values()),
+    LEADER(5, "Lider", ChatUtils.CRIMSON + "★★★★", Permission.values()),
     GENERAL(4, "Generał", "&d★★★", Permission.values()),
     OFICER(3, "Oficer", "&b★★", SET_HOME, CLAIM, BUILDINGS, ALLIES, PUBLIC),
     KAPRAL(2, "Kapral", "&6★", SET_HOME, CLAIM),
-    REKRUT(1, "Rekrut", Colors.BRONZE + "♧");
+    REKRUT(1, "Rekrut", ChatUtils.BRONZE + "♧");
 
     private final int weight;
     private final String name;

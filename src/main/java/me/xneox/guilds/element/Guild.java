@@ -9,13 +9,14 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Guild {
+public class Guild implements Comparable<Guild> {
     // PERMANENT DATA
     private final String name;
     private final List<Member> members;
@@ -288,5 +289,10 @@ public class Guild {
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    @Override
+    public int compareTo(@NotNull Guild guild) {
+        return Integer.compare(guild.trophies(), this.trophies);
     }
 }

@@ -105,9 +105,8 @@ public class ItemBuilder {
             GameProfile profile = new GameProfile(UUID.randomUUID(), null);
             profile.getProperties().put("textures", new Property("textures", this.skullTexture));
 
-            Field profileField;
             try {
-                profileField = headMeta.getClass().getDeclaredField("profile");
+                Field profileField = headMeta.getClass().getDeclaredField("profile");
                 profileField.setAccessible(true);
                 profileField.set(headMeta, profile);
             } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {

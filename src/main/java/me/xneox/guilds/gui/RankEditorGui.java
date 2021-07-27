@@ -1,6 +1,6 @@
 package me.xneox.guilds.gui;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
 import me.xneox.guilds.type.Permission;
@@ -19,7 +19,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class RankEditorGui extends InventoryProviderImpl {
-    public RankEditorGui(NeonGuilds plugin) {
+    public RankEditorGui(SakuraGuildsPlugin plugin) {
         super(plugin, "Zarządzanie rangami użytkownika", InventorySize.BIG);
     }
 

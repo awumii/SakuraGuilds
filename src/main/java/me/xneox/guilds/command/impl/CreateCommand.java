@@ -66,14 +66,14 @@ public class CreateCommand implements SubCommand {
 
         // USTAWIANIE NEXUSA
 
-        for (Location sphere : SpaceUtils.sphere(nexusLoc, 4, 4, false, true, 3)) {
+        for (Location sphere : LocationUtils.sphere(nexusLoc, 4, 4, false, true, 3)) {
             if (sphere.getBlock().getType() != Material.BEDROCK) {
                 sphere.getBlock().setType(Material.AIR);
             }
         }
 
         player.getWorld().getBlockAt(nexusLoc).setType(Material.END_PORTAL_FRAME);
-        player.teleport(nexusLoc);
+        player.teleportAsync(nexusLoc);
 
         HookUtils.INSTANCE.inventoryManager().open("management", player);
 

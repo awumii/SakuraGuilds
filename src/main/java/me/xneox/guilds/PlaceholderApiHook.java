@@ -4,25 +4,24 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.util.HookUtils;
-import me.xneox.guilds.util.RankedUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class PlaceholderApiHook extends PlaceholderExpansion {
-    private final NeonGuilds plugin;
+    private final SakuraGuildsPlugin plugin;
 
-    public PlaceholderApiHook(NeonGuilds plugin) {
+    public PlaceholderApiHook(SakuraGuildsPlugin plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public @NotNull String getIdentifier() {
-        return "neonguilds";
+        return "sakuraguilds";
     }
 
     @Override
     public @NotNull String getAuthor() {
-        return "xNeox";
+        return "SakuraDevelopment";
     }
 
     @Override
@@ -45,7 +44,7 @@ public class PlaceholderApiHook extends PlaceholderExpansion {
         Guild guild = this.plugin.guildManager().playerGuild(player);
         User user = this.plugin.userManager().getUser(player);
 
-        if (guild == null && !params.equals("location")) {
+        if (guild == null && !params.equals("level")) {
             return "-/-";
         }
 
@@ -59,7 +58,7 @@ public class PlaceholderApiHook extends PlaceholderExpansion {
             case "division" -> guild.division().getName();
             case "rank" -> guild.member(player).rank().title();
             case "level" -> String.valueOf(HookUtils.getAureliumLevel(player));
-            case "rankedposition" -> "#" + RankedUtils.getLeaderboard(this.plugin.guildManager().guildMap().values()).indexOf(guild);
+            case "rankedposition" -> "#" + this.plugin.guildManager().leaderboard().indexOf(guild);
             default -> "<unknown>";
         };
     }

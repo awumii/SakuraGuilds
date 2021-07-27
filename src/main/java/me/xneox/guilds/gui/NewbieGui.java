@@ -1,6 +1,6 @@
 package me.xneox.guilds.gui;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
 import me.xneox.guilds.util.VisualUtils;
@@ -13,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class NewbieGui extends InventoryProviderImpl {
-    public NewbieGui(NeonGuilds plugin) {
+    public NewbieGui(SakuraGuildsPlugin plugin) {
         super(plugin, "Menu Nowicjusza", InventorySize.MEDIUM);
     }
 

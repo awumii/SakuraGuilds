@@ -1,13 +1,19 @@
 package me.xneox.guilds.listener;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.User;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-public record PlayerDeathListener(NeonGuilds plugin) implements Listener {
+public final class PlayerDeathListener implements Listener {
+    private final SakuraGuildsPlugin plugin;
+
+    public PlayerDeathListener(SakuraGuildsPlugin plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onPlayerKill(PlayerDeathEvent event) {
         Player victim = event.getEntity();

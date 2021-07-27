@@ -1,6 +1,6 @@
-name: NeonGuilds
+name: SakuraGuilds
 version: ${projectVersion}
-main: me.xneox.guilds.NeonGuilds
+main: me.xneox.guilds.SakuraGuildsPlugin
 author: xNeox
 description: Plugin na gildie, dla serwera dronizja.pl
 api-version: 1.17
@@ -17,7 +17,7 @@ commands:
   guild:
     aliases: [ g ]
   live:
-    permission: neonguilds.live
+    permission: sakuraguilds.live
     permission-message: '&cNie posiadasz uprawnień.'
   help:
     aliases: [ pomoc ]

@@ -1,6 +1,6 @@
 package me.xneox.guilds.gui;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.util.ChatUtils;
@@ -17,7 +17,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class UpgradesGui extends InventoryProviderImpl {
-    public UpgradesGui(NeonGuilds plugin) {
+    public UpgradesGui(SakuraGuildsPlugin plugin) {
         super(plugin, "Menu ulepszeń gildyjnych", InventorySize.MEDIUM);
     }
 

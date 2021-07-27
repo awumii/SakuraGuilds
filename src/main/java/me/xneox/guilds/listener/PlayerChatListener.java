@@ -1,6 +1,6 @@
 package me.xneox.guilds.listener;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.util.ChatUtils;
@@ -13,7 +13,12 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.concurrent.TimeUnit;
 
-public record PlayerChatListener(NeonGuilds plugin) implements Listener {
+public final class PlayerChatListener implements Listener {
+    private final SakuraGuildsPlugin plugin;
+
+    public PlayerChatListener(SakuraGuildsPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onChat(AsyncPlayerChatEvent event) {

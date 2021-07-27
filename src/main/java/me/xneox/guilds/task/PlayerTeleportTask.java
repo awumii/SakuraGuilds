@@ -1,6 +1,6 @@
 package me.xneox.guilds.task;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.LocationUtils;
@@ -9,36 +9,43 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-public record PlayerTeleportTask(NeonGuilds plugin) implements Runnable {
+public final class PlayerTeleportTask implements Runnable {
+    private final SakuraGuildsPlugin plugin;
+
+    public PlayerTeleportTask(SakuraGuildsPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             User user = this.plugin.userManager().getUser(player);
-            if (user.getTeleportTarget() != null) {
-                if (!LocationUtils.equalsSoft(player.getLocation(), user.getStartLocation())) {
-                    ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
-                            "&cPoruszyłeś się w trakcie teleportacji!");
-                    user.clearTeleport();
+            if (user.getTeleportTarget() == null) {
+                continue;
+            }
 
-                    VisualUtils.sound(player, Sound.BLOCK_ANVIL_DESTROY);
-                    continue;
-                }
+            if (!LocationUtils.equalsSoft(player.getLocation(), user.getStartLocation())) {
+                ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
+                        "&cPoruszyłeś się w trakcie teleportacji!");
 
-                if (user.getTeleportCountdown() > 0) {
-                    user.setTeleportCountdown(user.getTeleportCountdown() - 1);
-                    ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
-                            "&7Zostaniesz przeteleportowany za &e" + user.getTeleportCountdown() + " sekund...");
+                user.clearTeleport();
+                VisualUtils.sound(player, Sound.BLOCK_ANVIL_DESTROY);
+                continue;
+            }
 
-                    VisualUtils.sound(player, Sound.BLOCK_NOTE_BLOCK_GUITAR);
-                } else {
-                    ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
-                            "&7Zostałeś przeteleportowany &apomyślnie!");
-                    player.teleport(user.getTeleportTarget());
-                    user.clearTeleport();
+            if (user.getTeleportCountdown() > 0) {
+                user.setTeleportCountdown(user.getTeleportCountdown() - 1);
+                ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
+                        "&7Zostaniesz przeteleportowany za &e" + user.getTeleportCountdown() + " sekund...");
 
-                    VisualUtils.sound(player, Sound.BLOCK_PISTON_EXTEND);
-                }
+                VisualUtils.sound(player, Sound.BLOCK_NOTE_BLOCK_GUITAR);
+            } else {
+                ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
+                        "&7Zostałeś przeteleportowany &apomyślnie!");
+
+                player.teleportAsync(user.getTeleportTarget());
+                user.clearTeleport();
+                VisualUtils.sound(player, Sound.BLOCK_PISTON_EXTEND);
             }
         }
     }

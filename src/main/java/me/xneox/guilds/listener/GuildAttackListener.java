@@ -1,6 +1,6 @@
 package me.xneox.guilds.listener;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
@@ -18,7 +18,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-public record GuildAttackListener(NeonGuilds plugin) implements Listener {
+public final class GuildAttackListener implements Listener {
+    private final SakuraGuildsPlugin plugin;
+
+    public GuildAttackListener(SakuraGuildsPlugin plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -38,12 +44,6 @@ public record GuildAttackListener(NeonGuilds plugin) implements Listener {
             }
 
             if (!guild.nexusLocation().equals(event.getClickedBlock().getLocation())) {
-                return;
-            }
-
-            double distance = guild.nexusLocation().distance(player.getLocation());
-            if (distance > 4.5) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ban " + player.getName() + " 30m Zaatakowanie nexusa z dystansu " + distance + "m (exploit?)");
                 return;
             }
 

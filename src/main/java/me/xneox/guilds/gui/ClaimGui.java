@@ -1,6 +1,6 @@
 package me.xneox.guilds.gui;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.*;
 import me.xneox.guilds.util.gui.InventoryProviderImpl;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class ClaimGui extends InventoryProviderImpl {
-    public ClaimGui(NeonGuilds plugin) {
+    public ClaimGui(SakuraGuildsPlugin plugin) {
         super(plugin, "Zarządzanie zajętymi ziemiami", InventorySize.BIGGEST);
     }
 

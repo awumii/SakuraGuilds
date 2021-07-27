@@ -1,6 +1,6 @@
 package me.xneox.guilds.task;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.ChunkUtils;
@@ -16,10 +16,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class GuildNotifierTask implements Runnable {
-    private final NeonGuilds plugin;
+    private final SakuraGuildsPlugin plugin;
     private final Map<UUID, String> areaMap = new HashMap<>();
 
-    public GuildNotifierTask(NeonGuilds plugin) {
+    public GuildNotifierTask(SakuraGuildsPlugin plugin) {
         this.plugin = plugin;
     }
 

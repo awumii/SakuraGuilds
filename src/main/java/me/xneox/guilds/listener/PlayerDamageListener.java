@@ -1,6 +1,6 @@
 package me.xneox.guilds.listener;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.TimeUtils;
@@ -11,7 +11,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-public record PlayerDamageListener(NeonGuilds plugin) implements Listener {
+import java.util.Objects;
+
+public final class PlayerDamageListener implements Listener {
+    private final SakuraGuildsPlugin plugin;
+
+    public PlayerDamageListener(SakuraGuildsPlugin plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
         if (!event.getEntity().getWorld().getName().startsWith("world")) {

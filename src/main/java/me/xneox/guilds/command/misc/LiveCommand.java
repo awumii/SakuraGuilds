@@ -1,6 +1,6 @@
 package me.xneox.guilds.command.misc;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -9,9 +9,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public record LiveCommand(NeonGuilds plugin) implements CommandExecutor {
+public final class LiveCommand implements CommandExecutor {
+    private final SakuraGuildsPlugin plugin;
+
+    public LiveCommand(SakuraGuildsPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

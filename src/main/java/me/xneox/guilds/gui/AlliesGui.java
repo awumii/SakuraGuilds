@@ -1,6 +1,6 @@
 package me.xneox.guilds.gui;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.InventoryUtils;
@@ -16,7 +16,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class AlliesGui extends InventoryProviderImpl {
-    public AlliesGui(NeonGuilds plugin) {
+    public AlliesGui(SakuraGuildsPlugin plugin) {
         super(plugin, "Zarządzanie Sojuszami", InventorySize.BIGGEST);
     }
 

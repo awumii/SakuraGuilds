@@ -1,7 +1,7 @@
 package me.xneox.guilds.listener;
 
 import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.ItemBuilder;
 import org.bukkit.Material;
@@ -17,7 +17,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
-public record PlayerMenuListener(NeonGuilds plugin) implements Listener {
+public final class PlayerMenuListener implements Listener {
+    private final SakuraGuildsPlugin plugin;
+
+    public PlayerMenuListener(SakuraGuildsPlugin plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         giveMenuItem(event.getPlayer());

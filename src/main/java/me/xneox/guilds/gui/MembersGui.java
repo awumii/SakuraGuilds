@@ -1,6 +1,6 @@
 package me.xneox.guilds.gui;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.util.*;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class MembersGui extends InventoryProviderImpl {
-    public MembersGui(NeonGuilds plugin) {
+    public MembersGui(SakuraGuildsPlugin plugin) {
         super(plugin, "Menu zarządzania członkami", InventorySize.BIGGEST);
     }
 

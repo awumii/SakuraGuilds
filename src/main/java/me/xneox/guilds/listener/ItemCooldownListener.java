@@ -1,7 +1,7 @@
 package me.xneox.guilds.listener;
 
 import com.destroystokyo.paper.event.player.PlayerElytraBoostEvent;
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -12,12 +12,19 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public record ItemCooldownListener(NeonGuilds plugin) implements Listener {
+public final class ItemCooldownListener implements Listener {
+    private final SakuraGuildsPlugin plugin;
+
+    public ItemCooldownListener(SakuraGuildsPlugin plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onElytraBoost(PlayerElytraBoostEvent event) {
-        if (handleCooldown(event.getPlayer(), 3)) {
+        if (handleCooldown(event.getPlayer(), 5)) {
             event.setCancelled(true);
         }
     }

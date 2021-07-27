@@ -26,7 +26,7 @@ public class GuildTeleportCommand implements SubCommand {
             return;
         }
 
-        player.teleport(guild.nexusLocation());
+        player.teleportAsync(guild.nexusLocation());
     }
 
     @Override

@@ -2,16 +2,20 @@ package me.xneox.guilds.task;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.RankedUtils;
 import me.xneox.guilds.util.VisualUtils;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record HoloRefreshTask(NeonGuilds plugin) implements Runnable {
+public final class HoloRefreshTask implements Runnable {
+    private final SakuraGuildsPlugin plugin;
+
+    public HoloRefreshTask(SakuraGuildsPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void run() {
@@ -26,19 +30,18 @@ public record HoloRefreshTask(NeonGuilds plugin) implements Runnable {
     }
 
     private void createRankTop() {
-        List<Guild> leaderboard = RankedUtils.getLeaderboard(this.plugin.guildManager().guildMap().values());
         List<String> lines = new ArrayList<>();
-        lines.add("&6&l10 Najlepszych gildii");
+        lines.add("&6&lTOP 10 Gildii na serwerze");
         lines.add("&7Ilość pucharków");
         lines.add("");
 
         for (int i = 0; i < 10; i++) {
-            if (i >= leaderboard.size()) {
+            if (i >= this.plugin.guildManager().leaderboard().size()) {
                 lines.add(" &e" + (i + 1) + ". &b-/-");
                 continue;
             }
 
-            Guild guild = leaderboard.get(i);
+            Guild guild = this.plugin.guildManager().leaderboard().get(i);
             lines.add(" &e" + (i + 1) + ". &b" + guild.name() + " &7- &e" + guild.trophies() + "★");
         }
 

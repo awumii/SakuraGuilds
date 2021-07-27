@@ -30,10 +30,10 @@ public final class VisualUtils {
         for (int x = minX; x < minX + 17; x++) {
             for (int y = minY; y < minY + 1; y++) {
                 for (int z = minZ; z < minZ + 17; z++) {
-                    player.spawnParticle(Particle.VILLAGER_HAPPY, minX, y, z, 1);
-                    player.spawnParticle(Particle.VILLAGER_HAPPY, x, y, minZ, 1);
-                    player.spawnParticle(Particle.VILLAGER_HAPPY, minX + 16, y, z, 1);
-                    player.spawnParticle(Particle.VILLAGER_HAPPY, x, y, minZ + 17, 1);
+                    player.spawnParticle(Particle.REDSTONE, minX, y, z, 1, new Particle.DustOptions(Color.RED, 1));
+                    player.spawnParticle(Particle.REDSTONE, x, y, minZ, 1, new Particle.DustOptions(Color.RED, 1));
+                    player.spawnParticle(Particle.REDSTONE, minX + 16, y, z, 1, new Particle.DustOptions(Color.RED, 1));
+                    player.spawnParticle(Particle.REDSTONE, x, y, minZ + 17, 1, new Particle.DustOptions(Color.RED, 1));
                 }
             }
         }

@@ -1,10 +1,9 @@
 package me.xneox.guilds.gui;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
-import me.xneox.guilds.util.RankedUtils;
 import me.xneox.guilds.util.VisualUtils;
 import me.xneox.guilds.util.gui.InventoryProviderImpl;
 import me.xneox.guilds.util.gui.api.ClickEvent;
@@ -16,17 +15,13 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class LeaderboardsGui extends InventoryProviderImpl {
-    private List<Guild> guilds;
-
-    public LeaderboardsGui(NeonGuilds plugin) {
+    public LeaderboardsGui(SakuraGuildsPlugin plugin) {
         super(plugin, "Tabela Rankingowa", InventorySize.BIGGEST);
     }
 
     @Override
     public void open(Player player, Inventory inventory) {
         InventoryUtils.drawBorder(inventory);
-
-        this.guilds = RankedUtils.getLeaderboard(this.plugin.guildManager().guildMap().values());
 
         inventory.setItem(13, buildGuildInfo(0));
         inventory.setItem(21, buildGuildInfo(1));
@@ -49,13 +44,13 @@ public class LeaderboardsGui extends InventoryProviderImpl {
 
     private ItemStack buildGuildInfo(int position) {
         int realPosition = position + 1;
-        if (position >= this.guilds.size()) {
+        if (position >= this.plugin.guildManager().leaderboard().size()) {
             return ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjk3ZTJjOGI4Mjc2Mjc2ZTM4ZGVjYTg4NTA4NzJkNTllY2M5YzFmMzhmMmFkY2U0MDg1OGVkYjllNjM0ZDdiYSJ9fX0=")
                     .name("&cNikt nie zajął " + realPosition + " pozycji.")
                     .build();
         }
 
-        Guild guild = this.guilds.get(position);
+        Guild guild = this.plugin.guildManager().leaderboard().get(position);
         return ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRkZTRkOTViYTRhNDZkYjdlNTY2YjM0NWY3ODk0ZDFkMjU4Zjg5M2ViOTJjNzgwYjNkYTc3NWVlZGY5MSJ9fX0=")
                 .name("&7" + realPosition + ". &6" + guild.name())
                 .lore("")

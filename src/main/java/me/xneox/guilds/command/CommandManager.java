@@ -1,6 +1,6 @@
 package me.xneox.guilds.command;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.command.impl.*;
 import me.xneox.guilds.command.internal.SubCommand;
 import org.jetbrains.annotations.NotNull;
@@ -14,9 +14,9 @@ public class CommandManager {
     private final GuildCommandExecutor executor;
     private final GuildCommandCompleter completer;
 
-    private final NeonGuilds plugin;
+    private final SakuraGuildsPlugin plugin;
 
-    public CommandManager(@NotNull NeonGuilds plugin) {
+    public CommandManager(@NotNull SakuraGuildsPlugin plugin) {
         this.plugin = plugin;
 
         this.executor = new GuildCommandExecutor(this);
@@ -63,7 +63,7 @@ public class CommandManager {
         return this.completer;
     }
 
-    public NeonGuilds plugin() {
+    public SakuraGuildsPlugin plugin() {
         return this.plugin;
     }
 }

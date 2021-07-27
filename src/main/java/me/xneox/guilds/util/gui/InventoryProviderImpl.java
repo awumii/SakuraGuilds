@@ -15,7 +15,7 @@
 
 package me.xneox.guilds.util.gui;
 
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.gui.api.InventoryProvider;
 import me.xneox.guilds.util.gui.api.InventorySize;
@@ -26,11 +26,11 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class InventoryProviderImpl implements InventoryProvider {
-    protected final NeonGuilds plugin;
+    protected final SakuraGuildsPlugin plugin;
     private final Component title;
     private final int size;
 
-    public InventoryProviderImpl(NeonGuilds plugin, String title, InventorySize size) {
+    public InventoryProviderImpl(SakuraGuildsPlugin plugin, String title, InventorySize size) {
         this.plugin = plugin;
         this.title = LegacyComponentSerializer.legacyAmpersand().deserialize(title);
         this.size = size.slots();

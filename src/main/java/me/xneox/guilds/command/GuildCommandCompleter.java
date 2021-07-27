@@ -9,9 +9,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-public record GuildCommandCompleter(CommandManager commandManager) implements TabCompleter {
+public final class GuildCommandCompleter implements TabCompleter {
+    private final CommandManager commandManager;
+
+    public GuildCommandCompleter(CommandManager commandManager) {
+        this.commandManager = commandManager;
+    }
 
     @Override
     public @Nullable

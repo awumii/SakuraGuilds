@@ -1,7 +1,7 @@
 package me.xneox.guilds.gui;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.xneox.guilds.NeonGuilds;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.ItemBuilder;
@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 public class HelpProfileGui extends InventoryProviderImpl {
-    public HelpProfileGui(NeonGuilds plugin) {
+    public HelpProfileGui(SakuraGuildsPlugin plugin) {
         super(plugin, "Menu Gracza", InventorySize.BIGGEST);
     }
 

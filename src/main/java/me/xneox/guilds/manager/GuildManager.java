@@ -4,6 +4,7 @@ import de.leonhard.storage.Json;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
 import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.ItemSerialization;
 import me.xneox.guilds.util.LocationUtils;
 import org.apache.commons.io.FileUtils;
@@ -13,10 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GuildManager {
@@ -24,7 +22,7 @@ public class GuildManager {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public GuildManager() {
-        File dir = new File("plugins/NeonGuilds/guilds");
+        File dir = new File(HookUtils.directory("guilds"));
         dir.mkdirs();
 
         for (File file : Objects.requireNonNull(dir.listFiles())) {
@@ -63,12 +61,12 @@ public class GuildManager {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void save() {
-        File backupDir = new File("plugins/NeonGuilds/backup");
+        File backupDir = new File(HookUtils.directory("backup"));
         backupDir.mkdirs();
 
         this.guildMap.forEach((name, guild) -> {
             try {
-                File guildFile = new File("plugins/NeonGuilds/guilds", name + ".json");
+                File guildFile = new File(HookUtils.directory("guilds"), name + ".json");
                 if (guildFile.exists()) {
                     FileUtils.copyFile(guildFile, new File(backupDir, name + ".backup"));
                 }
@@ -108,7 +106,7 @@ public class GuildManager {
         guild.nexusLocation().createExplosion(5, true, true);
 
         this.guildMap.remove(guild.name());
-        new File("plugins/NeonGuilds/guilds", guild.name() + ".json").delete();
+        new File(HookUtils.directory("guilds"), guild.name() + ".json").delete();
     }
 
     public Guild findAt(Location location) {
@@ -133,6 +131,12 @@ public class GuildManager {
 
     public Guild get(String name) {
         return this.guildMap.get(name);
+    }
+
+    public List<Guild> leaderboard() {
+        List<Guild> copy = new ArrayList<>(this.guildMap.values());
+        Collections.sort(copy);
+        return copy;
     }
 
     public Map<String, Guild> guildMap() {

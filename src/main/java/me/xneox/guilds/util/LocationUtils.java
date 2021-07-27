@@ -3,6 +3,9 @@ package me.xneox.guilds.util;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class LocationUtils {
     public static final String EMPTY = "world:0:0:0:0:0";
 
@@ -34,5 +37,25 @@ public final class LocationUtils {
         return first.getBlockX() == second.getBlockX()
                 && first.getBlockZ() == second.getBlockZ()
                 && first.getBlockY() == second.getBlockY();
+    }
+
+    public static List<Location> sphere(Location sphereCenter, int radius, int height, boolean hollow, boolean sphere, int plusY) {
+        int centerX = sphereCenter.getBlockX();
+        int centerY = sphereCenter.getBlockY();
+        int centerZ = sphereCenter.getBlockZ();
+
+        List<Location> blocks = new ArrayList<>();
+        for (int x = centerX - radius; x <= centerX + radius; x++) {
+            for (int z = centerZ - radius; z <= centerZ + radius; z++) {
+                for (int y = (sphere ? centerY - radius : centerY); y < (sphere ? centerY + radius : centerY + height); y++) {
+                    double dist = (centerX - x) * (centerX - x) + (centerZ - z) * (centerZ - z) + (sphere ? (centerY - y) * (centerY - y) : 0);
+
+                    if (dist < radius * radius && !(hollow && dist < (radius - 1) * (radius - 1))) {
+                        blocks.add(new Location(sphereCenter.getWorld(), x, y + plusY, z));
+                    }
+                }
+            }
+        }
+        return blocks;
     }
 }

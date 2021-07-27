@@ -2,6 +2,7 @@ package me.xneox.guilds.element;
 
 import de.leonhard.storage.Json;
 import me.xneox.guilds.type.ChatChannel;
+import me.xneox.guilds.util.HookUtils;
 import org.bukkit.Location;
 
 import java.text.SimpleDateFormat;
@@ -23,7 +24,7 @@ public class User {
     private int teleportCountdown;
 
     public User(String name) {
-        this.data = new Json(name, "plugins/NeonGuilds/users");
+        this.data = new Json(name, HookUtils.directory("users"));
         this.name = name;
 
         this.kills = data.getInt("Kills");
