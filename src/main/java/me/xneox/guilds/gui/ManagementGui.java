@@ -22,8 +22,6 @@ public class ManagementGui extends InventoryProviderImpl {
 
     @Override
     public void open(Player player, Inventory inventory) {
-        InventoryUtils.drawBorder(inventory);
-
         Guild guild = this.plugin.guildManager().playerGuild(player.getName());
         if (guild == null) {
             player.closeInventory();
@@ -66,8 +64,9 @@ public class ManagementGui extends InventoryProviderImpl {
                 .lore("&f" + guild.member(player).rank().title())
                 .lore("")
                 .lore("&eWojna:")
-                .lore(" &7→ Zabójstwa: &f" + user.getKills())
-                .lore(" &7→ Śmierci: &f" + user.getDeaths())
+                .lore(" &7→ Puchary: &6" + user.trophies() + "★")
+                .lore(" &7→ Zabójstwa: &f" + user.kills())
+                .lore(" &7→ Śmierci: &f" + user.deaths())
                 .lore("")
                 .build();
 
@@ -76,6 +75,9 @@ public class ManagementGui extends InventoryProviderImpl {
                 .lore("")
                 .lore("&eNazwa:")
                 .lore("&f" + guild.name())
+                .lore("")
+                .lore("&eData założenia:")
+                .lore("&f" + guild.creationDate())
                 .lore("")
                 .lore("&eLider:")
                 .lore("&f" + guild.leader().nickname())
@@ -139,10 +141,6 @@ public class ManagementGui extends InventoryProviderImpl {
                 .lore("&7Kliknij, aby przeglądać topowe gildie.")
                 .build();
 
-        ItemStack soon = ItemBuilder.of(Material.RED_STAINED_GLASS_PANE)
-                .name("&cWkrótce...")
-                .build();
-
         ItemStack storage = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGMxYmQwYWNmMmY5NDA2NGNjYTI3YjBhZWYzNWQ4YzEyYTg5MjhkNDM2MzdhN2ZlNzFmNWVlZTQ1ODk3NWUxYSJ9fX0=")
                 .name("&6Magazyn Gildyjny")
                 .lore("")
@@ -150,19 +148,14 @@ public class ManagementGui extends InventoryProviderImpl {
                 .amount(guild.maxStorage())
                 .build();
 
-        ItemStack soon1 = ItemBuilder.of(Material.RED_STAINED_GLASS_PANE)
-                .name("&cWkrótce...")
-                .build();
-
-        inventory.setItem(3, profile);
-        inventory.setItem(4, shield);
-        inventory.setItem(5, help);
+        InventoryUtils.drawBorder(inventory);
+        inventory.setItem(4, profile);
 
         inventory.setItem(20, claims);
         inventory.setItem(21, members);
         inventory.setItem(22, home);
         inventory.setItem(23, allies);
-        inventory.setItem(24, soon);
+        inventory.setItem(24, shield);
 
         inventory.setItem(29, division);
         inventory.setItem(30, leaderboard);
@@ -171,7 +164,7 @@ public class ManagementGui extends InventoryProviderImpl {
         inventory.setItem(33, storage);
 
         inventory.setItem(48, info);
-        inventory.setItem(50, soon1);
+        inventory.setItem(50, help);
     }
 
     @Override

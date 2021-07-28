@@ -11,9 +11,9 @@ import static me.xneox.guilds.type.Permission.*;
 public enum Rank {
     LEADER(5, "Lider", ChatUtils.CRIMSON + "★★★★", Permission.values()),
     GENERAL(4, "Generał", "&d★★★", Permission.values()),
-    OFICER(3, "Oficer", "&b★★", SET_HOME, CLAIM, BUILDINGS, ALLIES, PUBLIC),
-    KAPRAL(2, "Kapral", "&6★", SET_HOME, CLAIM),
-    REKRUT(1, "Rekrut", ChatUtils.BRONZE + "♧");
+    OFICER(3, "Oficer", "&b★★", BUILD, SET_HOME, CLAIM, UPGRADES, ALLIES),
+    KAPRAL(2, "Kapral", "&6★", BUILD, SET_HOME, CLAIM),
+    REKRUT(1, "Rekrut", ChatUtils.BRONZE + "♧", BUILD);
 
     private final int weight;
     private final String name;

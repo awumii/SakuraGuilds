@@ -20,17 +20,17 @@ public class ChatChannelCommand implements SubCommand {
         }
 
         User user = HookUtils.INSTANCE.userManager().getUser(player);
-        switch (user.getChatChannel()) {
+        switch (user.chatChannel()) {
             case GLOBAL -> {
-                user.setChatChannel(ChatChannel.GUILD);
+                user.chatChannel(ChatChannel.GUILD);
                 ChatUtils.sendMessage(player, "&7Przełączono na kanał &agildyjny.");
             }
             case GUILD -> {
-                user.setChatChannel(ChatChannel.ALLY);
+                user.chatChannel(ChatChannel.ALLY);
                 ChatUtils.sendMessage(player, "&7Przełączono na kanał &csojuszniczy.");
             }
             case ALLY -> {
-                user.setChatChannel(ChatChannel.GLOBAL);
+                user.chatChannel(ChatChannel.GLOBAL);
                 ChatUtils.sendMessage(player, "&7Przełączono na kanał &cglobalny.");
             }
         }

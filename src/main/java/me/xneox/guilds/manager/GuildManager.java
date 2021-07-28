@@ -41,7 +41,6 @@ public class GuildManager {
                 int kills = json.getInt("Kills");
                 int deaths = json.getInt("Deaths");
                 int money = json.getInt("Money");
-                int trophies = json.getInt("Trophies");
                 int health = json.getInt("Health");
                 int maxSlots = json.getInt("MaxSlots");
                 int maxChunks = json.getInt("MaxChunks");
@@ -51,7 +50,7 @@ public class GuildManager {
 
                 String name = file.getName().replace(".json", "");
                 this.guildMap.put(name, new Guild(name, members, nexusLocation, creation, allies, home, chunks,
-                        shield, health, trophies, kills, deaths, money, maxSlots, maxChunks, maxStorage, storage));
+                        shield, health, kills, deaths, money, maxSlots, maxChunks, maxStorage, storage));
             } catch (Exception e) {
                 ChatUtils.broadcast("&cWystąpił błąd podczas wczytywania danych gildii: &4" + file.getName());
                 e.printStackTrace();
@@ -84,7 +83,6 @@ public class GuildManager {
                 json.set("MaxSlots", guild.maxSlots());
                 json.set("MaxChunks", guild.maxChunks());
                 json.set("MaxStorage", guild.maxStorage());
-                json.set("Trophies", guild.trophies());
                 json.set("Shield", guild.shieldDuration());
                 json.set("Health", guild.health());
                 json.set("Creation", guild.creationLong());

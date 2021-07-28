@@ -9,6 +9,8 @@ import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.HookUtils;
 import org.bukkit.entity.Player;
 
+import java.util.Date;
+
 public class JoinCommand implements SubCommand {
 
     @Override
@@ -40,7 +42,7 @@ public class JoinCommand implements SubCommand {
         }
 
         guild.members().add(new Member(player.getName(), Rank.REKRUT, Rank.REKRUT.defaultPermissions()));
-        HookUtils.INSTANCE.userManager().getUser(player).setJoinDate();
+        HookUtils.INSTANCE.userManager().getUser(player).joinDate(new Date().getTime());
         HookUtils.INSTANCE.inventoryManager().open("management", player);
         ChatUtils.broadcast("&e" + player.getName() + " &7dołącza do gildii &6" + guild.name());
     }

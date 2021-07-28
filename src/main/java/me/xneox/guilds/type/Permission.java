@@ -4,14 +4,14 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 
 public enum Permission {
+    BUILD("Budowanie oraz interakcje na terenie gildii."),
     KICK("Wyrzucanie członków"),
     SET_HOME("Zmiana bazy"),
     CLAIM("Zajmowanie ziem"),
     RANKS("Zarządzanie uprawnieniami"),
-    BUILDINGS("Tworzenie i ulepszenie budynków"),
+    UPGRADES("Ulepszenia gildyjne"),
     ALLIES("Dyplomacja"),
-    WAR("Wypowiadanie wojen"),
-    PUBLIC("Zmiana statusu publiczny/prywatny");
+    WAR("Wypowiadanie wojen");
 
     private final String description;
 

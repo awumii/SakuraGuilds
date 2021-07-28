@@ -26,7 +26,7 @@ public class RankEditorGui extends InventoryProviderImpl {
     @Override
     public void open(Player player, Inventory inventory) {
         Guild guild = this.plugin.guildManager().playerGuild(player.getName());
-        String target = this.plugin.userManager().getUser(player).getEditorSubject();
+        String target = this.plugin.userManager().getUser(player).editorSubject();
         Member member = guild.member(target);
 
         ItemStack user = ItemBuilder.skullOf(target)
@@ -139,7 +139,7 @@ public class RankEditorGui extends InventoryProviderImpl {
         }
 
         Guild guild = this.plugin.guildManager().playerGuild(player.getName());
-        String targetName = this.plugin.userManager().getUser(player).getEditorSubject();
+        String targetName = this.plugin.userManager().getUser(player).editorSubject();
 
         Member member = guild.member(player);
         Member targetMember = guild.member(targetName);

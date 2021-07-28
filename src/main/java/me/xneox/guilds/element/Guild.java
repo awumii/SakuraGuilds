@@ -3,6 +3,7 @@ package me.xneox.guilds.element;
 import me.xneox.guilds.type.Division;
 import me.xneox.guilds.type.Rank;
 import me.xneox.guilds.util.ChunkUtils;
+import me.xneox.guilds.util.HookUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -26,13 +27,13 @@ public class Guild implements Comparable<Guild> {
 
     // CHANGEABLE DATA
     private final List<String> allies;
-    // TEMPORARY DATA
     private final List<String> invitations = new ArrayList<>();
+
     private Location home;
     private Inventory storage;
+
     private long shield;
     private int health;
-    private int trophies;
     private int kills;
     private int deaths;
     private int money;
@@ -42,7 +43,7 @@ public class Guild implements Comparable<Guild> {
     private boolean deleteConfirm;
 
     public Guild(String name, List<Member> members, Location nexusLocation, long creation, List<String> allies, Location home,
-                 List<String> chunks, long shield, int health, int trophies, int kills, int deaths, int money,
+                 List<String> chunks, long shield, int health, int kills, int deaths, int money,
                  int maxSlots, int maxChunks, int maxStorage, ItemStack[] storageContent) {
 
         this.name = name;
@@ -54,7 +55,6 @@ public class Guild implements Comparable<Guild> {
         this.chunks = chunks;
         this.shield = shield;
         this.health = health;
-        this.trophies = trophies;
         this.kills = kills;
         this.deaths = deaths;
         this.maxSlots = maxSlots;
@@ -106,20 +106,18 @@ public class Guild implements Comparable<Guild> {
                 .orElse(null);
     }
 
-    public void addTrophies(int amount) {
-        this.trophies(this.trophies + amount);
-    }
+    public int trophies() {
+        int total = this.members.stream()
+                .map(member -> HookUtils.INSTANCE.userManager().getUser(member.nickname()))
+                .mapToInt(User::trophies)
+                .sum();
 
-    public void trophies(int trophies) {
-        this.trophies = trophies;
-        if (this.trophies < 0) {
-            this.trophies = 0;
-        }
+        return total / this.members.size();
     }
 
     public Division division() {
         return Arrays.stream(Division.values())
-                .filter(value -> this.trophies >= value.getMinPoints())
+                .filter(value -> trophies() >= value.getMinPoints())
                 .findFirst()
                 .orElse(Division.BRONZE);
     }
@@ -198,10 +196,6 @@ public class Guild implements Comparable<Guild> {
 
     public void deleteConfirmation(boolean deleteConfirm) {
         this.deleteConfirm = deleteConfirm;
-    }
-
-    public int trophies() {
-        return trophies;
     }
 
     public long shieldDuration() {
@@ -293,6 +287,6 @@ public class Guild implements Comparable<Guild> {
 
     @Override
     public int compareTo(@NotNull Guild guild) {
-        return Integer.compare(guild.trophies(), this.trophies);
+        return Integer.compare(guild.trophies(), this.trophies());
     }
 }

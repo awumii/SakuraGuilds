@@ -77,6 +77,8 @@ public class LeaderboardsGui extends InventoryProviderImpl {
         VisualUtils.click(player);
 
         ItemStack item = event.item();
-        isBackButton(item); // no need to do anything here
+        if (isBackButton(item)) {
+            this.plugin.inventoryManager().open("management", player);
+        }
     }
 }

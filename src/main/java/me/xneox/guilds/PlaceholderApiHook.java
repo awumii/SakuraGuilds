@@ -44,21 +44,25 @@ public class PlaceholderApiHook extends PlaceholderExpansion {
         Guild guild = this.plugin.guildManager().playerGuild(player);
         User user = this.plugin.userManager().getUser(player);
 
-        if (guild == null && !params.equals("level")) {
+        if (params.startsWith("guild_") && guild == null) {
             return "-/-";
         }
 
         return switch (params) {
-            case "kills" -> String.valueOf(user.getKills());
-            case "deaths" -> String.valueOf(user.getDeaths());
-            case "channel" -> user.getChatChannel().getName();
-            case "icon" -> guild.member(player).rank().icon();
-            case "guild" -> guild.name();
-            case "trophies" -> String.valueOf(guild.trophies());
-            case "division" -> guild.division().getName();
-            case "rank" -> guild.member(player).rank().title();
+            // User placeholders
+            case "kills" -> String.valueOf(user.kills());
+            case "deaths" -> String.valueOf(user.deaths());
+            case "channel" -> user.chatChannel().getName();
+            case "trophies" -> String.valueOf(user.trophies());
             case "level" -> String.valueOf(HookUtils.getAureliumLevel(player));
-            case "rankedposition" -> "#" + this.plugin.guildManager().leaderboard().indexOf(guild);
+
+            // Guild placeholders
+            case "guild_icon" -> guild.member(player).rank().icon();
+            case "guild_name" -> guild.name();
+            case "guild_trophies" -> String.valueOf(guild.trophies());
+            case "guild_division" -> guild.division().getName();
+            case "guild_rank" -> guild.member(player).rank().title();
+            case "guild_position" -> "#" + this.plugin.guildManager().leaderboard().indexOf(guild);
             default -> "<unknown>";
         };
     }

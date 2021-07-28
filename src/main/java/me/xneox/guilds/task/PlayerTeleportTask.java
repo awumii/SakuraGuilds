@@ -20,11 +20,11 @@ public final class PlayerTeleportTask implements Runnable {
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             User user = this.plugin.userManager().getUser(player);
-            if (user.getTeleportTarget() == null) {
+            if (user.teleportTarget() == null) {
                 continue;
             }
 
-            if (!LocationUtils.equalsSoft(player.getLocation(), user.getStartLocation())) {
+            if (!LocationUtils.equalsSoft(player.getLocation(), user.startLocation())) {
                 ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
                         "&cPoruszyłeś się w trakcie teleportacji!");
 
@@ -33,17 +33,17 @@ public final class PlayerTeleportTask implements Runnable {
                 continue;
             }
 
-            if (user.getTeleportCountdown() > 0) {
-                user.setTeleportCountdown(user.getTeleportCountdown() - 1);
+            if (user.teleportCountdown() > 0) {
+                user.teleportCountdown(user.teleportCountdown() - 1);
                 ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
-                        "&7Zostaniesz przeteleportowany za &e" + user.getTeleportCountdown() + " sekund...");
+                        "&7Zostaniesz przeteleportowany za &e" + user.teleportCountdown() + " sekund...");
 
                 VisualUtils.sound(player, Sound.BLOCK_NOTE_BLOCK_GUITAR);
             } else {
                 ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
                         "&7Zostałeś przeteleportowany &apomyślnie!");
 
-                player.teleportAsync(user.getTeleportTarget());
+                player.teleportAsync(user.teleportTarget());
                 user.clearTeleport();
                 VisualUtils.sound(player, Sound.BLOCK_PISTON_EXTEND);
             }

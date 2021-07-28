@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import java.util.Date;
 
 public class PlayerPortalListener implements Listener {
-    private final Date END_OPEN = TimeUtils.parseDate("01/08/2069 20:00");
+    private final Date END_OPEN = TimeUtils.parseDate("11/08/2021 19:00");
 
     @EventHandler
     public void onPortal(PlayerPortalEvent event) {

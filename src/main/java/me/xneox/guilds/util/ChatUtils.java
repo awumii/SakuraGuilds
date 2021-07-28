@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public final class ChatUtils {
-    public static final String PREFIX = " &6&lGILDIE &8▶ &7";
+    public static final String PREFIX = " &6&lGILDIE &8➦ &7";
 
     public static final String BRONZE = "&#cd7f32";
     public static final String CRIMSON = "&#dc143c";

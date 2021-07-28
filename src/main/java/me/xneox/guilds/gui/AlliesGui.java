@@ -25,6 +25,13 @@ public class AlliesGui extends InventoryProviderImpl {
         InventoryUtils.drawBorder(inventory);
         Guild guild = this.plugin.guildManager().playerGuild(player.getName());
 
+        if (guild.allies().isEmpty()) {
+            ItemStack empty = ItemBuilder.of(Material.WRITABLE_BOOK)
+                    .name("&c&n&oNie znaleziono sojuszy")
+                    .build();
+            inventory.setItem(22, empty);
+        }
+
         for (String ally : guild.allies()) {
             Guild other = this.plugin.guildManager().get(ally);
 

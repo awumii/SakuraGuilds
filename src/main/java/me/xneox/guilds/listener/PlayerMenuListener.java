@@ -71,9 +71,11 @@ public final class PlayerMenuListener implements Listener {
 
     private void giveMenuItem(Player player) {
         ItemStack menu = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDUwMDI5MmY0YWZlNTJkMTBmMjk5ZGZiMjYwMzYzMjI4MzA0NTAzMzFlMDAzMDg0YmIyMjAzMzM1MzA2NjRlMSJ9fX0=")
-                .name("&6Menu Gracza")
-                .lore("&7Kliknij prawym trzymając")
-                .lore("&7w ręce, aby otworzyć menu.")
+                .name("&6Menu Gracza &7(Kliknij Prawym)")
+                .lore("&7Menu które zawiera wszystkie przydatne")
+                .lore("&7funkcje podczas grania na serwerze.")
+                .lore("")
+                .lore("&eKliknij prawym podczas trzymania.")
                 .flags(ItemFlag.HIDE_ENCHANTS)
                 .build();
 

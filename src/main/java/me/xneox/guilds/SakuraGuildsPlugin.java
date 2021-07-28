@@ -5,13 +5,10 @@ import me.xneox.guilds.command.misc.GlobalHelpCommand;
 import me.xneox.guilds.command.misc.LiveCommand;
 import me.xneox.guilds.gui.*;
 import me.xneox.guilds.listener.*;
-import me.xneox.guilds.manager.CooldownManager;
-import me.xneox.guilds.manager.DataManager;
-import me.xneox.guilds.manager.GuildManager;
-import me.xneox.guilds.manager.UserManager;
+import me.xneox.guilds.manager.*;
 import me.xneox.guilds.task.DataSaveTask;
-import me.xneox.guilds.task.GuildNotifierTask;
-import me.xneox.guilds.task.HoloRefreshTask;
+import me.xneox.guilds.task.GuildNotificatorTask;
+import me.xneox.guilds.task.HologramRefreshTask;
 import me.xneox.guilds.task.PlayerTeleportTask;
 import me.xneox.guilds.util.gui.InventoryManager;
 import org.bukkit.Bukkit;
@@ -61,15 +58,14 @@ public class SakuraGuildsPlugin extends JavaPlugin {
         registerListener(new PlayerChatListener(this));
         registerListener(new GuildAttackListener(this));
         registerListener(new ItemCooldownListener(this));
-        registerListener(new PlayerJoinLeaveListener(this));
         registerListener(new PlayerMenuListener(this));
         registerListener(new PlayerPortalListener());
 
         // Registering tasks
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotifierTask(this), 0L, 40L);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotificatorTask(this), 0L, 40L);
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new DataSaveTask(this), 0L, 20 * 60L);
 
-        Bukkit.getScheduler().runTaskTimer(this, new HoloRefreshTask(this), 0L, 120 * 20L);
+        Bukkit.getScheduler().runTaskTimer(this, new HologramRefreshTask(this), 0L, 120 * 20L);
         Bukkit.getScheduler().runTaskTimer(this, new PlayerTeleportTask(this), 0L, 20L);
 
         new PlaceholderApiHook(this).register();

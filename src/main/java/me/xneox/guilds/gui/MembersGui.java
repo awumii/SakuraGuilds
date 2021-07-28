@@ -28,12 +28,13 @@ public class MembersGui extends InventoryProviderImpl {
             User user = this.plugin.userManager().getUser(member.nickname());
             ItemStack skull = ItemBuilder.skullOf(member.nickname())
                     .name("&6" + member.nickname())
-                    .lore("&e(Widziany ostatnio: &f" + TimeUtils.formatDate(Bukkit.getOfflinePlayer(member.nickname()).getLastSeen()) + "&e)")
+                    .lore("&e(Dołączył do gildii: &f" + user.joinDate() + "&e)")
+                    .lore("&e(Widziany ostatnio: &f" + TimeUtils.timeSince(Bukkit.getOfflinePlayer(member.nickname()).getLastSeen()) + " temu&e)")
                     .lore("")
                     .lore("&eRanga: " + member.rank().title())
                     .lore("&eWojna: ")
-                    .lore(" &7→ Zabójstwa: &f" + user.getKills())
-                    .lore(" &7→ Śmierci: &f" + user.getDeaths())
+                    .lore(" &7→ Zabójstwa: &f" + user.kills())
+                    .lore(" &7→ Śmierci: &f" + user.deaths())
                     .lore("")
                     .lore("&7&nKliknij PRAWYM aby")
                     .lore("  &fzarządzać rangą w gildii")
@@ -71,7 +72,7 @@ public class MembersGui extends InventoryProviderImpl {
         if (event.type() == ClickType.MIDDLE) {
             player.performCommand("g kick " + target);
         } else {
-            this.plugin.userManager().getUser(player).setEditorSubject(target);
+            this.plugin.userManager().getUser(player).editorSubject(target);
             this.plugin.inventoryManager().open("rank_editor", player);
         }
     }

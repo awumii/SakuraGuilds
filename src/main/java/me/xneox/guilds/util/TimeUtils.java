@@ -62,6 +62,10 @@ public final class TimeUtils {
         return TimeUtils.millisToTime(time);
     }
 
+    public static String timeSince(long milis) {
+        return millisToTime(System.currentTimeMillis() - milis);
+    }
+
     public static String formatDate(long millis) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return sdf.format(new Date(millis));

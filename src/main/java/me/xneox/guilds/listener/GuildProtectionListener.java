@@ -2,6 +2,8 @@ package me.xneox.guilds.listener;
 
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.element.Member;
+import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -37,7 +39,8 @@ public final class GuildProtectionListener implements Listener {
             return false;
         }
 
-        if (guild.isMember(player.getName())) {
+        Member member = guild.member(player);
+        if (member != null && member.hasPermission(Permission.BUILD)) {
             return false;
         }
 
@@ -56,8 +59,10 @@ public final class GuildProtectionListener implements Listener {
 
         if (event.getAction() != Action.PHYSICAL && event.getClickedBlock() != null) {
             Material mat = event.getClickedBlock().getType();
-            if (mat.name().contains("DOOR") || mat.name().contains("BUTTON") || mat.name().contains("CHEST")
-                    || mat.name().contains("FENCE") || mat.name().contains("BARREL") || mat.name().contains("SHULKER") || mat == Material.LEVER) {
+            if (mat.name().contains("DOOR")
+                    || mat.name().contains("BUTTON") || mat.name().contains("CHEST")
+                    || mat.name().contains("FENCE") || mat.name().contains("BARREL")
+                    || mat.name().contains("SHULKER") || mat == Material.LEVER) {
                 if (this.isProtected(event.getPlayer(), event.getClickedBlock().getLocation())) {
                     event.setCancelled(true);
                 }

@@ -42,7 +42,7 @@ public final class PlayerChatListener implements Listener {
         }
 
         User user = this.plugin.userManager().getUser(player);
-        switch (user.getChatChannel()) {
+        switch (user.chatChannel()) {
             case GLOBAL -> event.setFormat(event.getFormat()
                     .replace("{GUILD}", ChatUtils.legacyColor("&2" + guild.name() + " "))
                     .replace("{LEVEL}", String.valueOf(HookUtils.getAureliumLevel(player))));

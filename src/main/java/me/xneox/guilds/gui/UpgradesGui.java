@@ -3,6 +3,7 @@ package me.xneox.guilds.gui;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.type.Permission;
+import me.xneox.guilds.type.Upgrade;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
@@ -27,19 +28,28 @@ public class UpgradesGui extends InventoryProviderImpl {
         Guild guild = this.plugin.guildManager().playerGuild(player.getName());
 
         ItemStack members = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQ0YzFlOGU4MjY3MmJiYTU4OTJmZDQ2NTlmOGRhZDg0ZDE1NDVkYjI2ZGI1MmVjYzkxOGYzMmExMzkxNTEzIn19fQ==")
-                .name("&6Zwiększenie miejsc")
+                .name("&6Zwiększenie Slotów")
                 .lore("")
-                .lore("&7Limit członków: &b" + guild.maxSlots() + " &7→ &b" + (guild.maxSlots() + 1))
-                .lore("&7Koszt ulepszenia: &6" + cost(guild.maxSlots() / 5) + "$")
+                .lore("&7Limit członków: &f" + guild.maxSlots() + " &a(+" + Upgrade.SLOTS.multiplier() + ")")
+                .lore("&7Koszt ulepszenia: &6" + Upgrade.SLOTS.cost(guild) + "$")
                 .lore("")
                 .lore("&eKliknij, aby ulepszyć.")
                 .build();
 
         ItemStack claims = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzgyZWU4NWZlNmRjNjMyN2RhZDIwMmZjYTkzYzlhOTRhYzk5YjdiMTY5NzUyNGJmZTk0MTc1ZDg4NzI1In19fQ==")
-                .name("&6Więcej terenu")
+                .name("&6Więcej Terenu")
                 .lore("")
-                .lore("&7Limit chunków: &b" + guild.maxChunks() + " &7→ &b" + (guild.maxChunks() + 1))
-                .lore("&7Koszt ulepszenia: &6" + cost(guild.maxSlots()) + "$")
+                .lore("&7Limit chunków: &f" + guild.maxChunks() + " &a(+" + Upgrade.CHUNKS.multiplier() + ")")
+                .lore("&7Koszt ulepszenia: &6" + Upgrade.CHUNKS.cost(guild) + "$")
+                .lore("")
+                .lore("&eKliknij, aby ulepszyć.")
+                .build();
+
+        ItemStack storage = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGMxYmQwYWNmMmY5NDA2NGNjYTI3YjBhZWYzNWQ4YzEyYTg5MjhkNDM2MzdhN2ZlNzFmNWVlZTQ1ODk3NWUxYSJ9fX0=")
+                .name("&6Zwiększony Magazyn")
+                .lore("")
+                .lore("&7Ilość slotów: &f" + guild.maxStorage() + " &a(+" + Upgrade.STORAGE.multiplier() + ")")
+                .lore("&7Koszt ulepszenia: &6" + Upgrade.STORAGE.cost(guild) + "$")
                 .lore("")
                 .lore("&eKliknij, aby ulepszyć.")
                 .build();
@@ -50,7 +60,7 @@ public class UpgradesGui extends InventoryProviderImpl {
                 .lore("&7W banku znajduje się: &6" + guild.money() + "$")
                 .lore("")
                 .lore("&7Aby wpłacać pieniądze, użyj komendy:")
-                .lore(" &7→ &6/g donate <ilość>")
+                .lore(" &8→ &6&n/g donate <ilość>")
                 .lore("")
                 .lore("&cWpłaconych pieniędzy nie można wypłacić!")
                 .build();
@@ -61,7 +71,8 @@ public class UpgradesGui extends InventoryProviderImpl {
                 .build();
 
         inventory.setItem(10, members);
-        inventory.setItem(12, claims);
+        inventory.setItem(11, claims);
+        inventory.setItem(12, storage);
         inventory.setItem(14, bank);
         inventory.setItem(16, close);
     }
@@ -76,52 +87,47 @@ public class UpgradesGui extends InventoryProviderImpl {
             return;
         }
 
-        this.upgrade(player, event.slot());
-    }
-
-    private void upgrade(Player player, int id) {
         Guild guild = this.plugin.guildManager().playerGuild(player);
-
-        if (!guild.member(player).hasPermission(Permission.BUILDINGS)) {
+        // Check for permission
+        if (!guild.member(player).hasPermission(Permission.UPGRADES)) {
             VisualUtils.sound(player, Sound.ENTITY_VILLAGER_NO);
             ChatUtils.sendMessage(player, "&cNie posiadasz do tego uprawnień!");
             return;
         }
 
-        switch (id) {
-            case 10 -> {
-                int cost = cost(guild.maxSlots() / 5);
-                if (guild.money() < cost) {
-                    VisualUtils.sound(player, Sound.ENTITY_VILLAGER_NO);
-                    ChatUtils.sendMessage(player, "&cTwoja gildia nie posiada tyle pieniędzy!");
-                    return;
-                }
+        // Define upgrade type
+        Upgrade upgrade = switch (event.slot()) {
+            case 10 -> Upgrade.SLOTS;
+            case 11 -> Upgrade.CHUNKS;
+            case 12 -> Upgrade.STORAGE;
+            default -> null;
+        };
 
-                guild.money(guild.money() - cost);
-                guild.maxSlots(guild.maxSlots() + 1);
-
-                ChatUtils.guildAlert(guild, guild.member(player).displayName() + " &7zakupił ulepszenie &6Zwiększenie miejsc (" + guild.maxSlots() + ")");
-                this.plugin.inventoryManager().open("upgrades", player);
+        if (upgrade != null) {
+            int cost = upgrade.cost(guild);
+            if (guild.money() < cost) {
+                VisualUtils.sound(player, Sound.ENTITY_VILLAGER_NO);
+                ChatUtils.sendMessage(player, "&cTwoja gildia nie posiada tyle pieniędzy!");
+                return;
             }
 
-            case 12 -> {
-                int cost = cost(guild.maxChunks());
-                if (guild.money() < cost) {
-                    VisualUtils.sound(player, Sound.ENTITY_VILLAGER_NO);
-                    ChatUtils.sendMessage(player, "&cTwoja gildia nie posiada tyle pieniędzy!");
-                    return;
-                }
-
-                guild.money(guild.money() - cost);
-                guild.maxChunks(guild.maxChunks() + 1);
-
-                ChatUtils.guildAlert(guild, guild.member(player).displayName() + " &7zakupił ulepszenie &6Więcej terenu (" + guild.maxChunks() + ")");
-                this.plugin.inventoryManager().open("upgrades", player);
+            if (upgrade.currentValue(guild) >= upgrade.maxValue()) {
+                VisualUtils.sound(player, Sound.ENTITY_VILLAGER_NO);
+                ChatUtils.sendMessage(player, "&cTo ulepszenie jest już na maksymalnym poziomie!");
+                return;
             }
+
+            guild.money(guild.money() - cost);
+            upgrade.performUpgrade(guild);
+
+            // Play visual alerts
+            VisualUtils.sound(player, Sound.ENTITY_VILLAGER_TRADE);
+            ChatUtils.guildAlert(guild, guild.member(player).displayName() + " &7kupuje ulepszenie &e" + upgrade.title() +
+                    " &8(&7wartość: &6" + (upgrade.currentValue(guild) - upgrade.multiplier()) + " ➠ " + upgrade.currentValue(guild) +
+                    "&7, &a+" + upgrade.multiplier() + "&8)");
+
+            // Refresh inventory
+            this.plugin.inventoryManager().open("upgrades", player);
         }
-    }
-
-    private int cost(int number) {
-        return number * 2000;
     }
 }

@@ -12,6 +12,7 @@ public class User {
     private final Json data;
     private final String name;
 
+    private int trophies;
     private int kills;
     private int deaths;
     private long joinDate;
@@ -27,6 +28,7 @@ public class User {
         this.data = new Json(name, HookUtils.directory("users"));
         this.name = name;
 
+        this.trophies = data.getOrSetDefault("Trophies", 500);
         this.kills = data.getInt("Kills");
         this.deaths = data.getInt("Deaths");
         this.joinDate = data.getLong("JoinDate");
@@ -39,65 +41,77 @@ public class User {
         data.set("JoinDate", this.joinDate);
     }
 
-    public String getJoinDate() {
+    public int trophies() {
+        return this.trophies;
+    }
+
+    public void trophies(int trophies) {
+        this.trophies = trophies;
+    }
+
+    public String joinDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm");
         return sdf.format(new Date(this.joinDate));
     }
 
-    public void setJoinDate() {
-        this.joinDate = new Date().getTime();
+    public int kills() {
+        return this.kills;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getKills() {
-        return kills;
-    }
-
-    public void setKills(int kills) {
+    public void kills(int kills) {
         this.kills = kills;
     }
 
-    public int getDeaths() {
-        return deaths;
+    public int deaths() {
+        return this.deaths;
     }
 
-    public void setDeaths(int deaths) {
+    public void deaths(int deaths) {
         this.deaths = deaths;
     }
 
-    public String getEditorSubject() {
-        return editorSubject;
+    public void joinDate(long joinDate) {
+        this.joinDate = joinDate;
     }
 
-    public void setEditorSubject(String editorSubject) {
+    public String editorSubject() {
+        return this.editorSubject;
+    }
+
+    public void editorSubject(String editorSubject) {
         this.editorSubject = editorSubject;
     }
 
-    public ChatChannel getChatChannel() {
-        return chatChannel;
+    public ChatChannel chatChannel() {
+        return this.chatChannel;
     }
 
-    public void setChatChannel(ChatChannel chatChannel) {
+    public void chatChannel(ChatChannel chatChannel) {
         this.chatChannel = chatChannel;
     }
 
-    public int getTeleportCountdown() {
-        return teleportCountdown;
+    public Location startLocation() {
+        return this.startLocation;
     }
 
-    public void setTeleportCountdown(int teleportCountdown) {
+    public void startLocation(Location startLocation) {
+        this.startLocation = startLocation;
+    }
+
+    public Location teleportTarget() {
+        return this.teleportTarget;
+    }
+
+    public void teleportTarget(Location teleportTarget) {
+        this.teleportTarget = teleportTarget;
+    }
+
+    public int teleportCountdown() {
+        return this.teleportCountdown;
+    }
+
+    public void teleportCountdown(int teleportCountdown) {
         this.teleportCountdown = teleportCountdown;
-    }
-
-    public Location getTeleportTarget() {
-        return teleportTarget;
-    }
-
-    public Location getStartLocation() {
-        return startLocation;
     }
 
     public void clearTeleport() {
