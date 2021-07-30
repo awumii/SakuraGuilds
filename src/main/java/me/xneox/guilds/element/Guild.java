@@ -248,6 +248,7 @@ public class Guild implements Comparable<Guild> {
 
     public void maxStorage(int maxStorage) {
         this.maxStorage = maxStorage;
+        this.updateStorage();
     }
 
     public int money() {

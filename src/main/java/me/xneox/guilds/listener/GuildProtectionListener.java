@@ -33,12 +33,19 @@ public final class GuildProtectionListener implements Listener {
      * @param location Location where the event happened.
      * @return whenever the event should be cancelled.
      */
-    private boolean isProtected(Player player, Location location) {
+    private boolean isProtected(Player player, Location location, boolean isBlockPlace) {
         Guild guild = this.plugin.guildManager().findAt(location);
         if (guild == null) {
             return false;
         }
 
+        // No one should place blocks too close to the nexus.
+        if (isBlockPlace && location.distance(guild.nexusLocation()) < 2) {
+            ChatUtils.sendTitle(player, "", "&cNie można budować tak blisko nexusa!");
+            return true;
+        }
+
+        // Check if player is member of the guild and has permission to build
         Member member = guild.member(player);
         if (member != null && member.hasPermission(Permission.BUILD)) {
             return false;
@@ -46,6 +53,10 @@ public final class GuildProtectionListener implements Listener {
 
         ChatUtils.sendTitle(player, "", "&cNie możesz tego zrobić na tym terenie.");
         return true;
+    }
+
+    private boolean isProtected(Player player, Location location) {
+        return this.isProtected(player, location, false);
     }
 
     @EventHandler
@@ -122,7 +133,7 @@ public final class GuildProtectionListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (this.isProtected(event.getPlayer(), event.getBlock().getLocation())) {
+        if (this.isProtected(event.getPlayer(), event.getBlock().getLocation(), true)) {
             event.setCancelled(true);
         }
     }
