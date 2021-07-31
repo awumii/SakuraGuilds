@@ -128,14 +128,14 @@ public class Guild implements Comparable<Guild> {
     }
 
     public void changeRank(String player, Rank rank) {
-        Member member = this.member(player);
-        member.rank(rank);
-
         // Handle a situation where a leader is changed.
         if (rank == Rank.LEADER) {
             Member leader = this.leader();
             leader.rank(Rank.GENERAL);
         }
+
+        Member member = this.member(player);
+        member.rank(rank);
     }
 
     public List<Player> getOnlineMembers() {

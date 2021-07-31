@@ -32,11 +32,12 @@ public final class HologramRefreshTask implements Runnable {
 
         createRankTop();
 
-        ChatUtils.broadcastCenteredMessage("&8&m-------------------------------");
+        ChatUtils.broadcastCenteredMessage("&8&m--------------------------------------");
         ChatUtils.broadcastCenteredMessage("&c&lBETA TESTY EDYCJI IV!");
-        ChatUtils.broadcastCenteredMessage("&fTo co się tutaj znajduje może w każdym momencie ulec zmianom.");
-        ChatUtils.broadcastCenteredMessage("&fWszystko zostanie zresetowanie po oficjalnym otwarciu serwera.");
-        ChatUtils.broadcastCenteredMessage("&8&m-------------------------------");
+        ChatUtils.broadcastCenteredMessage("&fWszystko zostanie &czresetowanie &fgdy serwer.");
+        ChatUtils.broadcastCenteredMessage("&fzostanie oficjalnie otwarty: &618.08.2021");
+        ChatUtils.broadcastCenteredMessage("&fSerwer może ulec znaczącym zmianom.");
+        ChatUtils.broadcastCenteredMessage("&8&m--------------------------------------");
     }
 
     private void createRankTop() {
