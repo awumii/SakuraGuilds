@@ -12,16 +12,16 @@ public final class LocationUtils {
     private LocationUtils() {
     }
 
-    public static String toString(Location location) {
+    public static String deserialize(Location location) {
         return location.getWorld().getName() + ":" + location.getX() + ":" + location.getY() + ":" + location.getZ() + ":" + location.getYaw() + ":" + location.getPitch();
     }
 
-    public static String toSimpleString(Location location) {
+    public static String legacyDeserialize(Location location) {
         // Te (int) są po to, żeby nie było 10 liczb po kropce :p
         return "X: " + (int) location.getX() + ", Y: " + (int) location.getY() + ", Z: " + (int) location.getZ();
     }
 
-    public static Location fromString(String string) {
+    public static Location serialize(String string) {
         String[] split = string.split(":");
         String world = split[0];
         double x = Double.parseDouble(split[1]);

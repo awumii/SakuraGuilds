@@ -1,19 +1,29 @@
 package me.xneox.guilds.manager;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.User;
+import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class UserManager {
-    private final Cache<String, User> userCache = CacheBuilder.newBuilder()
-            .expireAfterAccess(10, TimeUnit.MINUTES)
-            .build();
+    private final Map<String, User> userMap = new HashMap<>();
+
+    public void load(SakuraGuildsPlugin plugin) {
+        try {
+            long ms = System.currentTimeMillis();
+            plugin.sqlManager().loadUsers();
+
+            ChatUtils.broadcast("&7Wczytano &6" + this.userMap.size() + " &7danych graczy w ciągu &e" + (System.currentTimeMillis() - ms) + "ms.");
+        } catch (Exception e) {
+            ChatUtils.broadcast("&cWystąpił krytyczny błąd przy wczytywaniu bazy danych: &4" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     @NotNull
     public User getUser(Player player) {
@@ -22,10 +32,10 @@ public class UserManager {
 
     @NotNull
     public User getUser(String name) {
-        return this.userCache.asMap().computeIfAbsent(name, User::new);
+        return this.userMap.computeIfAbsent(name, s -> new User(500, 0, 0, new Date().getTime()));
     }
 
-    public void save() {
-        this.userCache.asMap().values().forEach(User::save);
+    public Map<String, User> userMap() {
+        return this.userMap;
     }
 }

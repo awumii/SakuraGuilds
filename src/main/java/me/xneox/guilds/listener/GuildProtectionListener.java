@@ -40,7 +40,7 @@ public final class GuildProtectionListener implements Listener {
         }
 
         // No one should place blocks too close to the nexus.
-        if (isBlockPlace && location.distance(guild.nexusLocation()) < 2) {
+        if (isBlockPlace && location.distance(guild.nexusLocation()) < 3) {
             ChatUtils.sendTitle(player, "", "&cNie można budować tak blisko nexusa!");
             return true;
         }

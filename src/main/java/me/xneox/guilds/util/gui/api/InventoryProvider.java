@@ -18,11 +18,10 @@ package me.xneox.guilds.util.gui.api;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public interface InventoryProvider {
-    @Nonnull
+    @NotNull
     Component title();
 
     int size();

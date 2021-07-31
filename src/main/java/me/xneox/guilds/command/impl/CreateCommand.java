@@ -50,7 +50,7 @@ public class CreateCommand implements SubCommand {
 
         HookUtils.INSTANCE.userManager().getUser(player).joinDate(new Date().getTime());
 
-        Location nexusLoc = ChunkUtils.getCenter(ChunkUtils.toString(player.getChunk()));
+        Location nexusLoc = ChunkUtils.getCenter(ChunkUtils.deserialize(player.getChunk()));
         nexusLoc.setY(30);
 
         Guild guild = new Guild(args[1], new ArrayList<>(), nexusLoc, new Date().getTime(), new ArrayList<>(), player.getLocation(), new ArrayList<>(),
@@ -60,7 +60,7 @@ public class CreateCommand implements SubCommand {
 
         guild.shieldDuration(Duration.ofDays(1));
         guild.members().add(new Member(player.getName(), Rank.LEADER, Rank.LEADER.defaultPermissions()));
-        guild.claims().add(ChunkUtils.toString(player.getLocation().getChunk()));
+        guild.claims().add(ChunkUtils.deserialize(player.getLocation().getChunk()));
 
         ChatUtils.broadcast("&e" + player.getName() + " &7zakłada gildię &6" + args[1]);
 

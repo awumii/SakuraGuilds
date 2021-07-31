@@ -4,7 +4,10 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.VisualUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -24,9 +27,16 @@ public final class HologramRefreshTask implements Runnable {
         this.plugin.guildManager().guildMap().values().forEach(guild -> {
             guild.invitations().clear();
             guild.deleteConfirmation(false);
+            VisualUtils.createGuildInfo(guild);
         });
 
         createRankTop();
+
+        ChatUtils.broadcastCenteredMessage("&8&m-------------------------------");
+        ChatUtils.broadcastCenteredMessage("&c&lBETA TESTY EDYCJI IV!");
+        ChatUtils.broadcastCenteredMessage("&fTo co się tutaj znajduje może w każdym momencie ulec zmianom.");
+        ChatUtils.broadcastCenteredMessage("&fWszystko zostanie zresetowanie po oficjalnym otwarciu serwera.");
+        ChatUtils.broadcastCenteredMessage("&8&m-------------------------------");
     }
 
     private void createRankTop() {
@@ -45,6 +55,6 @@ public final class HologramRefreshTask implements Runnable {
             lines.add(" &e" + (i + 1) + ". &b" + guild.name() + " &7- &e" + guild.trophies() + "★");
         }
 
-        VisualUtils.createHologram(this.plugin.dataManager().leaderboardLocation(), Material.GOLD_BLOCK, lines.toArray(new String[0]));
+        VisualUtils.createHologram(new Location(Bukkit.getWorld("world"), 0, 60, 0), Material.GOLD_BLOCK, lines.toArray(new String[0]));
     }
 }

@@ -1,5 +1,5 @@
 name: SakuraGuilds
-version: ${projectVersion}
+version: ${version}
 main: me.xneox.guilds.SakuraGuildsPlugin
 author: xNeox
 description: Plugin na gildie, dla serwera dronizja.pl

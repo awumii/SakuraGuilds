@@ -1,17 +1,12 @@
 package me.xneox.guilds.element;
 
-import de.leonhard.storage.Json;
 import me.xneox.guilds.type.ChatChannel;
-import me.xneox.guilds.util.HookUtils;
 import org.bukkit.Location;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class User {
-    private final Json data;
-    private final String name;
-
     private int trophies;
     private int kills;
     private int deaths;
@@ -24,21 +19,12 @@ public class User {
     private Location teleportTarget;
     private int teleportCountdown;
 
-    public User(String name) {
-        this.data = new Json(name, HookUtils.directory("users"));
-        this.name = name;
-
-        this.trophies = data.getOrSetDefault("Trophies", 500);
-        this.kills = data.getInt("Kills");
-        this.deaths = data.getInt("Deaths");
-        this.joinDate = data.getLong("JoinDate");
+    public User(int trophies, int kills, int deaths, long joinDate) {
+        this.trophies = trophies;
+        this.kills = kills;
+        this.deaths = deaths;
+        this.joinDate = joinDate;
         this.chatChannel = ChatChannel.GLOBAL;
-    }
-
-    public void save() {
-        data.set("Kills", this.kills);
-        data.set("Deaths", this.deaths);
-        data.set("JoinDate", this.joinDate);
     }
 
     public int trophies() {
@@ -52,6 +38,10 @@ public class User {
     public String joinDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm");
         return sdf.format(new Date(this.joinDate));
+    }
+
+    public long joinLong() {
+        return this.joinDate;
     }
 
     public int kills() {
@@ -94,16 +84,8 @@ public class User {
         return this.startLocation;
     }
 
-    public void startLocation(Location startLocation) {
-        this.startLocation = startLocation;
-    }
-
     public Location teleportTarget() {
         return this.teleportTarget;
-    }
-
-    public void teleportTarget(Location teleportTarget) {
-        this.teleportTarget = teleportTarget;
     }
 
     public int teleportCountdown() {

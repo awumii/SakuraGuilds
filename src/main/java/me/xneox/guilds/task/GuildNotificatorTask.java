@@ -41,15 +41,15 @@ public class GuildNotificatorTask implements Runnable {
 
                     VisualUtils.sound(player, Sound.BLOCK_NOTE_BLOCK_XYLOPHONE);
                     for (String chunk : guild.claims()) {
-                        VisualUtils.drawBorderAtChunk(ChunkUtils.toChunk(chunk), player);
+                        VisualUtils.drawBorderAtChunk(ChunkUtils.serialize(chunk), player);
                     }
 
                     if (!player.isOp() && !guild.isMember(player.getName())) {
                         ChatUtils.forGuildMembers(guild, member -> {
                             VisualUtils.sound(member, Sound.ENTITY_ELDER_GUARDIAN_CURSE);
 
-                            String sub = " &7wkroczył na teren: &6" + guild.claims().indexOf(ChunkUtils.toString(player.getChunk())) +
-                                    " (" + LocationUtils.toSimpleString(player.getLocation()) + ")";
+                            String sub = " &7wkroczył na teren: &6" + guild.claims().indexOf(ChunkUtils.deserialize(player.getChunk())) +
+                                    " (" + LocationUtils.legacyDeserialize(player.getLocation()) + ")";
 
                             ChatUtils.sendBossBar(member, BarColor.RED, "&4&l⚠ &c" + player.getName() + sub);
                         });

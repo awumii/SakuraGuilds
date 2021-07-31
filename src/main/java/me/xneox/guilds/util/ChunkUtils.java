@@ -18,12 +18,12 @@ public final class ChunkUtils {
     private ChunkUtils() {
     }
 
-    public static String toString(Chunk chunk) {
-        return chunk.getX() + ", " + chunk.getZ();
+    public static String deserialize(Chunk chunk) {
+        return chunk.getX() + "/" + chunk.getZ();
     }
 
-    public static Chunk toChunk(String chunk) {
-        String[] split = chunk.split(", ");
+    public static Chunk serialize(String chunk) {
+        String[] split = chunk.split("/");
         return WORLD.getChunkAt(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
     }
 
@@ -34,7 +34,7 @@ public final class ChunkUtils {
     }
 
     public static Location getCenter(String chunk) {
-        return getCenter(toChunk(chunk));
+        return getCenter(serialize(chunk));
     }
 
     public static Location getCenter(Chunk chunk) {
@@ -46,7 +46,7 @@ public final class ChunkUtils {
     }
 
     public static boolean isEqual(Chunk original, String target) {
-        return toString(original).equals(target);
+        return deserialize(original).equals(target);
     }
 
     public static boolean isProtected(Player player) {

@@ -21,9 +21,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,11 +34,11 @@ public class InventoryManager {
         Bukkit.getPluginManager().registerEvents(new InventoryListener(this), plugin);
     }
 
-    public void register(@Nonnull String id, @Nonnull InventoryProvider inventory) {
+    public void register(@NotNull String id, @NotNull InventoryProvider inventory) {
         this.inventories.put(id, inventory);
     }
 
-    public void open(@Nonnull String id, @Nonnull Player player) {
+    public void open(@NotNull String id, @NotNull Player player) {
         InventoryProvider inventory = this.inventories.get(id);
         if (inventory != null) {
             Inventory bukkitInventory = Bukkit.createInventory(player, inventory.size(), inventory.title());

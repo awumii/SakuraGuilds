@@ -10,19 +10,20 @@ repositories {
     mavenCentral()
     maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
     maven { url = uri("https://jitpack.io") }
-    maven { url = uri("https://libraries.minecraft.net/") }
     maven { url = uri("https://repo.codemc.io/repository/maven-public/") }
     maven { url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/") }
     maven { url = uri("https://nexus.sirblobman.xyz/repository/public/") }
+    maven { url = uri("https://repo.aikar.co/content/groups/aikar/") }
 }
 
 dependencies {
     implementation("commons-io:commons-io:2.11.0")
-    implementation("com.github.simplix-softworks:SimplixStorage:3.2.3")
+    implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("com.zaxxer:HikariCP:5.0.0")
+    implementation("co.aikar:idb-core:1.0.0-SNAPSHOT")
 
     compileOnly("io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.10.10")
-    compileOnly("com.mojang:authlib:1.5.25")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
     compileOnly("com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.9")
     compileOnly("com.github.Archy-X:AureliumSkills:Beta1.1.4")
@@ -42,5 +43,7 @@ tasks {
 
     shadowJar {
         minimize()
+
+        relocate("org.apache.commons", "lib")
     }
 }

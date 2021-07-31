@@ -44,7 +44,7 @@ public final class VisualUtils {
         location.setY(location.getY() + 3);
 
         createHologram(location, Material.ENDER_EYE,
-                "&6&lNEXUS GILDII " + guild.name(),
+                "&6&lNEXUS " + guild.name(),
                 "&7Ilość żyć: &c" + guild.health() + "/3",
                 "&7Tarcza: &c" + TimeUtils.futureMillisToTime(guild.shieldDuration()));
     }

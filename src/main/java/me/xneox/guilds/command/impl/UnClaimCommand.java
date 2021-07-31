@@ -23,7 +23,7 @@ public class UnClaimCommand implements SubCommand {
             return;
         }
 
-        String chunk = ChunkUtils.toString(player.getChunk());
+        String chunk = ChunkUtils.deserialize(player.getChunk());
         if (!guild.claims().contains(chunk)) {
             ChatUtils.sendMessage(player, "&cTen chunk nie został zajęty.");
             return;

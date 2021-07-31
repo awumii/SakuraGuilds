@@ -4,7 +4,7 @@ import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.EloRating;
+import me.xneox.guilds.util.RandomUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,7 +31,7 @@ public final class PlayerDeathListener implements Listener {
             victimUser.deaths(victimUser.deaths() + 1);
             attackerUser.kills(attackerUser.kills() + 1);
 
-            int rating = EloRating.calculate(attackerUser.trophies(), victimUser.trophies(), EloRating.Outcome.WIN);
+            int rating = RandomUtils.getInt(80);
             victimUser.trophies(victimUser.trophies() - rating);
             attackerUser.trophies(attackerUser.trophies() + rating);
 
@@ -54,7 +54,7 @@ public final class PlayerDeathListener implements Listener {
                 .append(victim.getName())
                 .append(" &8(&e-")
                 .append(rating)
-                .append(") &7został zabity przez ");
+                .append("&8) &7został zabity przez ");
 
         if (attackerGuild != null) {
             builder.append("&8[&c")

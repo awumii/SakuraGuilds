@@ -2,8 +2,7 @@ package me.xneox.guilds.util.gui.api;
 
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class ClickEvent {
     private final ItemStack item;
@@ -16,7 +15,7 @@ public class ClickEvent {
         this.clickType = clickType;
     }
 
-    @Nonnull
+    @NotNull
     public ItemStack item() {
         return this.item;
     }

@@ -81,7 +81,7 @@ public class Guild implements Comparable<Guild> {
     }
 
     public boolean isClaimed(Chunk chunk) {
-        return this.chunks.contains(ChunkUtils.toString(chunk));
+        return this.chunks.contains(ChunkUtils.deserialize(chunk));
     }
 
     public boolean isNexusChunk(Chunk chunk) {

@@ -25,9 +25,9 @@ public class ClaimGui extends InventoryProviderImpl {
         Guild guild = this.plugin.guildManager().playerGuild(player.getName());
 
         for (String chunk : guild.claims()) {
-            List<Player> players = ChunkUtils.getPlayersAt(ChunkUtils.toChunk(chunk));
+            List<Player> players = ChunkUtils.getPlayersAt(ChunkUtils.serialize(chunk));
             ItemStack item = ItemBuilder.of(Material.GRASS_BLOCK)
-                    .name("&6#" + guild.claims().indexOf(chunk) + " (" + LocationUtils.toSimpleString(ChunkUtils.getCenter(chunk)) + ")")
+                    .name("&6#" + guild.claims().indexOf(chunk) + " (" + LocationUtils.legacyDeserialize(ChunkUtils.getCenter(chunk)) + ")")
                     .lore("&7&oTwoja gildia posiada ten chunk.")
                     .lore("")
                     .lore("&7Gracze: &c" + (players.isEmpty() ? "Brak" : ChatUtils.formatPlayerList(players)))

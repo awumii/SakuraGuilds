@@ -1,7 +1,7 @@
 package me.xneox.guilds.util;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,21 +96,15 @@ public class ItemBuilder {
 
         if (this.skullOwner != null) {
             SkullMeta headMeta = (SkullMeta) meta;
-            headMeta.setOwningPlayer(Bukkit.getOfflinePlayer(this.skullOwner));
+            headMeta.setPlayerProfile(Bukkit.createProfile(this.skullOwner));
         }
 
         if (this.skullTexture != null) {
             SkullMeta headMeta = (SkullMeta) meta;
-            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-            profile.getProperties().put("textures", new Property("textures", this.skullTexture));
 
-            try {
-                Field profileField = headMeta.getClass().getDeclaredField("profile");
-                profileField.setAccessible(true);
-                profileField.set(headMeta, profile);
-            } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
-                ex.printStackTrace();
-            }
+            PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID());
+            profile.setProperty(new ProfileProperty("textures", this.skullTexture));
+            headMeta.setPlayerProfile(profile);
         }
 
         item.setItemMeta(meta);

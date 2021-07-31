@@ -23,15 +23,15 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     private UserManager userManager;
     private InventoryManager inventoryManager;
     private CooldownManager cooldownManager;
-    private DataManager dataManager;
+    private SQLManager sqlManager;
 
     @Override
     public void onEnable() {
-        this.guildManager = new GuildManager();
-        this.userManager = new UserManager();
-        this.cooldownManager = new CooldownManager();
-        this.dataManager = new DataManager();
+        this.sqlManager = new SQLManager(this);
         this.inventoryManager = new InventoryManager(this);
+        this.userManager = new UserManager();
+        this.guildManager = new GuildManager();
+        this.cooldownManager = new CooldownManager();
 
         // Registering inventories
         inventoryManager.register("management", new ManagementGui(this));
@@ -63,19 +63,21 @@ public class SakuraGuildsPlugin extends JavaPlugin {
 
         // Registering tasks
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotificatorTask(this), 0L, 40L);
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new DataSaveTask(this), 0L, 20 * 60L);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new DataSaveTask(this), 0L, 120 * 20L);
 
-        Bukkit.getScheduler().runTaskTimer(this, new HologramRefreshTask(this), 0L, 120 * 20L);
+        Bukkit.getScheduler().runTaskTimer(this, new HologramRefreshTask(this), 0L, 60 * 20L);
         Bukkit.getScheduler().runTaskTimer(this, new PlayerTeleportTask(this), 0L, 20L);
 
         new PlaceholderApiHook(this).register();
+
+        this.userManager.load(this);
+        this.guildManager.load(this);
     }
 
     @Override
     public void onDisable() {
-        this.guildManager.save();
-        this.userManager.save();
-        this.dataManager.save();
+        this.sqlManager.saveGuilds();
+        this.sqlManager.saveUsers();
     }
 
     public GuildManager guildManager() {
@@ -94,8 +96,8 @@ public class SakuraGuildsPlugin extends JavaPlugin {
         return this.cooldownManager;
     }
 
-    public DataManager dataManager() {
-        return this.dataManager;
+    public SQLManager sqlManager() {
+        return this.sqlManager;
     }
 
     private void registerCommand(String name, CommandExecutor executor, TabCompleter tabCompleter) {

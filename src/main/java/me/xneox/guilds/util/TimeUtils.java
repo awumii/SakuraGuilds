@@ -1,6 +1,7 @@
 package me.xneox.guilds.util;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +17,7 @@ public final class TimeUtils {
      * Date in format dd/MM/yyyy HH:mm.
      * Defaults timezone to GMT+2
      */
-    @Nonnull
+    @NotNull
     public static Date parseDate(String date) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");

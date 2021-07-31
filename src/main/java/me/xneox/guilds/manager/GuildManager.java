@@ -1,100 +1,30 @@
 package me.xneox.guilds.manager;
 
-import de.leonhard.storage.Json;
+import co.aikar.idb.DB;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.element.Member;
 import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.HookUtils;
-import me.xneox.guilds.util.ItemSerialization;
-import me.xneox.guilds.util.LocationUtils;
-import org.apache.commons.io.FileUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class GuildManager {
     private final Map<String, Guild> guildMap = new HashMap<>();
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public GuildManager() {
-        File dir = new File(HookUtils.directory("guilds"));
-        dir.mkdirs();
+    public void load(SakuraGuildsPlugin plugin) {
+        try {
+            long ms = System.currentTimeMillis();
+            plugin.sqlManager().loadGuilds();
 
-        for (File file : Objects.requireNonNull(dir.listFiles())) {
-            try {
-                Json json = new Json(file);
-
-                // Parsing members
-                List<Member> members = json.getStringList("Members").stream().map(Member::parse).collect(Collectors.toList());
-
-                Location home = LocationUtils.fromString(json.getString("Home"));
-                Location nexusLocation = LocationUtils.fromString(json.getString("Nexus"));
-                List<String> chunks = json.getStringList("Chunks");
-                List<String> allies = json.getStringList("Allies");
-                ItemStack[] storage = ItemSerialization.deserializeInventory(json.getString("Storage"));
-
-                int kills = json.getInt("Kills");
-                int deaths = json.getInt("Deaths");
-                int money = json.getInt("Money");
-                int health = json.getInt("Health");
-                int maxSlots = json.getInt("MaxSlots");
-                int maxChunks = json.getInt("MaxChunks");
-                int maxStorage = json.getInt("MaxStorage");
-                long shield = json.getLong("Shield");
-                long creation = json.getLong("Creation");
-
-                String name = file.getName().replace(".json", "");
-                this.guildMap.put(name, new Guild(name, members, nexusLocation, creation, allies, home, chunks,
-                        shield, health, kills, deaths, money, maxSlots, maxChunks, maxStorage, storage));
-            } catch (Exception e) {
-                ChatUtils.broadcast("&cWystąpił błąd podczas wczytywania danych gildii: &4" + file.getName());
-                e.printStackTrace();
-            }
+            ChatUtils.broadcast("&7Wczytano &6" + this.guildMap.size() + " &7gildii w ciągu &e" + (System.currentTimeMillis() - ms) + "ms.");
+        } catch (Exception e) {
+            ChatUtils.broadcast("&cWystąpił krytyczny błąd przy wczytywaniu bazy danych: &4" + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void save() {
-        File backupDir = new File(HookUtils.directory("backup"));
-        backupDir.mkdirs();
-
-        this.guildMap.forEach((name, guild) -> {
-            try {
-                File guildFile = new File(HookUtils.directory("guilds"), name + ".json");
-                if (guildFile.exists()) {
-                    FileUtils.copyFile(guildFile, new File(backupDir, name + ".backup"));
-                }
-
-                Json json = new Json(guildFile);
-
-                json.set("Members", guild.members().stream().map(Member::toString).collect(Collectors.toList()));
-                json.set("Allies", guild.allies());
-                json.set("Home", LocationUtils.toString(guild.homeLocation()));
-                json.set("Nexus", LocationUtils.toString(guild.nexusLocation()));
-                json.set("Chunks", guild.claims());
-                json.set("Money", guild.money());
-                json.set("Kills", guild.kills());
-                json.set("Deaths", guild.deaths());
-                json.set("MaxSlots", guild.maxSlots());
-                json.set("MaxChunks", guild.maxChunks());
-                json.set("MaxStorage", guild.maxStorage());
-                json.set("Shield", guild.shieldDuration());
-                json.set("Health", guild.health());
-                json.set("Creation", guild.creationLong());
-                json.set("Storage", ItemSerialization.serializeInventory(guild.storage()));
-            } catch (Exception e) {
-                ChatUtils.broadcast("&cNie udało się zapisać danych gildii &4" + name + "&c, kopia zapasowa utworzona.");
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void delete(Guild guild) {
         for (Guild value : this.guildMap.values()) {
             value.allies().remove(guild.name());
@@ -103,8 +33,8 @@ public class GuildManager {
         guild.nexusLocation().getBlock().setType(Material.AIR);
         guild.nexusLocation().createExplosion(5, true, true);
 
+        DB.executeUpdateAsync("DELETE FROM guilds WHERE name=?", guild.name());
         this.guildMap.remove(guild.name());
-        new File(HookUtils.directory("guilds"), guild.name() + ".json").delete();
     }
 
     public Guild findAt(Location location) {
@@ -138,6 +68,6 @@ public class GuildManager {
     }
 
     public Map<String, Guild> guildMap() {
-        return guildMap;
+        return this.guildMap;
     }
 }

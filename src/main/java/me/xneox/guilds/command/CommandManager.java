@@ -47,7 +47,6 @@ public class CommandManager {
         // admin commands
         commandMap.put("acceptally", new AllyAcceptCommand());
         commandMap.put("teleport", new GuildTeleportCommand());
-        commandMap.put("setleaderboard", new SetLeaderboardCommand());
         commandMap.put("settrophies", new SetTrophiesCommand());
     }
 
