@@ -30,7 +30,7 @@ public class CreateCommand implements SubCommand {
         }
 
         if (args[1].length() > 16) {
-            ChatUtils.sendMessage(player, "&cNazwa gildii przekracza 12 znaków.");
+            ChatUtils.sendMessage(player, "&cNazwa gildii przekracza 16 znaków.");
             return;
         }
 
@@ -41,6 +41,16 @@ public class CreateCommand implements SubCommand {
 
         if (manager.playerGuild(player.getName()) != null) {
             ChatUtils.sendMessage(player, "&cJuż posiadasz gildię!");
+            return;
+        }
+
+        if (HookUtils.getAureliumLevel(player) < 29) {
+            ChatUtils.sendMessage(player, "&cMusisz mieć przynajmniej &630 poziom &caby odblokować funkcję tworzenia gildii.");
+            return;
+        }
+
+        if (!player.getInventory().containsAtLeast(new ItemStack(Material.DIAMOND), 1)) {
+            ChatUtils.sendMessage(player, "&cCena za założenie gildii wynosi: &61x Diament &c(nie posiadasz)");
             return;
         }
 
@@ -72,6 +82,7 @@ public class CreateCommand implements SubCommand {
             }
         }
 
+        InventoryUtils.removeItems(player.getInventory(), Material.DIAMOND, 1);
         player.getWorld().getBlockAt(nexusLoc).setType(Material.END_PORTAL_FRAME);
         player.teleportAsync(nexusLoc);
 

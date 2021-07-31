@@ -33,6 +33,7 @@ public class MembersGui extends InventoryProviderImpl {
                     .lore("")
                     .lore("&eRanga: " + member.rank().title())
                     .lore("&eWojna: ")
+                    .lore(" &7→ Puchary: &6" + user.trophies() + "★")
                     .lore(" &7→ Zabójstwa: &f" + user.kills())
                     .lore(" &7→ Śmierci: &f" + user.deaths())
                     .lore("")
