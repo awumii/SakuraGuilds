@@ -26,7 +26,7 @@ dependencies {
     compileOnly("me.clip:placeholderapi:2.10.10")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
     compileOnly("com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.9")
-    compileOnly("com.github.Archy-X:AureliumSkills:Beta1.1.4")
+    compileOnly("com.github.Archy-X:AureliumSkills:Beta1.2.0")
     compileOnly("com.SirBlobman.combatlogx:CombatLogX-API:10.0.0.0-SNAPSHOT")
 }
 
