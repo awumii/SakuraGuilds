@@ -6,6 +6,8 @@ import me.xneox.guilds.command.misc.LiveCommand;
 import me.xneox.guilds.gui.*;
 import me.xneox.guilds.listener.*;
 import me.xneox.guilds.manager.*;
+import me.xneox.guilds.placeholder.MainPlaceholderExpansion;
+import me.xneox.guilds.placeholder.TopPlaceholderExpansion;
 import me.xneox.guilds.task.DataSaveTask;
 import me.xneox.guilds.task.GuildNotificatorTask;
 import me.xneox.guilds.task.HologramRefreshTask;
@@ -68,7 +70,8 @@ public class SakuraGuildsPlugin extends JavaPlugin {
         Bukkit.getScheduler().runTaskTimer(this, new HologramRefreshTask(this), 0L, 60 * 20L);
         Bukkit.getScheduler().runTaskTimer(this, new PlayerTeleportTask(this), 0L, 20L);
 
-        new PlaceholderApiHook(this).register();
+        new MainPlaceholderExpansion(this).register();
+        new TopPlaceholderExpansion(this).register();
 
         this.userManager.load(this);
         this.guildManager.load(this);

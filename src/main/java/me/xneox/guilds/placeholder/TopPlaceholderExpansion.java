@@ -1,0 +1,80 @@
+package me.xneox.guilds.placeholder;
+
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import me.xneox.guilds.SakuraGuildsPlugin;
+import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.element.User;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Map;
+
+public class TopPlaceholderExpansion extends PlaceholderExpansion {
+    private final SakuraGuildsPlugin plugin;
+
+    public TopPlaceholderExpansion(SakuraGuildsPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    @Override
+    public @NotNull String getIdentifier() {
+        return "guildtop";
+    }
+
+    @Override
+    public @NotNull String getAuthor() {
+        return "SakuraDevelopment";
+    }
+
+    @Override
+    public @NotNull String getVersion() {
+        return this.plugin.getDescription().getVersion();
+    }
+
+    @Override
+    public boolean canRegister() {
+        return true;
+    }
+
+    @Override
+    public boolean persist() {
+        return true;
+    }
+
+    @Override
+    public String onPlaceholderRequest(Player player, @NotNull String params) {
+        if (params.startsWith("gtop_")) {
+            List<Guild> leaderboard = this.plugin.guildManager().leaderboard();
+
+            int position = Integer.parseInt(params.replace("gtop_", ""));
+            if (position >= leaderboard.size()) {
+                return "-";
+            }
+
+            Guild guild = leaderboard.get(position);
+            return guild.name() + " &8[&a" + guild.trophies() + "&8]";
+        } else if (params.startsWith("ptop_")) {
+            List<User> leaderboard = this.plugin.userManager().leaderboard();
+
+            int position = Integer.parseInt(params.replace("ptop_", ""));
+            if (leaderboard.size() < position) {
+                return "-/-";
+            }
+
+            User user = leaderboard.get(position);
+            return nickname(user) + " &8[&a" + user.trophies() + "&8]";
+        }
+
+        return "-/-";
+    }
+
+    private String nickname(User user) {
+        for (Map.Entry<String, User> entry : this.plugin.userManager().userMap().entrySet()) {
+            if (entry.getValue().equals(user)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+}

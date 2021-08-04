@@ -2,11 +2,12 @@ package me.xneox.guilds.element;
 
 import me.xneox.guilds.type.ChatChannel;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class User {
+public class User implements Comparable<User> {
     private int trophies;
     private int kills;
     private int deaths;
@@ -105,5 +106,10 @@ public class User {
         this.teleportCountdown = 6;
         this.startLocation = startLocation;
         this.teleportTarget = teleportTarget;
+    }
+
+    @Override
+    public int compareTo(@NotNull User user) {
+        return Integer.compare(user.trophies(), this.trophies());
     }
 }

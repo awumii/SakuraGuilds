@@ -6,9 +6,7 @@ import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class UserManager {
     private final Map<String, User> userMap = new HashMap<>();
@@ -33,6 +31,12 @@ public class UserManager {
     @NotNull
     public User getUser(String name) {
         return this.userMap.computeIfAbsent(name, s -> new User(500, 0, 0, new Date().getTime()));
+    }
+
+    public List<User> leaderboard() {
+        List<User> copy = new ArrayList<>(this.userMap.values());
+        Collections.sort(copy);
+        return copy;
     }
 
     public Map<String, User> userMap() {
