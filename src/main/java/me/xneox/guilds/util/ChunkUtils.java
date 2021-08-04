@@ -18,7 +18,7 @@ public final class ChunkUtils {
     public static Chunk serialize(String chunk) {
         String[] split = chunk.split("/");
         //noinspection ConstantConditions
-        return Bukkit.getWorld(split[0]).getChunkAt(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+        return Bukkit.getWorld(split[0]).getChunkAt(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
     }
 
     public static List<Player> getPlayersAt(Chunk chunk) {
