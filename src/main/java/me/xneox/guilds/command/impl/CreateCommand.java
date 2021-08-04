@@ -76,7 +76,7 @@ public class CreateCommand implements SubCommand {
 
         // USTAWIANIE NEXUSA
 
-        for (Location sphere : LocationUtils.sphere(nexusLoc, 4, 4, false, true, 3)) {
+        for (Location sphere : LocationUtils.sphere(nexusLoc, 5, 5, false, true, 3)) {
             if (sphere.getBlock().getType() != Material.BEDROCK) {
                 sphere.getBlock().setType(Material.AIR);
             }
