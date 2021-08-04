@@ -50,8 +50,6 @@ public class AlliesGui extends InventoryProviderImpl {
                     .lore("&eStatystyki Wojny:")
                     .lore("  &7→ &7Dywizja: " + other.division().getName())
                     .lore("  &7→ &7Puchary rankingowe: &f" + other.trophies())
-                    .lore("  &7→ &7Zabójstwa: &f" + other.kills())
-                    .lore("  &7→ &7Śmierci: &f" + other.deaths())
                     .lore("")
                     .lore("&cKliknij aby zerwać sojusz")
                     .build();

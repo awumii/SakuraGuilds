@@ -15,6 +15,7 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -36,23 +37,25 @@ public final class ChatUtils {
             .extractUrls()
             .build();
 
+    @NotNull
     public static TextComponent color(String message) {
         return SERIALIZER.deserialize(message);
     }
 
-    public static void sendMessage(Player sender, String message) {
+    public static void sendMessage(@NotNull Player sender, String message) {
         sendNoPrefix(sender, PREFIX + message);
     }
 
-    public static void sendNoPrefix(Player sender, String message) {
+    public static void sendNoPrefix(@NotNull Player sender, String message) {
         sender.sendMessage(color(message));
     }
 
+    @NotNull
     public static String plainString(Component component) {
         return PlainTextComponentSerializer.plainText().serialize(component);
     }
 
-    public static void sendClickableMessage(Player player, String message, String hover, String runCommand) {
+    public static void sendClickableMessage(@NotNull Player player, String message, String hover, String runCommand) {
         TextComponent component = color(message)
                 .hoverEvent(color(hover))
                 .clickEvent(ClickEvent.runCommand(runCommand));
@@ -64,6 +67,7 @@ public final class ChatUtils {
         player.showTitle(Title.title(color(title), color(subtitle)));
     }
 
+    @NotNull
     public static String join(char separator, Object... objects) {
         return Joiner.on(separator).join(objects);
     }
@@ -71,11 +75,12 @@ public final class ChatUtils {
     /**
      * Only used when interacting with plugins not supporting Adventure.
      */
+    @NotNull
     public static String legacyColor(String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
-    public static void sendBossBar(Player player, BarColor color, String message) {
+    public static void sendBossBar(@NotNull Player player, BarColor color, String message) {
         BossBar bossBar = Bukkit.createBossBar(legacyColor(message), color, BarStyle.SOLID);
         new BukkitRunnable() {
             int remaining = 10;

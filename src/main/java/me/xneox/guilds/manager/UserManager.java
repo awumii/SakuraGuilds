@@ -3,7 +3,6 @@ package me.xneox.guilds.manager;
 import co.aikar.idb.DB;
 import co.aikar.idb.DbRow;
 import me.xneox.guilds.element.User;
-import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

@@ -27,8 +27,6 @@ public class GuildManager {
                 "`Home` TEXT NOT NULL, " +
                 "`Nexus` TEXT NOT NULL, " +
                 "`Chunks` TEXT NOT NULL, " +
-                "`Kills` INT NOT NULL, " +
-                "`Deaths` INT NOT NULL, " +
                 "`Storage` TEXT NOT NULL, " +
                 "`Money` INT NOT NULL, " +
                 "`MaxSlots` INT NOT NULL, " +
@@ -41,8 +39,6 @@ public class GuildManager {
 
         for (DbRow row : DB.getResults("SELECT * FROM guilds")) {
             String name = row.getString("Name");
-            int kills = row.getInt("Kills");
-            int deaths = row.getInt("Deaths");
             int money = row.getInt("Money");
             int health = row.getInt("Health");
             int maxSlots = row.getInt("MaxSlots");
@@ -59,14 +55,14 @@ public class GuildManager {
             ItemStack[] storage = ItemSerialization.deserializeInventory(row.getString("Storage"));
 
             this.guildMap.put(name, new Guild(name, members, nexusLocation, creation, allies,
-                    home, chunks, shield, health, kills, deaths, money, maxSlots, maxChunks, maxStorage, storage));
+                    home, chunks, shield, health, money, maxSlots, maxChunks, maxStorage, storage));
         }
     }
 
     public void save() {
         for (Guild guild : this.guildMap.values()) {
             DB.executeUpdateAsync("INSERT OR REPLACE INTO guilds(Name, Members, Allies, Home, Nexus," +
-                            " Chunks, Kills, Deaths, Storage, Money, MaxSlots, MaxChunks, MaxStorage, Health, Shield, Creation) " +
+                            " Chunks, Storage, Money, MaxSlots, MaxChunks, MaxStorage, Health, Shield, Creation) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 
                     guild.name(),
@@ -75,8 +71,6 @@ public class GuildManager {
                     LocationUtils.deserialize(guild.homeLocation()),
                     LocationUtils.deserialize(guild.nexusLocation()),
                     DatabaseUtils.deserializeList(guild.claims()),
-                    guild.kills(),
-                    guild.deaths(),
                     ItemSerialization.serializeInventory(guild.storage()),
                     guild.money(),
                     guild.maxSlots(),

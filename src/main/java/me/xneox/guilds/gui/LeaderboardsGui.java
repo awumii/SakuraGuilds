@@ -66,8 +66,6 @@ public class LeaderboardsGui extends InventoryProviderImpl {
                 .lore("&eStatystyki Wojny:")
                 .lore("  &7→ &7Dywizja: " + guild.division().getName())
                 .lore("  &7→ &7Puchary rankingowe: &f" + guild.trophies())
-                .lore("  &7→ &7Zabójstwa: &f" + guild.kills())
-                .lore("  &7→ &7Śmierci: &f" + guild.deaths())
                 .lore("")
                 .build();
     }

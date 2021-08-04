@@ -34,8 +34,6 @@ public class Guild implements Comparable<Guild> {
 
     private long shield;
     private int health;
-    private int kills;
-    private int deaths;
     private int money;
     private int maxSlots;
     private int maxChunks;
@@ -43,7 +41,7 @@ public class Guild implements Comparable<Guild> {
     private boolean deleteConfirm;
 
     public Guild(String name, List<Member> members, Location nexusLocation, long creation, List<String> allies, Location home,
-                 List<String> chunks, long shield, int health, int kills, int deaths, int money,
+                 List<String> chunks, long shield, int health, int money,
                  int maxSlots, int maxChunks, int maxStorage, ItemStack[] storageContent) {
 
         this.name = name;
@@ -55,8 +53,6 @@ public class Guild implements Comparable<Guild> {
         this.chunks = chunks;
         this.shield = shield;
         this.health = health;
-        this.kills = kills;
-        this.deaths = deaths;
         this.maxSlots = maxSlots;
         this.maxChunks = maxChunks;
         this.maxStorage = maxStorage;
@@ -78,10 +74,6 @@ public class Guild implements Comparable<Guild> {
         ItemStack[] contentCopy = this.storage.getContents();
         this.storage = Bukkit.createInventory(null, this.maxStorage);
         this.storage.setContents(contentCopy);
-    }
-
-    public boolean isClaimed(Chunk chunk) {
-        return this.chunks.contains(ChunkUtils.deserialize(chunk));
     }
 
     public boolean isNexusChunk(Chunk chunk) {
@@ -208,22 +200,6 @@ public class Guild implements Comparable<Guild> {
 
     public Location nexusLocation() {
         return nexusLocation;
-    }
-
-    public int deaths() {
-        return deaths;
-    }
-
-    public int kills() {
-        return kills;
-    }
-
-    public void addKill() {
-        this.kills++;
-    }
-
-    public void addDeath() {
-        this.deaths++;
     }
 
     public int maxSlots() {
