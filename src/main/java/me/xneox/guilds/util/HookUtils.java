@@ -14,12 +14,7 @@ import java.util.Objects;
 public final class HookUtils {
     public static final Economy ECONOMY = Objects.requireNonNull(Bukkit.getServicesManager().getRegistration(Economy.class)).getProvider();
     public static final SakuraGuildsPlugin INSTANCE = SakuraGuildsPlugin.getPlugin(SakuraGuildsPlugin.class);
-    public static final String VERSION = INSTANCE.getDescription().getVersion();
     public static final String DIRECTORY = "plugins/SakuraGuilds";
-
-    public static String directory(String subdirectory) {
-        return DIRECTORY + "/" + subdirectory;
-    }
 
     public static boolean hasCombatTag(Player player) {
         ICombatLogX plugin = (ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX");

@@ -97,9 +97,6 @@ public class ManagementGui extends InventoryProviderImpl {
                 .lore(" &7→ Dywizja: " + guild.division().getName())
                 .lore(" &7→ Puchary: &f" + guild.trophies() + "★")
                 .lore("")
-                .lore("&eWalka:")
-                .lore(" &7→ Zabójstwa: &f" + guild.kills())
-                .lore(" &7→ Śmierci: &f" + guild.deaths())
                 .build();
 
         ItemStack allies = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg0MzI2MDdlODZiMDJlYTNjYWFmOTM1NzA2NmNhM2Y1ZTRlZGVlZjdiZTllZGNiYjVlNDU3MTFjNjU1NyJ9fX0=")

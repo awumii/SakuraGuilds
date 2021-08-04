@@ -3,28 +3,22 @@ package me.xneox.guilds.util;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public final class ChunkUtils {
-    public static final World WORLD = Objects.requireNonNull(Bukkit.getWorld("world"));
-
-    private ChunkUtils() {
-    }
-
     public static String deserialize(Chunk chunk) {
-        return chunk.getX() + "/" + chunk.getZ();
+        return ChatUtils.join('/', chunk.getWorld().getName(), chunk.getX(), chunk.getZ());
     }
 
     public static Chunk serialize(String chunk) {
         String[] split = chunk.split("/");
-        return WORLD.getChunkAt(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+        //noinspection ConstantConditions
+        return Bukkit.getWorld(split[0]).getChunkAt(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
     }
 
     public static List<Player> getPlayersAt(Chunk chunk) {
@@ -41,7 +35,7 @@ public final class ChunkUtils {
         Block block = chunk.getBlock(8, 0, 8);
 
         Location loc = block.getLocation();
-        loc.setY(WORLD.getHighestBlockYAt(loc) + 1);
+        loc.setY(chunk.getWorld().getHighestBlockYAt(loc) + 1);
         return loc;
     }
 
@@ -55,7 +49,7 @@ public final class ChunkUtils {
             return true;
         }
 
-        if (!player.getWorld().getName().equals("world")) {
+        if (player.getWorld().getName().endsWith("end")) {
             ChatUtils.sendMessage(player, "&cNa tym świecie nie można zakładać gildii.");
             return true;
         }
@@ -65,5 +59,8 @@ public final class ChunkUtils {
             return true;
         }
         return false;
+    }
+
+    private ChunkUtils() {
     }
 }

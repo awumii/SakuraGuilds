@@ -1,5 +1,6 @@
 package me.xneox.guilds.util;
 
+import com.google.common.base.Joiner;
 import me.xneox.guilds.element.Guild;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -14,6 +15,7 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -25,10 +27,7 @@ public final class ChatUtils {
 
     public static final String BRONZE = "&#cd7f32";
     public static final String CRIMSON = "&#dc143c";
-    public static final String MIDNIGHT_BLUE = "&#2C3E50";
-    public static final String CARROT = "&#E67E22";
     public static final String ALIZARIN_RED = "&#E74C3C";
-    public static final String POMEGRANTE_RED = "&#C0392B";
 
     private static final int CENTER_PX = 154;
     private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
@@ -38,26 +37,25 @@ public final class ChatUtils {
             .extractUrls()
             .build();
 
-    private ChatUtils() {
-    }
-
+    @NotNull
     public static TextComponent color(String message) {
         return SERIALIZER.deserialize(message);
     }
 
-    public static void sendMessage(Player sender, String message) {
+    public static void sendMessage(@NotNull Player sender, String message) {
         sendNoPrefix(sender, PREFIX + message);
     }
 
-    public static void sendNoPrefix(Player sender, String message) {
+    public static void sendNoPrefix(@NotNull Player sender, String message) {
         sender.sendMessage(color(message));
     }
 
+    @NotNull
     public static String plainString(Component component) {
         return PlainTextComponentSerializer.plainText().serialize(component);
     }
 
-    public static void sendClickableMessage(Player player, String message, String hover, String runCommand) {
+    public static void sendClickableMessage(@NotNull Player player, String message, String hover, String runCommand) {
         TextComponent component = color(message)
                 .hoverEvent(color(hover))
                 .clickEvent(ClickEvent.runCommand(runCommand));
@@ -69,15 +67,20 @@ public final class ChatUtils {
         player.showTitle(Title.title(color(title), color(subtitle)));
     }
 
+    @NotNull
+    public static String join(char separator, Object... objects) {
+        return Joiner.on(separator).join(objects);
+    }
+
     /**
      * Only used when interacting with plugins not supporting Adventure.
      */
-    @Deprecated
+    @NotNull
     public static String legacyColor(String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
-    public static void sendBossBar(Player player, BarColor color, String message) {
+    public static void sendBossBar(@NotNull Player player, BarColor color, String message) {
         BossBar bossBar = Bukkit.createBossBar(legacyColor(message), color, BarStyle.SOLID);
         new BukkitRunnable() {
             int remaining = 10;
@@ -178,5 +181,8 @@ public final class ChatUtils {
             compensated += spaceLength;
         }
         player.sendMessage(sb + message);
+    }
+
+    private ChatUtils() {
     }
 }

@@ -1,27 +1,84 @@
 package me.xneox.guilds.manager;
 
 import co.aikar.idb.DB;
-import me.xneox.guilds.SakuraGuildsPlugin;
+import co.aikar.idb.DbRow;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.element.Member;
+import me.xneox.guilds.util.DatabaseUtils;
+import me.xneox.guilds.util.ItemSerialization;
+import me.xneox.guilds.util.LocationUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
+import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GuildManager {
     private final Map<String, Guild> guildMap = new HashMap<>();
 
-    public void load(SakuraGuildsPlugin plugin) {
-        try {
-            long ms = System.currentTimeMillis();
-            plugin.sqlManager().loadGuilds();
+    public GuildManager() throws SQLException {
+        DB.executeUpdate("CREATE TABLE IF NOT EXISTS guilds(" +
+                "`Name` TEXT NOT NULL PRIMARY KEY, " +
+                "`Members` TEXT NOT NULL, " +
+                "`Allies` TEXT NOT NULL, " +
+                "`Home` TEXT NOT NULL, " +
+                "`Nexus` TEXT NOT NULL, " +
+                "`Chunks` TEXT NOT NULL, " +
+                "`Storage` TEXT NOT NULL, " +
+                "`Money` INT NOT NULL, " +
+                "`MaxSlots` INT NOT NULL, " +
+                "`MaxChunks` INT NOT NULL, " +
+                "`MaxStorage` INT NOT NULL, " +
+                "`Health` INT NOT NULL, " +
+                "`Shield` BIGINT NOT NULL, " +
+                "`Creation` BIGINT NOT NULL" +
+                ")");
 
-            ChatUtils.broadcast("&7Wczytano &6" + this.guildMap.size() + " &7gildii w ciągu &e" + (System.currentTimeMillis() - ms) + "ms.");
-        } catch (Exception e) {
-            ChatUtils.broadcast("&cWystąpił krytyczny błąd przy wczytywaniu bazy danych: &4" + e.getMessage());
-            e.printStackTrace();
+        for (DbRow row : DB.getResults("SELECT * FROM guilds")) {
+            String name = row.getString("Name");
+            int money = row.getInt("Money");
+            int health = row.getInt("Health");
+            int maxSlots = row.getInt("MaxSlots");
+            int maxChunks = row.getInt("MaxChunks");
+            int maxStorage = row.getInt("MaxStorage");
+            long shield = row.getLong("Shield");
+            long creation = row.getLong("Creation");
+
+            List<Member> members = DatabaseUtils.serializeList(row.getString("Members")).stream().map(Member::serialize).collect(Collectors.toList());
+            List<String> chunks = DatabaseUtils.serializeList(row.getString("Chunks"));
+            List<String> allies = DatabaseUtils.serializeList(row.getString("Allies"));
+            Location home = LocationUtils.serialize(row.getString("Home"));
+            Location nexusLocation = LocationUtils.serialize(row.getString("Nexus"));
+            ItemStack[] storage = ItemSerialization.deserializeInventory(row.getString("Storage"));
+
+            this.guildMap.put(name, new Guild(name, members, nexusLocation, creation, allies,
+                    home, chunks, shield, health, money, maxSlots, maxChunks, maxStorage, storage));
+        }
+    }
+
+    public void save() {
+        for (Guild guild : this.guildMap.values()) {
+            DB.executeUpdateAsync("INSERT OR REPLACE INTO guilds(Name, Members, Allies, Home, Nexus," +
+                            " Chunks, Storage, Money, MaxSlots, MaxChunks, MaxStorage, Health, Shield, Creation) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+
+                    guild.name(),
+                    DatabaseUtils.deserializeList(guild.members().stream().map(Member::toString).collect(Collectors.toList())),
+                    DatabaseUtils.deserializeList(guild.allies()),
+                    LocationUtils.deserialize(guild.homeLocation()),
+                    LocationUtils.deserialize(guild.nexusLocation()),
+                    DatabaseUtils.deserializeList(guild.claims()),
+                    ItemSerialization.serializeInventory(guild.storage()),
+                    guild.money(),
+                    guild.maxSlots(),
+                    guild.maxChunks(),
+                    guild.maxStorage(),
+                    guild.health(),
+                    guild.shieldDuration(),
+                    guild.creationLong());
         }
     }
 

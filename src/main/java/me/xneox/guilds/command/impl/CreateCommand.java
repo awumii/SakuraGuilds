@@ -64,12 +64,12 @@ public class CreateCommand implements SubCommand {
         nexusLoc.setY(30);
 
         Guild guild = new Guild(args[1], new ArrayList<>(), nexusLoc, new Date().getTime(), new ArrayList<>(), player.getLocation(), new ArrayList<>(),
-                0, 3, 0, 0, 0, 6, 6, 9, new ItemStack[0]);
+                0, 3, 0, 6, 6, 9, new ItemStack[0]);
 
         manager.guildMap().put(args[1], guild);
 
         guild.shieldDuration(Duration.ofDays(1));
-        guild.members().add(new Member(player.getName(), Rank.LEADER, Rank.LEADER.defaultPermissions()));
+        guild.members().add(Member.create(player.getUniqueId(), Rank.LEADER));
         guild.claims().add(ChunkUtils.deserialize(player.getLocation().getChunk()));
 
         ChatUtils.broadcast("&e" + player.getName() + " &7zakłada gildię &6" + args[1]);

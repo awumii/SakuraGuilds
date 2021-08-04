@@ -41,7 +41,7 @@ public class JoinCommand implements SubCommand {
             return;
         }
 
-        guild.members().add(new Member(player.getName(), Rank.REKRUT, Rank.REKRUT.defaultPermissions()));
+        guild.members().add(Member.create(player.getUniqueId(), Rank.REKRUT));
         HookUtils.INSTANCE.userManager().getUser(player).joinDate(new Date().getTime());
         HookUtils.INSTANCE.inventoryManager().open("management", player);
         ChatUtils.broadcast("&e" + player.getName() + " &7dołącza do gildii &6" + guild.name());

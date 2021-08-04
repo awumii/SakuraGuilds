@@ -12,6 +12,7 @@ import me.xneox.guilds.task.DataSaveTask;
 import me.xneox.guilds.task.GuildNotificatorTask;
 import me.xneox.guilds.task.HologramRefreshTask;
 import me.xneox.guilds.task.PlayerTeleportTask;
+import me.xneox.guilds.util.DatabaseUtils;
 import me.xneox.guilds.util.gui.InventoryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
@@ -20,19 +21,26 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.sql.SQLException;
+
 public class SakuraGuildsPlugin extends JavaPlugin {
     private GuildManager guildManager;
     private UserManager userManager;
     private InventoryManager inventoryManager;
     private CooldownManager cooldownManager;
-    private SQLManager sqlManager;
 
     @Override
     public void onEnable() {
-        this.sqlManager = new SQLManager(this);
+        try {
+            DatabaseUtils.connect();
+            this.userManager = new UserManager();
+            this.guildManager = new GuildManager();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
+
         this.inventoryManager = new InventoryManager(this);
-        this.userManager = new UserManager();
-        this.guildManager = new GuildManager();
         this.cooldownManager = new CooldownManager();
 
         // Registering inventories
@@ -72,15 +80,12 @@ public class SakuraGuildsPlugin extends JavaPlugin {
 
         new MainPlaceholderExpansion(this).register();
         new TopPlaceholderExpansion(this).register();
-
-        this.userManager.load(this);
-        this.guildManager.load(this);
     }
 
     @Override
     public void onDisable() {
-        this.sqlManager.saveGuilds();
-        this.sqlManager.saveUsers();
+        this.guildManager.save();
+        this.userManager.save();
     }
 
     public GuildManager guildManager() {
@@ -97,10 +102,6 @@ public class SakuraGuildsPlugin extends JavaPlugin {
 
     public CooldownManager cooldownManager() {
         return this.cooldownManager;
-    }
-
-    public SQLManager sqlManager() {
-        return this.sqlManager;
     }
 
     private void registerCommand(String name, CommandExecutor executor, TabCompleter tabCompleter) {
