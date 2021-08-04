@@ -2,35 +2,45 @@ package me.xneox.guilds.element;
 
 import me.xneox.guilds.type.Permission;
 import me.xneox.guilds.type.Rank;
+import org.bukkit.Bukkit;
 
 import java.util.EnumSet;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Member {
-    private final String nickname;
+    private final UUID uuid;
 
     private EnumSet<Permission> permissions;
     private Rank rank;
 
-    public Member(String nickname, Rank rank, EnumSet<Permission> permissions) {
-        this.nickname = nickname;
+    private Member(UUID uuid, Rank rank, EnumSet<Permission> permissions) {
+        this.uuid = uuid;
         this.rank = rank;
         this.permissions = permissions;
     }
 
-    public static Member parse(String string) {
+    public static Member create(UUID uuid, Rank rank) {
+        return new Member(uuid, rank, rank.defaultPermissions());
+    }
+
+    public static Member serialize(String string) {
         String[] split = string.split(";");
 
-        return new Member(split[0], Rank.valueOf(split[1]),
+        return new Member(UUID.fromString(split[0]), Rank.valueOf(split[1]),
                 IntStream.range(2, split.length)
                         .mapToObj(i -> Permission.valueOf(split[i]))
                         .collect(Collectors.toCollection(() -> EnumSet.noneOf(Permission.class))));
     }
 
+    public UUID uuid() {
+        return this.uuid;
+    }
+
     public String nickname() {
-        return this.nickname;
+        return Bukkit.getOfflinePlayer(uuid).getName();
     }
 
     public Rank rank() {
@@ -51,11 +61,11 @@ public class Member {
     }
 
     public String displayName() {
-        return this.rank.icon() + " " + nickname;
+        return this.rank.icon() + " " + nickname();
     }
 
     @Override
     public String toString() {
-        return this.nickname + ";" + this.rank.name() + ";" + this.permissions.stream().map(Enum::name).collect(Collectors.joining(";"));
+        return this.uuid + ";" + this.rank.name() + ";" + this.permissions.stream().map(Enum::name).collect(Collectors.joining(";"));
     }
 }

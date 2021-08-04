@@ -69,7 +69,7 @@ public class CreateCommand implements SubCommand {
         manager.guildMap().put(args[1], guild);
 
         guild.shieldDuration(Duration.ofDays(1));
-        guild.members().add(new Member(player.getName(), Rank.LEADER, Rank.LEADER.defaultPermissions()));
+        guild.members().add(Member.create(player.getUniqueId(), Rank.LEADER));
         guild.claims().add(ChunkUtils.deserialize(player.getLocation().getChunk()));
 
         ChatUtils.broadcast("&e" + player.getName() + " &7zakłada gildię &6" + args[1]);

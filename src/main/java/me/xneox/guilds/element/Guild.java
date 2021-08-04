@@ -108,7 +108,7 @@ public class Guild implements Comparable<Guild> {
 
     public int trophies() {
         int total = this.members.stream()
-                .map(member -> HookUtils.INSTANCE.userManager().getUser(member.nickname()))
+                .map(member -> HookUtils.INSTANCE.userManager().getUser(member.uuid()))
                 .mapToInt(User::trophies)
                 .sum();
 

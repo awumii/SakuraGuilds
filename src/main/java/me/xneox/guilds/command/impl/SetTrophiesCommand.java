@@ -2,11 +2,11 @@ package me.xneox.guilds.command.impl;
 
 import me.xneox.guilds.command.internal.AdminOnly;
 import me.xneox.guilds.command.internal.SubCommand;
-import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.HookUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 @AdminOnly
@@ -18,9 +18,8 @@ public class SetTrophiesCommand implements SubCommand {
             return;
         }
 
-        User user = HookUtils.INSTANCE.userManager().getUser(args[1]);
+        User user = HookUtils.INSTANCE.userManager().getUser(Bukkit.getPlayerUniqueId(args[1]));
         user.trophies(Integer.parseInt(args[2]));
-
         ChatUtils.sendMessage(player, "&7Ustawiono pucharki gracza na " + args[2]);
     }
 }

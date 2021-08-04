@@ -25,11 +25,11 @@ public class MembersGui extends InventoryProviderImpl {
         Guild guild = this.plugin.guildManager().playerGuild(player.getName());
 
         guild.members().forEach(member -> {
-            User user = this.plugin.userManager().getUser(member.nickname());
+            User user = this.plugin.userManager().getUser(member.uuid());
             ItemStack skull = ItemBuilder.skullOf(member.nickname())
                     .name("&6" + member.nickname())
                     .lore("&e(Dołączył do gildii: &f" + user.joinDate() + "&e)")
-                    .lore("&e(Widziany ostatnio: &f" + TimeUtils.timeSince(Bukkit.getOfflinePlayer(member.nickname()).getLastSeen()) + " temu&e)")
+                    .lore("&e(Widziany ostatnio: &f" + TimeUtils.timeSince(Bukkit.getOfflinePlayer(member.uuid()).getLastSeen()) + " temu&e)")
                     .lore("")
                     .lore("&eRanga: " + member.rank().title())
                     .lore("&eWojna: ")

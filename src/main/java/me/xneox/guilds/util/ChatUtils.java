@@ -1,5 +1,6 @@
 package me.xneox.guilds.util;
 
+import com.google.common.base.Joiner;
 import me.xneox.guilds.element.Guild;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -25,10 +26,7 @@ public final class ChatUtils {
 
     public static final String BRONZE = "&#cd7f32";
     public static final String CRIMSON = "&#dc143c";
-    public static final String MIDNIGHT_BLUE = "&#2C3E50";
-    public static final String CARROT = "&#E67E22";
     public static final String ALIZARIN_RED = "&#E74C3C";
-    public static final String POMEGRANTE_RED = "&#C0392B";
 
     private static final int CENTER_PX = 154;
     private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
@@ -37,9 +35,6 @@ public final class ChatUtils {
             .hexColors()
             .extractUrls()
             .build();
-
-    private ChatUtils() {
-    }
 
     public static TextComponent color(String message) {
         return SERIALIZER.deserialize(message);
@@ -69,10 +64,13 @@ public final class ChatUtils {
         player.showTitle(Title.title(color(title), color(subtitle)));
     }
 
+    public static String join(char separator, Object... objects) {
+        return Joiner.on(separator).join(objects);
+    }
+
     /**
      * Only used when interacting with plugins not supporting Adventure.
      */
-    @Deprecated
     public static String legacyColor(String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
@@ -178,5 +176,8 @@ public final class ChatUtils {
             compensated += spaceLength;
         }
         player.sendMessage(sb + message);
+    }
+
+    private ChatUtils() {
     }
 }

@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class TopPlaceholderExpansion extends PlaceholderExpansion {
     private final SakuraGuildsPlugin plugin;
@@ -54,27 +55,7 @@ public class TopPlaceholderExpansion extends PlaceholderExpansion {
 
             Guild guild = leaderboard.get(position);
             return guild.name() + " &8[&a" + guild.trophies() + "&8]";
-        } else if (params.startsWith("ptop_")) {
-            List<User> leaderboard = this.plugin.userManager().leaderboard();
-
-            int position = Integer.parseInt(params.replace("ptop_", ""));
-            if (leaderboard.size() < position) {
-                return "-/-";
-            }
-
-            User user = leaderboard.get(position);
-            return nickname(user) + " &8[&a" + user.trophies() + "&8]";
         }
-
         return "-/-";
-    }
-
-    private String nickname(User user) {
-        for (Map.Entry<String, User> entry : this.plugin.userManager().userMap().entrySet()) {
-            if (entry.getValue().equals(user)) {
-                return entry.getKey();
-            }
-        }
-        return null;
     }
 }

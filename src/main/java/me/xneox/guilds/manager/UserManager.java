@@ -1,45 +1,55 @@
 package me.xneox.guilds.manager;
 
-import me.xneox.guilds.SakuraGuildsPlugin;
+import co.aikar.idb.DB;
+import co.aikar.idb.DbRow;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class UserManager {
-    private final Map<String, User> userMap = new HashMap<>();
+    private final Map<UUID, User> userMap = new HashMap<>();
 
-    public void load(SakuraGuildsPlugin plugin) {
-        try {
-            long ms = System.currentTimeMillis();
-            plugin.sqlManager().loadUsers();
+    public UserManager() throws SQLException {
+        DB.executeUpdate("CREATE TABLE IF NOT EXISTS users(" +
+                "`UUID` VARCHAR(40) PRIMARY KEY, " +
+                "`Trophies` INT NOT NULL, " +
+                "`Kills` INT NOT NULL, " +
+                "`Deaths` INT NOT NULL, " +
+                "`JoinDate` BIGINT NOT NULL" +
+                ")");
 
-            ChatUtils.broadcast("&7Wczytano &6" + this.userMap.size() + " &7danych graczy w ciągu &e" + (System.currentTimeMillis() - ms) + "ms.");
-        } catch (Exception e) {
-            ChatUtils.broadcast("&cWystąpił krytyczny błąd przy wczytywaniu bazy danych: &4" + e.getMessage());
-            e.printStackTrace();
+        for (DbRow row : DB.getResults("SELECT * FROM users")) {
+            UUID uuid = UUID.fromString(row.getString("UUID"));
+            int trophies = row.getInt("Trophies");
+            int kills = row.getInt("Kills");
+            int deaths = row.getInt("Deaths");
+            long joinDate = row.getLong("JoinDate");
+
+            this.userMap.put(uuid, new User(trophies, kills, deaths, joinDate));
         }
+    }
+
+    public void save() {
+        this.userMap.forEach((uuid, user) -> DB.executeUpdateAsync(
+                "INSERT OR REPLACE INTO users(UUID, Trophies, Kills, Deaths, JoinDate) VALUES(?, ?, ?, ?, ?)",
+                uuid,
+                user.trophies(),
+                user.kills(),
+                user.deaths(),
+                user.joinLong()));
     }
 
     @NotNull
     public User getUser(Player player) {
-        return this.getUser(player.getName());
+        return this.getUser(player.getUniqueId());
     }
 
     @NotNull
-    public User getUser(String name) {
-        return this.userMap.computeIfAbsent(name, s -> new User(500, 0, 0, new Date().getTime()));
-    }
-
-    public List<User> leaderboard() {
-        List<User> copy = new ArrayList<>(this.userMap.values());
-        Collections.sort(copy);
-        return copy;
-    }
-
-    public Map<String, User> userMap() {
-        return this.userMap;
+    public User getUser(UUID uuid) {
+        return this.userMap.computeIfAbsent(uuid, u -> new User(500, 0, 0, new Date().getTime()));
     }
 }
