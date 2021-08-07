@@ -3,7 +3,7 @@ package me.xneox.guilds.listener;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
-import me.xneox.guilds.type.Permission;
+import me.xneox.guilds.enums.Permission;
 import me.xneox.guilds.util.ChatUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,7 +19,6 @@ import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Iterator;
-import java.util.Objects;
 
 public final class GuildProtectionListener implements Listener {
     private final SakuraGuildsPlugin plugin;

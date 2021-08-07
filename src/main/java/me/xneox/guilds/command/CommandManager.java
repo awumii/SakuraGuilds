@@ -26,6 +26,7 @@ public class CommandManager {
     }
 
     private void registerCommands() {
+        commandMap.put("race", new RaceCommand());
         commandMap.put("claim", new ClaimCommand());
         commandMap.put("unclaim", new UnClaimCommand());
         commandMap.put("create", new CreateCommand());

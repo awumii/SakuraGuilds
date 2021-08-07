@@ -1,6 +1,7 @@
 package me.xneox.guilds.element;
 
-import me.xneox.guilds.type.ChatChannel;
+import me.xneox.guilds.enums.ChatChannel;
+import me.xneox.guilds.enums.Race;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,6 +13,7 @@ public class User implements Comparable<User> {
     private int kills;
     private int deaths;
     private long joinDate;
+    private Race race;
 
     private String editorSubject;
     private ChatChannel chatChannel;
@@ -20,11 +22,12 @@ public class User implements Comparable<User> {
     private Location teleportTarget;
     private int teleportCountdown;
 
-    public User(int trophies, int kills, int deaths, long joinDate) {
+    public User(int trophies, int kills, int deaths, long joinDate, Race race) {
         this.trophies = trophies;
         this.kills = kills;
         this.deaths = deaths;
         this.joinDate = joinDate;
+        this.race = race;
         this.chatChannel = ChatChannel.GLOBAL;
     }
 
@@ -43,6 +46,14 @@ public class User implements Comparable<User> {
 
     public long joinLong() {
         return this.joinDate;
+    }
+
+    public Race race() {
+        return this.race;
+    }
+
+    public void race(Race race) {
+        this.race = race;
     }
 
     public int kills() {

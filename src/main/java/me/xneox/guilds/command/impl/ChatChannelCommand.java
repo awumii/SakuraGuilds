@@ -4,7 +4,7 @@ import me.xneox.guilds.command.internal.SubCommand;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.manager.GuildManager;
-import me.xneox.guilds.type.ChatChannel;
+import me.xneox.guilds.enums.ChatChannel;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.HookUtils;
 import org.bukkit.entity.Player;

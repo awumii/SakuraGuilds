@@ -34,7 +34,7 @@ public class HelpProfileGui extends InventoryProviderImpl {
                 .lore(PlaceholderAPI.setPlaceholders(player, " &c❤ Zdrowie &f%aureliumskills_health%"))
                 .lore(PlaceholderAPI.setPlaceholders(player, " &6❥ Regeneracja &f%aureliumskills_regeneration%"))
                 .lore(PlaceholderAPI.setPlaceholders(player, " &2☘ Szczęście &f%aureliumskills_luck%"))
-                .lore(PlaceholderAPI.setPlaceholders(player, " &9✿ Inteligencja Siła &f%aureliumskills_wisdom%"))
+                .lore(PlaceholderAPI.setPlaceholders(player, " &9✿ Inteligencja &f%aureliumskills_wisdom%"))
                 .lore(PlaceholderAPI.setPlaceholders(player, " &5✦ Twardość &f%aureliumskills_toughness%"))
                 .lore("")
                 .lore("&eKliknij, aby zobaczyć szczegóły.")

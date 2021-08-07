@@ -60,26 +60,30 @@ public class GuildManager {
     }
 
     public void save() {
-        for (Guild guild : this.guildMap.values()) {
-            DB.executeUpdateAsync("INSERT OR REPLACE INTO guilds(Name, Members, Allies, Home, Nexus," +
-                            " Chunks, Storage, Money, MaxSlots, MaxChunks, MaxStorage, Health, Shield, Creation) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        this.guildMap.values().forEach(guild -> {
+            try {
+                DB.executeUpdate("INSERT OR REPLACE INTO guilds(Name, Members, Allies, Home, Nexus," +
+                                " Chunks, Storage, Money, MaxSlots, MaxChunks, MaxStorage, Health, Shield, Creation) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 
-                    guild.name(),
-                    DatabaseUtils.deserializeList(guild.members().stream().map(Member::toString).collect(Collectors.toList())),
-                    DatabaseUtils.deserializeList(guild.allies()),
-                    LocationUtils.deserialize(guild.homeLocation()),
-                    LocationUtils.deserialize(guild.nexusLocation()),
-                    DatabaseUtils.deserializeList(guild.claims()),
-                    ItemSerialization.serializeInventory(guild.storage()),
-                    guild.money(),
-                    guild.maxSlots(),
-                    guild.maxChunks(),
-                    guild.maxStorage(),
-                    guild.health(),
-                    guild.shieldDuration(),
-                    guild.creationLong());
-        }
+                        guild.name(),
+                        DatabaseUtils.deserializeList(guild.members().stream().map(Member::toString).collect(Collectors.toList())),
+                        DatabaseUtils.deserializeList(guild.allies()),
+                        LocationUtils.deserialize(guild.homeLocation()),
+                        LocationUtils.deserialize(guild.nexusLocation()),
+                        DatabaseUtils.deserializeList(guild.claims()),
+                        ItemSerialization.serializeInventory(guild.storage()),
+                        guild.money(),
+                        guild.maxSlots(),
+                        guild.maxChunks(),
+                        guild.maxStorage(),
+                        guild.health(),
+                        guild.shieldDuration(),
+                        guild.creationLong());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void delete(Guild guild) {

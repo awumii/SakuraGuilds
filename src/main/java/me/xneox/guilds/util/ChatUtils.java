@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -53,6 +54,10 @@ public final class ChatUtils {
     @NotNull
     public static String plainString(Component component) {
         return PlainTextComponentSerializer.plainText().serialize(component);
+    }
+
+    public static String format(String text, Object... objects) {
+        return new MessageFormat(text).format(objects);
     }
 
     public static void sendClickableMessage(@NotNull Player player, String message, String hover, String runCommand) {

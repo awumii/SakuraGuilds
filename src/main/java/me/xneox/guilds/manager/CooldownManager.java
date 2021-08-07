@@ -1,16 +1,43 @@
 package me.xneox.guilds.manager;
 
+import co.aikar.idb.DB;
+import co.aikar.idb.DbRow;
 import me.xneox.guilds.util.TimeUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class CooldownManager {
     private final Map<String, Pair<Long, Long>> cooldownMap = new HashMap<>();
+
+    public CooldownManager() throws SQLException {
+        DB.executeUpdate("CREATE TABLE IF NOT EXISTS cooldowns(" +
+                "`ID` TEXT NOT NULL PRIMARY KEY, " +
+                "`Duration` BIGINT NOT NULL, " +
+                "`TimeScheduled` BIGINT NOT NULL" +
+                ")");
+
+        for (DbRow row : DB.getResults("SELECT * FROM guilds")) {
+            String id = row.getString("ID");
+            long duration = row.getLong("Duration");
+            long timeScheduled = row.getLong("TimeScheduled");
+
+            this.cooldownMap.put(id, Pair.of(duration, timeScheduled));
+        }
+    }
+
+    public void save() {
+        DB.executeUpdateAsync("DELETE FROM cooldowns").thenAccept(i -> this.cooldownMap.forEach((id, pair) -> DB.executeUpdateAsync(
+                "INSERT OR REPLACE INTO cooldowns(ID, Duration, TimeScheduled) VALUES(?, ?, ?)",
+                id,
+                pair.getLeft(),
+                pair.getRight())));
+    }
 
     public void add(@NotNull Player player, @NotNull String id, int duration, TimeUnit durationUnit) {
         this.add(player.getUniqueId() + id, duration, durationUnit);

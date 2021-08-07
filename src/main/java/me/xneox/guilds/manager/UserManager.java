@@ -3,6 +3,7 @@ package me.xneox.guilds.manager;
 import co.aikar.idb.DB;
 import co.aikar.idb.DbRow;
 import me.xneox.guilds.element.User;
+import me.xneox.guilds.enums.Race;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +19,8 @@ public class UserManager {
                 "`Trophies` INT NOT NULL, " +
                 "`Kills` INT NOT NULL, " +
                 "`Deaths` INT NOT NULL, " +
-                "`JoinDate` BIGINT NOT NULL" +
+                "`JoinDate` BIGINT NOT NULL," +
+                "`Race` TEXT NOT NULL" +
                 ")");
 
         for (DbRow row : DB.getResults("SELECT * FROM users")) {
@@ -27,19 +29,27 @@ public class UserManager {
             int kills = row.getInt("Kills");
             int deaths = row.getInt("Deaths");
             long joinDate = row.getLong("JoinDate");
+            Race race = Race.valueOf(row.getString("Race"));
 
-            this.userMap.put(uuid, new User(trophies, kills, deaths, joinDate));
+            this.userMap.put(uuid, new User(trophies, kills, deaths, joinDate, race));
         }
     }
 
     public void save() {
-        this.userMap.forEach((uuid, user) -> DB.executeUpdateAsync(
-                "INSERT OR REPLACE INTO users(UUID, Trophies, Kills, Deaths, JoinDate) VALUES(?, ?, ?, ?, ?)",
-                uuid,
-                user.trophies(),
-                user.kills(),
-                user.deaths(),
-                user.joinLong()));
+        this.userMap.forEach((uuid, user) -> {
+            try {
+                DB.executeUpdate(
+                        "INSERT OR REPLACE INTO users(UUID, Trophies, Kills, Deaths, JoinDate, Race) VALUES(?, ?, ?, ?, ?, ?)",
+                        uuid,
+                        user.trophies(),
+                        user.kills(),
+                        user.deaths(),
+                        user.joinLong(),
+                        user.race());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @NotNull
@@ -49,6 +59,6 @@ public class UserManager {
 
     @NotNull
     public User getUser(UUID uuid) {
-        return this.userMap.computeIfAbsent(uuid, u -> new User(500, 0, 0, new Date().getTime()));
+        return this.userMap.computeIfAbsent(uuid, u -> new User(500, 0, 0, new Date().getTime(), Race.NONE));
     }
 }

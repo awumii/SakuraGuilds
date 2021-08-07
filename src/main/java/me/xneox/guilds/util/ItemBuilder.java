@@ -62,6 +62,11 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder lore(List<String> lore) {
+        lore.forEach(this::lore);
+        return this;
+    }
+
     public ItemBuilder amount(int amount) {
         this.amount = amount;
         return this;

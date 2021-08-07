@@ -17,6 +17,7 @@ public class HelpCommand implements SubCommand {
         switch (args[1]) {
             case "1" -> {
                 ChatUtils.sendNoPrefix(player, "&8&m----------------(&r &6&lGILDIE &8&m)----------------");
+                ChatUtils.sendNoPrefix(player, "   &e/g race &8- &7Otwiera menu wyboru rasy.");
                 ChatUtils.sendNoPrefix(player, "   &e/g create <nazwa> &8- &7Tworzy nową gildię.");
                 ChatUtils.sendNoPrefix(player, "   &e/g browse &8- &7Otwiera wyszukiwarkę gildii.");
                 ChatUtils.sendNoPrefix(player, "   &e/g join <gildia> &8- &7Dołącza do podanej gildii.");

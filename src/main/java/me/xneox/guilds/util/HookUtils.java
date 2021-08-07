@@ -1,8 +1,10 @@
 package me.xneox.guilds.util;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.archyx.aureliumskills.AureliumSkills;
 import com.archyx.aureliumskills.api.AureliumAPI;
 import com.archyx.aureliumskills.skills.Skills;
+import com.archyx.aureliumskills.stats.Stat;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -12,9 +14,11 @@ import java.util.Objects;
 
 // This class manages compatibility for different plugins.
 public final class HookUtils {
-    public static final Economy ECONOMY = Objects.requireNonNull(Bukkit.getServicesManager().getRegistration(Economy.class)).getProvider();
     public static final SakuraGuildsPlugin INSTANCE = SakuraGuildsPlugin.getPlugin(SakuraGuildsPlugin.class);
     public static final String DIRECTORY = "plugins/SakuraGuilds";
+
+    public static final Economy ECONOMY = Objects.requireNonNull(Bukkit.getServicesManager().getRegistration(Economy.class)).getProvider();
+    public static final AureliumSkills AURELIUM_SKILLS = AureliumSkills.getPlugin(AureliumSkills.class);
 
     public static boolean hasCombatTag(Player player) {
         ICombatLogX plugin = (ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX");
@@ -33,5 +37,9 @@ public final class HookUtils {
             }
         }
         return sum;
+    }
+
+    public static Stat aureliumStat(String key) {
+        return AURELIUM_SKILLS.getStatRegistry().getStat(key);
     }
 }

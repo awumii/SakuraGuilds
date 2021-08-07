@@ -3,8 +3,8 @@ package me.xneox.guilds.gui;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
-import me.xneox.guilds.type.Permission;
-import me.xneox.guilds.type.Rank;
+import me.xneox.guilds.enums.Permission;
+import me.xneox.guilds.enums.Rank;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
@@ -165,7 +165,7 @@ public class RankEditorGui extends InventoryProviderImpl {
         }
 
         // Editing the targetMember's rank
-        if (item.getItemMeta().getLore() != null) {
+        if (item.getItemMeta().lore() != null) {
             Rank rank = switch (event.slot()) {
                 case 2 -> Rank.LEADER;
                 case 4 -> Rank.GENERAL;

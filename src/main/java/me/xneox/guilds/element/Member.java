@@ -1,7 +1,7 @@
 package me.xneox.guilds.element;
 
-import me.xneox.guilds.type.Permission;
-import me.xneox.guilds.type.Rank;
+import me.xneox.guilds.enums.Permission;
+import me.xneox.guilds.enums.Rank;
 import org.bukkit.Bukkit;
 
 import java.util.EnumSet;

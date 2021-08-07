@@ -3,8 +3,10 @@ package me.xneox.guilds.listener;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
+import me.xneox.guilds.enums.Race;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.HookUtils;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -34,17 +36,20 @@ public final class PlayerChatListener implements Listener {
         event.setMessage(event.getMessage().replaceAll("(?i)kurw|jeb|pierda|huj", "***"));
 
         Guild guild = this.plugin.guildManager().playerGuild(player);
+        User user = this.plugin.userManager().getUser(player);
+
         if (guild == null) {
             event.setFormat(event.getFormat()
                     .replace("{GUILD}", "")
+                    .replace("{RACE}", user.race() != Race.NONE ? ChatUtils.legacyColor("&8[" + user.race().title() + "&8] ") : "")
                     .replace("{LEVEL}", String.valueOf(HookUtils.getAureliumLevel(player))));
             return;
         }
 
-        User user = this.plugin.userManager().getUser(player);
         switch (user.chatChannel()) {
             case GLOBAL -> event.setFormat(event.getFormat()
-                    .replace("{GUILD}", ChatUtils.legacyColor("&2" + guild.name() + " "))
+                    .replace("{GUILD}", ChatUtils.legacyColor("&8[" + ChatColor.of("#E74C3C") + guild.name() + "&8] "))
+                    .replace("{RACE}", user.race() != Race.NONE ? ChatUtils.legacyColor("&8[" + user.race().title() + "&8] ") : "")
                     .replace("{LEVEL}", String.valueOf(HookUtils.getAureliumLevel(player))));
             case GUILD -> {
                 ChatUtils.guildAlertRaw(guild, " &8[&aGILDIA&8] " +

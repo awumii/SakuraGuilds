@@ -26,12 +26,16 @@ public final class PlayerMenuListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        giveMenuItem(event.getPlayer());
+        if (event.getPlayer().getWorld().getName().startsWith("world")) {
+            giveMenuItem(event.getPlayer());
+        }
     }
 
     @EventHandler
     public void onRespawn(PlayerPostRespawnEvent event) {
-        giveMenuItem(event.getPlayer());
+        if (event.getPlayer().getWorld().getName().startsWith("world")) {
+            giveMenuItem(event.getPlayer());
+        }
     }
 
     @EventHandler

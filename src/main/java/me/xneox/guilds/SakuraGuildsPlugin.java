@@ -35,13 +35,13 @@ public class SakuraGuildsPlugin extends JavaPlugin {
             DatabaseUtils.connect();
             this.userManager = new UserManager();
             this.guildManager = new GuildManager();
+            this.cooldownManager = new CooldownManager();
         } catch (SQLException ex) {
             ex.printStackTrace();
             Bukkit.getPluginManager().disablePlugin(this);
         }
 
         this.inventoryManager = new InventoryManager(this);
-        this.cooldownManager = new CooldownManager();
 
         // Registering inventories
         inventoryManager.register("management", new ManagementGui(this));
@@ -53,6 +53,7 @@ public class SakuraGuildsPlugin extends JavaPlugin {
         inventoryManager.register("leaderboards", new LeaderboardsGui(this));
         inventoryManager.register("newbie", new NewbieGui(this));
         inventoryManager.register("profile", new HelpProfileGui(this));
+        inventoryManager.register("races", new RacesGui(this));
 
         CommandManager commandManager = new CommandManager(this);
         registerCommand("guild", commandManager.executor(), commandManager.completer());
@@ -86,6 +87,7 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     public void onDisable() {
         this.guildManager.save();
         this.userManager.save();
+        this.cooldownManager.save();
     }
 
     public GuildManager guildManager() {

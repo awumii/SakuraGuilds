@@ -1,7 +1,7 @@
 package me.xneox.guilds.element;
 
-import me.xneox.guilds.type.Division;
-import me.xneox.guilds.type.Rank;
+import me.xneox.guilds.enums.Division;
+import me.xneox.guilds.enums.Rank;
 import me.xneox.guilds.util.ChunkUtils;
 import me.xneox.guilds.util.HookUtils;
 import org.bukkit.Bukkit;

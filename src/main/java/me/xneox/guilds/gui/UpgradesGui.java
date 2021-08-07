@@ -2,8 +2,8 @@ package me.xneox.guilds.gui;
 
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.type.Permission;
-import me.xneox.guilds.type.Upgrade;
+import me.xneox.guilds.enums.Permission;
+import me.xneox.guilds.enums.Upgrade;
 import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;

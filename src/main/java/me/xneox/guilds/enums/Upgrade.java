@@ -1,4 +1,4 @@
-package me.xneox.guilds.type;
+package me.xneox.guilds.enums;
 
 import me.xneox.guilds.element.Guild;
 
