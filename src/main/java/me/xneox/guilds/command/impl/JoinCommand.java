@@ -5,7 +5,7 @@ import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.enums.Rank;
-import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.text.ChatUtils;
 import me.xneox.guilds.util.HookUtils;
 import org.bukkit.entity.Player;
 

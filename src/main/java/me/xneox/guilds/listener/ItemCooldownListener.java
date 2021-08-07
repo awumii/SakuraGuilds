@@ -2,7 +2,7 @@ package me.xneox.guilds.listener;
 
 import com.destroystokyo.paper.event.player.PlayerElytraBoostEvent;
 import me.xneox.guilds.SakuraGuildsPlugin;
-import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -12,7 +12,6 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public final class ItemCooldownListener implements Listener {

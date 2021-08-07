@@ -6,6 +6,7 @@ import me.xneox.guilds.util.*;
 import me.xneox.guilds.util.gui.InventoryProviderImpl;
 import me.xneox.guilds.util.gui.api.ClickEvent;
 import me.xneox.guilds.util.gui.api.InventorySize;
+import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

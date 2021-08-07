@@ -1,7 +1,7 @@
 package me.xneox.guilds.command.misc;
 
 import me.xneox.guilds.SakuraGuildsPlugin;
-import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public final class LiveCommand implements CommandExecutor {

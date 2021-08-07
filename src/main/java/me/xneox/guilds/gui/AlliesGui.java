@@ -2,7 +2,7 @@ package me.xneox.guilds.gui;
 
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.text.ChatUtils;
 import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
 import me.xneox.guilds.util.VisualUtils;

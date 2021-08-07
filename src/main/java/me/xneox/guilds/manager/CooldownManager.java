@@ -2,7 +2,7 @@ package me.xneox.guilds.manager;
 
 import co.aikar.idb.DB;
 import co.aikar.idb.DbRow;
-import me.xneox.guilds.util.TimeUtils;
+import me.xneox.guilds.util.text.TimeUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

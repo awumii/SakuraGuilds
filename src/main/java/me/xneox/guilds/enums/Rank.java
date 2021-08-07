@@ -1,7 +1,7 @@
 package me.xneox.guilds.enums;
 
 import com.google.common.collect.Sets;
-import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.text.ChatUtils;
 
 import java.util.Arrays;
 import java.util.EnumSet;

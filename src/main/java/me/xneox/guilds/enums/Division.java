@@ -1,6 +1,6 @@
 package me.xneox.guilds.enums;
 
-import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.text.ChatUtils;
 
 public enum Division {
     CHAMPION(2000, ChatUtils.ALIZARIN_RED + "Czempion"),

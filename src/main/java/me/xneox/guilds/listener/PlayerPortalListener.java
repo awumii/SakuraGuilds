@@ -1,7 +1,7 @@
 package me.xneox.guilds.listener;
 
-import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.TimeUtils;
+import me.xneox.guilds.util.text.ChatUtils;
+import me.xneox.guilds.util.text.TimeUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

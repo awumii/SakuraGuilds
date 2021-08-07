@@ -4,7 +4,6 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.ChatUtils;
 import me.xneox.guilds.util.VisualUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

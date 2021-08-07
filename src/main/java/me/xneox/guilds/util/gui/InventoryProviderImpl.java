@@ -16,7 +16,7 @@
 package me.xneox.guilds.util.gui;
 
 import me.xneox.guilds.SakuraGuildsPlugin;
-import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.text.ChatUtils;
 import me.xneox.guilds.util.gui.api.InventoryProvider;
 import me.xneox.guilds.util.gui.api.InventorySize;
 import net.kyori.adventure.text.Component;

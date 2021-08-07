@@ -2,14 +2,12 @@ package me.xneox.guilds.command;
 
 import me.xneox.guilds.command.internal.AdminOnly;
 import me.xneox.guilds.command.internal.SubCommand;
-import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public final class GuildCommandExecutor implements CommandExecutor {
     private final CommandManager commandManager;

@@ -2,16 +2,14 @@ package me.xneox.guilds.listener;
 
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.ChatUtils;
-import me.xneox.guilds.util.TimeUtils;
+import me.xneox.guilds.util.text.ChatUtils;
+import me.xneox.guilds.util.text.TimeUtils;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
-
-import java.util.Objects;
 
 public final class PlayerDamageListener implements Listener {
     private final SakuraGuildsPlugin plugin;

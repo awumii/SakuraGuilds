@@ -3,7 +3,7 @@ package me.xneox.guilds.listener;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
-import me.xneox.guilds.util.ChatUtils;
+import me.xneox.guilds.util.text.ChatUtils;
 import me.xneox.guilds.util.RandomUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
