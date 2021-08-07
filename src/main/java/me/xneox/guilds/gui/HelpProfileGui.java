@@ -4,6 +4,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.HookUtils;
+import me.xneox.guilds.util.InventoryUtils;
 import me.xneox.guilds.util.ItemBuilder;
 import me.xneox.guilds.util.VisualUtils;
 import me.xneox.guilds.util.gui.InventoryProviderImpl;
@@ -25,17 +26,18 @@ public class HelpProfileGui extends InventoryProviderImpl {
     @Override
     public void open(Player player, Inventory inventory) {
         Guild guild = this.plugin.guildManager().playerGuild(player);
-        VisualUtils.sound(player, Sound.BLOCK_NOTE_BLOCK_PLING);
+        InventoryUtils.fillInventory(inventory, Material.GRAY_STAINED_GLASS_PANE);
+        VisualUtils.sound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
 
         // FIRST ROW
         ItemStack stats = ItemBuilder.skullOf(player.getName())
-                .name("&6" + player.getName() + " &8// &7Poziom &6" + HookUtils.getAureliumLevel(player) + "✫")
-                .lore(PlaceholderAPI.setPlaceholders(player, " &4➽ Siła &f%aureliumskills_strength%"))
-                .lore(PlaceholderAPI.setPlaceholders(player, " &c❤ Zdrowie &f%aureliumskills_health%"))
-                .lore(PlaceholderAPI.setPlaceholders(player, " &6❥ Regeneracja &f%aureliumskills_regeneration%"))
-                .lore(PlaceholderAPI.setPlaceholders(player, " &2☘ Szczęście &f%aureliumskills_luck%"))
-                .lore(PlaceholderAPI.setPlaceholders(player, " &9✿ Inteligencja &f%aureliumskills_wisdom%"))
-                .lore(PlaceholderAPI.setPlaceholders(player, " &5✦ Twardość &f%aureliumskills_toughness%"))
+                .name("      &6" + player.getName() + " &7(&fPoziom &e" + HookUtils.getAureliumLevel(player) + "✫&7)")
+                .lore(PlaceholderAPI.setPlaceholders(player, " &fSiła: &4\uD83D\uDDE1%aureliumskills_strength_int%"))
+                .lore(PlaceholderAPI.setPlaceholders(player, " &fZdrowie: &c❤%aureliumskills_health_int%"))
+                .lore(PlaceholderAPI.setPlaceholders(player, " &fRegeneracja: &6❥%aureliumskills_regeneration_int%"))
+                .lore(PlaceholderAPI.setPlaceholders(player, " &fSzczęście: &2☘%aureliumskills_luck_int%"))
+                .lore(PlaceholderAPI.setPlaceholders(player, " &fInteligencja: &9✿%aureliumskills_wisdom_int%"))
+                .lore(PlaceholderAPI.setPlaceholders(player, " &fTwardość: &5✦%aureliumskills_toughness_int%"))
                 .lore("")
                 .lore("&eKliknij, aby zobaczyć szczegóły.")
                 .build();
@@ -162,6 +164,12 @@ public class HelpProfileGui extends InventoryProviderImpl {
                 .lore("   &d&nwww.dronizja.pl/discord")
                 .build();
 
+        ItemStack race = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWI3M2NkNDEzZDgxZThjM2NlZTQ2ZmU4YTgzMjI1MjY1MmRjMzM1ODRkZGU0ZGRkZjNjYTgzNmRjZDE3NGUifX19")
+                .name("&aWybrana rasa: " + this.plugin.userManager().getUser(player).race().title())
+                .lore("")
+                .lore("&7Kliknij, aby zmienić rasę.")
+                .build();
+
         ItemStack close = ItemBuilder.of(Material.BARRIER)
                 .name("&cZamknij")
                 .build();
@@ -188,6 +196,7 @@ public class HelpProfileGui extends InventoryProviderImpl {
         // LAST ROW
         inventory.setItem(36, warps);
         inventory.setItem(45, kits);
+        inventory.setItem(46, race);
 
         inventory.setItem(44, help);
         inventory.setItem(53, discord);
@@ -230,12 +239,19 @@ public class HelpProfileGui extends InventoryProviderImpl {
             }
 
             // LAST ROW
-            case 36 -> player.performCommand("warp");
-            case 45 -> player.performCommand("kit");
+            case 36 -> {
+                player.closeInventory();
+                player.performCommand("warp");
+            }
+            case 45 -> {
+                player.closeInventory();
+                player.performCommand("kit");
+            }
             case 44 -> {
                 player.closeInventory();
                 player.performCommand("pomoc");
             }
+            case 46 -> player.performCommand("g race");
 
             case 49 -> player.closeInventory();
         }

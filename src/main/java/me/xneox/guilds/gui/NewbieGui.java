@@ -24,9 +24,9 @@ public class NewbieGui extends InventoryProviderImpl {
 
         User user = this.plugin.userManager().getUser(player);
         ItemStack race = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWI3M2NkNDEzZDgxZThjM2NlZTQ2ZmU4YTgzMjI1MjY1MmRjMzM1ODRkZGU0ZGRkZjNjYTgzNmRjZDE3NGUifX19")
-                .name("&7Wybrana rasa: " + user.race().title())
+                .name("&aWybrana rasa: " + user.race().title())
                 .lore("")
-                .lore("&7Kliknij, aby wybrać bonusy rasy!")
+                .lore("&7Kliknij, zmienić rasę.")
                 .build();
 
         ItemStack browse = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTJlYzlhOGE5MGQ5MGM3ODY1MWFmMmY5NjIwMTUxMTFmY2JmMTFhYzg3MzhmNTJiOGUyNGRhODYyYTM4NzFiYSJ9fX0=")
@@ -50,9 +50,12 @@ public class NewbieGui extends InventoryProviderImpl {
     public void event(ClickEvent event, Player player) {
         VisualUtils.click(player);
 
-        if (event.slot() == 11) {
-            player.closeInventory();
-            player.performCommand("g help");
+        switch (event.slot()) {
+            case 11 -> player.performCommand("g race");
+            case 13 -> {
+                player.closeInventory();
+                player.performCommand("g help");
+            }
         }
     }
 }

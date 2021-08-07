@@ -2,8 +2,10 @@ package me.xneox.guilds.listener;
 
 import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
 import me.xneox.guilds.SakuraGuildsPlugin;
+import me.xneox.guilds.enums.Race;
 import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -29,6 +32,21 @@ public final class PlayerMenuListener implements Listener {
         if (event.getPlayer().getWorld().getName().startsWith("world")) {
             giveMenuItem(event.getPlayer());
         }
+    }
+
+    @EventHandler
+    public void onWorldChange(PlayerChangedWorldEvent event) {
+        Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
+            Player player = event.getPlayer();
+            if (!player.getWorld().getName().startsWith("world")) {
+                return;
+            }
+
+            giveMenuItem(player);
+            if (this.plugin.userManager().getUser(player).race() == Race.NONE) {
+                this.plugin.inventoryManager().open("races", player);
+            }
+        }, 40L);
     }
 
     @EventHandler

@@ -18,13 +18,13 @@ public class CooldownManager {
     public CooldownManager() throws SQLException {
         DB.executeUpdate("CREATE TABLE IF NOT EXISTS cooldowns(" +
                 "`ID` TEXT NOT NULL PRIMARY KEY, " +
-                "`Duration` BIGINT NOT NULL, " +
+                "`Duration` INT NOT NULL, " +
                 "`TimeScheduled` BIGINT NOT NULL" +
                 ")");
 
-        for (DbRow row : DB.getResults("SELECT * FROM guilds")) {
+        for (DbRow row : DB.getResults("SELECT * FROM cooldowns")) {
             String id = row.getString("ID");
-            long duration = row.getLong("Duration");
+            long duration = row.getInt("Duration");
             long timeScheduled = row.getLong("TimeScheduled");
 
             this.cooldownMap.put(id, Pair.of(duration, timeScheduled));
@@ -32,11 +32,19 @@ public class CooldownManager {
     }
 
     public void save() {
-        DB.executeUpdateAsync("DELETE FROM cooldowns").thenAccept(i -> this.cooldownMap.forEach((id, pair) -> DB.executeUpdateAsync(
-                "INSERT OR REPLACE INTO cooldowns(ID, Duration, TimeScheduled) VALUES(?, ?, ?)",
-                id,
-                pair.getLeft(),
-                pair.getRight())));
+        try {
+            DB.executeUpdate("DELETE FROM cooldowns");
+            for (Map.Entry<String, Pair<Long, Long>> entry : this.cooldownMap.entrySet()) {
+                String id = entry.getKey();
+                Pair<Long, Long> pair = entry.getValue();
+                DB.executeUpdate("INSERT OR REPLACE INTO cooldowns(ID, Duration, TimeScheduled) VALUES(?, ?, ?)",
+                        id,
+                        pair.getLeft(),
+                        pair.getRight());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void add(@NotNull Player player, @NotNull String id, int duration, TimeUnit durationUnit) {

@@ -88,11 +88,12 @@ public class RacesGui extends InventoryProviderImpl {
         }
 
         if (race != Race.NONE) {
-            this.plugin.cooldownManager().add(player, "race_change", 1, TimeUnit.MINUTES);
+            this.plugin.cooldownManager().add(player, "race_change", 1, TimeUnit.SECONDS);
         }
 
         VisualUtils.sound(player, Sound.ENTITY_WITHER_DEATH);
         ChatUtils.sendMessage(player, "&7Pomyślnie ustawiono twoją rasę na " + race.title());
+        ChatUtils.sendTitle(player, race.title(), "&7Wybór twojej rasy został zaakceptowany...");
 
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sk modifier remove " + player.getName() + " race");
         user.race(race);
