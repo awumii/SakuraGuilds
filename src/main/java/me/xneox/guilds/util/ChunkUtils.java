@@ -3,6 +3,7 @@ package me.xneox.guilds.util;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -48,7 +49,7 @@ public final class ChunkUtils {
   }
 
   public static boolean isProtected(Player player) {
-    if (HookUtils.INSTANCE.guildManager().findAt(player.getLocation()) != null) {
+    if (SakuraGuildsPlugin.get().guildManager().findAt(player.getLocation()) != null) {
       ChatUtils.sendMessage(player, "&cTen teren jest zajęty.");
       return true;
     }

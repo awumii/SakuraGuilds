@@ -23,6 +23,7 @@ dependencies {
     implementation("co.aikar:idb-core:1.0.0-SNAPSHOT")
 
     compileOnly("io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT")
+    compileOnly("fr.minuskube.inv:smart-invs:1.2.7")
     compileOnly("me.clip:placeholderapi:2.10.10")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.9")

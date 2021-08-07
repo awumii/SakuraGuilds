@@ -3,8 +3,10 @@ package me.xneox.guilds.listener;
 import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.enums.Race;
+import me.xneox.guilds.gui.HelpProfileGui;
+import me.xneox.guilds.gui.RacesGui;
 import me.xneox.guilds.util.HookUtils;
-import me.xneox.guilds.util.ItemBuilder;
+import me.xneox.guilds.util.inventory.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,86 +23,89 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 public final class PlayerMenuListener implements Listener {
-    private final SakuraGuildsPlugin plugin;
+  private final SakuraGuildsPlugin plugin;
 
-    public PlayerMenuListener(SakuraGuildsPlugin plugin) {
-        this.plugin = plugin;
+  public PlayerMenuListener(SakuraGuildsPlugin plugin) {
+    this.plugin = plugin;
+  }
+
+  @EventHandler
+  public void onJoin(PlayerJoinEvent event) {
+    if (event.getPlayer().getWorld().getName().startsWith("world")) {
+      giveMenuItem(event.getPlayer());
+    }
+  }
+
+  @EventHandler
+  public void onWorldChange(PlayerChangedWorldEvent event) {
+    Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
+      Player player = event.getPlayer();
+      if (!player.getWorld().getName().startsWith("world")) {
+        return;
+      }
+
+      giveMenuItem(player);
+      if (this.plugin.userManager().user(player).race() == Race.NONE) {
+        RacesGui.INVENTORY.open(player);
+      }
+    }, 40L);
+  }
+
+  @EventHandler
+  public void onRespawn(PlayerPostRespawnEvent event) {
+    if (event.getPlayer().getWorld().getName().startsWith("world")) {
+      giveMenuItem(event.getPlayer());
+    }
+  }
+
+  @EventHandler
+  public void onInteract(PlayerInteractEvent event) {
+    if (event.getAction() != Action.RIGHT_CLICK_AIR
+        && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+      return;
     }
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        if (event.getPlayer().getWorld().getName().startsWith("world")) {
-            giveMenuItem(event.getPlayer());
-        }
+    if (!HookUtils.hasCombatTag(event.getPlayer()) && isMenuItem(event.getItem())) {
+      event.setCancelled(true);
+      HelpProfileGui.INVENTORY.open(event.getPlayer());
     }
+  }
 
-    @EventHandler
-    public void onWorldChange(PlayerChangedWorldEvent event) {
-        Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
-            Player player = event.getPlayer();
-            if (!player.getWorld().getName().startsWith("world")) {
-                return;
-            }
-
-            giveMenuItem(player);
-            if (this.plugin.userManager().getUser(player).race() == Race.NONE) {
-                this.plugin.inventoryManager().open("races", player);
-            }
-        }, 40L);
+  @EventHandler
+  public void onItemDrop(PlayerDropItemEvent event) {
+    if (isMenuItem(event.getItemDrop().getItemStack())) {
+      event.setCancelled(true);
     }
+  }
 
-    @EventHandler
-    public void onRespawn(PlayerPostRespawnEvent event) {
-        if (event.getPlayer().getWorld().getName().startsWith("world")) {
-            giveMenuItem(event.getPlayer());
-        }
+  @EventHandler
+  public void onInventoryClick(InventoryClickEvent event) {
+    if (isMenuItem(event.getCurrentItem())) {
+      event.setCancelled(true);
     }
+  }
 
-    @EventHandler
-    public void onInteract(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
+  @EventHandler
+  public void onPlayerDeath(PlayerDeathEvent event) {
+    event.getDrops().removeIf(this::isMenuItem);
+  }
 
-        if (!HookUtils.hasCombatTag(event.getPlayer()) && isMenuItem(event.getItem())) {
-            event.setCancelled(true);
-            this.plugin.inventoryManager().open("profile", event.getPlayer());
-        }
-    }
+  private boolean isMenuItem(ItemStack itemStack) {
+    return itemStack != null
+        && itemStack.getType() == Material.PLAYER_HEAD
+        && itemStack.getItemFlags().contains(ItemFlag.HIDE_ENCHANTS);
+  }
 
-    @EventHandler
-    public void onItemDrop(PlayerDropItemEvent event) {
-        if (isMenuItem(event.getItemDrop().getItemStack())) {
-            event.setCancelled(true);
-        }
-    }
+  private void giveMenuItem(Player player) {
+    ItemStack menu = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDUwMDI5MmY0YWZlNTJkMTBmMjk5ZGZiMjYwMzYzMjI4MzA0NTAzMzFlMDAzMDg0YmIyMjAzMzM1MzA2NjRlMSJ9fX0=")
+        .name("&6Menu Gracza &7(Kliknij Prawym)")
+        .lore("&7Menu które zawiera wszystkie przydatne")
+        .lore("&7funkcje podczas grania na serwerze.")
+        .lore("")
+        .lore("&eKliknij prawym podczas trzymania.")
+        .flags(ItemFlag.HIDE_ENCHANTS)
+        .build();
 
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        if (isMenuItem(event.getCurrentItem())) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        event.getDrops().removeIf(this::isMenuItem);
-    }
-
-    private boolean isMenuItem(ItemStack itemStack) {
-        return itemStack != null && itemStack.getType() == Material.PLAYER_HEAD && itemStack.getItemFlags().contains(ItemFlag.HIDE_ENCHANTS);
-    }
-
-    private void giveMenuItem(Player player) {
-        ItemStack menu = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDUwMDI5MmY0YWZlNTJkMTBmMjk5ZGZiMjYwMzYzMjI4MzA0NTAzMzFlMDAzMDg0YmIyMjAzMzM1MzA2NjRlMSJ9fX0=")
-                .name("&6Menu Gracza &7(Kliknij Prawym)")
-                .lore("&7Menu które zawiera wszystkie przydatne")
-                .lore("&7funkcje podczas grania na serwerze.")
-                .lore("")
-                .lore("&eKliknij prawym podczas trzymania.")
-                .flags(ItemFlag.HIDE_ENCHANTS)
-                .build();
-
-        player.getInventory().setItem(8, menu);
-    }
+    player.getInventory().setItem(8, menu);
+  }
 }

@@ -15,6 +15,7 @@ depend:
 commands:
   guild:
     aliases: [ g ]
+    usage: '&cWystąpił błąd weryfikacji (nieprawidłowa instancja).'
   live:
     permission: sakuraguilds.live
     permission-message: '&cNie posiadasz uprawnień.'

@@ -1,11 +1,20 @@
 package me.xneox.guilds;
 
+import java.sql.SQLException;
 import me.xneox.guilds.command.CommandManager;
 import me.xneox.guilds.command.misc.GlobalHelpCommand;
 import me.xneox.guilds.command.misc.LiveCommand;
-import me.xneox.guilds.gui.*;
-import me.xneox.guilds.listener.*;
-import me.xneox.guilds.manager.*;
+import me.xneox.guilds.listener.GuildAttackListener;
+import me.xneox.guilds.listener.GuildProtectionListener;
+import me.xneox.guilds.listener.ItemCooldownListener;
+import me.xneox.guilds.listener.PlayerChatListener;
+import me.xneox.guilds.listener.PlayerDamageListener;
+import me.xneox.guilds.listener.PlayerDeathListener;
+import me.xneox.guilds.listener.PlayerMenuListener;
+import me.xneox.guilds.listener.PlayerPortalListener;
+import me.xneox.guilds.manager.CooldownManager;
+import me.xneox.guilds.manager.GuildManager;
+import me.xneox.guilds.manager.UserManager;
 import me.xneox.guilds.placeholder.MainPlaceholderExpansion;
 import me.xneox.guilds.placeholder.TopPlaceholderExpansion;
 import me.xneox.guilds.task.DataSaveTask;
@@ -13,7 +22,6 @@ import me.xneox.guilds.task.GuildNotificatorTask;
 import me.xneox.guilds.task.HologramRefreshTask;
 import me.xneox.guilds.task.PlayerTeleportTask;
 import me.xneox.guilds.util.DatabaseUtils;
-import me.xneox.guilds.util.gui.InventoryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -21,105 +29,88 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.sql.SQLException;
-
 public class SakuraGuildsPlugin extends JavaPlugin {
-    private GuildManager guildManager;
-    private UserManager userManager;
-    private InventoryManager inventoryManager;
-    private CooldownManager cooldownManager;
+  private GuildManager guildManager;
+  private UserManager userManager;
+  private CooldownManager cooldownManager;
 
-    @Override
-    public void onEnable() {
-        try {
-            DatabaseUtils.connect();
-            this.userManager = new UserManager();
-            this.guildManager = new GuildManager();
-            this.cooldownManager = new CooldownManager();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            Bukkit.getPluginManager().disablePlugin(this);
-        }
-
-        this.inventoryManager = new InventoryManager(this);
-
-        // Registering inventories
-        inventoryManager.register("management", new ManagementGui(this));
-        inventoryManager.register("claim", new ClaimGui(this));
-        inventoryManager.register("members", new MembersGui(this));
-        inventoryManager.register("rank_editor", new RankEditorGui(this));
-        inventoryManager.register("allies", new AlliesGui(this));
-        inventoryManager.register("upgrades", new UpgradesGui(this));
-        inventoryManager.register("leaderboards", new LeaderboardsGui(this));
-        inventoryManager.register("newbie", new NewbieGui(this));
-        inventoryManager.register("profile", new HelpProfileGui(this));
-        inventoryManager.register("races", new RacesGui(this));
-
-        CommandManager commandManager = new CommandManager(this);
-        registerCommand("guild", commandManager.executor(), commandManager.completer());
-
-        // Other commands that are not needed here but anyway
-        registerCommand("live", new LiveCommand(this), null);
-        registerCommand("help", new GlobalHelpCommand(), null);
-
-        // Registering listeners
-        registerListener(new GuildProtectionListener(this));
-        registerListener(new PlayerDeathListener(this));
-        registerListener(new PlayerDamageListener(this));
-        registerListener(new PlayerChatListener(this));
-        registerListener(new GuildAttackListener(this));
-        registerListener(new ItemCooldownListener(this));
-        registerListener(new PlayerMenuListener(this));
-        registerListener(new PlayerPortalListener());
-
-        // Registering tasks
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotificatorTask(this), 0L, 40L);
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new DataSaveTask(this), 0L, 120 * 20L);
-
-        Bukkit.getScheduler().runTaskTimer(this, new HologramRefreshTask(this), 0L, 60 * 20L);
-        Bukkit.getScheduler().runTaskTimer(this, new PlayerTeleportTask(this), 0L, 20L);
-
-        new MainPlaceholderExpansion(this).register();
-        new TopPlaceholderExpansion(this).register();
+  @Override
+  public void onEnable() {
+    try {
+      DatabaseUtils.connect();
+      this.userManager = new UserManager();
+      this.guildManager = new GuildManager();
+      this.cooldownManager = new CooldownManager();
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      Bukkit.getPluginManager().disablePlugin(this);
     }
 
-    @Override
-    public void onDisable() {
-        this.guildManager.save();
-        this.userManager.save();
-        this.cooldownManager.save();
+    CommandManager commandManager = new CommandManager(this);
+    registerCommand("guild", commandManager.executor(), commandManager.completer());
+
+    // Other commands that are not needed here but anyway
+    registerCommand("live", new LiveCommand(this), null);
+    registerCommand("help", new GlobalHelpCommand(), null);
+
+    // Registering listeners
+    registerListener(new GuildProtectionListener(this));
+    registerListener(new PlayerDeathListener(this));
+    registerListener(new PlayerDamageListener(this));
+    registerListener(new PlayerChatListener(this));
+    registerListener(new GuildAttackListener(this));
+    registerListener(new ItemCooldownListener(this));
+    registerListener(new PlayerMenuListener(this));
+    registerListener(new PlayerPortalListener());
+
+    // Registering tasks
+    Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotificatorTask(this), 0L, 40L);
+    Bukkit.getScheduler().runTaskTimerAsynchronously(this, new DataSaveTask(this), 0L, 120 * 20L);
+
+    Bukkit.getScheduler().runTaskTimer(this, new HologramRefreshTask(this), 0L, 60 * 20L);
+    Bukkit.getScheduler().runTaskTimer(this, new PlayerTeleportTask(this), 0L, 20L);
+
+    new MainPlaceholderExpansion(this).register();
+    new TopPlaceholderExpansion(this).register();
+  }
+
+  @Override
+  public void onDisable() {
+    this.guildManager.save();
+    this.userManager.save();
+    this.cooldownManager.save();
+  }
+
+  public GuildManager guildManager() {
+    return this.guildManager;
+  }
+
+  public UserManager userManager() {
+    return this.userManager;
+  }
+
+  public CooldownManager cooldownManager() {
+    return this.cooldownManager;
+  }
+
+  private void registerCommand(String name, CommandExecutor executor, TabCompleter tabCompleter) {
+    PluginCommand command = this.getCommand(name);
+    if (command == null) {
+      this.getLogger().severe("Could not register command " + name);
+      return;
     }
 
-    public GuildManager guildManager() {
-        return this.guildManager;
+    command.setExecutor(executor);
+    if (tabCompleter != null) {
+      command.setTabCompleter(tabCompleter);
     }
+  }
 
-    public UserManager userManager() {
-        return this.userManager;
-    }
+  private void registerListener(Listener listener) {
+    Bukkit.getPluginManager().registerEvents(listener, this);
+  }
 
-    public InventoryManager inventoryManager() {
-        return this.inventoryManager;
-    }
-
-    public CooldownManager cooldownManager() {
-        return this.cooldownManager;
-    }
-
-    private void registerCommand(String name, CommandExecutor executor, TabCompleter tabCompleter) {
-        PluginCommand command = this.getCommand(name);
-        if (command == null) {
-            this.getLogger().severe("Could not register command " + name);
-            return;
-        }
-
-        command.setExecutor(executor);
-        if (tabCompleter != null) {
-            command.setTabCompleter(tabCompleter);
-        }
-    }
-
-    private void registerListener(Listener listener) {
-        Bukkit.getPluginManager().registerEvents(listener, this);
-    }
+  public static SakuraGuildsPlugin get() {
+    return SakuraGuildsPlugin.getPlugin(SakuraGuildsPlugin.class);
+  }
 }

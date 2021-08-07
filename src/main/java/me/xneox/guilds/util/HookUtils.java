@@ -4,14 +4,12 @@ import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.archyx.aureliumskills.api.AureliumAPI;
 import com.archyx.aureliumskills.skills.Skills;
 import java.util.Objects;
-import me.xneox.guilds.SakuraGuildsPlugin;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 // This class manages compatibility for different plugins.
 public final class HookUtils {
-  public static final SakuraGuildsPlugin INSTANCE = SakuraGuildsPlugin.getPlugin(SakuraGuildsPlugin.class);
   public static final String DIRECTORY = "plugins/SakuraGuilds";
 
   public static final Economy ECONOMY =

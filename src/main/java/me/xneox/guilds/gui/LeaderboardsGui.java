@@ -1,82 +1,69 @@
 package me.xneox.guilds.gui;
 
+import fr.minuskube.inv.ClickableItem;
+import fr.minuskube.inv.SmartInventory;
+import fr.minuskube.inv.content.InventoryContents;
+import fr.minuskube.inv.content.InventoryProvider;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.InventoryUtils;
-import me.xneox.guilds.util.ItemBuilder;
-import me.xneox.guilds.util.VisualUtils;
-import me.xneox.guilds.util.gui.InventoryProviderImpl;
-import me.xneox.guilds.util.gui.api.ClickEvent;
-import me.xneox.guilds.util.gui.api.InventorySize;
+import me.xneox.guilds.util.inventory.InventoryUtils;
+import me.xneox.guilds.util.inventory.ItemBuilder;
+import me.xneox.guilds.util.inventory.InventorySize;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
+public class LeaderboardsGui implements InventoryProvider {
+  public static final SmartInventory INVENTORY = SmartInventory.builder()
+      .title("Ranking Gildii")
+      .size(InventorySize.BIGGEST.rows(), 0)
+      .build();
 
-public class LeaderboardsGui extends InventoryProviderImpl {
-    public LeaderboardsGui(SakuraGuildsPlugin plugin) {
-        super(plugin, "Tabela Rankingowa", InventorySize.BIGGEST);
+  @Override
+  public void init(Player player, InventoryContents contents) {
+    contents.fillBorders(InventoryUtils.GLASS);
+    InventoryUtils.insertBackButton(0, 8, contents, ManagementGui.INVENTORY);
+
+    contents.set(1, 4, buildGuildInfo(0));
+    contents.set(2, 3, buildGuildInfo(1));
+    contents.set(2, 5, buildGuildInfo(2));
+    contents.set(3, 2, buildGuildInfo(3));
+    contents.set(3, 4, buildGuildInfo(4));
+    contents.set(3, 6, buildGuildInfo(5));
+    contents.set(4, 1, buildGuildInfo(6));
+    contents.set(4, 3, buildGuildInfo(7));
+    contents.set(4, 5, buildGuildInfo(8));
+    contents.set(4, 7, buildGuildInfo(9));
+  }
+
+  @Override
+  public void update(Player player, InventoryContents contents) {}
+
+  private ClickableItem buildGuildInfo(int position) {
+    int realPosition = position + 1;
+    if (position >= SakuraGuildsPlugin.get().guildManager().leaderboard().size()) {
+      return ClickableItem.empty(
+          ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjk3ZTJjOGI4Mjc2Mjc2ZTM4ZGVjYTg4NTA4NzJkNTllY2M5YzFmMzhmMmFkY2U0MDg1OGVkYjllNjM0ZDdiYSJ9fX0=")
+          .name("&cNikt nie zajął " + realPosition + " pozycji.")
+          .build());
     }
 
-    @Override
-    public void open(Player player, Inventory inventory) {
-        InventoryUtils.drawBorder(inventory);
-
-        inventory.setItem(13, buildGuildInfo(0));
-        inventory.setItem(21, buildGuildInfo(1));
-        inventory.setItem(23, buildGuildInfo(2));
-        inventory.setItem(29, buildGuildInfo(3));
-        inventory.setItem(31, buildGuildInfo(4));
-        inventory.setItem(33, buildGuildInfo(5));
-        inventory.setItem(37, buildGuildInfo(6));
-        inventory.setItem(39, buildGuildInfo(7));
-        inventory.setItem(41, buildGuildInfo(8));
-        inventory.setItem(43, buildGuildInfo(9));
-
-        ItemStack close = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
-                .name("&cPowrót")
-                .lore("&7Cofnij do menu gildii.")
-                .build();
-
-        inventory.setItem(8, close);
-    }
-
-    private ItemStack buildGuildInfo(int position) {
-        int realPosition = position + 1;
-        if (position >= this.plugin.guildManager().leaderboard().size()) {
-            return ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjk3ZTJjOGI4Mjc2Mjc2ZTM4ZGVjYTg4NTA4NzJkNTllY2M5YzFmMzhmMmFkY2U0MDg1OGVkYjllNjM0ZDdiYSJ9fX0=")
-                    .name("&cNikt nie zajął " + realPosition + " pozycji.")
-                    .build();
-        }
-
-        Guild guild = this.plugin.guildManager().leaderboard().get(position);
-        return ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRkZTRkOTViYTRhNDZkYjdlNTY2YjM0NWY3ODk0ZDFkMjU4Zjg5M2ViOTJjNzgwYjNkYTc3NWVlZGY5MSJ9fX0=")
-                .name("&7" + realPosition + ". &6" + guild.name())
-                .lore("")
-                .lore("&eLider:")
-                .lore("&f" + guild.leader().nickname())
-                .lore("")
-                .lore("&eLiczba członków:")
-                .lore("&f" + guild.members().size() + "/" + guild.maxSlots() + " &7(&a" + guild.getOnlineMembers().size() + " &fonline&7)")
-                .lore("")
-                .lore("&eZajęte ziemie:")
-                .lore("&f" + guild.claims().size() + " &7(Limit: &f" + guild.maxChunks() + "&7)")
-                .lore("")
-                .lore("&eStatystyki Wojny:")
-                .lore("  &7→ &7Dywizja: " + guild.division().getName())
-                .lore("  &7→ &7Puchary rankingowe: &f" + guild.trophies())
-                .lore("")
-                .build();
-    }
-
-    @Override
-    public void event(ClickEvent event, Player player) {
-        VisualUtils.click(player);
-
-        ItemStack item = event.item();
-        if (isBackButton(item)) {
-            this.plugin.inventoryManager().open("management", player);
-        }
-    }
+    Guild guild = SakuraGuildsPlugin.get().guildManager().leaderboard().get(position);
+    return ClickableItem.empty(
+        ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRkZTRkOTViYTRhNDZkYjdlNTY2YjM0NWY3ODk0ZDFkMjU4Zjg5M2ViOTJjNzgwYjNkYTc3NWVlZGY5MSJ9fX0=")
+        .name("&7" + realPosition + ". &6" + guild.name())
+        .lore("")
+        .lore("&eLider:")
+        .lore("&f" + guild.leader().nickname())
+        .lore("")
+        .lore("&eLiczba członków:")
+        .lore("&f" + guild.members().size() + "/" + guild.maxSlots() + " &7(&a" + guild.getOnlineMembers().size() + " &fonline&7)")
+        .lore("")
+        .lore("&eZajęte ziemie:")
+        .lore("&f" + guild.claims().size() + " &7(Limit: &f" + guild.maxChunks() + "&7)")
+        .lore("")
+        .lore("&eStatystyki Wojny:")
+        .lore("  &7→ &7Dywizja: " + guild.division().getName())
+        .lore("  &7→ &7Puchary rankingowe: &f" + guild.trophies())
+        .lore("")
+        .build());
+  }
 }

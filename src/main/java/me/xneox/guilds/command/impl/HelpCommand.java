@@ -1,9 +1,12 @@
 package me.xneox.guilds.command.impl;
 
+import java.util.Arrays;
+import java.util.List;
 import me.xneox.guilds.command.internal.SubCommand;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 public class HelpCommand implements SubCommand {
 
@@ -19,7 +22,6 @@ public class HelpCommand implements SubCommand {
                 ChatUtils.sendNoPrefix(player, "&8&m----------------(&r &6&lGILDIE &8&m)----------------");
                 ChatUtils.sendNoPrefix(player, "   &e/g race &8- &7Otwiera menu wyboru rasy.");
                 ChatUtils.sendNoPrefix(player, "   &e/g create <nazwa> &8- &7Tworzy nową gildię.");
-                ChatUtils.sendNoPrefix(player, "   &e/g browse &8- &7Otwiera wyszukiwarkę gildii.");
                 ChatUtils.sendNoPrefix(player, "   &e/g join <gildia> &8- &7Dołącza do podanej gildii.");
                 ChatUtils.sendNoPrefix(player, "   &e/g leave &8- &7Opuszcza gildię w której się znajdujesz.");
                 ChatUtils.sendNoPrefix(player, "   &e/g disband &8- &7Usuwa twoją gildię.");
@@ -48,5 +50,10 @@ public class HelpCommand implements SubCommand {
             }
             default -> ChatUtils.sendMessage(player, "&cNie odnaleziono takiej strony.");
         }
+    }
+
+    @Override
+    public @Nullable List<String> suggest(String[] args) {
+        return Arrays.asList("1", "2", "3");
     }
 }

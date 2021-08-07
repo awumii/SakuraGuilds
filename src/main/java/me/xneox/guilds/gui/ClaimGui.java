@@ -1,72 +1,59 @@
 package me.xneox.guilds.gui;
 
+import fr.minuskube.inv.ClickableItem;
+import fr.minuskube.inv.SmartInventory;
+import fr.minuskube.inv.content.InventoryContents;
+import fr.minuskube.inv.content.InventoryProvider;
+import java.util.List;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.*;
-import me.xneox.guilds.util.gui.InventoryProviderImpl;
-import me.xneox.guilds.util.gui.api.ClickEvent;
-import me.xneox.guilds.util.gui.api.InventorySize;
+import me.xneox.guilds.util.ChunkUtils;
+import me.xneox.guilds.util.LocationUtils;
+import me.xneox.guilds.util.inventory.InventorySize;
+import me.xneox.guilds.util.inventory.InventoryUtils;
+import me.xneox.guilds.util.inventory.ItemBuilder;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
+public class ClaimGui implements InventoryProvider {
+  public static final SmartInventory INVENTORY = SmartInventory.builder()
+      .title("Zarządzanie Zajętymi Terenami")
+      .size(InventorySize.BIGGEST.rows(), 9)
+      .build();
 
-public class ClaimGui extends InventoryProviderImpl {
-    public ClaimGui(SakuraGuildsPlugin plugin) {
-        super(plugin, "Zarządzanie zajętymi ziemiami", InventorySize.BIGGEST);
+  @Override
+  public void init(Player player, InventoryContents contents) {
+    contents.fillBorders(InventoryUtils.GLASS);
+    InventoryUtils.insertBackButton(0, 8, contents, ManagementGui.INVENTORY);
+
+    Guild guild = SakuraGuildsPlugin.get().guildManager().playerGuild(player.getName());
+
+    for (String chunk : guild.claims()) {
+      List<Player> players = ChunkUtils.getPlayersAt(ChunkUtils.serialize(chunk));
+
+      ItemStack item = ItemBuilder.of(Material.GRASS_BLOCK)
+          .name("&6#" + guild.claims().indexOf(chunk)
+              + " (" + LocationUtils.legacyDeserialize(ChunkUtils.getCenter(chunk)) + ")")
+          .lore("&7&oTwoja gildia posiada ten chunk.")
+          .lore("")
+          .lore("&7Gracze: &c" + (players.isEmpty() ? "Brak" : ChatUtils.formatPlayerList(players)))
+          .lore("")
+          .lore("&eKliknij, aby się przeteleportować")
+          .amount(players.isEmpty() ? 1 : players.size())
+          .build();
+
+      contents.add(ClickableItem.of(item, event -> {
+        Location center = ChunkUtils.getCenter(chunk);
+        SakuraGuildsPlugin.get().userManager().user(player).beginTeleport(player.getLocation(), center);
+
+        player.closeInventory();
+      }));
     }
+  }
 
-    @Override
-    public void open(Player player, Inventory inventory) {
-        InventoryUtils.drawBorder(inventory);
-        Guild guild = this.plugin.guildManager().playerGuild(player.getName());
-
-        for (String chunk : guild.claims()) {
-            List<Player> players = ChunkUtils.getPlayersAt(ChunkUtils.serialize(chunk));
-            ItemStack item = ItemBuilder.of(Material.GRASS_BLOCK)
-                    .name("&6#" + guild.claims().indexOf(chunk) + " (" + LocationUtils.legacyDeserialize(ChunkUtils.getCenter(chunk)) + ")")
-                    .lore("&7&oTwoja gildia posiada ten chunk.")
-                    .lore("")
-                    .lore("&7Gracze: &c" + (players.isEmpty() ? "Brak" : ChatUtils.formatPlayerList(players)))
-                    .lore("")
-                    .lore("&eKliknij, aby się przeteleportować")
-                    .amount(players.isEmpty() ? 1 : players.size())
-                    .build();
-            inventory.addItem(item);
-        }
-
-        ItemStack close = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
-                .name("&cPowrót")
-                .lore("&7Cofnij do menu gildii.")
-                .build();
-
-        inventory.setItem(8, close);
-    }
-
-    @Override
-    public void event(ClickEvent event, Player player) {
-        VisualUtils.click(player);
-
-        ItemStack item = event.item();
-        if (isBackButton(item)) {
-            this.plugin.inventoryManager().open("management", player);
-            return;
-        }
-
-        if (item.getType() == Material.GRASS_BLOCK) {
-            Guild guild = this.plugin.guildManager().playerGuild(player);
-
-            String name = ChatUtils.plainString(item.getItemMeta().displayName()).split(" \\(")[0];
-            int index = Integer.parseInt(name.replace("#", ""));
-
-            Location center = ChunkUtils.getCenter(guild.claims().get(index));
-            this.plugin.userManager().getUser(player).beginTeleport(player.getLocation(), center);
-
-            player.closeInventory();
-        }
-    }
+  @Override
+  public void update(Player player, InventoryContents contents) {}
 }

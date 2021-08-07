@@ -13,8 +13,7 @@ public class DatabaseUtils {
     DatabaseOptions.DatabaseOptionsBuilder builder =
         DatabaseOptions.builder().sqlite(HookUtils.DIRECTORY + "/database.db");
 
-    Database database =
-        PooledDatabaseOptions.builder().options(builder.build()).createHikariDatabase();
+    Database database = PooledDatabaseOptions.builder().options(builder.build()).createHikariDatabase();
     DB.setGlobalDatabase(database);
   }
 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.HookUtils;
 import net.kyori.adventure.text.Component;
@@ -39,26 +40,50 @@ public final class ChatUtils {
           .extractUrls()
           .build();
 
-  private ChatUtils() {}
-
+  /**
+   * Returns a formatted TextComponent, colors are replaced
+   * using the & symbol. Hex colors are supported (ex. &#cd7f32).
+   *
+   * @param message Raw string to be formatted.
+   * @return A formatted TextComponent.
+   */
   @NotNull
   public static TextComponent color(String message) {
     return SERIALIZER.deserialize(message);
   }
 
-  public static void sendMessage(@NotNull Player sender, String message) {
-    sendNoPrefix(sender, PREFIX + message);
+  /**
+   * Sends a formatted message to the player, includes a prefix.
+   */
+  public static void sendMessage(@NotNull Player sender, String message, Object... objects) {
+    sendNoPrefix(sender, PREFIX + message, objects);
   }
 
-  public static void sendNoPrefix(@NotNull Player sender, String message) {
-    sender.sendMessage(color(message));
+  /**
+   * Sends a formatted message to the player, without a prefix.
+   */
+  public static void sendNoPrefix(@NotNull Player sender, String message, Object... objects) {
+    sender.sendMessage(color(format(message, objects)));
   }
 
+  /**
+   * Converts a Component to a plain string.
+   *
+   * @param component Component to be converted.
+   * @return The converted string.
+   */
   @NotNull
   public static String plainString(Component component) {
     return PlainTextComponentSerializer.plainText().serialize(component);
   }
 
+  /**
+   * Formats all {0}, {1}... etc in the string with provided objects.
+   *
+   * @param text Text to be formatted.
+   * @param objects Objects to insert in the placeholders.
+   * @return A formatted string.
+   */
   public static String format(String text, Object... objects) {
     return new MessageFormat(text).format(objects);
   }
@@ -100,7 +125,7 @@ public final class ChatUtils {
           bossBar.setProgress(remaining / 10D);
         }
       }
-    }.runTaskTimer(HookUtils.INSTANCE, 0, 20);
+    }.runTaskTimer(SakuraGuildsPlugin.get(), 0, 20);
 
     bossBar.setVisible(true);
     bossBar.addPlayer(player);
@@ -131,12 +156,12 @@ public final class ChatUtils {
     player.sendActionBar(color(message));
   }
 
-  public static void broadcast(String message) {
-    broadcastRaw(PREFIX + message);
+  public static void broadcast(String message, Object... objects) {
+    broadcastRaw(PREFIX + message, objects);
   }
 
-  public static void broadcastRaw(String message) {
-    Bukkit.broadcast(color(message));
+  public static void broadcastRaw(String message, Object... objects) {
+    Bukkit.broadcast(color(format(message, objects)));
   }
 
   public static void guildAlert(Guild guild, String message) {
@@ -157,12 +182,12 @@ public final class ChatUtils {
         .collect(Collectors.joining());
   }
 
-  public static void broadcastCenteredMessage(String message) {
-    Bukkit.getOnlinePlayers().forEach(player -> sendCenteredMessage(player, message));
+  public static void broadcastCenteredMessage(String message, Object... objects) {
+    Bukkit.getOnlinePlayers().forEach(player -> sendCenteredMessage(player, message, objects));
   }
 
-  public static void sendCenteredMessage(Player player, String message) {
-    message = ChatColor.translateAlternateColorCodes('&', message);
+  public static void sendCenteredMessage(Player player, String message, Object... objects) {
+    message = legacyColor(format(message, objects));
 
     int messagePxSize = 0;
     boolean previousCode = false;

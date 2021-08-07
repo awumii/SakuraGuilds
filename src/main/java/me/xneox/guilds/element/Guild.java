@@ -1,9 +1,17 @@
 package me.xneox.guilds.element;
 
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.enums.Division;
 import me.xneox.guilds.enums.Rank;
 import me.xneox.guilds.util.ChunkUtils;
-import me.xneox.guilds.util.HookUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -12,258 +20,247 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.util.*;
-import java.util.stream.Collectors;
-
 public class Guild implements Comparable<Guild> {
-    // PERMANENT DATA
-    private final String name;
-    private final List<Member> members;
-    private final List<String> chunks;
-    private final Location nexusLocation;
-    private final long creation;
+  // PERMANENT DATA
+  private final String name;
+  private final List<Member> members;
+  private final List<String> chunks;
+  private final Location nexusLocation;
+  private final long creation;
 
-    // CHANGEABLE DATA
-    private final List<String> allies;
-    private final List<String> invitations = new ArrayList<>();
+  // CHANGEABLE DATA
+  private final List<String> allies;
+  private final List<String> invitations = new ArrayList<>();
 
-    private Location home;
-    private Inventory storage;
+  private Location home;
+  private Inventory storage;
 
-    private long shield;
-    private int health;
-    private int money;
-    private int maxSlots;
-    private int maxChunks;
-    private int maxStorage;
-    private boolean deleteConfirm;
+  private long shield;
+  private int health;
+  private int money;
+  private int maxSlots;
+  private int maxChunks;
+  private int maxStorage;
+  private boolean deleteConfirm;
 
-    public Guild(String name, List<Member> members, Location nexusLocation, long creation, List<String> allies, Location home,
-                 List<String> chunks, long shield, int health, int money,
-                 int maxSlots, int maxChunks, int maxStorage, ItemStack[] storageContent) {
+  public Guild(
+      @NotNull String name,
+      @NotNull List<Member> members,
+      @NotNull Location nexusLocation,
+      @NotNull List<String> allies,
+      @NotNull Location home,
+      @NotNull List<String> chunks,
+      @NotNull ItemStack[] storageContent,
+      long creation,
+      long shield,
+      int health,
+      int money,
+      int maxSlots,
+      int maxChunks,
+      int maxStorage) {
 
-        this.name = name;
-        this.members = members;
-        this.nexusLocation = nexusLocation;
-        this.creation = creation;
-        this.allies = allies;
-        this.home = home;
-        this.chunks = chunks;
-        this.shield = shield;
-        this.health = health;
-        this.maxSlots = maxSlots;
-        this.maxChunks = maxChunks;
-        this.maxStorage = maxStorage;
-        this.money = money;
-        this.storage = Bukkit.createInventory(null, this.maxStorage);
-        this.storage.setContents(storageContent);
+    this.name = name;
+    this.members = members;
+    this.nexusLocation = nexusLocation;
+    this.creation = creation;
+    this.allies = allies;
+    this.home = home;
+    this.chunks = chunks;
+    this.shield = shield;
+    this.health = health;
+    this.maxSlots = maxSlots;
+    this.maxChunks = maxChunks;
+    this.maxStorage = maxStorage;
+    this.money = money;
+    this.storage = Bukkit.createInventory(null, this.maxStorage);
+    this.storage.setContents(storageContent);
+  }
+
+  // -----------------------------------------
+  // CONTROLLERS
+  // -----------------------------------------
+
+  public String creationDate() {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm");
+    return sdf.format(new Date(this.creation));
+  }
+
+  public void updateStorage() {
+    ItemStack[] contentCopy = this.storage.getContents();
+    this.storage = Bukkit.createInventory(null, this.maxStorage);
+    this.storage.setContents(contentCopy);
+  }
+
+  public boolean isNexusChunk(Chunk chunk) {
+    return this.nexusLocation.getChunk().equals(chunk);
+  }
+
+  public Member leader() {
+    return members.stream().filter(member -> member.rank() == Rank.LEADER).findFirst().orElse(null);
+  }
+
+  public Member member(Player player) {
+    return this.member(player.getName());
+  }
+
+  public Member member(String name) {
+    return members.stream()
+        .filter(member -> member.nickname().equals(name))
+        .findFirst()
+        .orElse(null);
+  }
+
+  public int trophies() {
+    int total =
+        this.members.stream()
+            .map(member -> SakuraGuildsPlugin.get().userManager().user(member.uuid()))
+            .mapToInt(User::trophies)
+            .sum();
+
+    return total / this.members.size();
+  }
+
+  public Division division() {
+    return Arrays.stream(Division.values())
+        .filter(value -> trophies() >= value.getMinPoints())
+        .findFirst()
+        .orElse(Division.BRONZE);
+  }
+
+  public boolean inside(Location location) {
+    return location.getWorld().getName().equals("world")
+        && this.chunks.stream().anyMatch(chunk -> ChunkUtils.isEqual(location.getChunk(), chunk));
+  }
+
+  public void changeRank(Member member, Rank rank) {
+    // Handle a situation where a leader is changed.
+    if (rank == Rank.LEADER) {
+      Member leader = this.leader();
+      leader.rank(Rank.GENERAL);
     }
 
-    // -----------------------------------------
-    // CONTROLLERS
-    // -----------------------------------------
+    member.rank(rank);
+  }
 
-    public String creationDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm");
-        return sdf.format(new Date(this.creation));
-    }
+  public List<Player> getOnlineMembers() {
+    return this.members.stream()
+        .map(Member::nickname)
+        .map(Bukkit::getPlayerExact)
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
+  }
 
-    public void updateStorage() {
-        ItemStack[] contentCopy = this.storage.getContents();
-        this.storage = Bukkit.createInventory(null, this.maxStorage);
-        this.storage.setContents(contentCopy);
-    }
+  public boolean isShieldActive() {
+    return shield >= System.currentTimeMillis();
+  }
 
-    public boolean isNexusChunk(Chunk chunk) {
-        return this.nexusLocation.getChunk().equals(chunk);
-    }
+  public boolean isMember(String player) {
+    return this.member(player) != null;
+  }
 
-    public Member leader() {
-        return members.stream()
-                .filter(member -> member.rank() == Rank.LEADER)
-                .findFirst()
-                .orElse(null);
-    }
+  // -----------------------------------------
+  // GETTERS AND SETTERS
+  // -----------------------------------------
 
-    public Member member(Player player) {
-        return this.member(player.getName());
-    }
+  public String name() {
+    return name;
+  }
 
-    public Member member(String name) {
-        return members.stream()
-                .filter(member -> member.nickname().equals(name))
-                .findFirst()
-                .orElse(null);
-    }
+  public long creationLong() {
+    return creation;
+  }
 
-    public int trophies() {
-        int total = this.members.stream()
-                .map(member -> HookUtils.INSTANCE.userManager().getUser(member.uuid()))
-                .mapToInt(User::trophies)
-                .sum();
+  public Location homeLocation() {
+    return home;
+  }
 
-        return total / this.members.size();
-    }
+  public void homeLocation(Location home) {
+    this.home = home;
+  }
 
-    public Division division() {
-        return Arrays.stream(Division.values())
-                .filter(value -> trophies() >= value.getMinPoints())
-                .findFirst()
-                .orElse(Division.BRONZE);
-    }
+  public List<Member> members() {
+    return members;
+  }
 
-    public boolean inside(Location location) {
-        return location.getWorld().getName().equals("world")
-                && this.chunks.stream().anyMatch(chunk -> ChunkUtils.isEqual(location.getChunk(), chunk));
-    }
+  public List<String> claims() {
+    return chunks;
+  }
 
-    public void changeRank(String player, Rank rank) {
-        // Handle a situation where a leader is changed.
-        if (rank == Rank.LEADER) {
-            Member leader = this.leader();
-            leader.rank(Rank.GENERAL);
-        }
+  public List<String> invitations() {
+    return invitations;
+  }
 
-        Member member = this.member(player);
-        member.rank(rank);
-    }
+  public List<String> allies() {
+    return allies;
+  }
 
-    public List<Player> getOnlineMembers() {
-        return this.members.stream()
-                .map(Member::nickname)
-                .map(Bukkit::getPlayerExact)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-    }
+  public boolean deleteConfirmation() {
+    return deleteConfirm;
+  }
 
-    public boolean isShieldActive() {
-        return shield >= System.currentTimeMillis();
-    }
+  public void deleteConfirmation(boolean deleteConfirm) {
+    this.deleteConfirm = deleteConfirm;
+  }
 
-    public boolean isMember(String player) {
-        return this.member(player) != null;
-    }
+  public long shieldDuration() {
+    return shield;
+  }
 
-    // -----------------------------------------
-    // GETTERS AND SETTERS
-    // -----------------------------------------
+  public void shieldDuration(Duration duration) {
+    this.shield = System.currentTimeMillis() + duration.toMillis();
+  }
 
-    public String name() {
-        return name;
-    }
+  public Location nexusLocation() {
+    return nexusLocation;
+  }
 
-    public long creationLong() {
-        return creation;
-    }
+  public int maxSlots() {
+    return this.maxSlots;
+  }
 
-    public Location homeLocation() {
-        return home;
-    }
+  public void maxSlots(int maxSlots) {
+    this.maxSlots = maxSlots;
+  }
 
-    public void homeLocation(Location home) {
-        this.home = home;
-    }
+  public int maxChunks() {
+    return this.maxChunks;
+  }
 
-    public List<Member> members() {
-        return members;
-    }
+  public void maxChunks(int maxChunks) {
+    this.maxChunks = maxChunks;
+  }
 
-    public List<String> claims() {
-        return chunks;
-    }
+  public int maxStorage() {
+    return this.maxStorage;
+  }
 
-    public List<String> invitations() {
-        return invitations;
-    }
+  public void maxStorage(int maxStorage) {
+    this.maxStorage = maxStorage;
+    this.updateStorage();
+  }
 
-    public List<String> allies() {
-        return allies;
-    }
+  public int money() {
+    return this.money;
+  }
 
-    public boolean deleteConfirmation() {
-        return deleteConfirm;
-    }
+  public void money(int money) {
+    this.money = money;
+  }
 
-    public void deleteConfirmation(boolean deleteConfirm) {
-        this.deleteConfirm = deleteConfirm;
-    }
+  public int health() {
+    return health;
+  }
 
-    public long shieldDuration() {
-        return shield;
-    }
+  public void health(int health) {
+    this.health = health;
+  }
 
-    public void shieldDuration(Duration duration) {
-        this.shield = System.currentTimeMillis() + duration.toMillis();
-    }
+  public Inventory storage() {
+    return storage;
+  }
 
-    public Location nexusLocation() {
-        return nexusLocation;
-    }
-
-    public int maxSlots() {
-        return this.maxSlots;
-    }
-
-    public void maxSlots(int maxSlots) {
-        this.maxSlots = maxSlots;
-    }
-
-    public int maxChunks() {
-        return this.maxChunks;
-    }
-
-    public void maxChunks(int maxChunks) {
-        this.maxChunks = maxChunks;
-    }
-
-    public int maxStorage() {
-        return this.maxStorage;
-    }
-
-    public void maxStorage(int maxStorage) {
-        this.maxStorage = maxStorage;
-        this.updateStorage();
-    }
-
-    public int money() {
-        return this.money;
-    }
-
-    public void money(int money) {
-        this.money = money;
-    }
-
-    public int health() {
-        return health;
-    }
-
-    public void health(int health) {
-        this.health = health;
-    }
-
-    public Inventory storage() {
-        return storage;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Guild guild = (Guild) o;
-
-        return name.equals(guild.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
-    }
-
-    @Override
-    public int compareTo(@NotNull Guild guild) {
-        return Integer.compare(guild.trophies(), this.trophies());
-    }
+  @Override
+  public int compareTo(@NotNull Guild guild) {
+    return Integer.compare(guild.trophies(), this.trophies());
+  }
 }

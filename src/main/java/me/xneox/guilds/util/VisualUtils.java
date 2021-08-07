@@ -4,6 +4,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import java.time.Duration;
 import java.util.Arrays;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.text.ChatUtils;
 import me.xneox.guilds.util.text.TimeUtils;
@@ -35,13 +36,13 @@ public final class VisualUtils {
       for (int y = minY; y < minY + 1; y++) {
         for (int z = minZ; z < minZ + 17; z++) {
           player.spawnParticle(
-              Particle.REDSTONE, minX, y, z, 1, new Particle.DustOptions(Color.RED, 1));
+              Particle.VILLAGER_HAPPY, minX, y, z, 1);
           player.spawnParticle(
-              Particle.REDSTONE, x, y, minZ, 1, new Particle.DustOptions(Color.RED, 1));
+              Particle.VILLAGER_HAPPY, x, y, minZ, 1);
           player.spawnParticle(
-              Particle.REDSTONE, minX + 16, y, z, 1, new Particle.DustOptions(Color.RED, 1));
+              Particle.VILLAGER_HAPPY, minX + 16, y, z, 1);
           player.spawnParticle(
-              Particle.REDSTONE, x, y, minZ + 17, 1, new Particle.DustOptions(Color.RED, 1));
+              Particle.VILLAGER_HAPPY, x, y, minZ + 17, 1);
         }
       }
     }
@@ -62,7 +63,7 @@ public final class VisualUtils {
     location.setX(location.getX() + 0.5);
     location.setZ(location.getZ() + 0.5);
 
-    Hologram hologram = HologramsAPI.createHologram(HookUtils.INSTANCE, location);
+    Hologram hologram = HologramsAPI.createHologram(SakuraGuildsPlugin.get(), location);
     hologram.appendItemLine(new ItemStack(icon));
     Arrays.stream(text).map(ChatUtils::legacyColor).forEach(hologram::appendTextLine);
     return hologram;
@@ -71,6 +72,6 @@ public final class VisualUtils {
   public static void createTimedHologram(Location location, Duration duration, Material icon, String... text) {
     Hologram hologram = createHologram(location, icon, text);
     Bukkit.getScheduler()
-        .runTaskLater(HookUtils.INSTANCE, hologram::delete, duration.getSeconds() * 20);
+        .runTaskLater(SakuraGuildsPlugin.get(), hologram::delete, duration.getSeconds() * 20);
   }
 }
