@@ -20,6 +20,7 @@ public class HelpProfileGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Menu Gracza")
       .size(InventorySize.BIGGEST.rows(), 9)
+      .provider(new HelpProfileGui())
       .build();
 
   @Override
@@ -102,7 +103,7 @@ public class HelpProfileGui implements InventoryProvider {
         .lore("&7Na rynku, każdy gracz może wystawiać")
         .lore("&7dowolne przedmioty za własną cenę.")
         .lore("")
-        .lore(" &a&l! &aWpisz &n/ah sell <cena>&a aby wystawić przedmiot!")
+        .lore(" &a&l! &aWpisz &n/rynek sell <cena>&a aby wystawić przedmiot!")
         .lore("")
         .lore("&eKliknij, aby otworzyć rynek.")
         .build(), event -> player.performCommand("rynek")));
@@ -157,7 +158,7 @@ public class HelpProfileGui implements InventoryProvider {
           player.performCommand("pomoc");
         }));
 
-    contents.set(6, 0, ClickableItem.of(ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzViMTE2ZGM3NjlkNmQ1NzI2ZjEyYTI0ZjNmMTg2ZjgzOTQyNzMyMWU4MmY0MTM4Nzc1YTRjNDAzNjdhNDkifX19")
+    contents.set(5, 0, ClickableItem.of(ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzViMTE2ZGM3NjlkNmQ1NzI2ZjEyYTI0ZjNmMTg2ZjgzOTQyNzMyMWU4MmY0MTM4Nzc1YTRjNDAzNjdhNDkifX19")
         .name("&6Zestawy")
         .lore("&7Zobacz dostępne zestawy przedmiotów.")
         .build(), event -> {
@@ -165,15 +166,15 @@ public class HelpProfileGui implements InventoryProvider {
           player.performCommand("kit");
         }));
 
-    contents.set(6, 8, ClickableItem.empty(ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ4MzNiNTE1NjY1NjU2NThmOTAxMWRlODc4NGU5MGMxYWQ5YmE1ZDMzMzdmOGMwNjkyMTNiYmRlZTk4NjUyMyJ9fX0=")
+    contents.set(5, 8, ClickableItem.empty(ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ4MzNiNTE1NjY1NjU2NThmOTAxMWRlODc4NGU5MGMxYWQ5YmE1ZDMzMzdmOGMwNjkyMTNiYmRlZTk4NjUyMyJ9fX0=")
         .name("&5Discord")
         .lore("&7Wejdź na naszego discorda!")
         .lore("")
         .lore("   &d&nwww.dronizja.pl/discord")
         .build()));
 
-    contents.set(6, 1, ClickableItem.of(ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWI3M2NkNDEzZDgxZThjM2NlZTQ2ZmU4YTgzMjI1MjY1MmRjMzM1ODRkZGU0ZGRkZjNjYTgzNmRjZDE3NGUifX19")
-        .name("&aWybrana rasa: " + SakuraGuildsPlugin.get().userManager().user(player).race().title())
+    contents.set(5, 1, ClickableItem.of(ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWI3M2NkNDEzZDgxZThjM2NlZTQ2ZmU4YTgzMjI1MjY1MmRjMzM1ODRkZGU0ZGRkZjNjYTgzNmRjZDE3NGUifX19")
+        .name("&aWybrana rasa: " + SakuraGuildsPlugin.get().userManager().user(player).race().display())
         .lore("")
         .lore("&7Kliknij, aby zmienić rasę.")
         .build(), event -> player.performCommand("g race")));

@@ -22,7 +22,7 @@ public final class ItemCooldownListener implements Listener {
 
   @EventHandler
   public void onElytraBoost(PlayerElytraBoostEvent event) {
-    if (handleCooldown(event.getPlayer(), 5)) {
+    if (handleCooldown(event.getPlayer(), 8)) {
       event.setCancelled(true);
     }
   }

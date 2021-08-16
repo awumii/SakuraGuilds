@@ -2,6 +2,7 @@ package me.xneox.guilds.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
@@ -9,27 +10,22 @@ import org.jetbrains.annotations.NotNull;
 public final class LocationUtils {
   @NotNull
   public static String deserialize(@NotNull Location location) {
-    return location.getWorld().getName()
-        + ":"
-        + location.getX()
-        + ":"
-        + location.getY()
-        + ":"
-        + location.getZ()
-        + ":"
-        + location.getYaw()
-        + ":"
-        + location.getPitch();
+    return ChatUtils.join(':',
+        location.getWorld().getName(),
+        location.getX(),
+        location.getY(),
+        location.getZ(),
+        location.getYaw(),
+        location.getPitch());
   }
 
   @NotNull
   public static String legacyDeserialize(@NotNull Location location) {
-    return "X: "
-        + (int) location.getX()
-        + ", Y: "
-        + (int) location.getY()
-        + ", Z: "
-        + (int) location.getZ();
+    return ChatUtils.join(',',
+        location.getWorld().getName(),
+        (int) location.getX(),
+        (int) location.getY(),
+        (int) location.getZ());
   }
 
   @NotNull

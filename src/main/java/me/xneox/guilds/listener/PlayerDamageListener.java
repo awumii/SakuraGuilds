@@ -20,10 +20,6 @@ public final class PlayerDamageListener implements Listener {
 
   @EventHandler
   public void onDamage(EntityDamageByEntityEvent event) {
-    if (!event.getEntity().getWorld().getName().startsWith("world")) {
-      return;
-    }
-
     if (event.getEntity() instanceof Player && event.getDamager() instanceof Arrow) {
       ProjectileSource source = ((Arrow) event.getDamager()).getShooter();
       if (source instanceof Player) {
@@ -52,8 +48,8 @@ public final class PlayerDamageListener implements Listener {
 
     Guild guild = this.plugin.guildManager().findAt(victim.getLocation());
     if (guild != null && guild.isShieldActive()) {
-      ChatUtils.showActionBar(attacker, "&cTa gildia posiada tarczę wojenną przez: &6"
-              + TimeUtils.futureMillisToTime(guild.shieldDuration()));
+      ChatUtils.sendTitle(attacker, "", "&cTarcza wojenna blokuje atak! &8(&6"
+              + TimeUtils.futureMillisToTime(guild.shieldDuration()) + "&8)");
       return true;
     }
 
@@ -66,7 +62,7 @@ public final class PlayerDamageListener implements Listener {
 
     if (victimGuild.name().equals(attackerGuild.name())
         || victimGuild.allies().contains(attackerGuild.name())) {
-      ChatUtils.showActionBar(attacker, "&cNie możesz atakować członków/sojuszników gildii!");
+      ChatUtils.sendTitle(attacker, "", "&cNie możesz atakować członków/sojuszników gildii!");
       return true;
     }
     return false;

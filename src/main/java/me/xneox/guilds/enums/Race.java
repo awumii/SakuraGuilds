@@ -3,28 +3,30 @@ package me.xneox.guilds.enums;
 import com.archyx.aureliumskills.stats.Stats;
 import java.util.Arrays;
 import java.util.List;
+import me.xneox.guilds.util.text.Display;
 
 public enum Race {
   NONE(
       Stats.WISDOM,
       0,
-      "&cBrak (Domyślnie)",
+      Display.of("Brak", '?', "#ffffff"),
+      "",
       "&7Nawet jeśli wybierzesz tą opcję, nie będziesz musiał",
       "&7czekać przed zmianą na inną rasę.",
       "&7Gdy nie masz rasy, nie posiadasz żadnych ulepszeń"),
   HUMAN(
       Stats.HEALTH,
       8,
-      "&6Człowiek",
+      Display.of("Człowiek", '❤', "#ee6c4d"),
       "",
       "&7Ludzie posiadają zwiększoną statystykę",
-      "&c❤ Zdrowia (+8)",
+      "&c❤ Zdrowia (+8) [16 HP, 1 serce]",
       "",
       "&7Dzięki temu, są w stanie dłużej przeżyć."),
   GOBLIN(
       Stats.LUCK,
       24,
-      "&aGoblin",
+      Display.of("Goblin", '☘', "#b5e48c"),
       "",
       "&7Gobliny posiadają zwiększoną statystykę",
       "&2☘ Szczęścia (+24)",
@@ -33,56 +35,56 @@ public enum Race {
       "&7oraz łowienia, i mają szansę na podwójny drop."),
   ELF(
       Stats.REGENERATION,
-      16,
-      "&dElf",
+      22,
+      Display.of("Elf", '❥', "#e56b6f"),
       "",
       "&7Elfy posiadają zwiększoną statystykę",
-      "&6❥ Regeneracji (+16)",
+      "&6❥ Regeneracji (+22)",
       "",
       "&7Dzięki temu, szybciej leczą swoje rany."),
   DWARF(
       Stats.STRENGTH,
       12,
-      "&2Krasnolud",
+      Display.of("Krasnolud", '➽', "#80b918"),
       "",
       "&7Krasnoludy posiadają zwiększoną statystykę",
-      "&4➽ Siły (+12)",
+      "&4➽ Siły (+12) [~6% DMG]",
       "",
       "&7Dzięki temu, łatwiej pokonują przeciwników."),
   ORC(
       Stats.TOUGHNESS,
-      16,
-      "&cOrk",
+      24,
+      Display.of("Ork", '✦', "#6f1d1b"),
       "",
       "&7Orkowie posiadają zwiększoną statystykę",
-      "&5✦ Twardości (+16)",
+      "&5✦ Twardości (+24) [~7% DEF]",
       "",
       "&7Dzięki temu, są w stanie wytrzymać więcej otrzymywanych obrażeń"),
-  MORG(
+  HOBBIT(
       Stats.WISDOM,
-      14,
-      "&bMorg",
+      16,
+      Display.of("Hobbit", '✿', "#43aa8b"),
       "",
-      "&7Morgowie posiadają zwiększoną statystykę",
-      "&9✿ Inteligencji (+14)",
+      "&7Hobbici posiadają zwiększoną statystykę",
+      "&9✿ Inteligencji (+16)",
       "",
       "&7Dzięki temu, zdobywają więcej EXP, zmniejszony koszt kowadła,",
       "&7oraz więcej many.");
 
-  private final String title;
+  private final Display display;
   private final List<String> description;
   private final Stats stat;
   private final int multiplier;
 
-  Race(Stats stat, int multiplier, String title, String... description) {
-    this.title = title;
+  Race(Stats stat, int multiplier, Display display, String... description) {
+    this.display = display;
     this.description = Arrays.asList(description);
     this.stat = stat;
     this.multiplier = multiplier;
   }
 
-  public String title() {
-    return this.title;
+  public Display display() {
+    return this.display;
   }
 
   public Stats stat() {

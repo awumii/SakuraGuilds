@@ -5,6 +5,7 @@ import co.aikar.idb.DbRow;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import me.xneox.guilds.util.text.TimeUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -12,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class CooldownManager {
-  private final Map<String, Pair<Long, Long>> cooldownMap = new HashMap<>();
+  private final Map<String, Pair<Long, Long>> cooldownMap = new ConcurrentHashMap<>();
 
   public CooldownManager() throws SQLException {
     DB.executeUpdate("CREATE TABLE IF NOT EXISTS cooldowns("
@@ -85,5 +86,9 @@ public class CooldownManager {
           cooldown.getRight() + cooldown.getLeft() - System.currentTimeMillis());
     }
     return "teraz";
+  }
+
+  public Map<String, Pair<Long, Long>> cooldownMap() {
+    return this.cooldownMap;
   }
 }

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import me.xneox.guilds.command.CommandManager;
 import me.xneox.guilds.command.misc.GlobalHelpCommand;
 import me.xneox.guilds.command.misc.LiveCommand;
+import me.xneox.guilds.command.misc.SendMessageCommand;
 import me.xneox.guilds.listener.GuildAttackListener;
 import me.xneox.guilds.listener.GuildProtectionListener;
 import me.xneox.guilds.listener.ItemCooldownListener;
@@ -11,7 +12,7 @@ import me.xneox.guilds.listener.PlayerChatListener;
 import me.xneox.guilds.listener.PlayerDamageListener;
 import me.xneox.guilds.listener.PlayerDeathListener;
 import me.xneox.guilds.listener.PlayerMenuListener;
-import me.xneox.guilds.listener.PlayerPortalListener;
+import me.xneox.guilds.listener.ResourePackListener;
 import me.xneox.guilds.manager.CooldownManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.manager.UserManager;
@@ -50,6 +51,7 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     registerCommand("guild", commandManager.executor(), commandManager.completer());
 
     // Other commands that are not needed here but anyway
+    registerCommand("sendraw", new SendMessageCommand(), null);
     registerCommand("live", new LiveCommand(this), null);
     registerCommand("help", new GlobalHelpCommand(), null);
 
@@ -60,8 +62,8 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     registerListener(new PlayerChatListener(this));
     registerListener(new GuildAttackListener(this));
     registerListener(new ItemCooldownListener(this));
-    registerListener(new PlayerMenuListener(this));
-    registerListener(new PlayerPortalListener());
+    registerListener(new PlayerMenuListener());
+    registerListener(new ResourePackListener());
 
     // Registering tasks
     Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotificatorTask(this), 0L, 40L);

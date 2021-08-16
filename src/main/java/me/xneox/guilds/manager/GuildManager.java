@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
@@ -20,7 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class GuildManager {
-  private final Map<String, Guild> guildMap = new HashMap<>();
+  private final Map<String, Guild> guildMap = new ConcurrentHashMap<>();
 
   public GuildManager() throws SQLException {
     DB.executeUpdate(

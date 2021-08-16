@@ -63,6 +63,7 @@ public class MainPlaceholderExpansion extends PlaceholderExpansion {
       case "guild_trophies" -> String.valueOf(guild.trophies());
       case "guild_division" -> guild.division().getName();
       case "guild_rank" -> guild.member(player).rank().title();
+      case "guild_position" -> "#" + this.plugin.guildManager().leaderboard().indexOf(guild) + 1;
 
       case "title" -> "SURVIVAL 4.0";
       default -> "<unknown>";

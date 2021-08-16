@@ -8,6 +8,7 @@ import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.util.inventory.InventorySize;
+import me.xneox.guilds.util.inventory.InventoryUtils;
 import me.xneox.guilds.util.inventory.ItemBuilder;
 import me.xneox.guilds.util.text.TimeUtils;
 import org.bukkit.entity.Player;
@@ -15,11 +16,14 @@ import org.bukkit.entity.Player;
 public class ManagementGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Menu zarządzania gildią")
-      .size(InventorySize.BIGGEST.rows(), 9)
+      .size(6, 9)
+      .provider(new ManagementGui())
       .build();
 
   @Override
   public void init(Player player, InventoryContents contents) {
+    contents.fillBorders(InventoryUtils.GLASS);
+
     Guild guild = SakuraGuildsPlugin.get().guildManager().playerGuild(player.getName());
     if (guild == null) {
       player.closeInventory();
@@ -120,7 +124,7 @@ public class ManagementGui implements InventoryProvider {
         .amount(guild.maxStorage())
         .build(), event -> player.openInventory(guild.storage())));
 
-    contents.set(6, 3, ClickableItem.empty(ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmUzZjUwYmE2MmNiZGEzZWNmNTQ3OWI2MmZlZGViZDYxZDc2NTg5NzcxY2MxOTI4NmJmMjc0NWNkNzFlNDdjNiJ9fX0=")
+    contents.set(5, 3, ClickableItem.empty(ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmUzZjUwYmE2MmNiZGEzZWNmNTQ3OWI2MmZlZGViZDYxZDc2NTg5NzcxY2MxOTI4NmJmMjc0NWNkNzFlNDdjNiJ9fX0=")
         .name("&6Informacje o Gildii")
         .lore("")
         .lore("&eNazwa:")
@@ -140,7 +144,7 @@ public class ManagementGui implements InventoryProvider {
         .lore("")
         .build()));
 
-    contents.set(6, 5, ClickableItem.of(ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWNmMmFiZDYxNzlmNDE2YzI2YjRkMTI5NzE4ODFmMTI0Mzc2NDM5OWE2N2Y5Yzk0ZmQ4NTlmMTNlNzdjIn19fQ==")
+    contents.set(5, 5, ClickableItem.of(ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWNmMmFiZDYxNzlmNDE2YzI2YjRkMTI5NzE4ODFmMTI0Mzc2NDM5OWE2N2Y5Yzk0ZmQ4NTlmMTNlNzdjIn19fQ==")
         .name("&6Lista Komend")
         .lore("")
         .lore("&7Kliknij, aby zobaczyć dostępne komendy.")

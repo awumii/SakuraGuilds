@@ -5,6 +5,7 @@ import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.enums.Permission;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChunkUtils;
+import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.entity.Player;
 
@@ -35,6 +36,7 @@ public class UnClaimCommand implements SubCommand {
     }
 
     guild.claims().remove(chunk);
-    ChatUtils.guildAlert(guild, guild.member(player).displayName() + " &cporzuca chunk: &6" + chunk);
+    ChatUtils.guildAlert(guild, guild.member(player).displayName() +
+        " &cporzuca chunk: &6" + LocationUtils.legacyDeserialize(player.getLocation()));
   }
 }

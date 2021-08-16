@@ -15,14 +15,15 @@
 
 package me.xneox.guilds.util.inventory;
 
-/** Multiplies of 9 that can be used as an inventory row size. */
+/** TODO dont use this shit xd */
+@Deprecated
 public enum InventorySize {
-    SMALLEST(9),
-    SMALL(18),
-    MEDIUM(27),
-    BIG(36),
-    HUGE(45),
-    BIGGEST(54);
+    SMALLEST(1),
+    SMALL(2),
+    MEDIUM(3),
+    BIG(4),
+    HUGE(5),
+    BIGGEST(6);
 
     private final int rows;
 

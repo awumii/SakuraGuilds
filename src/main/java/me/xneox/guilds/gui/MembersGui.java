@@ -21,6 +21,7 @@ public class MembersGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Menu zarządzania członkami")
       .size(InventorySize.BIGGEST.rows(), 9)
+      .provider(new MembersGui())
       .build();
 
   @Override

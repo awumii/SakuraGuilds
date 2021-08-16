@@ -15,7 +15,10 @@ public final class ChunkUtils {
   private ChunkUtils() {}
 
   public static String deserialize(Chunk chunk) {
-    return ChatUtils.join('/', chunk.getWorld().getName(), chunk.getX(), chunk.getZ());
+    return ChatUtils.join('/',
+        chunk.getWorld().getName(),
+        chunk.getX(),
+        chunk.getZ());
   }
 
   public static Chunk serialize(String chunk) {

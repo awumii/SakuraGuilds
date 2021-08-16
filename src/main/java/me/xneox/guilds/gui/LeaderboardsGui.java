@@ -14,7 +14,8 @@ import org.bukkit.entity.Player;
 public class LeaderboardsGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Ranking Gildii")
-      .size(InventorySize.BIGGEST.rows(), 0)
+      .size(InventorySize.BIGGEST.rows(), 9)
+      .provider(new LeaderboardsGui())
       .build();
 
   @Override

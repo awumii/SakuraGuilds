@@ -24,6 +24,7 @@ import me.xneox.guilds.command.impl.SetTrophiesCommand;
 import me.xneox.guilds.command.impl.TopCommand;
 import me.xneox.guilds.command.impl.UnClaimCommand;
 import me.xneox.guilds.command.impl.UpgradeCommand;
+import me.xneox.guilds.command.impl.ViewDatabaseCommand;
 import me.xneox.guilds.command.internal.SubCommand;
 import org.jetbrains.annotations.NotNull;
 
@@ -63,6 +64,7 @@ public class CommandManager {
     commandMap.put("chat", new ChatChannelCommand());
     commandMap.put("upgrade", new UpgradeCommand());
     commandMap.put("donate", new DonateCommand());
+    commandMap.put("database", new ViewDatabaseCommand());
 
     // admin commands
     commandMap.put("acceptally", new AllyAcceptCommand());

@@ -7,13 +7,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import me.xneox.guilds.element.User;
 import me.xneox.guilds.enums.Race;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class UserManager {
-  private final Map<UUID, User> userMap = new HashMap<>();
+  private final Map<UUID, User> userMap = new ConcurrentHashMap<>();
 
   public UserManager() throws SQLException {
     DB.executeUpdate(
@@ -56,13 +57,17 @@ public class UserManager {
   }
 
   @NotNull
-  public User user(Player player) {
+  public User user(@NotNull Player player) {
     return this.user(player.getUniqueId());
   }
 
   @NotNull
-  public User user(UUID uuid) {
+  public User user(@NotNull UUID uuid) {
     return this.userMap.computeIfAbsent(
         uuid, u -> new User(500, 0, 0, new Date().getTime(), Race.NONE));
+  }
+
+  public Map<UUID, User> userMap() {
+    return this.userMap;
   }
 }

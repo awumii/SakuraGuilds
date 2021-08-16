@@ -1,13 +1,9 @@
 package me.xneox.guilds.listener;
 
 import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
-import me.xneox.guilds.SakuraGuildsPlugin;
-import me.xneox.guilds.enums.Race;
 import me.xneox.guilds.gui.HelpProfileGui;
-import me.xneox.guilds.gui.RacesGui;
 import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.inventory.ItemBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -23,39 +18,15 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 public final class PlayerMenuListener implements Listener {
-  private final SakuraGuildsPlugin plugin;
-
-  public PlayerMenuListener(SakuraGuildsPlugin plugin) {
-    this.plugin = plugin;
-  }
 
   @EventHandler
   public void onJoin(PlayerJoinEvent event) {
-    if (event.getPlayer().getWorld().getName().startsWith("world")) {
-      giveMenuItem(event.getPlayer());
-    }
-  }
-
-  @EventHandler
-  public void onWorldChange(PlayerChangedWorldEvent event) {
-    Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
-      Player player = event.getPlayer();
-      if (!player.getWorld().getName().startsWith("world")) {
-        return;
-      }
-
-      giveMenuItem(player);
-      if (this.plugin.userManager().user(player).race() == Race.NONE) {
-        RacesGui.INVENTORY.open(player);
-      }
-    }, 40L);
+    giveMenuItem(event.getPlayer());
   }
 
   @EventHandler
   public void onRespawn(PlayerPostRespawnEvent event) {
-    if (event.getPlayer().getWorld().getName().startsWith("world")) {
-      giveMenuItem(event.getPlayer());
-    }
+    giveMenuItem(event.getPlayer());
   }
 
   @EventHandler
@@ -97,8 +68,8 @@ public final class PlayerMenuListener implements Listener {
   }
 
   private void giveMenuItem(Player player) {
-    ItemStack menu = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDUwMDI5MmY0YWZlNTJkMTBmMjk5ZGZiMjYwMzYzMjI4MzA0NTAzMzFlMDAzMDg0YmIyMjAzMzM1MzA2NjRlMSJ9fX0=")
-        .name("&6Menu Gracza &7(Kliknij Prawym)")
+    ItemStack menu = ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA5Y2RlMWFmYzk1YTQ3NGQyMjI1NTQwOTdlZDZkMzkxZTdjYzdhZTFmMjAyZmRiZmQyZDZkYmM5ODMwOTM3MCJ9fX0=")
+        .name("&#CDC392Menu Gracza &7(Kliknij Prawym)")
         .lore("&7Menu które zawiera wszystkie przydatne")
         .lore("&7funkcje podczas grania na serwerze.")
         .lore("")

@@ -13,6 +13,7 @@ import me.xneox.guilds.util.inventory.InventorySize;
 import me.xneox.guilds.util.inventory.InventoryUtils;
 import me.xneox.guilds.util.inventory.ItemBuilder;
 import me.xneox.guilds.util.text.ChatUtils;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,7 +22,8 @@ import org.bukkit.inventory.ItemStack;
 public class ClaimGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Zarządzanie Zajętymi Terenami")
-      .size(InventorySize.BIGGEST.rows(), 9)
+      .size(6, 9)
+      .provider(new ClaimGui())
       .build();
 
   @Override
@@ -31,11 +33,12 @@ public class ClaimGui implements InventoryProvider {
 
     Guild guild = SakuraGuildsPlugin.get().guildManager().playerGuild(player.getName());
 
-    for (String chunk : guild.claims()) {
-      List<Player> players = ChunkUtils.getPlayersAt(ChunkUtils.serialize(chunk));
+    for (String chunkData : guild.claims()) {
+      Chunk chunk = ChunkUtils.serialize(chunkData);
+      List<Player> players = ChunkUtils.getPlayersAt(chunk);
 
-      ItemStack item = ItemBuilder.of(Material.GRASS_BLOCK)
-          .name("&6#" + guild.claims().indexOf(chunk)
+      ItemStack item = ItemBuilder.of(chunk.getWorld().getName().contains("nether") ? Material.NETHERRACK : Material.GRASS_BLOCK  )
+          .name("&6#" + guild.claims().indexOf(chunkData)
               + " (" + LocationUtils.legacyDeserialize(ChunkUtils.getCenter(chunk)) + ")")
           .lore("&7&oTwoja gildia posiada ten chunk.")
           .lore("")
@@ -47,7 +50,8 @@ public class ClaimGui implements InventoryProvider {
 
       contents.add(ClickableItem.of(item, event -> {
         Location center = ChunkUtils.getCenter(chunk);
-        SakuraGuildsPlugin.get().userManager().user(player).beginTeleport(player.getLocation(), center);
+        SakuraGuildsPlugin.get().userManager().user(player)
+            .beginTeleport(player.getLocation(), center);
 
         player.closeInventory();
       }));

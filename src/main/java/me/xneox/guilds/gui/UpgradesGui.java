@@ -21,6 +21,7 @@ public class UpgradesGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Menu ulepszeń dla gildii")
       .size(InventorySize.MEDIUM.rows(), 9)
+      .provider(new UpgradesGui())
       .build();
 
   @Override

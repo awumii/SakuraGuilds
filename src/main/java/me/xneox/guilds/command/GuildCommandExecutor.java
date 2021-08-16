@@ -21,9 +21,6 @@ public final class GuildCommandExecutor implements CommandExecutor {
   @Override
   public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
     Player player = (Player) sender;
-    if (!player.getWorld().getName().startsWith("world")) {
-      return false;
-    }
 
     // Default behaviour when no argument is specified.
     if (args.length < 1) {

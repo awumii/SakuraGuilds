@@ -128,8 +128,7 @@ public class Guild implements Comparable<Guild> {
   }
 
   public boolean inside(Location location) {
-    return location.getWorld().getName().equals("world")
-        && this.chunks.stream().anyMatch(chunk -> ChunkUtils.isEqual(location.getChunk(), chunk));
+    return this.chunks.stream().anyMatch(chunk -> ChunkUtils.isEqual(location.getChunk(), chunk));
   }
 
   public void changeRank(Member member, Rank rank) {
@@ -262,5 +261,27 @@ public class Guild implements Comparable<Guild> {
   @Override
   public int compareTo(@NotNull Guild guild) {
     return Integer.compare(guild.trophies(), this.trophies());
+  }
+
+  @Override
+  public String toString() {
+    return "Guild{" +
+        "name='" + name + '\'' +
+        ", members=" + members +
+        ", chunks=" + chunks +
+        ", nexusLocation=" + nexusLocation +
+        ", creation=" + creation +
+        ", allies=" + allies +
+        ", invitations=" + invitations +
+        ", home=" + home +
+        ", storage=" + storage +
+        ", shield=" + shield +
+        ", health=" + health +
+        ", money=" + money +
+        ", maxSlots=" + maxSlots +
+        ", maxChunks=" + maxChunks +
+        ", maxStorage=" + maxStorage +
+        ", deleteConfirm=" + deleteConfirm +
+        '}';
   }
 }

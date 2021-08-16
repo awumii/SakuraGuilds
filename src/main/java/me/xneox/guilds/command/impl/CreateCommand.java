@@ -1,5 +1,7 @@
 package me.xneox.guilds.command.impl;
 
+import com.sk89q.worldedit.WorldEditException;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,7 +14,6 @@ import me.xneox.guilds.gui.ManagementGui;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChunkUtils;
 import me.xneox.guilds.util.HookUtils;
-import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.VisualUtils;
 import me.xneox.guilds.util.inventory.InventoryUtils;
 import me.xneox.guilds.util.text.ChatUtils;
@@ -67,10 +68,19 @@ public class CreateCommand implements SubCommand {
       return;
     }
 
-    SakuraGuildsPlugin.get().userManager().user(player).joinDate(new Date().getTime());
-
     Location nexusLoc = ChunkUtils.getCenter(ChunkUtils.deserialize(player.getChunk()));
-    nexusLoc.setY(30);
+    if (nexusLoc.getY() > 90) {
+      ChatUtils.sendMessage(player, "&cNie możesz zakładać gildii powyżej Y=90");
+      return;
+    }
+
+    nexusLoc.setY(nexusLoc.getY() + 2);
+    try {
+      HookUtils.pasteSchematic("nexus.schem", nexusLoc);
+    } catch (IOException | WorldEditException e) {
+      ChatUtils.sendMessage(player, "&cWystąpił wewnętrzny błąd uniemożliwiający na wygenerowanie nexusa: " + e.getMessage());
+      e.printStackTrace();
+    }
 
     Guild guild =
         new Guild(
@@ -89,50 +99,21 @@ public class CreateCommand implements SubCommand {
             6,
             9);
 
-    manager.guildMap().put(args[1], guild);
-
     guild.shieldDuration(Duration.ofDays(1));
     guild.members().add(Member.create(player.getUniqueId(), Rank.LEADER));
     guild.claims().add(ChunkUtils.deserialize(player.getLocation().getChunk()));
 
-    ChatUtils.broadcast("&e" + player.getName() + " &7zakłada gildię &6" + args[1]);
-
-    // USTAWIANIE NEXUSA
-
-    for (Location sphere : LocationUtils.sphere(nexusLoc, 5, 4, false, true, 3)) {
-      if (sphere.getBlock().getType() != Material.BEDROCK) {
-        sphere.getBlock().setType(Material.AIR);
-      }
-    }
+    manager.guildMap().put(args[1], guild);
 
     InventoryUtils.removeItems(player.getInventory(), Material.DIAMOND, 1);
+
     player.getWorld().getBlockAt(nexusLoc).setType(Material.END_PORTAL_FRAME);
     player.teleportAsync(nexusLoc);
 
-    ManagementGui.INVENTORY.open(player);
-
-    Location light;
-
-    light = nexusLoc.clone();
-    light.setY(nexusLoc.getY() - 1);
-    light.setX(nexusLoc.getX() + 1);
-    player.getWorld().getBlockAt(light).setType(Material.SEA_LANTERN);
-
-    light = nexusLoc.clone();
-    light.setY(nexusLoc.getY() - 1);
-    light.setX(nexusLoc.getX() - 1);
-    player.getWorld().getBlockAt(light).setType(Material.SEA_LANTERN);
-
-    light = nexusLoc.clone();
-    light.setY(nexusLoc.getY() - 1);
-    light.setZ(nexusLoc.getZ() + 1);
-    player.getWorld().getBlockAt(light).setType(Material.SEA_LANTERN);
-
-    light = nexusLoc.clone();
-    light.setY(nexusLoc.getY() - 1);
-    light.setZ(nexusLoc.getZ() - 1);
-    player.getWorld().getBlockAt(light).setType(Material.SEA_LANTERN);
-
     VisualUtils.createGuildInfo(guild);
+
+    ChatUtils.broadcast("&e" + player.getName() + " &7zakłada gildię &6" + args[1]);
+    SakuraGuildsPlugin.get().userManager().user(player).joinDate(new Date().getTime());
+    ManagementGui.INVENTORY.open(player);
   }
 }

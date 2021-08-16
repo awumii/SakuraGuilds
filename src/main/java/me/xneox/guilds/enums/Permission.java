@@ -1,8 +1,5 @@
 package me.xneox.guilds.enums;
 
-import java.util.Arrays;
-import org.jetbrains.annotations.Nullable;
-
 public enum Permission {
   BUILD("Budowanie oraz interakcje na terenie gildii."),
   KICK("Wyrzucanie członków"),
@@ -17,14 +14,6 @@ public enum Permission {
 
   Permission(String description) {
     this.description = description;
-  }
-
-  @Nullable
-  public static Permission find(String description) {
-    return Arrays.stream(Permission.values())
-        .filter(permission -> description.contains(permission.getDescription()))
-        .findFirst()
-        .orElse(null);
   }
 
   public String getDescription() {

@@ -20,6 +20,7 @@ public class AlliesGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Zawarte Sojusze")
       .size(InventorySize.BIGGEST.rows(), 9)
+      .provider(new AlliesGui())
       .build();
 
   @Override

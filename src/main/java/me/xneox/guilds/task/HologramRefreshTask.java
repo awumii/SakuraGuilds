@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.enums.Race;
 import me.xneox.guilds.util.VisualUtils;
+import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 public final class HologramRefreshTask implements Runnable {
   private final SakuraGuildsPlugin plugin;
@@ -29,6 +32,12 @@ public final class HologramRefreshTask implements Runnable {
     });
 
     createRankTop();
+
+    for (Player player : Bukkit.getOnlinePlayers()) {
+      if (this.plugin.userManager().user(player).race() == Race.NONE) {
+        ChatUtils.sendMessage(player, "&cPrzypomnienie: Nie wybrano jeszcze rasy. Aby otrzymać bonusy, użyj &6/g race");
+      }
+    }
   }
 
   private void createRankTop() {

@@ -32,35 +32,21 @@ public final class PlayerDeathListener implements Listener {
       attackerUser.kills(attackerUser.kills() + 1);
 
       int rating = RandomUtils.getInt(80);
+      if (victimUser.trophies() - rating < 0) {
+        ChatUtils.sendMessage(attacker, "&cNie otrzymano trofeów ponieważ zabity gracz nie posiadał ani jednego.");
+        return;
+      }
+
       victimUser.trophies(victimUser.trophies() - rating);
       attackerUser.trophies(attackerUser.trophies() + rating);
 
-      ChatUtils.broadcastRaw(buildKillMessage(victim, attacker, rating));
+      Guild victimGuild = this.plugin.guildManager().playerGuild(victim);
+      Guild attackerGuild = this.plugin.guildManager().playerGuild(attacker);
+
+      ChatUtils.broadcastRaw(" &8» &f{0} &8(&c-{1}&8) &7został zabity przez &f{2} &8(&a+{1}&8)",
+          (victimGuild != null ? "&8[&c" + victimGuild.name() + "&8] &f" : "") + victim.getName(),
+          rating,
+          (attackerGuild != null ? "&8[&c" + attackerGuild.name() + "&8] &f" : "") + attacker.getName());
     }
-  }
-
-  private String buildKillMessage(Player victim, Player attacker, int rating) {
-    StringBuilder builder = new StringBuilder();
-
-    Guild victimGuild = this.plugin.guildManager().playerGuild(victim);
-    Guild attackerGuild = this.plugin.guildManager().playerGuild(attacker);
-    if (victimGuild != null) {
-      builder.append("&8[&a").append(victimGuild.name()).append("&8] ");
-    }
-
-    builder
-        .append("&f")
-        .append(victim.getName())
-        .append(" &8(&e-")
-        .append(rating)
-        .append("&8) &7został zabity przez ");
-
-    if (attackerGuild != null) {
-      builder.append("&8[&c").append(attackerGuild.name()).append("&8] ");
-    }
-
-    builder.append("&f").append(attacker.getName()).append(" &8(&e+").append(rating).append("&8)");
-
-    return " " + builder;
   }
 }

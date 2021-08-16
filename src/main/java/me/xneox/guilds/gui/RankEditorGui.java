@@ -24,11 +24,12 @@ public class RankEditorGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Zarządzanie uprawnieniami użytkownika")
       .size(InventorySize.BIG.rows(), 9)
+      .provider(new RankEditorGui())
       .build();
 
   @Override
   public void init(Player player, InventoryContents contents) {
-    contents.fillRect(1, 0, 1, 8, InventoryUtils.GLASS);
+    contents.fillRect(0, 0, 1, 8, InventoryUtils.GLASS);
     InventoryUtils.insertBackButton(0, 8, contents, MembersGui.INVENTORY);
 
     Guild guild = SakuraGuildsPlugin.get().guildManager().playerGuild(player.getName());

@@ -14,6 +14,7 @@ repositories {
     maven { url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/") }
     maven { url = uri("https://nexus.sirblobman.xyz/repository/public/") }
     maven { url = uri("https://repo.aikar.co/content/groups/aikar/") }
+    maven { url = uri("https://maven.enginehub.org/repo/") }
 }
 
 dependencies {
@@ -29,6 +30,8 @@ dependencies {
     compileOnly("com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.9")
     compileOnly("com.github.Archy-X:AureliumSkills:Beta1.2.0")
     compileOnly("com.SirBlobman.combatlogx:CombatLogX-API:10.0.0.0-SNAPSHOT")
+    compileOnly("fr.xephi:authme:5.6.0-SNAPSHOT")
+    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.0-SNAPSHOT")
 }
 
 tasks {
@@ -46,5 +49,7 @@ tasks {
         minimize()
 
         relocate("org.apache.commons", "lib")
+        relocate("com.zaxxer", "lib")
+        relocate("co.aikar", "lib")
     }
 }

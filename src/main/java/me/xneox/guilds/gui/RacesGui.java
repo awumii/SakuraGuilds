@@ -23,16 +23,17 @@ public class RacesGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Menu wyboru rasy")
       .size(InventorySize.BIG.rows(), 9)
+      .provider(new RacesGui())
       .build();
 
   @Override
   public void init(Player player, InventoryContents contents) {
-    contents.fillRect(1, 0, 0, 8, InventoryUtils.GLASS);
+    contents.fillRect(1, 0, 1, 8, InventoryUtils.GLASS);
 
     User user = SakuraGuildsPlugin.get().userManager().user(player);
     contents.set(0, 3, ClickableItem.empty(ItemBuilder.of(Material.OAK_SIGN)
         .name("&aInformacje:")
-        .lore("&7Wybrana rasa: " + user.race().title())
+        .lore("&7Wybrana rasa: " + user.race().display())
         .lore("")
         .lore("&7Każda rasa zwiększa jedną &fstatystykę postaci.")
         .lore("&7Nie dają one żadnych negatywnych efektów.")
@@ -56,7 +57,7 @@ public class RacesGui implements InventoryProvider {
     contents.set(2, 3, build(player, Race.DWARF, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjA0ODFlNTJkYWYwYjUzNjM0NjljMGYyY2M5YzhiYTIyYzZiYjgyNWUxMjYxNzhlOTkyNGI0Mjg0OTk3NTYifX19"));
     contents.set(3, 4, build(player, Race.GOBLIN, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGJmNTZjNjU0MWMxMjY2ZmZjNDYzNTEwYmRiNTVhZWY5MzE1YWY1NDg4OThjZjVkM2NiYTFiNWI0YzAxIn19fQ=="));
     contents.set(2, 5, build(player, Race.ORC, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmI5MDI2M2Q2ODc4YTgyNTVkZTlhZThjNWI3NTU5YmJkMTU4NjBjZGE1MzliZWM1ZTM4Y2UzNTdhYzBlZGU3OCJ9fX0="));
-    contents.set(3, 5, build(player, Race.MORG, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWI3M2NkNDEzZDgxZThjM2NlZTQ2ZmU4YTgzMjI1MjY1MmRjMzM1ODRkZGU0ZGRkZjNjYTgzNmRjZDE3NGUifX19"));
+    contents.set(3, 6, build(player, Race.HOBBIT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWI3M2NkNDEzZDgxZThjM2NlZTQ2ZmU4YTgzMjI1MjY1MmRjMzM1ODRkZGU0ZGRkZjNjYTgzNmRjZDE3NGUifX19"));
     contents.set(2, 7, build(player, Race.NONE, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzM4YWIxNDU3NDdiNGJkMDljZTAzNTQzNTQ5NDhjZTY5ZmY2ZjQxZDllMDk4YzY4NDhiODBlMTg3ZTkxOSJ9fX0="));
   }
 
@@ -65,7 +66,7 @@ public class RacesGui implements InventoryProvider {
 
   private ClickableItem build(Player player, Race race, String skullTexture) {
     return ClickableItem.of(ItemBuilder.skull(skullTexture)
-        .name(race.title())
+        .name(race.display().toString())
         .lore(race.description())
         .build(), event -> switchRace(race, player));
   }
@@ -79,12 +80,12 @@ public class RacesGui implements InventoryProvider {
     }
 
     if (race != Race.NONE) {
-      SakuraGuildsPlugin.get().cooldownManager().add(player, "race_change", 1, TimeUnit.SECONDS);
+      SakuraGuildsPlugin.get().cooldownManager().add(player, "race_change", 1, TimeUnit.DAYS);
     }
 
     VisualUtils.sound(player, Sound.ENTITY_WITHER_DEATH);
-    ChatUtils.sendMessage(player, "&7Pomyślnie ustawiono twoją rasę na " + race.title());
-    ChatUtils.sendTitle(player, race.title(), "&7Wybór twojej rasy został zaakceptowany...");
+    ChatUtils.sendMessage(player, "&7Pomyślnie ustawiono twoją rasę na " + race.display());
+    ChatUtils.sendTitle(player, race.display().toString(), "&7Wybór twojej rasy został zaakceptowany...");
 
     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sk modifier remove " + player.getName() + " race");
     User user = SakuraGuildsPlugin.get().userManager().user(player);

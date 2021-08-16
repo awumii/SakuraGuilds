@@ -50,7 +50,7 @@ public class TopPlaceholderExpansion extends PlaceholderExpansion {
       }
 
       Guild guild = leaderboard.get(position);
-      return guild.name() + " &8[&a" + guild.trophies() + "&8]";
+      return guild.name() + " &8[&a" + guild.trophies() + "♠&8]";
     }
     return "-/-";
   }

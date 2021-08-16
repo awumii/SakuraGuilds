@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.HookUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -25,7 +24,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 public final class ChatUtils {
-  public static final String PREFIX = " &6&lGILDIE &8➦ &7";
+  public static final String PREFIX = "&#D75524&lGILDIE &8» &7";
 
   public static final String BRONZE = "&#cd7f32";
   public static final String CRIMSON = "&#dc143c";
@@ -48,7 +47,7 @@ public final class ChatUtils {
    * @return A formatted TextComponent.
    */
   @NotNull
-  public static TextComponent color(String message) {
+  public static TextComponent color(@NotNull String message) {
     return SERIALIZER.deserialize(message);
   }
 
@@ -88,10 +87,10 @@ public final class ChatUtils {
     return new MessageFormat(text).format(objects);
   }
 
-  public static void sendClickableMessage(
-      @NotNull Player player, String message, String hover, String runCommand) {
-    TextComponent component =
-        color(message).hoverEvent(color(hover)).clickEvent(ClickEvent.runCommand(runCommand));
+  public static void sendClickableMessage(@NotNull Player player, @NotNull String message, @NotNull String hover, @NotNull String runCommand) {
+    TextComponent component = color(message)
+        .hoverEvent(color(hover))
+        .clickEvent(ClickEvent.runCommand(runCommand));
 
     player.sendMessage(component);
   }
@@ -168,8 +167,8 @@ public final class ChatUtils {
     guildAlertRaw(guild, PREFIX + message);
   }
 
-  public static void guildAlertRaw(Guild guild, String message) {
-    forGuildMembers(guild, player -> sendNoPrefix(player, message));
+  public static void guildAlertRaw(Guild guild, String message, Object... objects) {
+    forGuildMembers(guild, player -> sendNoPrefix(player, message, objects));
   }
 
   public static void forGuildMembers(Guild guild, Consumer<Player> action) {
