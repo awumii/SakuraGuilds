@@ -2,7 +2,6 @@ package me.xneox.guilds.listener;
 
 import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
 import me.xneox.guilds.gui.HelpProfileGui;
-import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.inventory.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -31,12 +30,11 @@ public final class PlayerMenuListener implements Listener {
 
   @EventHandler
   public void onInteract(PlayerInteractEvent event) {
-    if (event.getAction() != Action.RIGHT_CLICK_AIR
-        && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+    if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
       return;
     }
 
-    if (!HookUtils.hasCombatTag(event.getPlayer()) && isMenuItem(event.getItem())) {
+    if (isMenuItem(event.getItem())) {
       event.setCancelled(true);
       HelpProfileGui.INVENTORY.open(event.getPlayer());
     }

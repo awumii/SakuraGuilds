@@ -6,6 +6,7 @@ import java.util.UUID;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.ChunkUtils;
+import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.VisualUtils;
 import me.xneox.guilds.util.text.ChatUtils;
@@ -48,14 +49,16 @@ public class GuildNotificatorTask implements Runnable {
           VisualUtils.drawBorderAtChunk(ChunkUtils.serialize(chunk), player);
         }
 
-        if (!player.isOp() && !guild.isMember(player.getName())) {
+        if (!HookUtils.isVanished(player) && !guild.isMember(player.getName())) {
           ChatUtils.forGuildMembers(guild, member -> {
-            VisualUtils.sound(member, Sound.ENTITY_ELDER_GUARDIAN_CURSE);
-            ChatUtils.sendBossBar(member, BarColor.RED, ChatUtils.format(
-                "&4&l⚠ &c{0} &7wkroczył na teren: &6{1} ({2})",
-                player.getName(),
-                guild.claims().indexOf(ChunkUtils.deserialize(player.getChunk())),
-                LocationUtils.legacyDeserialize(player.getLocation())));
+            if (LocationUtils.isWorldNotAllowed(member.getLocation())) {
+              VisualUtils.sound(member, Sound.ENTITY_ELDER_GUARDIAN_CURSE);
+              ChatUtils.sendBossBar(member, BarColor.RED, ChatUtils.format(
+                  "&4&l⚠ &c{0} &7wkroczył na teren: &6{1} ({2})",
+                  player.getName(),
+                  guild.claims().indexOf(ChunkUtils.deserialize(player.getChunk())),
+                  LocationUtils.legacyDeserialize(player.getLocation())));
+            }
           });
         }
       } else if (this.areaMap.containsKey(player.getUniqueId())) {

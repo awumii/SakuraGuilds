@@ -72,6 +72,9 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     Bukkit.getScheduler().runTaskTimer(this, new HologramRefreshTask(this), 0L, 60 * 20L);
     Bukkit.getScheduler().runTaskTimer(this, new PlayerTeleportTask(this), 0L, 20L);
 
+    Bukkit.getScheduler().runTaskTimer(this,
+        () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "su reloadplugin LevelledMobs"), 20L, 20L * 1500L);
+
     new MainPlaceholderExpansion(this).register();
     new TopPlaceholderExpansion(this).register();
   }

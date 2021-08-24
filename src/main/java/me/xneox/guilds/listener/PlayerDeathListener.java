@@ -3,6 +3,7 @@ package me.xneox.guilds.listener;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.User;
+import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.RandomUtils;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.entity.Player;
@@ -23,6 +24,9 @@ public final class PlayerDeathListener implements Listener {
     Player attacker = event.getEntity().getKiller();
 
     victim.getWorld().strikeLightningEffect(victim.getLocation());
+    if (!LocationUtils.isWorldNotAllowed(victim.getLocation())) {
+      return;
+    }
 
     if (attacker != null) {
       User victimUser = this.plugin.userManager().user(victim);

@@ -2,6 +2,7 @@ package me.xneox.guilds.listener;
 
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.text.ChatUtils;
 import me.xneox.guilds.util.text.TimeUtils;
 import org.bukkit.entity.Arrow;
@@ -20,40 +21,36 @@ public final class PlayerDamageListener implements Listener {
 
   @EventHandler
   public void onDamage(EntityDamageByEntityEvent event) {
-    if (event.getEntity() instanceof Player && event.getDamager() instanceof Arrow) {
-      ProjectileSource source = ((Arrow) event.getDamager()).getShooter();
-      if (source instanceof Player) {
-        if (this.isProtected((Player) event.getEntity(), (Player) source)) {
-          event.setCancelled(true);
-        }
+    if (event.getEntity() instanceof Player damaged && event.getDamager() instanceof Arrow arrow) {
+      ProjectileSource source = arrow.getShooter();
+      if (source instanceof Player damager && this.isProtected(damaged, damager)) {
+        event.setCancelled(true);
       }
     }
 
-    if (event.getEntity() instanceof Player && event.getDamager() instanceof Player) {
-      if (this.isProtected((Player) event.getEntity(), (Player) event.getDamager())) {
-        event.setCancelled(true);
-      }
+    if (event.getEntity() instanceof Player damaged && event.getDamager() instanceof Player damager && this.isProtected(damaged, damager)) {
+      event.setCancelled(true);
     }
   }
 
   /**
-   * @param victim Attacked player.
+   * @param damaged Attacked player.
    * @param attacker The player who attacked.
    * @return whenever the event should be cancelled.
    */
-  private boolean isProtected(Player victim, Player attacker) {
-    if (victim.equals(attacker)) {
+  private boolean isProtected(Player damaged, Player attacker) {
+    if (!LocationUtils.isWorldNotAllowed(damaged.getLocation()) || damaged.equals(attacker)) {
       return false;
     }
 
-    Guild guild = this.plugin.guildManager().findAt(victim.getLocation());
+    Guild guild = this.plugin.guildManager().findAt(damaged.getLocation());
     if (guild != null && guild.isShieldActive()) {
       ChatUtils.sendTitle(attacker, "", "&cTarcza wojenna blokuje atak! &8(&6"
               + TimeUtils.futureMillisToTime(guild.shieldDuration()) + "&8)");
       return true;
     }
 
-    Guild victimGuild = this.plugin.guildManager().playerGuild(victim.getName());
+    Guild victimGuild = this.plugin.guildManager().playerGuild(damaged.getName());
     Guild attackerGuild = this.plugin.guildManager().playerGuild(attacker.getName());
 
     if (victimGuild == null || attackerGuild == null) {

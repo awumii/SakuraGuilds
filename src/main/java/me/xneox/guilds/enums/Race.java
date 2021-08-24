@@ -9,7 +9,7 @@ public enum Race {
   NONE(
       Stats.WISDOM,
       0,
-      Display.of("Brak", '?', "#ffffff"),
+      Display.of("Brak", '?', "#1fffff"),
       "",
       "&7Nawet jeśli wybierzesz tą opcję, nie będziesz musiał",
       "&7czekać przed zmianą na inną rasę.",

@@ -14,7 +14,8 @@ repositories {
     maven { url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/") }
     maven { url = uri("https://nexus.sirblobman.xyz/repository/public/") }
     maven { url = uri("https://repo.aikar.co/content/groups/aikar/") }
-    maven { url = uri("https://maven.enginehub.org/repo/") }
+    maven { url = uri("https://mvn.intellectualsites.com/content/groups/public/") }
+    maven { url = uri("https://repo.essentialsx.net/snapshots/") }
 }
 
 dependencies {
@@ -23,15 +24,16 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.0.0")
     implementation("co.aikar:idb-core:1.0.0-SNAPSHOT")
 
-    compileOnly("io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
     compileOnly("fr.minuskube.inv:smart-invs:1.2.7")
     compileOnly("me.clip:placeholderapi:2.10.10")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.9")
     compileOnly("com.github.Archy-X:AureliumSkills:Beta1.2.0")
-    compileOnly("com.SirBlobman.combatlogx:CombatLogX-API:10.0.0.0-SNAPSHOT")
     compileOnly("fr.xephi:authme:5.6.0-SNAPSHOT")
-    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.0-SNAPSHOT")
+    compileOnly("com.fastasyncworldedit:FAWE-Core:1.17-157")
+    compileOnly("com.fastasyncworldedit:FAWE-Bukkit:1.17-157")
+    compileOnly("net.essentialsx:EssentialsX:2.19.0-SNAPSHOT")
 }
 
 tasks {

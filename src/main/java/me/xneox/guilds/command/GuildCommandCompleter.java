@@ -1,8 +1,7 @@
 package me.xneox.guilds.command;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import me.xneox.guilds.command.internal.Hidden;
 import me.xneox.guilds.command.internal.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,9 +19,7 @@ public final class GuildCommandCompleter implements TabCompleter {
   @Override
   public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
     if (args.length == 1) {
-      return this.commandManager.commandMap().keySet().stream()
-          .filter(cmd -> !cmd.getClass().isAnnotationPresent(Hidden.class))
-          .collect(Collectors.toList());
+      return new ArrayList<>(this.commandManager.commandMap().keySet());
     }
 
     SubCommand subCommand = this.commandManager.commandMap().get(args[0]);

@@ -66,15 +66,13 @@ public class AllyCommand implements SubCommand {
         .map(Member::nickname)
         .map(Bukkit::getPlayerExact)
         .filter(Objects::nonNull)
-        .forEach(
-            member -> {
+        .forEach(member -> {
               ChatUtils.sendClickableMessage(member,
                   "  &aKliknij, aby zaakceptować.",
                   "&aPo kliknięciu zostaniecie sojusznikami!",
                   "/g acceptally IJAD98jdksldM " + guild.name());
 
-              ChatUtils.sendClickableMessage(
-                  member,
+              ChatUtils.sendClickableMessage(member,
                   "  &cKliknij, aby odrzucić.",
                   "&cOdrzuca zaproszenie.",
                   "/g acceptally dh98jadOAKD " + guild.name());

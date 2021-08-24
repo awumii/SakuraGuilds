@@ -66,4 +66,8 @@ public final class LocationUtils {
     }
     return blocks;
   }
+
+  public static boolean isWorldNotAllowed(@NotNull Location location) {
+    return !location.getWorld().getName().startsWith("world");
+  }
 }

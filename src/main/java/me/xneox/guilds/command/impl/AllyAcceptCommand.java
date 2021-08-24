@@ -1,6 +1,5 @@
 package me.xneox.guilds.command.impl;
 
-import me.xneox.guilds.command.internal.Hidden;
 import me.xneox.guilds.command.internal.SubCommand;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.enums.Permission;
@@ -8,7 +7,6 @@ import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.entity.Player;
 
-@Hidden
 public class AllyAcceptCommand implements SubCommand {
 
   @Override

@@ -57,7 +57,7 @@ public final class ChunkUtils {
       return true;
     }
 
-    if (player.getWorld().getName().endsWith("end")) {
+    if (!player.getWorld().getName().equals("world")) {
       ChatUtils.sendMessage(player, "&cNa tym świecie nie można zakładać gildii.");
       return true;
     }

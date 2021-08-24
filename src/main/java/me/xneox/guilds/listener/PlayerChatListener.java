@@ -1,6 +1,5 @@
 package me.xneox.guilds.listener;
 
-import io.papermc.paper.event.player.AsyncChatEvent;
 import java.util.concurrent.TimeUnit;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
@@ -8,11 +7,7 @@ import me.xneox.guilds.element.User;
 import me.xneox.guilds.enums.Race;
 import me.xneox.guilds.util.HookUtils;
 import me.xneox.guilds.util.text.ChatUtils;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.event.ClickEvent;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,24 +20,6 @@ public final class PlayerChatListener implements Listener {
   public PlayerChatListener(SakuraGuildsPlugin plugin) {
     this.plugin = plugin;
   }
-
-  /*
-  @EventHandler
-  public void onChat(AsyncChatEvent event) {
-    Player player = event.getPlayer();
-    String format = "{0}&8[&#ffc24d{1}✫&8] {2}&7{3}&7: &f{4}";
-    Component component = ChatUtils.color(ChatUtils.format(format,
-        guild != null ? ChatUtils.legacyColor("&8[" + ChatColor.of("#E74C3C") + guild.name() + "&8] ") : ""))
-
-    for (Player online : Bukkit.getOnlinePlayers()) {
-      online.sendMessage(player.displayName().append(Component.text(" -> ")).append(event.message())
-              .hoverEvent(ChatUtils.color("na co sie kurwa gapisz"))
-              .clickEvent(ClickEvent.suggestCommand("/msg " + player.getName())));
-    }
-
-    event.setCancelled(true);
-  }
-   */
 
   @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
   public void onChat(AsyncPlayerChatEvent event) {

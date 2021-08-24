@@ -5,6 +5,7 @@ import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
 import me.xneox.guilds.enums.Permission;
+import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -37,6 +38,10 @@ public final class GuildProtectionListener implements Listener {
    * @return whenever the event should be cancelled.
    */
   private boolean isProtected(Player player, Location location, boolean isBlockPlace) {
+    if (!LocationUtils.isWorldNotAllowed(location)) {
+      return false;
+    }
+
     Guild guild = this.plugin.guildManager().findAt(location);
     if (guild == null) {
       return false;

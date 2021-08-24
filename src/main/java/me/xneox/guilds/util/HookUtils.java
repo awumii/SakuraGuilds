@@ -1,8 +1,9 @@
 package me.xneox.guilds.util;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.archyx.aureliumskills.api.AureliumAPI;
 import com.archyx.aureliumskills.skills.Skills;
+import com.earth2me.essentials.Essentials;
+import com.earth2me.essentials.IEssentials;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
@@ -35,6 +36,8 @@ public final class HookUtils {
   @SuppressWarnings("ConstantConditions")
   public static final Permission PERMISSION = Bukkit.getServicesManager().getRegistration(Permission.class).getProvider();
 
+  public static final IEssentials ESSENTIALS = Essentials.getPlugin(Essentials.class);
+
   public static void pasteSchematic(@NotNull String schematic, @NotNull Location location) throws WorldEditException, IOException {
     File file = new File("plugins/WorldEdit/schematics", schematic);
 
@@ -55,12 +58,8 @@ public final class HookUtils {
     }
   }
 
-  public static boolean hasCombatTag(@NotNull Player player) {
-    ICombatLogX plugin = (ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX");
-    if (plugin != null) {
-      return plugin.getCombatManager().isInCombat(player);
-    }
-    return false;
+  public static boolean isVanished(Player player) {
+    return ESSENTIALS.getUser(player).isVanished();
   }
 
   public static int getAureliumLevel(@NotNull Player player) {

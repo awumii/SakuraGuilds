@@ -41,7 +41,7 @@ public final class GuildCommandExecutor implements CommandExecutor {
 
     // Checking if the command has a permission and handles the check.
     AdminOnly permissible = subCommand.getClass().getAnnotation(AdminOnly.class);
-    if (permissible != null && !player.isOp()) {
+    if (permissible != null && !player.hasPermission("sakuraguilds.admin")) {
       ChatUtils.sendMessage(player, "&cNie posiadasz uprawnień do tej komendy.");
     }
 

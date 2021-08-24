@@ -32,12 +32,6 @@ public final class HologramRefreshTask implements Runnable {
     });
 
     createRankTop();
-
-    for (Player player : Bukkit.getOnlinePlayers()) {
-      if (this.plugin.userManager().user(player).race() == Race.NONE) {
-        ChatUtils.sendMessage(player, "&cPrzypomnienie: Nie wybrano jeszcze rasy. Aby otrzymać bonusy, użyj &6/g race");
-      }
-    }
   }
 
   private void createRankTop() {

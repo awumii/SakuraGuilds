@@ -10,7 +10,7 @@ depend:
   - HolographicDisplays
   - PlaceholderAPI
   - AureliumSkills
-  - CombatLogX
+  - Essentials
   - SmartInvs
   - AuthMe
 

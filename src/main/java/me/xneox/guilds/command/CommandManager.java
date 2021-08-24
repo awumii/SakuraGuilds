@@ -18,6 +18,7 @@ import me.xneox.guilds.command.impl.InviteCommand;
 import me.xneox.guilds.command.impl.JoinCommand;
 import me.xneox.guilds.command.impl.KickCommand;
 import me.xneox.guilds.command.impl.LeaveCommand;
+import me.xneox.guilds.command.impl.MenuCommand;
 import me.xneox.guilds.command.impl.RaceCommand;
 import me.xneox.guilds.command.impl.SetHomeCommand;
 import me.xneox.guilds.command.impl.SetTrophiesCommand;
@@ -46,6 +47,7 @@ public class CommandManager {
   }
 
   private void registerCommands() {
+    commandMap.put("menu", new MenuCommand());
     commandMap.put("race", new RaceCommand());
     commandMap.put("claim", new ClaimCommand());
     commandMap.put("unclaim", new UnClaimCommand());

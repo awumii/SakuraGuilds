@@ -3,6 +3,7 @@ package me.xneox.guilds.listener;
 import com.destroystokyo.paper.event.player.PlayerElytraBoostEvent;
 import java.util.concurrent.TimeUnit;
 import me.xneox.guilds.SakuraGuildsPlugin;
+import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -22,7 +23,7 @@ public final class ItemCooldownListener implements Listener {
 
   @EventHandler
   public void onElytraBoost(PlayerElytraBoostEvent event) {
-    if (handleCooldown(event.getPlayer(), 8)) {
+    if (this.handleCooldown(event.getPlayer(), 8)) {
       event.setCancelled(true);
     }
   }
@@ -31,7 +32,7 @@ public final class ItemCooldownListener implements Listener {
   public void onAppleEat(PlayerItemConsumeEvent event) {
     Material material = event.getItem().getType();
     if ((material == Material.GOLDEN_APPLE || material == Material.ENCHANTED_GOLDEN_APPLE)
-        && handleCooldown(event.getPlayer(), 15)) {
+        && this.handleCooldown(event.getPlayer(), 15)) {
       event.setCancelled(true);
     }
   }
@@ -39,9 +40,9 @@ public final class ItemCooldownListener implements Listener {
   @EventHandler
   public void onPearlThrow(ProjectileLaunchEvent event) {
     ProjectileSource source = event.getEntity().getShooter();
-    if (source instanceof Player
+    if (source instanceof Player player
         && event.getEntity().getType() == EntityType.ENDER_PEARL
-        && handleCooldown((Player) source, 10)) {
+        && this.handleCooldown(player, 10)) {
       event.setCancelled(true);
     }
   }
@@ -51,10 +52,13 @@ public final class ItemCooldownListener implements Listener {
    * @return whenever the event should be cancelled.
    */
   private boolean handleCooldown(Player player, int duration) {
+    if (!LocationUtils.isWorldNotAllowed(player.getLocation())) {
+      return false;
+    }
+
     Material material = player.getInventory().getItemInMainHand().getType();
     if (this.plugin.cooldownManager().hasCooldown(player, material.name())) {
-      ChatUtils.sendMessage(player, "&7Poczekaj jeszcze &c"
-          + this.plugin.cooldownManager().getRemaining(player, material.name()));
+      ChatUtils.sendMessage(player, "&7Poczekaj jeszcze &c" + this.plugin.cooldownManager().getRemaining(player, material.name()));
       return true;
     }
 
