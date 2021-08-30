@@ -30,10 +30,7 @@ dependencies {
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.9")
     compileOnly("com.github.Archy-X:AureliumSkills:Beta1.2.0")
-    compileOnly("fr.xephi:authme:5.6.0-SNAPSHOT")
-    compileOnly("com.fastasyncworldedit:FAWE-Core:1.17-157")
     compileOnly("com.fastasyncworldedit:FAWE-Bukkit:1.17-157")
-    compileOnly("net.essentialsx:EssentialsX:2.19.0-SNAPSHOT")
 }
 
 tasks {

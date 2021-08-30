@@ -25,8 +25,7 @@ public final class PlayerTeleportTask implements Runnable {
       }
 
       if (!LocationUtils.equalsSoft(player.getLocation(), user.startLocation())) {
-        ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
-            "&cPoruszyłeś się w trakcie teleportacji!");
+        ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥", "&cPoruszyłeś się w trakcie teleportacji!");
 
         user.clearTeleport();
         VisualUtils.sound(player, Sound.BLOCK_ANVIL_DESTROY);
@@ -35,18 +34,18 @@ public final class PlayerTeleportTask implements Runnable {
 
       if (user.teleportCountdown() > 0) {
         user.teleportCountdown(user.teleportCountdown() - 1);
-        ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
-            "&7Zostaniesz przeteleportowany za &e" + user.teleportCountdown() + " sekund...");
+        ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥", "&7Zostaniesz przeteleportowany za &e" + user.teleportCountdown() + " sekund...");
 
         VisualUtils.sound(player, Sound.BLOCK_NOTE_BLOCK_GUITAR);
-      } else {
-        ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
-            "&7Zostałeś przeteleportowany &apomyślnie!");
-
-        player.teleportAsync(user.teleportTarget());
-        user.clearTeleport();
-        VisualUtils.sound(player, Sound.BLOCK_PISTON_EXTEND);
+        continue;
       }
+
+      ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥", "&6Rozpoczynanie &7teleportacji...");
+      player.teleportAsync(user.teleportTarget()).thenAccept(bool -> {
+        ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥", "&7Zostałeś przeteleportowany &apomyślnie!");
+        VisualUtils.sound(player, Sound.BLOCK_PISTON_EXTEND);
+        user.clearTeleport();
+      });
     }
   }
 }

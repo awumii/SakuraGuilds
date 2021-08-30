@@ -49,16 +49,14 @@ public class GuildNotificatorTask implements Runnable {
           VisualUtils.drawBorderAtChunk(ChunkUtils.serialize(chunk), player);
         }
 
-        if (!HookUtils.isVanished(player) && !guild.isMember(player.getName())) {
+        if (!player.hasPermission("sv.use") && !guild.isMember(player.getName())) {
           ChatUtils.forGuildMembers(guild, member -> {
-            if (LocationUtils.isWorldNotAllowed(member.getLocation())) {
-              VisualUtils.sound(member, Sound.ENTITY_ELDER_GUARDIAN_CURSE);
-              ChatUtils.sendBossBar(member, BarColor.RED, ChatUtils.format(
-                  "&4&l⚠ &c{0} &7wkroczył na teren: &6{1} ({2})",
-                  player.getName(),
-                  guild.claims().indexOf(ChunkUtils.deserialize(player.getChunk())),
-                  LocationUtils.legacyDeserialize(player.getLocation())));
-            }
+            VisualUtils.sound(member, Sound.ENTITY_ELDER_GUARDIAN_CURSE);
+            ChatUtils.sendBossBar(member, BarColor.RED, ChatUtils.format(
+                "&4&l⚠ &c{0} &7wkroczył na teren: &6{1} ({2})",
+                player.getName(),
+                guild.claims().indexOf(ChunkUtils.deserialize(player.getChunk())),
+                LocationUtils.legacyDeserialize(player.getLocation())));
           });
         }
       } else if (this.areaMap.containsKey(player.getUniqueId())) {

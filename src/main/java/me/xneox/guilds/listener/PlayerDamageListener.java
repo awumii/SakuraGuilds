@@ -39,7 +39,7 @@ public final class PlayerDamageListener implements Listener {
    * @return whenever the event should be cancelled.
    */
   private boolean isProtected(Player damaged, Player attacker) {
-    if (!LocationUtils.isWorldNotAllowed(damaged.getLocation()) || damaged.equals(attacker)) {
+    if (LocationUtils.isWorldNotAllowed(damaged.getLocation()) || damaged.equals(attacker)) {
       return false;
     }
 

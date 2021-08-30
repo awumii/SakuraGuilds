@@ -10,7 +10,6 @@ import me.xneox.guilds.util.text.ChatUtils;
 import me.xneox.guilds.util.text.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -21,10 +20,6 @@ import org.bukkit.inventory.ItemStack;
 public final class VisualUtils {
   public static void sound(Player player, Sound sound) {
     player.playSound(player.getLocation(), sound, 1f, 1f);
-  }
-
-  public static void click(Player player) {
-    sound(player, Sound.BLOCK_WOODEN_BUTTON_CLICK_ON);
   }
 
   public static void drawBorderAtChunk(Chunk chunk, Player player) {

@@ -11,8 +11,6 @@ import me.xneox.guilds.listener.ItemCooldownListener;
 import me.xneox.guilds.listener.PlayerChatListener;
 import me.xneox.guilds.listener.PlayerDamageListener;
 import me.xneox.guilds.listener.PlayerDeathListener;
-import me.xneox.guilds.listener.PlayerMenuListener;
-import me.xneox.guilds.listener.ResourePackListener;
 import me.xneox.guilds.manager.CooldownManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.manager.UserManager;
@@ -62,8 +60,6 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     registerListener(new PlayerChatListener(this));
     registerListener(new GuildAttackListener(this));
     registerListener(new ItemCooldownListener(this));
-    registerListener(new PlayerMenuListener());
-    registerListener(new ResourePackListener());
 
     // Registering tasks
     Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotificatorTask(this), 0L, 40L);
@@ -72,8 +68,8 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     Bukkit.getScheduler().runTaskTimer(this, new HologramRefreshTask(this), 0L, 60 * 20L);
     Bukkit.getScheduler().runTaskTimer(this, new PlayerTeleportTask(this), 0L, 20L);
 
-    Bukkit.getScheduler().runTaskTimer(this,
-        () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "su reloadplugin LevelledMobs"), 20L, 20L * 1500L);
+    //Bukkit.getScheduler().runTaskTimer(this,
+    //    () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "su reloadplugin LevelledMobs"), 20L, 20L * 1500L);
 
     new MainPlaceholderExpansion(this).register();
     new TopPlaceholderExpansion(this).register();

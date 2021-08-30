@@ -52,7 +52,7 @@ public final class ItemCooldownListener implements Listener {
    * @return whenever the event should be cancelled.
    */
   private boolean handleCooldown(Player player, int duration) {
-    if (!LocationUtils.isWorldNotAllowed(player.getLocation())) {
+    if (LocationUtils.isWorldNotAllowed(player.getLocation())) {
       return false;
     }
 

@@ -38,7 +38,7 @@ public final class GuildProtectionListener implements Listener {
    * @return whenever the event should be cancelled.
    */
   private boolean isProtected(Player player, Location location, boolean isBlockPlace) {
-    if (!LocationUtils.isWorldNotAllowed(location)) {
+    if (LocationUtils.isWorldNotAllowed(location)) {
       return false;
     }
 

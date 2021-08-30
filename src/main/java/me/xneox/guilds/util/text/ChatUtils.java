@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.util.LocationUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -172,7 +173,9 @@ public final class ChatUtils {
   }
 
   public static void forGuildMembers(Guild guild, Consumer<Player> action) {
-    guild.getOnlineMembers().forEach(action);
+    guild.getOnlineMembers().stream()
+        .filter(player -> !LocationUtils.isWorldNotAllowed(player.getLocation()))
+        .forEach(action);
   }
 
   public static String buildString(String[] args, int index) {

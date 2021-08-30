@@ -2,24 +2,13 @@ package me.xneox.guilds.util;
 
 import com.archyx.aureliumskills.api.AureliumAPI;
 import com.archyx.aureliumskills.skills.Skills;
-import com.earth2me.essentials.Essentials;
-import com.earth2me.essentials.IEssentials;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
-import com.sk89q.worldedit.function.operation.Operation;
-import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldedit.session.ClipboardHolder;
+import com.sk89q.worldedit.world.World;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -33,33 +22,16 @@ public final class HookUtils {
   @SuppressWarnings("ConstantConditions")
   public static final Economy ECONOMY = Bukkit.getServicesManager().getRegistration(Economy.class).getProvider();
 
-  @SuppressWarnings("ConstantConditions")
-  public static final Permission PERMISSION = Bukkit.getServicesManager().getRegistration(Permission.class).getProvider();
+  public static void pasteSchematic(@NotNull String schematic, @NotNull Location location) throws IOException {
+    File file = new File("plugins/FastAsyncWorldEdit/schematics", schematic);
 
-  public static final IEssentials ESSENTIALS = Essentials.getPlugin(Essentials.class);
+    World world = new BukkitWorld(location.getWorld());
+    BlockVector3 vector = BlockVector3.at(location.getBlockX(), location.getBlockY(), location.getBlockZ());
 
-  public static void pasteSchematic(@NotNull String schematic, @NotNull Location location) throws WorldEditException, IOException {
-    File file = new File("plugins/WorldEdit/schematics", schematic);
-
-    ClipboardFormat format = ClipboardFormats.findByFile(file);
-    if (format == null) {
-      throw new IOException("Could not find the clipboard format for " + schematic);
-    }
-
-    try (ClipboardReader reader = format.getReader(new FileInputStream(file));
-        EditSession editSession = WorldEdit.getInstance().newEditSession(new BukkitWorld(location.getWorld()))) {
-
-      Operation operation = new ClipboardHolder(reader.read())
-          .createPaste(editSession)
-          .to(BlockVector3.at(location.getX(), location.getY(), location.getZ()))
-          .build();
-
-      Operations.complete(operation);
-    }
-  }
-
-  public static boolean isVanished(Player player) {
-    return ESSENTIALS.getUser(player).isVanished();
+    ClipboardFormats.findByFile(file)
+        .load(file)
+        .paste(world, vector)
+        .close();
   }
 
   public static int getAureliumLevel(@NotNull Player player) {

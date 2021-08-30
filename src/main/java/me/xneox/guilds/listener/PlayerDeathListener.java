@@ -24,7 +24,7 @@ public final class PlayerDeathListener implements Listener {
     Player attacker = event.getEntity().getKiller();
 
     victim.getWorld().strikeLightningEffect(victim.getLocation());
-    if (!LocationUtils.isWorldNotAllowed(victim.getLocation())) {
+    if (LocationUtils.isWorldNotAllowed(victim.getLocation())) {
       return;
     }
 
