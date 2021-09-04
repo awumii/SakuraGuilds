@@ -66,7 +66,7 @@ publishing {
       url = uri("https://maven.pkg.github.com/xxneox/SakuraGuilds")
       
       credentials {
-        username = System.getenv("GITHUB_ACTOR")
+        username = System.getenv("USERNAME")
         password = System.getenv("GITHUB_TOKEN")
       }
     }
