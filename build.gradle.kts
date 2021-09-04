@@ -1,5 +1,6 @@
 plugins {
-    id("java")
+    java
+    `maven-publish`
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
@@ -51,4 +52,23 @@ tasks {
         relocate("com.zaxxer", "lib")
         relocate("co.aikar", "lib")
     }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
+    
+  repositories {
+    maven {
+      name = "GitHubPackages"
+      url = "https://maven.pkg.github.com/xxneox/SakuraGuilds"
+      credentials {
+        username = System.getenv("GITHUB_ACTOR")
+        password = System.getenv("GITHUB_TOKEN")
+      }
+    }
+  }
 }
