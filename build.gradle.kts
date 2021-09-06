@@ -31,7 +31,7 @@ dependencies {
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.9")
     compileOnly("com.github.Archy-X:AureliumSkills:Beta1.2.0")
-    compileOnly("com.fastasyncworldedit:FAWE-Bukkit:1.17-157")
+    compileOnly("com.fastasyncworldedit:FAWE-Bukkit:1.17-201")
 }
 
 tasks {
