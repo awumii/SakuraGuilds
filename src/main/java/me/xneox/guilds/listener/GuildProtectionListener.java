@@ -24,16 +24,15 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.jetbrains.annotations.NotNull;
 
-public final class GuildProtectionListener implements Listener {
-  private final SakuraGuildsPlugin plugin;
-
-  public GuildProtectionListener(SakuraGuildsPlugin plugin) {
-    this.plugin = plugin;
-  }
+/**
+ * This listener handles building, explosions etc... on the guild regions.
+ */
+public record GuildProtectionListener(@NotNull SakuraGuildsPlugin plugin) implements Listener {
 
   /**
-   * @param player The player who invoked the event.
+   * @param player   The player who invoked the event.
    * @param location Location where the event happened.
    * @return whenever the event should be cancelled.
    */

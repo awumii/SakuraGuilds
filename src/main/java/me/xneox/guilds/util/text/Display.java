@@ -3,6 +3,7 @@ package me.xneox.guilds.util.text;
 import net.kyori.adventure.text.format.TextColor;
 import org.jetbrains.annotations.NotNull;
 
+// TODO: use it somewhere? i don't remember what i created this for
 public class Display {
   private final String name;
   private final char icon;

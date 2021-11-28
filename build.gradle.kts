@@ -9,21 +9,19 @@ version = "4.0.0"
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
-    maven { url = uri("https://jitpack.io") }
-    maven { url = uri("https://repo.codemc.io/repository/maven-public/") }
-    maven { url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/") }
-    maven { url = uri("https://nexus.sirblobman.xyz/repository/public/") }
-    maven { url = uri("https://repo.aikar.co/content/groups/aikar/") }
-    maven { url = uri("https://mvn.intellectualsites.com/content/groups/public/") }
-    maven { url = uri("https://repo.essentialsx.net/snapshots/") }
+    maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://jitpack.io")
+    maven("https://repo.codemc.io/repository/maven-public/")
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://nexus.sirblobman.xyz/repository/public/")
+    maven("https://mvn.intellectualsites.com/content/groups/public/")
+    maven("https://repo.essentialsx.net/snapshots/")
 }
 
 dependencies {
-    implementation("commons-io:commons-io:2.11.0")
     implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("org.spongepowered:configurate-hocon:4.1.2")
     implementation("com.zaxxer:HikariCP:5.0.0")
-    implementation("co.aikar:idb-core:1.0.0-SNAPSHOT")
 
     compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
     compileOnly("fr.minuskube.inv:smart-invs:1.2.7")
@@ -46,29 +44,22 @@ tasks {
     }
 
     shadowJar {
+        relocate("org.apache.commons", "$group.libs.commons")
+        relocate("com.zaxxer.hikari", "$group.libs.hikari")
+        relocate("com.typesafe.config", "$group.libs.config")
+        relocate("org.spongepowered.configurate", "$group.libs.configurate")
+        relocate("io.leangen.geantyref", "$group.libs.geantyref")
         minimize()
-
-        relocate("org.apache.commons", "lib")
-        relocate("com.zaxxer", "lib")
-        relocate("co.aikar", "lib")
     }
 }
 
+// Publish to jitpack.org
+// TODO create api module
 publishing {
     publications {
         create<MavenPublication>("maven") {
+            artifactId = "SakuraGuilds"
             from(components["java"])
         }
     }
-    
-  repositories {
-    maven {
-      url = uri("https://maven.pkg.github.com/xxneox/SakuraGuilds")
-      
-      credentials {
-        username = System.getenv("USERNAME")
-        password = System.getenv("GITHUB_TOKEN")
-      }
-    }
-  }
 }

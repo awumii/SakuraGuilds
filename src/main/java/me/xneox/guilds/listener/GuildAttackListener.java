@@ -18,12 +18,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public final class GuildAttackListener implements Listener {
-  private final SakuraGuildsPlugin plugin;
-
-  public GuildAttackListener(SakuraGuildsPlugin plugin) {
-    this.plugin = plugin;
-  }
+/**
+ * This listener handles clicking on the nexus block.
+ */
+public record GuildAttackListener(SakuraGuildsPlugin plugin) implements Listener {
 
   @EventHandler
   public void onInteract(PlayerInteractEvent event) {
@@ -39,7 +37,7 @@ public final class GuildAttackListener implements Listener {
     if (event.getClickedBlock() != null
         && event.getClickedBlock().getType() == Material.END_PORTAL_FRAME
         && (event.getAction() == Action.LEFT_CLICK_BLOCK
-            || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+        || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 
       Guild guild = manager.findAt(player.getLocation());
       if (guild == null) {
@@ -60,16 +58,15 @@ public final class GuildAttackListener implements Listener {
         return;
       }
 
+      // todo bug
       Guild attackerGuild = manager.playerGuild(player);
-      ChatUtils.broadcast("&c[{0}] {1} &7zaatakował nexusa &6{2}!",
-          attackerGuild.name(), player.getName(), guild.name());
+      ChatUtils.broadcast("&c[{0}] {1} &7zaatakował nexusa &6{2}!", attackerGuild.name(), player.getName(), guild.name());
 
       if (guild.health() <= 1) {
         ChatUtils.broadcastCenteredMessage(" ");
         ChatUtils.broadcastCenteredMessage("&6&lZNISZCZENIE NEXUSA GILDII");
         ChatUtils.broadcastCenteredMessage(" ");
-        ChatUtils.broadcastCenteredMessage("&7Gildia &6{0} &7została przebita przez &c{1}",
-            guild.name(), manager.playerGuild(player).name());
+        ChatUtils.broadcastCenteredMessage("&7Gildia &6{0} &7została przebita przez &c{1}", guild.name(), manager.playerGuild(player).name());
         ChatUtils.broadcastCenteredMessage("&7Nexusa zniszczył: " + player.getName());
         ChatUtils.broadcastCenteredMessage(" ");
 
@@ -81,8 +78,7 @@ public final class GuildAttackListener implements Listener {
       } else {
         guild.shieldDuration(Duration.ofDays(1));
         guild.health(guild.health() - 1);
-        ChatUtils.broadcast("&7Gildia &6{0} &7posiada jeszcze &c{1} żyć!",
-            guild.name(), guild.health());
+        ChatUtils.broadcast("&7Gildia &6{0} &7posiada jeszcze &c{1} żyć!", guild.name(), guild.health());
       }
     }
   }

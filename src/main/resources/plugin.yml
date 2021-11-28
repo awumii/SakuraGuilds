@@ -2,25 +2,20 @@ name: SakuraGuilds
 version: ${version}
 main: me.xneox.guilds.SakuraGuildsPlugin
 author: xNeox
-description: Plugin na gildie, dla serwera dronizja.pl
+description: Work-in-progress guild plugin.
 api-version: 1.17
 
 depend:
   - Vault
   - HolographicDisplays
   - PlaceholderAPI
+
+softdepend:
+  - WorldEdit
+  - FastAsyncWorldEdit
+  - PlaceholderAPI
   - AureliumSkills
-  - Essentials
-  - SmartInvs
-  - AuthMe
 
 commands:
   guild:
     aliases: [ g ]
-  live:
-    permission: sakuraguilds.live
-    permission-message: 'Nie posiadasz uprawnień.'
-  help:
-    aliases: [ pomoc ]
-  sendraw:
-    usage: 'Player not found.'

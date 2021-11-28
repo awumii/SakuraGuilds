@@ -2,19 +2,17 @@ package me.xneox.guilds.command;
 
 import java.util.ArrayList;
 import java.util.List;
-import me.xneox.guilds.command.internal.SubCommand;
+import me.xneox.guilds.command.annotations.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class GuildCommandCompleter implements TabCompleter {
-  private final CommandManager commandManager;
-
-  public GuildCommandCompleter(CommandManager commandManager) {
-    this.commandManager = commandManager;
-  }
+/**
+ * Implementation of the Bukkit's TabCompleter that manages suggestions for the /guild command and subcommands.
+ */
+public record GuildCommandCompleter(@NotNull CommandManager commandManager) implements TabCompleter {
 
   @Override
   public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {

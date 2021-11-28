@@ -12,12 +12,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-public final class PlayerDamageListener implements Listener {
-  private final SakuraGuildsPlugin plugin;
-
-  public PlayerDamageListener(SakuraGuildsPlugin plugin) {
-    this.plugin = plugin;
-  }
+/**
+ * This listener handles player pvp.
+ */
+public record PlayerDamageListener(SakuraGuildsPlugin plugin) implements Listener {
 
   @EventHandler
   public void onDamage(EntityDamageByEntityEvent event) {
@@ -28,13 +26,14 @@ public final class PlayerDamageListener implements Listener {
       }
     }
 
-    if (event.getEntity() instanceof Player damaged && event.getDamager() instanceof Player damager && this.isProtected(damaged, damager)) {
+    if (event.getEntity() instanceof Player damaged && event.getDamager() instanceof Player damager
+        && this.isProtected(damaged, damager)) {
       event.setCancelled(true);
     }
   }
 
   /**
-   * @param damaged Attacked player.
+   * @param damaged  Attacked player.
    * @param attacker The player who attacked.
    * @return whenever the event should be cancelled.
    */
@@ -46,7 +45,7 @@ public final class PlayerDamageListener implements Listener {
     Guild guild = this.plugin.guildManager().findAt(damaged.getLocation());
     if (guild != null && guild.isShieldActive()) {
       ChatUtils.sendTitle(attacker, "", "&cTarcza wojenna blokuje atak! &8(&6"
-              + TimeUtils.futureMillisToTime(guild.shieldDuration()) + "&8)");
+          + TimeUtils.futureMillisToTime(guild.shieldDuration()) + "&8)");
       return true;
     }
 

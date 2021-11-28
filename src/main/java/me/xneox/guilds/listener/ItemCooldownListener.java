@@ -13,13 +13,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.projectiles.ProjectileSource;
+import org.jetbrains.annotations.ApiStatus.ScheduledForRemoval;
+import org.jetbrains.annotations.NotNull;
 
-public final class ItemCooldownListener implements Listener {
-  private final SakuraGuildsPlugin plugin;
-
-  public ItemCooldownListener(SakuraGuildsPlugin plugin) {
-    this.plugin = plugin;
-  }
+/**
+ * This listener adds cooldowns to elytras, golden apples and ender pearls.
+ * TODO: This shouldn't be a part of a guild plugin. Maybe i'll leave it there idk.
+ */
+@Deprecated
+@ScheduledForRemoval
+public record ItemCooldownListener(@NotNull SakuraGuildsPlugin plugin) implements Listener {
 
   @EventHandler
   public void onElytraBoost(PlayerElytraBoostEvent event) {
@@ -58,7 +61,8 @@ public final class ItemCooldownListener implements Listener {
 
     Material material = player.getInventory().getItemInMainHand().getType();
     if (this.plugin.cooldownManager().hasCooldown(player, material.name())) {
-      ChatUtils.sendMessage(player, "&7Poczekaj jeszcze &c" + this.plugin.cooldownManager().getRemaining(player, material.name()));
+      ChatUtils.sendMessage(player, "&7Poczekaj jeszcze &c" + this.plugin.cooldownManager()
+          .getRemaining(player, material.name()));
       return true;
     }
 

@@ -1,5 +1,10 @@
 package me.xneox.guilds.enums;
 
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Permissions manage the priveleges of guild members and default guild ranks.
+ */
 public enum Permission {
   BUILD("Budowanie oraz interakcje na terenie gildii."),
   KICK("Wyrzucanie członków"),
@@ -12,10 +17,11 @@ public enum Permission {
 
   private final String description;
 
-  Permission(String description) {
+  Permission(@NotNull String description) {
     this.description = description;
   }
 
+  @NotNull
   public String getDescription() {
     return description;
   }

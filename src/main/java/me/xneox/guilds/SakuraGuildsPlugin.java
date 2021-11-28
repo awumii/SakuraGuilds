@@ -1,10 +1,11 @@
 package me.xneox.guilds;
 
+import java.io.File;
 import java.sql.SQLException;
 import me.xneox.guilds.command.CommandManager;
-import me.xneox.guilds.command.misc.GlobalHelpCommand;
-import me.xneox.guilds.command.misc.LiveCommand;
-import me.xneox.guilds.command.misc.SendMessageCommand;
+import me.xneox.guilds.config.MessagesConfiguration;
+import me.xneox.guilds.config.PluginConfiguration;
+import me.xneox.guilds.hook.HookUtils;
 import me.xneox.guilds.listener.GuildAttackListener;
 import me.xneox.guilds.listener.GuildProtectionListener;
 import me.xneox.guilds.listener.ItemCooldownListener;
@@ -12,46 +13,47 @@ import me.xneox.guilds.listener.PlayerChatListener;
 import me.xneox.guilds.listener.PlayerDamageListener;
 import me.xneox.guilds.listener.PlayerDeathListener;
 import me.xneox.guilds.manager.CooldownManager;
+import me.xneox.guilds.manager.DatabaseManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.manager.UserManager;
-import me.xneox.guilds.placeholder.MainPlaceholderExpansion;
-import me.xneox.guilds.placeholder.TopPlaceholderExpansion;
 import me.xneox.guilds.task.DataSaveTask;
 import me.xneox.guilds.task.GuildNotificatorTask;
 import me.xneox.guilds.task.HologramRefreshTask;
 import me.xneox.guilds.task.PlayerTeleportTask;
-import me.xneox.guilds.util.DatabaseUtils;
+import me.xneox.guilds.util.ConfigurationLoader;
+import me.xneox.guilds.util.LogUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 
 public class SakuraGuildsPlugin extends JavaPlugin {
+  private DatabaseManager databaseManager;
   private GuildManager guildManager;
   private UserManager userManager;
   private CooldownManager cooldownManager;
 
+  private PluginConfiguration config;
+  private MessagesConfiguration messages;
+
   @Override
   public void onEnable() {
-    try {
-      DatabaseUtils.connect();
-      this.userManager = new UserManager();
-      this.guildManager = new GuildManager();
-      this.cooldownManager = new CooldownManager();
-    } catch (SQLException ex) {
-      ex.printStackTrace();
-      Bukkit.getPluginManager().disablePlugin(this);
+    this.loadConfigurations();
+
+    this.databaseManager = new DatabaseManager(this);
+    this.userManager = new UserManager(this.databaseManager);
+    this.guildManager = new GuildManager(this.databaseManager);
+    this.cooldownManager = new CooldownManager(this.databaseManager);
+
+    var bukkitCommand = this.getCommand("guild");
+    if (bukkitCommand != null) {
+      var commandManager = new CommandManager(this);
+
+      bukkitCommand.setExecutor(commandManager.executor());
+      bukkitCommand.setTabCompleter(commandManager.completer());
     }
-
-    CommandManager commandManager = new CommandManager(this);
-    registerCommand("guild", commandManager.executor(), commandManager.completer());
-
-    // Other commands that are not needed here but anyway
-    registerCommand("sendraw", new SendMessageCommand(), null);
-    registerCommand("live", new LiveCommand(this), null);
-    registerCommand("help", new GlobalHelpCommand(), null);
 
     // Registering listeners
     registerListener(new GuildProtectionListener(this));
@@ -68,49 +70,71 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     Bukkit.getScheduler().runTaskTimer(this, new HologramRefreshTask(this), 0L, 60 * 20L);
     Bukkit.getScheduler().runTaskTimer(this, new PlayerTeleportTask(this), 0L, 20L);
 
-    //Bukkit.getScheduler().runTaskTimer(this,
-    //    () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "su reloadplugin LevelledMobs"), 20L, 20L * 1500L);
+    HookUtils.register(this);
+  }
 
-    new MainPlaceholderExpansion(this).register();
-    new TopPlaceholderExpansion(this).register();
+  public void loadConfigurations() {
+    var configLoader = HoconConfigurationLoader.builder()
+        .file(new File(HookUtils.DIRECTORY, "config.conf"))
+        .build();
+
+    var messagesLoader = HoconConfigurationLoader.builder()
+        .file(new File(HookUtils.DIRECTORY, "messages.conf"))
+        .build();
+
+    try {
+      this.config = new ConfigurationLoader<>(PluginConfiguration.class, configLoader).load();
+      this.messages = new ConfigurationLoader<>(MessagesConfiguration.class, messagesLoader).load();
+    } catch (ConfigurateException exception) {
+      LogUtils.catchException("Couldn't load the configuration file", exception);
+    }
   }
 
   @Override
   public void onDisable() {
-    this.guildManager.save();
-    this.userManager.save();
-    this.cooldownManager.save();
+    try {
+      this.guildManager.save();
+      this.userManager.save();
+      this.cooldownManager.save();
+    } catch (SQLException exception) {
+      LogUtils.catchException("Could not save date to the database.", exception);
+    }
+
+    this.databaseManager.shutdown();
   }
 
+  @NotNull
+  public PluginConfiguration config() {
+    return this.config;
+  }
+
+  @NotNull
+  public MessagesConfiguration messages() {
+    return this.messages;
+  }
+
+  @NotNull
   public GuildManager guildManager() {
     return this.guildManager;
   }
 
+  @NotNull
   public UserManager userManager() {
     return this.userManager;
   }
 
+  @NotNull
   public CooldownManager cooldownManager() {
     return this.cooldownManager;
   }
 
-  private void registerCommand(String name, CommandExecutor executor, TabCompleter tabCompleter) {
-    PluginCommand command = this.getCommand(name);
-    if (command == null) {
-      this.getLogger().severe("Could not register command " + name);
-      return;
-    }
+  // Utility methods
 
-    command.setExecutor(executor);
-    if (tabCompleter != null) {
-      command.setTabCompleter(tabCompleter);
-    }
-  }
-
-  private void registerListener(Listener listener) {
+  private void registerListener(@NotNull Listener listener) {
     Bukkit.getPluginManager().registerEvents(listener, this);
   }
 
+  @NotNull
   public static SakuraGuildsPlugin get() {
     return SakuraGuildsPlugin.getPlugin(SakuraGuildsPlugin.class);
   }

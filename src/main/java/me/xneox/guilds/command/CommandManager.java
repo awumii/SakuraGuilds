@@ -3,30 +3,29 @@ package me.xneox.guilds.command;
 import java.util.HashMap;
 import java.util.Map;
 import me.xneox.guilds.SakuraGuildsPlugin;
-import me.xneox.guilds.command.impl.AllyAcceptCommand;
-import me.xneox.guilds.command.impl.AllyCommand;
-import me.xneox.guilds.command.impl.ChatChannelCommand;
-import me.xneox.guilds.command.impl.ClaimCommand;
-import me.xneox.guilds.command.impl.CreateCommand;
-import me.xneox.guilds.command.impl.DeleteCommand;
-import me.xneox.guilds.command.impl.DonateCommand;
-import me.xneox.guilds.command.impl.GuildTeleportCommand;
-import me.xneox.guilds.command.impl.HelpCommand;
-import me.xneox.guilds.command.impl.HomeCommand;
-import me.xneox.guilds.command.impl.InfoCommand;
-import me.xneox.guilds.command.impl.InviteCommand;
-import me.xneox.guilds.command.impl.JoinCommand;
-import me.xneox.guilds.command.impl.KickCommand;
-import me.xneox.guilds.command.impl.LeaveCommand;
-import me.xneox.guilds.command.impl.MenuCommand;
-import me.xneox.guilds.command.impl.RaceCommand;
-import me.xneox.guilds.command.impl.SetHomeCommand;
-import me.xneox.guilds.command.impl.SetTrophiesCommand;
-import me.xneox.guilds.command.impl.TopCommand;
-import me.xneox.guilds.command.impl.UnClaimCommand;
-import me.xneox.guilds.command.impl.UpgradeCommand;
-import me.xneox.guilds.command.impl.ViewDatabaseCommand;
-import me.xneox.guilds.command.internal.SubCommand;
+import me.xneox.guilds.command.sub.AllyAcceptCommand;
+import me.xneox.guilds.command.sub.AllyCommand;
+import me.xneox.guilds.command.sub.ChatChannelCommand;
+import me.xneox.guilds.command.sub.ClaimCommand;
+import me.xneox.guilds.command.sub.CreateCommand;
+import me.xneox.guilds.command.sub.DeleteCommand;
+import me.xneox.guilds.command.sub.DonateCommand;
+import me.xneox.guilds.command.sub.GuildTeleportCommand;
+import me.xneox.guilds.command.sub.HelpCommand;
+import me.xneox.guilds.command.sub.HomeCommand;
+import me.xneox.guilds.command.sub.InfoCommand;
+import me.xneox.guilds.command.sub.InviteCommand;
+import me.xneox.guilds.command.sub.JoinCommand;
+import me.xneox.guilds.command.sub.KickCommand;
+import me.xneox.guilds.command.sub.LeaveCommand;
+import me.xneox.guilds.command.sub.MenuCommand;
+import me.xneox.guilds.command.sub.SetHomeCommand;
+import me.xneox.guilds.command.sub.SetTrophiesCommand;
+import me.xneox.guilds.command.sub.TopCommand;
+import me.xneox.guilds.command.sub.UnClaimCommand;
+import me.xneox.guilds.command.sub.UpgradeCommand;
+import me.xneox.guilds.command.sub.ViewDatabaseCommand;
+import me.xneox.guilds.command.annotations.SubCommand;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandManager {
@@ -48,7 +47,6 @@ public class CommandManager {
 
   private void registerCommands() {
     commandMap.put("menu", new MenuCommand());
-    commandMap.put("race", new RaceCommand());
     commandMap.put("claim", new ClaimCommand());
     commandMap.put("unclaim", new UnClaimCommand());
     commandMap.put("create", new CreateCommand());
@@ -74,18 +72,22 @@ public class CommandManager {
     commandMap.put("settrophies", new SetTrophiesCommand());
   }
 
+  @NotNull
   public Map<String, SubCommand> commandMap() {
     return this.commandMap;
   }
 
+  @NotNull
   public GuildCommandExecutor executor() {
     return this.executor;
   }
 
+  @NotNull
   public GuildCommandCompleter completer() {
     return this.completer;
   }
 
+  @NotNull
   public SakuraGuildsPlugin plugin() {
     return this.plugin;
   }

@@ -25,6 +25,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 public final class ChatUtils {
+  // TODO: un-hardcode
   public static final String PREFIX = "&#D75524&lGILDIE &8» &7";
 
   public static final String BRONZE = "&#cd7f32";

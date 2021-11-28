@@ -30,14 +30,10 @@ public final class VisualUtils {
     for (int x = minX; x < minX + 17; x++) {
       for (int y = minY; y < minY + 1; y++) {
         for (int z = minZ; z < minZ + 17; z++) {
-          player.spawnParticle(
-              Particle.VILLAGER_HAPPY, minX, y, z, 1);
-          player.spawnParticle(
-              Particle.VILLAGER_HAPPY, x, y, minZ, 1);
-          player.spawnParticle(
-              Particle.VILLAGER_HAPPY, minX + 16, y, z, 1);
-          player.spawnParticle(
-              Particle.VILLAGER_HAPPY, x, y, minZ + 17, 1);
+          player.spawnParticle(Particle.VILLAGER_HAPPY, minX, y, z, 1);
+          player.spawnParticle(Particle.VILLAGER_HAPPY, x, y, minZ, 1);
+          player.spawnParticle(Particle.VILLAGER_HAPPY, minX + 16, y, z, 1);
+          player.spawnParticle(Particle.VILLAGER_HAPPY, x, y, minZ + 17, 1);
         }
       }
     }
@@ -47,6 +43,7 @@ public final class VisualUtils {
     Location location = guild.nexusLocation().clone();
     location.setY(location.getY() + 3);
 
+    // todo: localize
     createHologram(location, Material.ENDER_EYE,
         "&6&lNEXUS " + guild.name(),
         "&7Ilość żyć: &c" + guild.health() + "/3",
@@ -66,7 +63,6 @@ public final class VisualUtils {
 
   public static void createTimedHologram(Location location, Duration duration, Material icon, String... text) {
     Hologram hologram = createHologram(location, icon, text);
-    Bukkit.getScheduler()
-        .runTaskLater(SakuraGuildsPlugin.get(), hologram::delete, duration.getSeconds() * 20);
+    Bukkit.getScheduler().runTaskLater(SakuraGuildsPlugin.get(), hologram::delete, duration.getSeconds() * 20);
   }
 }

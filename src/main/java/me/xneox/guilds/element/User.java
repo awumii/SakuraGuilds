@@ -1,18 +1,14 @@
 package me.xneox.guilds.element;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import me.xneox.guilds.enums.ChatChannel;
-import me.xneox.guilds.enums.Race;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class User implements Comparable<User> {
   private int trophies;
   private int kills;
   private int deaths;
-  private long joinDate;
-  private Race race;
 
   private String editorSubject;
   private ChatChannel chatChannel;
@@ -21,12 +17,10 @@ public class User implements Comparable<User> {
   private Location teleportTarget;
   private int teleportCountdown;
 
-  public User(int trophies, int kills, int deaths, long joinDate, Race race) {
+  public User(int trophies, int kills, int deaths) {
     this.trophies = trophies;
     this.kills = kills;
     this.deaths = deaths;
-    this.joinDate = joinDate;
-    this.race = race;
     this.chatChannel = ChatChannel.GLOBAL;
   }
 
@@ -36,23 +30,6 @@ public class User implements Comparable<User> {
 
   public void trophies(int trophies) {
     this.trophies = trophies;
-  }
-
-  public String joinDate() {
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm");
-    return sdf.format(new Date(this.joinDate));
-  }
-
-  public long joinLong() {
-    return this.joinDate;
-  }
-
-  public Race race() {
-    return this.race;
-  }
-
-  public void race(Race race) {
-    this.race = race;
   }
 
   public int kills() {
@@ -71,18 +48,19 @@ public class User implements Comparable<User> {
     this.deaths = deaths;
   }
 
-  public void joinDate(long joinDate) {
-    this.joinDate = joinDate;
-  }
-
+  /**
+   * @return nickname of the member this user is currently managing (changing permissions in guild).
+   */
+  @Nullable
   public String editorSubject() {
     return this.editorSubject;
   }
 
-  public void editorSubject(String editorSubject) {
+  public void editorSubject(@Nullable String editorSubject) {
     this.editorSubject = editorSubject;
   }
 
+  @NotNull
   public ChatChannel chatChannel() {
     return this.chatChannel;
   }
@@ -91,10 +69,12 @@ public class User implements Comparable<User> {
     this.chatChannel = chatChannel;
   }
 
+  @Nullable
   public Location startLocation() {
     return this.startLocation;
   }
 
+  @Nullable
   public Location teleportTarget() {
     return this.teleportTarget;
   }
@@ -112,7 +92,7 @@ public class User implements Comparable<User> {
     this.startLocation = null;
   }
 
-  public void beginTeleport(Location startLocation, Location teleportTarget) {
+  public void beginTeleport(@NotNull Location startLocation, @NotNull Location teleportTarget) {
     this.teleportCountdown = 6;
     this.startLocation = startLocation;
     this.teleportTarget = teleportTarget;
@@ -129,8 +109,6 @@ public class User implements Comparable<User> {
         "trophies=" + trophies +
         ", kills=" + kills +
         ", deaths=" + deaths +
-        ", joinDate=" + joinDate +
-        ", race=" + race +
         ", editorSubject='" + editorSubject + '\'' +
         ", chatChannel=" + chatChannel +
         ", startLocation=" + startLocation +

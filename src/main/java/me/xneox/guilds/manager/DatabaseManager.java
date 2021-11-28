@@ -1,0 +1,104 @@
+package me.xneox.guilds.manager;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import me.xneox.guilds.SakuraGuildsPlugin;
+import me.xneox.guilds.util.FileUtils;
+import me.xneox.guilds.hook.HookUtils;
+import me.xneox.guilds.util.LogUtils;
+import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+public class DatabaseManager {
+  private final SakuraGuildsPlugin plugin;
+  private HikariDataSource source;
+
+  public DatabaseManager(@NotNull SakuraGuildsPlugin plugin) {
+    this.plugin = plugin;
+
+    try {
+      this.connect();
+    } catch (SQLException exception) {
+      LogUtils.catchException("Could not connect to the database.", exception);
+    }
+  }
+
+  // Initial connection to the database, obtaining HikariDataSource.
+  public void connect() throws SQLException {
+    var config = this.plugin.config().storage();
+    var hikariConfig = new HikariConfig();
+
+    if (config.useMySQL()) {
+      hikariConfig.setJdbcUrl("jdbc:mysql://" + config.host() + ":" + config.port() + "/" + config.database());
+      hikariConfig.setUsername(config.user());
+      hikariConfig.setPassword(config.password());
+
+      hikariConfig.addDataSourceProperty("cachePrepStmts", true);
+      hikariConfig.addDataSourceProperty("prepStmtCacheSize", 250);
+      hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
+      hikariConfig.addDataSourceProperty("useServerPrepStmts", true);
+    } else {
+      var file = FileUtils.create(new File(HookUtils.DIRECTORY, "database.db"));
+      hikariConfig.setJdbcUrl("jdbc:sqlite:" + file.getPath());
+    }
+
+    // Enable leak detection when debug is enabled.
+    if (this.plugin.config().debug()) {
+      hikariConfig.setLeakDetectionThreshold(30000);
+    }
+
+    this.source = new HikariDataSource(hikariConfig);
+  }
+
+  @NotNull
+  public ResultSet executeQuery(@NotNull String query) throws SQLException {
+    try (var connection = this.source.getConnection();
+        var statement = connection.prepareStatement(query);
+        var rs = statement.executeQuery()) {
+      return rs;
+    }
+  }
+
+  public void executeUpdate(@NotNull String update, @Nullable Object... params) throws SQLException {
+    try (var connection = this.source.getConnection();
+        var statement = connection.prepareStatement(update)) {
+
+      for (int i = 0; i < params.length; i++) {
+        statement.setObject(i + 1, params[i]);
+      }
+      statement.executeUpdate();
+    }
+  }
+
+  public void executeUpdateAsync(@NotNull String update, @Nullable Object... params) {
+    Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
+      try {
+        executeUpdate(update, params);
+      } catch (SQLException exception) {
+        LogUtils.catchException("Could not execute asynchronous update to the database.", exception);
+      }
+    });
+  }
+
+  // Shut down the Hikari connection pool.
+  public void shutdown() {
+    this.source.close();
+  }
+
+  // Utility methods for lists because im fucking stupid
+
+  public static List<String> stringToList(String result) {
+    return new ArrayList<>(Arrays.asList(result.split(",")));
+  }
+
+  public static String listToString(List<String> list) {
+    return String.join(",", list);
+  }
+}

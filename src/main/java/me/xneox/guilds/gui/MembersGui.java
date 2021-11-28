@@ -34,7 +34,7 @@ public class MembersGui implements InventoryProvider {
       User user = SakuraGuildsPlugin.get().userManager().user(member.uuid());
       ItemStack skull = ItemBuilder.skullOf(member.nickname())
           .name("&6" + member.nickname())
-          .lore("&e(Dołączył do gildii: &f" + user.joinDate() + "&e)")
+          .lore("&e(Dołączył do gildii: &f" + member.joinDate() + "&e)")
           .lore("&e(Widziany ostatnio: &f"
               + TimeUtils.timeSince(Bukkit.getOfflinePlayer(member.uuid()).getLastSeen())
               + " temu&e)")

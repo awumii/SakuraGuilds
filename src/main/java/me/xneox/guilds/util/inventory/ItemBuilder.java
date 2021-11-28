@@ -1,6 +1,5 @@
 package me.xneox.guilds.util.inventory;
 
-import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,8 +14,9 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class ItemBuilder {
   private final List<Component> lore;
@@ -29,7 +29,7 @@ public class ItemBuilder {
   private String skullTexture;
   private String skullOwner;
 
-  private ItemBuilder(Material material) {
+  private ItemBuilder(@NotNull Material material) {
     this.title = null;
     this.lore = new ArrayList<>();
     this.enchants = new HashMap<>();
@@ -37,63 +37,79 @@ public class ItemBuilder {
     this.amount = 1;
   }
 
-  public static ItemBuilder of(Material material) {
+  // Construct methods
+
+  @NotNull
+  public static ItemBuilder of(@NotNull Material material) {
     return new ItemBuilder(material);
   }
 
-  public static ItemBuilder skull(String skullTexture) {
-    ItemBuilder builder = new ItemBuilder(Material.PLAYER_HEAD);
+  @NotNull
+  public static ItemBuilder skull(@NotNull String skullTexture) {
+    var builder = new ItemBuilder(Material.PLAYER_HEAD);
     builder.skullTexture = skullTexture;
     return builder;
   }
 
-  public static ItemBuilder skullOf(String skullOwner) {
-    ItemBuilder builder = new ItemBuilder(Material.PLAYER_HEAD);
+  @NotNull
+  public static ItemBuilder skullOf(@NotNull String skullOwner) {
+    var builder = new ItemBuilder(Material.PLAYER_HEAD);
     builder.skullOwner = skullOwner;
     return builder;
   }
 
-  public ItemBuilder name(String title) {
+  // Builder methods
+  // TODO fix the TextDecoration because now it completely removes all italics instead of forcing it everywhere.
+
+  @Contract("_ -> this")
+  public ItemBuilder name(@NotNull String title) {
     this.title = ChatUtils.color(title)
       .decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE); // italic is default for item stacks.
     return this;
   }
 
-  public ItemBuilder lore(String append) {
+  @Contract("_ -> this")
+  public ItemBuilder lore(@NotNull String append) {
     this.lore.add(ChatUtils.color(append)
       .decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE)); // italic is default for item stacks.
     return this;
   }
 
-  public ItemBuilder lore(List<String> list) {
+  @Contract("_ -> this")
+  public ItemBuilder lore(@NotNull List<String> list) {
     list.forEach(this::lore);
     return this;
   }
 
-  public ItemBuilder lore(String... strings) {
+  @Contract("_ -> this")
+  public ItemBuilder lore(@NotNull String... strings) {
     this.lore(Arrays.asList(strings));
     return this;
   }
 
+  @Contract("_ -> this")
   public ItemBuilder amount(int amount) {
     this.amount = amount;
     return this;
   }
 
-  public ItemBuilder flags(ItemFlag... flags) {
+  @Contract("_ -> this")
+  public ItemBuilder flags(@NotNull ItemFlag... flags) {
     this.flags = flags;
     return this;
   }
 
-  public ItemBuilder enchantment(Enchantment enchant, int level) {
+  @Contract("_, _ -> this")
+  public ItemBuilder enchantment(@NotNull Enchantment enchant, int level) {
     this.enchants.remove(enchant);
     this.enchants.put(enchant, level);
     return this;
   }
 
+  @NotNull
   public ItemStack build() {
-    ItemStack item = new ItemStack(this.material, this.amount);
-    ItemMeta meta = item.getItemMeta();
+    var item = new ItemStack(this.material, this.amount);
+    var meta = item.getItemMeta();
 
     if (this.title != null) {
       meta.displayName(this.title);
@@ -108,16 +124,16 @@ public class ItemBuilder {
     }
 
     if (this.skullOwner != null) {
-      SkullMeta headMeta = (SkullMeta) meta;
-      headMeta.setPlayerProfile(Bukkit.createProfile(this.skullOwner));
+      var skullMeta = (SkullMeta) meta;
+      skullMeta.setPlayerProfile(Bukkit.createProfile(this.skullOwner));
     }
 
     if (this.skullTexture != null) {
-      SkullMeta headMeta = (SkullMeta) meta;
+      var skullMeta = (SkullMeta) meta;
+      var profile = Bukkit.createProfile(UUID.randomUUID());
 
-      PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID());
       profile.setProperty(new ProfileProperty("textures", this.skullTexture));
-      headMeta.setPlayerProfile(profile);
+      skullMeta.setPlayerProfile(profile);
     }
 
     item.setItemMeta(meta);

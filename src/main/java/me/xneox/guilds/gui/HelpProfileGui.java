@@ -7,7 +7,7 @@ import fr.minuskube.inv.content.InventoryProvider;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.HookUtils;
+import me.xneox.guilds.hook.HookUtils;
 import me.xneox.guilds.util.VisualUtils;
 import me.xneox.guilds.util.inventory.InventorySize;
 import me.xneox.guilds.util.inventory.InventoryUtils;
@@ -30,7 +30,7 @@ public class HelpProfileGui implements InventoryProvider {
     VisualUtils.sound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
 
     contents.set(1, 4, ClickableItem.of(ItemBuilder.skullOf(player.getName())
-        .name("      &6" + player.getName() + " &7(&fPoziom &e" + HookUtils.getAureliumLevel(player) + "✫&7)")
+        .name("      &6" + player.getName() + " &7(&fPoziom &e" + HookUtils.aureliumSkillsLevel(player) + "✫&7)")
         .lore(PlaceholderAPI.setPlaceholders(player, " &fSiła: &4\uD83D\uDDE1%aureliumskills_strength_int%"))
         .lore(PlaceholderAPI.setPlaceholders(player, " &fZdrowie: &c❤%aureliumskills_health_int%"))
         .lore(PlaceholderAPI.setPlaceholders(player, " &fRegeneracja: &6❥%aureliumskills_regeneration_int%"))
@@ -172,12 +172,6 @@ public class HelpProfileGui implements InventoryProvider {
         .lore("")
         .lore("   &d&nwww.dronizja.pl/discord")
         .build()));
-
-    contents.set(5, 1, ClickableItem.of(ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWI3M2NkNDEzZDgxZThjM2NlZTQ2ZmU4YTgzMjI1MjY1MmRjMzM1ODRkZGU0ZGRkZjNjYTgzNmRjZDE3NGUifX19")
-        .name("&aWybrana rasa: " + SakuraGuildsPlugin.get().userManager().user(player).race().display())
-        .lore("")
-        .lore("&7Kliknij, aby zmienić rasę.")
-        .build(), event -> player.performCommand("g race")));
   }
 
   @Override

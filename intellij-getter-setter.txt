@@ -1,0 +1,38 @@
+# Templates for getter and setter for Intellij Idea
+# https://stackoverflow.com/a/44119228
+
+# GETTER:
+
+public ##
+#if($field.modifierStatic)
+  static ##
+#end
+$field.type ##
+${field.name}() {
+return ##
+#if (!$field.modifierStatic)
+this.##
+#else
+  $classname.##
+#end
+$field.name;
+}
+
+# SETTER:
+
+#set($paramName = $helper.getParamName($field, $project))
+public ##
+#if($field.modifierStatic)
+  static ##
+#end
+void ##
+${field.name}($field.type $paramName) {
+#if ($field.name == $paramName)
+  #if (!$field.modifierStatic)
+  this.##
+  #else
+    $classname.##
+  #end
+#end
+$field.name = $paramName;
+}

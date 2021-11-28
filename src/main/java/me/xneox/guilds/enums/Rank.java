@@ -10,9 +10,10 @@ import com.google.common.collect.Sets;
 import java.util.Arrays;
 import java.util.EnumSet;
 import me.xneox.guilds.util.text.ChatUtils;
+import org.jetbrains.annotations.NotNull;
 
 public enum Rank {
-  LEADER(5, "Lider", ChatUtils.CRIMSON + "★★★★", Permission.values()),
+  LEADER(5, "Lider", ChatUtils.CRIMSON + "★★★★", Permission.values()), // all permissions.
   GENERAL(4, "Generał", "&d★★★", Permission.values()),
   OFFICER(3, "Oficer", "&b★★", BUILD, SET_HOME, CLAIM, UPGRADES, ALLIES),
   CORPORAL(2, "Kapral", "&6★", BUILD, SET_HOME, CLAIM),
@@ -23,17 +24,18 @@ public enum Rank {
   private final String icon;
   private final EnumSet<Permission> defaultPermissions;
 
-  Rank(int weight, String name, String icon, Permission... defaultPermissions) {
+  Rank(int weight, @NotNull String name, @NotNull String icon, @NotNull Permission... defaultPermissions) {
     this.weight = weight;
     this.name = name;
     this.icon = icon;
     this.defaultPermissions = Sets.newEnumSet(Arrays.asList(defaultPermissions), Permission.class);
   }
 
-  public boolean isHigher(Rank compareTo) {
+  public boolean isHigher(@NotNull Rank compareTo) {
     return this.weight > compareTo.weight();
   }
 
+  @NotNull
   public String title() {
     return icon + " " + name;
   }
@@ -42,10 +44,12 @@ public enum Rank {
     return weight;
   }
 
+  @NotNull
   public String icon() {
     return icon;
   }
 
+  @NotNull
   public EnumSet<Permission> defaultPermissions() {
     return this.defaultPermissions;
   }
