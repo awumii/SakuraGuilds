@@ -23,7 +23,7 @@ dependencies {
     implementation("org.spongepowered:configurate-hocon:4.1.2")
     implementation("com.zaxxer:HikariCP:5.0.0")
 
-    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.18-rc3-R0.1-SNAPSHOT")
     compileOnly("fr.minuskube.inv:smart-invs:1.2.7")
     compileOnly("me.clip:placeholderapi:2.10.10")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
