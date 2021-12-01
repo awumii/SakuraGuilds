@@ -2,7 +2,6 @@ package me.xneox.guilds.util;
 
 import java.io.File;
 import java.io.IOException;
-import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.NotNull;
 
 public final class FileUtils {
@@ -14,8 +13,6 @@ public final class FileUtils {
    */
   @NotNull
   public static File create(@NotNull File file) {
-    Validate.notNull(file, "Can't create null file!");
-
     try {
       if (file.createNewFile()) {
         LogUtils.debug("Created new file: " + file.getPath());
