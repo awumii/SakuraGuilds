@@ -9,23 +9,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-public final class PlayerTeleportTask implements Runnable {
-  private final SakuraGuildsPlugin plugin;
-
-  public PlayerTeleportTask(SakuraGuildsPlugin plugin) {
-    this.plugin = plugin;
-  }
+public record PlayerTeleportTask(SakuraGuildsPlugin plugin) implements Runnable {
 
   @Override
   public void run() {
     for (Player player : Bukkit.getOnlinePlayers()) {
       User user = this.plugin.userManager().user(player);
-      if (user.teleportTarget() == null) {
+      if (user.teleportTarget() == null || user.startLocation() == null) {
         continue;
       }
 
       if (!LocationUtils.equalsSoft(player.getLocation(), user.startLocation())) {
-        ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥", "&cPoruszyłeś się w trakcie teleportacji!");
+        ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
+            "&cPoruszyłeś się w trakcie teleportacji!");
 
         user.clearTeleport();
         VisualUtils.sound(player, Sound.BLOCK_ANVIL_DESTROY);
@@ -34,7 +30,8 @@ public final class PlayerTeleportTask implements Runnable {
 
       if (user.teleportCountdown() > 0) {
         user.teleportCountdown(user.teleportCountdown() - 1);
-        ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥", "&7Zostaniesz przeteleportowany za &e" + user.teleportCountdown() + " sekund...");
+        ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
+            "&7Zostaniesz przeteleportowany za &e" + user.teleportCountdown() + " sekund...");
 
         VisualUtils.sound(player, Sound.BLOCK_NOTE_BLOCK_GUITAR);
         continue;
@@ -42,7 +39,8 @@ public final class PlayerTeleportTask implements Runnable {
 
       ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥", "&6Rozpoczynanie &7teleportacji...");
       player.teleportAsync(user.teleportTarget()).thenAccept(bool -> {
-        ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥", "&7Zostałeś przeteleportowany &apomyślnie!");
+        ChatUtils.sendTitle(player, "&b&lTELEPORTACJA ➥",
+            "&7Zostałeś przeteleportowany &apomyślnie!");
         VisualUtils.sound(player, Sound.BLOCK_PISTON_EXTEND);
         user.clearTeleport();
       });

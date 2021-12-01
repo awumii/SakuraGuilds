@@ -13,6 +13,7 @@ public class User implements Comparable<User> {
   private String editorSubject;
   private ChatChannel chatChannel;
 
+  // todo objectify
   private Location startLocation;
   private Location teleportTarget;
   private int teleportCountdown;

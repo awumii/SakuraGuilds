@@ -1,10 +1,7 @@
 package me.xneox.guilds;
 
-import java.io.File;
 import java.sql.SQLException;
 import me.xneox.guilds.command.CommandManager;
-import me.xneox.guilds.config.MessagesConfiguration;
-import me.xneox.guilds.config.PluginConfiguration;
 import me.xneox.guilds.hook.HookUtils;
 import me.xneox.guilds.listener.GuildAttackListener;
 import me.xneox.guilds.listener.GuildProtectionListener;
@@ -12,6 +9,7 @@ import me.xneox.guilds.listener.ItemCooldownListener;
 import me.xneox.guilds.listener.PlayerChatListener;
 import me.xneox.guilds.listener.PlayerDamageListener;
 import me.xneox.guilds.listener.PlayerDeathListener;
+import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.manager.CooldownManager;
 import me.xneox.guilds.manager.DatabaseManager;
 import me.xneox.guilds.manager.GuildManager;
@@ -20,27 +18,23 @@ import me.xneox.guilds.task.DataSaveTask;
 import me.xneox.guilds.task.GuildNotificatorTask;
 import me.xneox.guilds.task.HologramRefreshTask;
 import me.xneox.guilds.task.PlayerTeleportTask;
-import me.xneox.guilds.util.ConfigurationLoader;
 import me.xneox.guilds.util.LogUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 
 public class SakuraGuildsPlugin extends JavaPlugin {
+  private ConfigManager configManager;
   private DatabaseManager databaseManager;
   private GuildManager guildManager;
   private UserManager userManager;
   private CooldownManager cooldownManager;
 
-  private PluginConfiguration config;
-  private MessagesConfiguration messages;
-
   @Override
   public void onEnable() {
-    this.loadConfigurations();
+    this.configManager = new ConfigManager();
+    this.configManager.loadConfigurations();
 
     this.databaseManager = new DatabaseManager(this);
     this.userManager = new UserManager(this.databaseManager);
@@ -73,23 +67,6 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     HookUtils.register(this);
   }
 
-  public void loadConfigurations() {
-    var configLoader = HoconConfigurationLoader.builder()
-        .file(new File(HookUtils.DIRECTORY, "config.conf"))
-        .build();
-
-    var messagesLoader = HoconConfigurationLoader.builder()
-        .file(new File(HookUtils.DIRECTORY, "messages.conf"))
-        .build();
-
-    try {
-      this.config = new ConfigurationLoader<>(PluginConfiguration.class, configLoader).load();
-      this.messages = new ConfigurationLoader<>(MessagesConfiguration.class, messagesLoader).load();
-    } catch (ConfigurateException exception) {
-      LogUtils.catchException("Couldn't load the configuration file", exception);
-    }
-  }
-
   @Override
   public void onDisable() {
     try {
@@ -103,14 +80,8 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     this.databaseManager.shutdown();
   }
 
-  @NotNull
-  public PluginConfiguration config() {
-    return this.config;
-  }
-
-  @NotNull
-  public MessagesConfiguration messages() {
-    return this.messages;
+  public ConfigManager configManager() {
+    return this.configManager;
   }
 
   @NotNull

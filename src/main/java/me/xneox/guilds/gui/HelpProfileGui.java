@@ -9,7 +9,6 @@ import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.hook.HookUtils;
 import me.xneox.guilds.util.VisualUtils;
-import me.xneox.guilds.util.inventory.InventorySize;
 import me.xneox.guilds.util.inventory.InventoryUtils;
 import me.xneox.guilds.util.inventory.ItemBuilder;
 import org.bukkit.Material;
@@ -19,7 +18,7 @@ import org.bukkit.entity.Player;
 public class HelpProfileGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Menu Gracza")
-      .size(InventorySize.BIGGEST.rows(), 9)
+      .size(6, 9)
       .provider(new HelpProfileGui())
       .build();
 

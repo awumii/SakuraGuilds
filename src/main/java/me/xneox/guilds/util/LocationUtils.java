@@ -1,7 +1,5 @@
 package me.xneox.guilds.util;
 
-import java.util.ArrayList;
-import java.util.List;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -47,26 +45,8 @@ public final class LocationUtils {
         && first.getBlockY() == second.getBlockY();
   }
 
-  @NotNull
-  public static List<Location> sphere(@NotNull Location sphereCenter, int radius, int height, boolean hollow, boolean sphere, int plusY) {
-    int centerX = sphereCenter.getBlockX();
-    int centerY = sphereCenter.getBlockY();
-    int centerZ = sphereCenter.getBlockZ();
-
-    List<Location> blocks = new ArrayList<>();
-    for (int x = centerX - radius; x <= centerX + radius; x++) {
-      for (int z = centerZ - radius; z <= centerZ + radius; z++) {
-        for (int y = (sphere ? centerY - radius : centerY); y < (sphere ? centerY + radius : centerY + height); y++) {
-          double dist = (centerX - x) * (centerX - x) + (centerZ - z) * (centerZ - z) + (sphere ? (centerY - y) * (centerY - y) : 0);
-          if (dist < radius * radius && !(hollow && dist < (radius - 1) * (radius - 1))) {
-            blocks.add(new Location(sphereCenter.getWorld(), x, y + plusY, z));
-          }
-        }
-      }
-    }
-    return blocks;
-  }
-
+  // todo needs config
+  @Deprecated
   public static boolean isWorldNotAllowed(@NotNull Location location) {
     return !location.getWorld().getName().startsWith("world");
   }

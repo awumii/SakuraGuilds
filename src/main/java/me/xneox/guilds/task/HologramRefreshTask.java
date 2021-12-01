@@ -18,8 +18,9 @@ public record HologramRefreshTask(SakuraGuildsPlugin plugin) implements Runnable
     for (Guild guild : this.plugin.guildManager().guildMap().values()) {
       VisualUtils.createGuildInfo(guild);
 
-      // Expire sent notifications by the way
-      guild.invitations().clear();
+      // Expire sent invitations while we're at it
+      guild.playerInvitations().clear();
+      guild.allyInvitations().clear();
       guild.deleteConfirmation(false);
     }
   }

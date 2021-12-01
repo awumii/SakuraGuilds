@@ -57,7 +57,7 @@ public record PlayerDamageListener(SakuraGuildsPlugin plugin) implements Listene
     }
 
     if (victimGuild.name().equals(attackerGuild.name())
-        || victimGuild.allies().contains(attackerGuild.name())) {
+        || victimGuild.allies().contains(attackerGuild)) {
       ChatUtils.sendTitle(attacker, "", "&cNie możesz atakować członków/sojuszników gildii!");
       return true;
     }

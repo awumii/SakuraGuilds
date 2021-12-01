@@ -22,17 +22,12 @@ public class DatabaseManager {
 
   public DatabaseManager(@NotNull SakuraGuildsPlugin plugin) {
     this.plugin = plugin;
-
-    try {
-      this.connect();
-    } catch (SQLException exception) {
-      LogUtils.catchException("Could not connect to the database.", exception);
-    }
+    this.connect();
   }
 
   // Initial connection to the database, obtaining HikariDataSource.
-  public void connect() throws SQLException {
-    var config = this.plugin.config().storage();
+  public void connect() {
+    var config = ConfigManager.config().storage();
     var hikariConfig = new HikariConfig();
 
     if (config.useMySQL()) {
@@ -50,7 +45,7 @@ public class DatabaseManager {
     }
 
     // Enable leak detection when debug is enabled.
-    if (this.plugin.config().debug()) {
+    if (ConfigManager.config().debug()) {
       hikariConfig.setLeakDetectionThreshold(30000);
     }
 
@@ -94,11 +89,13 @@ public class DatabaseManager {
 
   // Utility methods for lists because im fucking stupid
 
-  public static List<String> stringToList(String result) {
+  @NotNull
+  public static List<String> stringToList(@NotNull String result) {
     return new ArrayList<>(Arrays.asList(result.split(",")));
   }
 
-  public static String listToString(List<String> list) {
+  @NotNull
+  public static String listToString(@NotNull List<String> list) {
     return String.join(",", list);
   }
 }

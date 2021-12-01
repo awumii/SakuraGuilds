@@ -27,7 +27,7 @@ public class InviteCommand implements SubCommand {
       return;
     }
 
-    if (manager.playerGuild(args[1]) != null) {
+    if (manager.playerGuild(target) != null) {
       ChatUtils.sendMessage(player, "&cTen gracz już posiada gildię.");
       return;
     }
@@ -39,8 +39,7 @@ public class InviteCommand implements SubCommand {
     }
 
     if (guild.members().size() >= guild.maxSlots()) {
-      ChatUtils.sendMessage(
-          player, "&cOsiągnięto limit graczy dodanych do gildii. Zakup ulepszenie gildii!");
+      ChatUtils.sendMessage(player, "&cOsiągnięto limit graczy dodanych do gildii. Zakup ulepszenie gildii!");
       return;
     }
 
@@ -56,7 +55,7 @@ public class InviteCommand implements SubCommand {
     }
 
     ChatUtils.sendMessage(player, "Zaproszono gracza &6" + args[1] + " &7do twojej gildii.");
-    guild.invitations().add(args[1]);
+    guild.playerInvitations().add(target.getUniqueId());
 
     ChatUtils.sendNoPrefix(target, "");
     ChatUtils.sendNoPrefix(target, "  &7Otrzymano zaproszenie do gildii &6" + manager.playerGuild(player.getName()).name());
@@ -66,9 +65,7 @@ public class InviteCommand implements SubCommand {
         "/g join " + guild.name());
     ChatUtils.sendNoPrefix(target, "");
 
-    SakuraGuildsPlugin.get()
-        .cooldownManager()
-        .add(player, "invite-" + target.getName(), 10, TimeUnit.MINUTES);
+    SakuraGuildsPlugin.get().cooldownManager().add(player, "invite-" + target.getName(), 10, TimeUnit.MINUTES);
   }
 
   @Override

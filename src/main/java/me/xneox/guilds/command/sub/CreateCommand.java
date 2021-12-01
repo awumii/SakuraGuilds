@@ -8,10 +8,11 @@ import me.xneox.guilds.element.Member;
 import me.xneox.guilds.enums.Rank;
 import me.xneox.guilds.gui.ManagementGui;
 import me.xneox.guilds.hook.HookUtils;
+import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChunkUtils;
+import me.xneox.guilds.util.NexusBuilder;
 import me.xneox.guilds.util.VisualUtils;
-import me.xneox.guilds.util.inventory.InventoryUtils;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -48,13 +49,8 @@ public class CreateCommand implements SubCommand {
       return;
     }
 
-    if (HookUtils.aureliumSkillsLevel(player) < 29) {
+    if (HookUtils.aureliumSkillsLevel(player) >= ConfigManager.config().guildCreation().aureliumSkillsRequiredLevel()) {
       ChatUtils.sendMessage(player, "&cMusisz mieć przynajmniej &630 poziom &caby odblokować funkcję tworzenia gildii.");
-      return;
-    }
-
-    if (!player.getInventory().containsAtLeast(new ItemStack(Material.DIAMOND), 1)) {
-      ChatUtils.sendMessage(player, "&cCena za założenie gildii wynosi: &61x Diament &c(nie posiadasz)");
       return;
     }
 
@@ -63,16 +59,9 @@ public class CreateCommand implements SubCommand {
     }
 
     Location nexusLoc = ChunkUtils.getCenter(ChunkUtils.deserialize(player.getChunk()));
-    if (nexusLoc.getY() > 90) {
-      ChatUtils.sendMessage(player, "&cNie możesz zakładać gildii powyżej Y=90");
-      return;
-    }
+    NexusBuilder.buildNexus(nexusLoc, player);
 
-    // todo different methods of guild creation
-    nexusLoc.setY(nexusLoc.getY() + 2);
-    if (!HookUtils.pasteSchematic("nexus.schematic", nexusLoc)) {
-      ChatUtils.sendMessage(player, "&cWystąpił błąd uniemożliwiający na wygenerowanie nexusa. Skontaktuj sie z administracja.");
-    }
+    var config = ConfigManager.config().defaultGuildSettings();
 
     Guild guild = new Guild(
             args[1],
@@ -84,24 +73,32 @@ public class CreateCommand implements SubCommand {
             new ItemStack[0],
             System.currentTimeMillis(),
             0,
-            3,
-            0,
-            6,
-            6,
-            9);
+            config.health(),
+            config.money(),
+            config.slots(),
+            config.maxChunks(),
+            config.storage());
 
-    guild.shieldDuration(Duration.ofDays(1));
+    // Manually set the starting shield duration.
+    guild.shieldDuration(Duration.of(config.shieldDuration(), config.shieldDurationUnit()));
 
+    // Add player to the member list as the leader.
     guild.members().add(Member.create(player.getUniqueId(), Rank.LEADER, System.currentTimeMillis()));
-    guild.claims().add(ChunkUtils.deserialize(player.getLocation().getChunk()));
 
+    // Claim chunk the player is standing in.
+    if (config.claimFirstChunk()) {
+      guild.claims().add(player.getLocation().getChunk());
+    }
+
+    // Add the guild to the GuildManager.
     manager.guildMap().put(args[1], guild);
 
-    InventoryUtils.removeItems(player.getInventory(), Material.DIAMOND, 1);
-
+    // Place nexus block (end portal is unbreakable and can't be moved by pistons, so it's hardcoded for now)
     player.getWorld().getBlockAt(nexusLoc).setType(Material.END_PORTAL_FRAME);
+
     player.teleportAsync(nexusLoc);
 
+    // Create hologram above the nexus.
     VisualUtils.createGuildInfo(guild);
 
     ChatUtils.broadcast("&e" + player.getName() + " &7zakłada gildię &6" + args[1]);

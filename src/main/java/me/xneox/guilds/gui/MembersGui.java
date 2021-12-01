@@ -8,7 +8,6 @@ import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
 import me.xneox.guilds.element.User;
-import me.xneox.guilds.util.inventory.InventorySize;
 import me.xneox.guilds.util.inventory.InventoryUtils;
 import me.xneox.guilds.util.inventory.ItemBuilder;
 import me.xneox.guilds.util.text.TimeUtils;
@@ -20,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 public class MembersGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Menu zarządzania członkami")
-      .size(InventorySize.BIGGEST.rows(), 9)
+      .size(6, 9)
       .provider(new MembersGui())
       .build();
 

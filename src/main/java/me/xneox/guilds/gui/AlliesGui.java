@@ -6,10 +6,9 @@ import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.util.VisualUtils;
 import me.xneox.guilds.util.inventory.InventoryUtils;
 import me.xneox.guilds.util.inventory.ItemBuilder;
-import me.xneox.guilds.util.VisualUtils;
-import me.xneox.guilds.util.inventory.InventorySize;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -19,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 public class AlliesGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Zawarte Sojusze")
-      .size(InventorySize.BIGGEST.rows(), 9)
+      .size(6, 9)
       .provider(new AlliesGui())
       .build();
 
@@ -37,12 +36,11 @@ public class AlliesGui implements InventoryProvider {
       contents.set(2, 4, ClickableItem.empty(empty));
     }
 
-    for (String ally : guild.allies()) {
-      Guild targetGuild = SakuraGuildsPlugin.get().guildManager().get(ally);
+    for (Guild targetGuild : guild.allies()) {
 
       ItemStack item =
           ItemBuilder.skullOf(targetGuild.leader().nickname())
-              .name("&6" + ally)
+              .name("&6" + targetGuild.name())
               .lore("")
               .lore("&eLider:")
               .lore("&f" + targetGuild.leader().nickname())
@@ -62,8 +60,8 @@ public class AlliesGui implements InventoryProvider {
               .build();
 
       contents.add(ClickableItem.of(item, event -> {
-        guild.allies().remove(targetGuild.name());
-        targetGuild.allies().remove(guild.name());
+        guild.allies().remove(targetGuild);
+        targetGuild.allies().remove(guild);
 
         player.closeInventory();
         VisualUtils.sound(player, Sound.BLOCK_ANVIL_DESTROY);

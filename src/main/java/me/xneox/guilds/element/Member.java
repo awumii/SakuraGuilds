@@ -10,8 +10,9 @@ import java.util.stream.IntStream;
 import me.xneox.guilds.enums.Permission;
 import me.xneox.guilds.enums.Rank;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 /**
  * Represents a member of a {@link Guild}.
@@ -58,8 +59,13 @@ public class Member {
     return this.uuid;
   }
 
-  @Nullable
+  @UnknownNullability
   public String nickname() {
+    Player player = Bukkit.getPlayer(this.uuid);
+    if (player != null) {
+      return player.getName();
+    }
+
     return Bukkit.getOfflinePlayer(this.uuid).getName();
   }
 

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.command.sub.AllyAcceptCommand;
-import me.xneox.guilds.command.sub.AllyCommand;
+import me.xneox.guilds.command.sub.AllyInviteCommand;
 import me.xneox.guilds.command.sub.ChatChannelCommand;
 import me.xneox.guilds.command.sub.ClaimCommand;
 import me.xneox.guilds.command.sub.CreateCommand;
@@ -59,7 +59,7 @@ public class CommandManager {
     commandMap.put("kick", new KickCommand());
     commandMap.put("sethome", new SetHomeCommand());
     commandMap.put("help", new HelpCommand());
-    commandMap.put("ally", new AllyCommand());
+    commandMap.put("ally", new AllyInviteCommand());
     commandMap.put("top", new TopCommand());
     commandMap.put("chat", new ChatChannelCommand());
     commandMap.put("upgrade", new UpgradeCommand());

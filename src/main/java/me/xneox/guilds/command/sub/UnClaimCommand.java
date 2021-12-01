@@ -4,7 +4,6 @@ import me.xneox.guilds.command.annotations.SubCommand;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.enums.Permission;
 import me.xneox.guilds.manager.GuildManager;
-import me.xneox.guilds.util.ChunkUtils;
 import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.entity.Player;
@@ -24,8 +23,7 @@ public class UnClaimCommand implements SubCommand {
       return;
     }
 
-    String chunk = ChunkUtils.deserialize(player.getChunk());
-    if (!guild.claims().contains(chunk)) {
+    if (!guild.claims().contains(player.getChunk())) {
       ChatUtils.sendMessage(player, "&cTen chunk nie został zajęty.");
       return;
     }
@@ -35,7 +33,7 @@ public class UnClaimCommand implements SubCommand {
       return;
     }
 
-    guild.claims().remove(chunk);
+    guild.claims().remove(player.getChunk());
     ChatUtils.guildAlert(guild, guild.member(player).displayName() +
         " &cporzuca chunk: &6" + LocationUtils.legacyDeserialize(player.getLocation()));
   }

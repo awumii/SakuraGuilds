@@ -1,21 +1,14 @@
 package me.xneox.guilds.util;
 
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import java.time.Duration;
-import java.util.Arrays;
-import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.text.ChatUtils;
+import me.xneox.guilds.hook.HookUtils;
 import me.xneox.guilds.util.text.TimeUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public final class VisualUtils {
   public static void sound(Player player, Sound sound) {
@@ -44,25 +37,9 @@ public final class VisualUtils {
     location.setY(location.getY() + 3);
 
     // todo: localize
-    createHologram(location, Material.ENDER_EYE,
+    HookUtils.createHologram(location, Material.ENDER_EYE,
         "&6&lNEXUS " + guild.name(),
         "&7Ilość żyć: &c" + guild.health() + "/3",
         "&7Tarcza: &c" + TimeUtils.futureMillisToTime(guild.shieldDuration()));
-  }
-
-  public static Hologram createHologram(Location baseLocation, Material icon, String... text) {
-    Location location = baseLocation.clone();
-    location.setX(location.getX() + 0.5);
-    location.setZ(location.getZ() + 0.5);
-
-    Hologram hologram = HologramsAPI.createHologram(SakuraGuildsPlugin.get(), location);
-    hologram.appendItemLine(new ItemStack(icon));
-    Arrays.stream(text).map(ChatUtils::legacyColor).forEach(hologram::appendTextLine);
-    return hologram;
-  }
-
-  public static void createTimedHologram(Location location, Duration duration, Material icon, String... text) {
-    Hologram hologram = createHologram(location, icon, text);
-    Bukkit.getScheduler().runTaskLater(SakuraGuildsPlugin.get(), hologram::delete, duration.getSeconds() * 20);
   }
 }

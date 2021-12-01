@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
+import me.xneox.guilds.util.ChunkUtils;
 import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.StorageService;
 import me.xneox.guilds.util.inventory.ItemSerialization;
@@ -59,8 +61,11 @@ public class GuildManager extends StorageService {
           .map(Member::serialize)
           .collect(Collectors.toList());
 
-      var chunks = DatabaseManager.stringToList(rs.getString("Chunks"));
-      var allies = DatabaseManager.stringToList(rs.getString("Allies"));
+      var chunksRaw = DatabaseManager.stringToList(rs.getString("Chunks"));
+      var chunks = chunksRaw.stream().map(ChunkUtils::serialize).collect(Collectors.toList());
+
+      var alliesRaw = DatabaseManager.stringToList(rs.getString("Allies"));
+      var allies = alliesRaw.stream().map(ally -> SakuraGuildsPlugin.get().guildManager().get(ally)).collect(Collectors.toList());
 
       var homeLocation = LocationUtils.serialize(rs.getString("Home"));
       var nexusLocation = LocationUtils.serialize(rs.getString("Nexus"));
@@ -81,10 +86,10 @@ public class GuildManager extends StorageService {
 
           guild.name(),
           DatabaseManager.listToString(guild.members().stream().map(Member::toString).collect(Collectors.toList())),
-          DatabaseManager.listToString(guild.allies()),
+          DatabaseManager.listToString(guild.allies().stream().map(Guild::name).toList()),
           LocationUtils.deserialize(guild.homeLocation()),
           LocationUtils.deserialize(guild.nexusLocation()),
-          DatabaseManager.listToString(guild.claims()),
+          DatabaseManager.listToString(guild.claims().stream().map(ChunkUtils::deserialize).toList()),
           ItemSerialization.serializeInventory(guild.storage()),
           guild.money(),
           guild.maxSlots(),
@@ -103,7 +108,7 @@ public class GuildManager extends StorageService {
    */
   public void delete(@NotNull Guild guild) {
     for (Guild value : this.guildMap.values()) {
-      value.allies().remove(guild.name());
+      value.allies().remove(guild);
     }
 
     guild.nexusLocation().getBlock().setType(Material.AIR);

@@ -25,14 +25,12 @@ public class DonateCommand implements SubCommand {
     }
 
     int money = Integer.parseInt(args[1]);
-    if (HookUtils.ECONOMY.has(player, money)) {
+    if (HookUtils.ecoHasAtLeast(player, money)) {
       VisualUtils.sound(player, Sound.ENTITY_WITHER_BREAK_BLOCK);
-      HookUtils.ECONOMY.withdrawPlayer(player, money);
+      HookUtils.ecoWithdraw(player, money);
 
       guild.money(guild.money() + money);
-      ChatUtils.guildAlert(
-          guild,
-          guild.member(player).displayName() + " &7wpłacił &6" + money + "$ &7do banku gildii.");
+      ChatUtils.guildAlert(guild, guild.member(player).displayName() + " &7wpłacił &6" + money + "$ &7do banku gildii.");
     } else {
       ChatUtils.sendMessage(player, "&cNie posiadasz tyle pieniędzy!");
     }

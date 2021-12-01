@@ -8,13 +8,12 @@ import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.util.inventory.InventoryUtils;
 import me.xneox.guilds.util.inventory.ItemBuilder;
-import me.xneox.guilds.util.inventory.InventorySize;
 import org.bukkit.entity.Player;
 
 public class LeaderboardsGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Ranking Gildii")
-      .size(InventorySize.BIGGEST.rows(), 9)
+      .size(6, 9)
       .provider(new LeaderboardsGui())
       .build();
 

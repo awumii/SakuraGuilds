@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.enums.Division;
 import me.xneox.guilds.enums.Rank;
-import me.xneox.guilds.util.ChunkUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -24,13 +24,12 @@ public class Guild implements Comparable<Guild> {
   // PERMANENT DATA
   private final String name;
   private final List<Member> members;
-  private final List<String> chunks;
+  private final List<Chunk> chunks;
   private final Location nexusLocation;
   private final long creation;
 
   // CHANGEABLE DATA
-  private final List<String> allies;
-  private final List<String> invitations = new ArrayList<>();
+  private final List<Guild> allies;
 
   private Location home;
   private Inventory storage;
@@ -43,13 +42,17 @@ public class Guild implements Comparable<Guild> {
   private int maxStorage;
   private boolean deleteConfirm;
 
+  // TEMPORARY DATA
+  private final List<UUID> playerInvitations = new ArrayList<>();
+  private final List<Guild> allyInvitations = new ArrayList<>();
+
   public Guild(
       @NotNull String name,
       @NotNull List<Member> members,
       @NotNull Location nexusLocation,
-      @NotNull List<String> allies,
+      @NotNull List<Guild> allies,
       @NotNull Location home,
-      @NotNull List<String> chunks,
+      @NotNull List<Chunk> chunks,
       @NotNull ItemStack[] storageContent,
       long creation,
       long shield,
@@ -115,16 +118,21 @@ public class Guild implements Comparable<Guild> {
   /**
    * Returns the member object for the specified player.
    */
-  @Nullable
   public Member member(@NotNull Player player) {
     return this.member(player.getName());
   }
 
-  public Member member(@Nullable String name) {
-    return members.stream()
-        .filter(member -> member.nickname().equals(name))
-        .findFirst()
-        .orElse(null);
+  /**
+   * Finds a Member by their nickname.
+   * Returns null if no member with the specified nickname is in the guild.
+   */
+  public Member member(@NotNull String name) {
+    for (Member member : this.members) {
+      if (name.equals(member.nickname())) {
+        return member;
+      }
+    }
+    return null;
   }
 
   /**
@@ -158,7 +166,12 @@ public class Guild implements Comparable<Guild> {
    * @return Whenever this guild owns the chunk at the specified location.
    */
   public boolean inside(@NotNull Location location) {
-    return this.chunks.stream().anyMatch(chunk -> ChunkUtils.isEqual(location.getChunk(), chunk));
+    for (Chunk chunk : this.chunks) {
+      if (location.getChunk().equals(chunk)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -221,17 +234,22 @@ public class Guild implements Comparable<Guild> {
   }
 
   @NotNull
-  public List<String> claims() {
+  public List<Chunk> claims() {
     return this.chunks;
   }
 
   @NotNull
-  public List<String> invitations() {
-    return this.invitations;
+  public List<UUID> playerInvitations() {
+    return this.playerInvitations;
   }
 
   @NotNull
-  public List<String> allies() {
+  public List<Guild> allyInvitations() {
+    return this.allyInvitations;
+  }
+
+  @NotNull
+  public List<Guild> allies() {
     return this.allies;
   }
 
@@ -305,27 +323,5 @@ public class Guild implements Comparable<Guild> {
   @Override
   public int compareTo(@NotNull Guild guild) {
     return Integer.compare(guild.trophies(), this.trophies());
-  }
-
-  @Override
-  public String toString() {
-    return "Guild{" +
-        "name='" + name + '\'' +
-        ", members=" + members +
-        ", chunks=" + chunks +
-        ", nexusLocation=" + nexusLocation +
-        ", creation=" + creation +
-        ", allies=" + allies +
-        ", invitations=" + invitations +
-        ", home=" + home +
-        ", storage=" + storage +
-        ", shield=" + shield +
-        ", health=" + health +
-        ", money=" + money +
-        ", maxSlots=" + maxSlots +
-        ", maxChunks=" + maxChunks +
-        ", maxStorage=" + maxStorage +
-        ", deleteConfirm=" + deleteConfirm +
-        '}';
   }
 }

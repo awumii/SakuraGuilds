@@ -32,7 +32,8 @@ public class JoinCommand implements SubCommand {
       return;
     }
 
-    if (!guild.invitations().contains(player.getName()) && !player.isOp()) {
+    // Check if the player was invited, operators skip this check.
+    if (!guild.playerInvitations().contains(player.getUniqueId()) && !player.isOp()) {
       ChatUtils.sendMessage(player, "&cNie zostałeś zaproszony do tej gildii.");
       return;
     }
@@ -42,6 +43,7 @@ public class JoinCommand implements SubCommand {
       return;
     }
 
+    // Add member with the newbie rank to the guild.
     guild.members().add(Member.create(player.getUniqueId(), Rank.NEWBIE, System.currentTimeMillis()));
 
     ManagementGui.INVENTORY.open(player);

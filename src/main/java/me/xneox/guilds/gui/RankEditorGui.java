@@ -9,11 +9,10 @@ import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
 import me.xneox.guilds.enums.Permission;
 import me.xneox.guilds.enums.Rank;
-import me.xneox.guilds.util.text.ChatUtils;
+import me.xneox.guilds.util.VisualUtils;
 import me.xneox.guilds.util.inventory.InventoryUtils;
 import me.xneox.guilds.util.inventory.ItemBuilder;
-import me.xneox.guilds.util.VisualUtils;
-import me.xneox.guilds.util.inventory.InventorySize;
+import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -23,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 public class RankEditorGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Zarządzanie uprawnieniami użytkownika")
-      .size(InventorySize.BIG.rows(), 9)
+      .size(4, 9)
       .provider(new RankEditorGui())
       .build();
 

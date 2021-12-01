@@ -3,9 +3,8 @@ package me.xneox.guilds.listener;
 import java.util.concurrent.TimeUnit;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.hook.HookUtils;
+import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.util.text.ChatUtils;
-import net.md_5.bungee.api.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -20,8 +19,10 @@ public record PlayerChatListener(SakuraGuildsPlugin plugin) implements Listener 
 
   @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
   public void onChat(AsyncPlayerChatEvent event) {
-    Player player = event.getPlayer();
+    var config = ConfigManager.messages().chat();
+    var player = event.getPlayer();
 
+    // todo move cooldowns to addon
     if (this.plugin.cooldownManager().hasCooldown(player, "chat")) {
       ChatUtils.sendNoPrefix(player, " &4&l! &cPoczekaj chwilę przed następną wiadomością!");
       event.setCancelled(true);
@@ -34,27 +35,38 @@ public record PlayerChatListener(SakuraGuildsPlugin plugin) implements Listener 
     var guild = this.plugin.guildManager().playerGuild(player);
     var user = this.plugin.userManager().user(player);
 
-    // todo fix null issues and localization
-
     switch (user.chatChannel()) {
       case GLOBAL -> event.setFormat(event.getFormat()
-          .replace("{GUILD}", guild != null ? ChatUtils.legacyColor(
-              "&8[" + ChatColor.of("#E74C3C") + guild.name() + "&8] ") : "")
-          .replace("{LEVEL}", String.valueOf(HookUtils.aureliumSkillsLevel(player))));
+          .replace("{GUILD}", guild != null ?
+              ChatUtils.legacyColor(config.guildPlaceholder()) : config.noGuildPlaceholder())
+          .replace("{LEVEL}", String.valueOf(HookUtils.aureliumSkillsLevel(player)))); // todo move this to addon
+
       case GUILD -> {
-        ChatUtils.guildAlertRaw(guild, " &8[&aGILDIA&8] {0}&8: &a{1}",
-            guild.member(player).displayName(), event.getMessage());
-
-        event.setCancelled(true);
+        if (guild != null) {
+          ChatUtils.guildAlertRaw(guild, config.guildChatFormat()
+              .replace("{MEMBER}", guild.member(player).displayName())
+              .replace("{MESSAGE}", event.getMessage()));
+          event.setCancelled(true);
+        }
       }
+
       case ALLY -> {
-        String message = ChatUtils.format(" &8[&bSOJUSZ&8] &7(&d{0}&7) {1}&8: &d{2}",
-            guild.name(), guild.member(player).displayName(), event.getMessage());
+        if (guild != null) {
+          var message = ChatUtils.format(config.allyChatFormat()
+              .replace("{GUILD}", guild.name())
+              .replace("{MEMBER}", guild.member(player).displayName())
+              .replace("{MESSAGE}", event.getMessage()));
 
-        ChatUtils.guildAlertRaw(guild, message);
-        guild.allies().forEach(ally -> ChatUtils.guildAlertRaw(this.plugin.guildManager().get(ally), message));
+          // Send to member's own guild.
+          ChatUtils.guildAlertRaw(guild, message);
 
-        event.setCancelled(true);
+          // Send to all allies.
+          for (var ally : guild.allies()) {
+            ChatUtils.guildAlertRaw(ally, message);
+          }
+
+          event.setCancelled(true);
+        }
       }
     }
   }

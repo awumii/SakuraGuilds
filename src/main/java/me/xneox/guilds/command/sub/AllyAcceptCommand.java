@@ -1,5 +1,7 @@
 package me.xneox.guilds.command.sub;
 
+import java.util.List;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.command.annotations.SubCommand;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.enums.Permission;
@@ -11,11 +13,25 @@ import org.jetbrains.annotations.NotNull;
 public class AllyAcceptCommand implements SubCommand {
 
   @Override
-  public void handle(GuildManager manager, @NotNull Player player, String[] args) {
-    Guild guild = manager.playerGuild(player);
-    Guild other = manager.get(args[2]);
+  public void handle(@NotNull GuildManager manager, @NotNull Player player, String[] args) {
+    if (args.length < 2) {
+      ChatUtils.sendMessage(player, "&cPodaj nazwę gildii.");
+      return;
+    }
 
-    if (guild.allies().contains(other.name())) {
+    Guild guild = manager.playerGuild(player);
+    if (guild == null) {
+      ChatUtils.sendMessage(player, "&cNie posiadasz gildii.");
+      return;
+    }
+
+    Guild otherGuild = manager.get(args[1]);
+    if (otherGuild == null) {
+      ChatUtils.sendMessage(player, "&cPodana gildia nie istnieje.");
+      return;
+    }
+
+    if (guild.allies().contains(otherGuild)) {
       ChatUtils.sendMessage(player, "&cSojusz już został zawarty!");
       return;
     }
@@ -25,17 +41,14 @@ public class AllyAcceptCommand implements SubCommand {
       return;
     }
 
-    if (args[1].equals("IJAD98jdksldM")) {
-      ChatUtils.broadcast("&7Gildie &6" + guild.name() + " &7oraz &6" + other.name() + " &7zawarły &aSOJUSZ!");
+    guild.allies().add(otherGuild);
+    otherGuild.allies().add(guild);
 
-      guild.allies().add(other.name());
-      other.allies().add(guild.name());
-    } else if (args[1].equals("dh98jadOAKD")) {
-        ChatUtils.guildAlert(guild, guild.member(player).displayName()
-            + " &7odrzucił zaproszenie sojuszu od &6" + other.name());
+    ChatUtils.broadcast("&7Gildie &6" + guild.name() + " &7oraz &6" + otherGuild.name() + " &7zawarły &aSOJUSZ!");
+  }
 
-        ChatUtils.guildAlert(other, guild.member(player).displayName()
-            + " &7z gildii &6" + guild.name() + " &7odrzucił wasze zaproszenie do sojuszu.");
-    }
+  @Override
+  public List<String> suggest(String[] args) {
+    return SakuraGuildsPlugin.get().guildManager().guildNames();
   }
 }

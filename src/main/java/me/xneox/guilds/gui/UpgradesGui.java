@@ -8,11 +8,10 @@ import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.enums.Permission;
 import me.xneox.guilds.enums.Upgrade;
-import me.xneox.guilds.util.text.ChatUtils;
+import me.xneox.guilds.util.VisualUtils;
 import me.xneox.guilds.util.inventory.InventoryUtils;
 import me.xneox.guilds.util.inventory.ItemBuilder;
-import me.xneox.guilds.util.VisualUtils;
-import me.xneox.guilds.util.inventory.InventorySize;
+import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 public class UpgradesGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Menu ulepszeń dla gildii")
-      .size(InventorySize.MEDIUM.rows(), 9)
+      .size(3, 9)
       .provider(new UpgradesGui())
       .build();
 

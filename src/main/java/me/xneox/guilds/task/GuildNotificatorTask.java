@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.UUID;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.ChunkUtils;
 import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.VisualUtils;
 import me.xneox.guilds.util.text.ChatUtils;
@@ -45,8 +44,8 @@ public class GuildNotificatorTask implements Runnable {
         }
 
         VisualUtils.sound(player, Sound.BLOCK_NOTE_BLOCK_XYLOPHONE);
-        for (String chunk : guild.claims()) {
-          VisualUtils.drawBorderAtChunk(ChunkUtils.serialize(chunk), player);
+        for (var chunk : guild.claims()) {
+          VisualUtils.drawBorderAtChunk(chunk, player);
         }
 
         if (!player.hasPermission("sv.use") && !guild.isMember(player.getName())) {
@@ -55,7 +54,7 @@ public class GuildNotificatorTask implements Runnable {
             ChatUtils.sendBossBar(member, BarColor.RED, ChatUtils.format(
                 "&4&l⚠ &c{0} &7wkroczył na teren: &6{1} ({2})",
                 player.getName(),
-                guild.claims().indexOf(ChunkUtils.deserialize(player.getChunk())),
+                guild.claims().indexOf(player.getChunk()),
                 LocationUtils.legacyDeserialize(player.getLocation())));
           });
         }
