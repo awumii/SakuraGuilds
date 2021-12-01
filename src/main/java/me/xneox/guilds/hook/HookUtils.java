@@ -28,12 +28,10 @@ public final class HookUtils {
   public static final String DIRECTORY = "plugins/SakuraGuilds";
 
   // Vault economy manager.
-  @Nullable
-  private static Economy VAULT_ECONOMY = null;
+  private static @Nullable Economy VAULT_ECONOMY = null;
 
   // WorldEdit adapter for pasting schematics.
-  @Nullable
-  private static WorldEditAdapter WORLD_EDIT_ADAPTER = null;
+  private static @Nullable WorldEditAdapter WORLD_EDIT_ADAPTER = null;
 
   // Simple availability checks
   private static final boolean AURELIUM_SKILLS_AVAILABLE = Bukkit.getPluginManager().isPluginEnabled("AureliumSkills");
@@ -65,12 +63,14 @@ public final class HookUtils {
     }
   }
 
+  // VaultAPI: taxes >:) (there are no taxes in this plugin... yet)
   public static void ecoWithdraw(@NotNull Player player, double amount) {
     if (VAULT_ECONOMY != null) {
       VAULT_ECONOMY.withdrawPlayer(player, amount);
     }
   }
 
+  // VaultAPI: checking player's balance.
   public static boolean ecoHasAtLeast(@NotNull Player player, double amount) {
     if (VAULT_ECONOMY == null) {
       return false;
@@ -79,6 +79,7 @@ public final class HookUtils {
     return VAULT_ECONOMY.has(player, amount);
   }
 
+  // Redirect to the WORLD_EDIT_ADAPTER to paste a schematic using WorldEdit/FAWE.
   public static boolean pasteSchematic(@NotNull String schematic, @NotNull Location location) {
     if (WORLD_EDIT_ADAPTER == null) {
       LogUtils.LOGGER.error("Attempted to paste a schematic, but WorldEdit is not installed.");
@@ -89,6 +90,7 @@ public final class HookUtils {
     return WORLD_EDIT_ADAPTER.pasteSchematic(file, location);
   }
 
+  // Using HolographicDisplays to create a hologram.
   @Nullable
   public static Hologram createHologram(@NotNull Location baseLocation, Material icon, String... text) {
     if (!HOLOGRAMS_AVAILABLE) {
@@ -109,6 +111,7 @@ public final class HookUtils {
     return hologram;
   }
 
+  // Creates hologram, and schedules a task to remove it later.
   public static void createTimedHologram(@NotNull Location location, @NotNull Duration duration, Material icon, String... text) {
     var hologram = createHologram(location, icon, text);
     if (hologram != null) {

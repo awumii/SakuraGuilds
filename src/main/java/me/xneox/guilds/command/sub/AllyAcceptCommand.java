@@ -41,9 +41,17 @@ public class AllyAcceptCommand implements SubCommand {
       return;
     }
 
+    // Check if the other guild has actually sent an invitation
+    if (!guild.allyInvitations().contains(otherGuild)) {
+      ChatUtils.sendMessage(player, "&cTa gildia nie wysłała wam zaproszenia, lub zaproszenie wygasło.");
+      return;
+    }
+
+    // Make them allies
     guild.allies().add(otherGuild);
     otherGuild.allies().add(guild);
 
+    // Announce publicly about the allies
     ChatUtils.broadcast("&7Gildie &6" + guild.name() + " &7oraz &6" + otherGuild.name() + " &7zawarły &aSOJUSZ!");
   }
 

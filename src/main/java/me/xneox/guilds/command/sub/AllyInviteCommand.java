@@ -53,12 +53,17 @@ public class AllyInviteCommand implements SubCommand {
       return;
     }
 
+    // Add this guild to the other guild's invitations
+    otherGuild.allyInvitations().add(guild);
+
     ChatUtils.sendMessage(player, "&7Wysłano zaproszenie sojuszu do &6" + otherGuild.name());
 
+    // Notify the other guild's members
     ChatUtils.guildAlertRaw(otherGuild, " ");
     ChatUtils.guildAlertRaw(otherGuild, "  &7Otrzymano zaproszenie do sojuszu od &6" + guild.name());
     ChatUtils.guildAlertRaw(otherGuild, " ");
 
+    // Send accept/deny buttons to other guild's members
     for (Player otherMember : otherGuild.getOnlineMembers()) {
       ChatUtils.sendClickableMessage(otherMember,
           "  &aKliknij, aby zaakceptować.",
@@ -71,7 +76,10 @@ public class AllyInviteCommand implements SubCommand {
           "/g acceptally " + guild.name());
     }
 
+    // Empty line for better look
     ChatUtils.guildAlertRaw(otherGuild, " ");
+
+    // Cooldown >:(
     SakuraGuildsPlugin.get().cooldownManager().add(player, "ally-" + otherGuild.name(), 10, TimeUnit.MINUTES);
   }
 

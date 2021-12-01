@@ -41,7 +41,19 @@ public class AllyDenyCommand implements SubCommand {
       return;
     }
 
+    // Check if the other guild has actually sent an invitation
+    if (!guild.allyInvitations().contains(otherGuild)) {
+      ChatUtils.sendMessage(player, "&cTa gildia nie wysłała wam zaproszenia, lub zaproszenie wygasło.");
+      return;
+    }
+
+    // Remove their invitation.
+    guild.allyInvitations().remove(otherGuild);
+
+    // Notify members of this guild about the rejection.
     ChatUtils.guildAlert(guild, guild.member(player).displayName() + " &7odrzucił zaproszenie sojuszu od &6" + otherGuild.name());
+
+    // Notify the other guild about the rejection
     ChatUtils.guildAlert(otherGuild, guild.member(player).displayName() + " &7z gildii &6" + guild.name() + " &7odrzucił wasze zaproszenie do sojuszu.");
   }
 
