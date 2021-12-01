@@ -20,6 +20,7 @@ public class AlliesGui implements InventoryProvider {
       .title("Zawarte Sojusze")
       .size(6, 9)
       .provider(new AlliesGui())
+      .manager(SakuraGuildsPlugin.get().inventoryManager())
       .build();
 
   @Override

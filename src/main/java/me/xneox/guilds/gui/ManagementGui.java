@@ -17,6 +17,7 @@ public class ManagementGui implements InventoryProvider {
       .title("Menu zarządzania gildią")
       .size(6, 9)
       .provider(new ManagementGui())
+      .manager(SakuraGuildsPlugin.get().inventoryManager())
       .build();
 
   @Override

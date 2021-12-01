@@ -87,6 +87,12 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     this.databaseManager.shutdown();
   }
 
+  @NotNull
+  public InventoryManager inventoryManager() {
+    return this.inventoryManager;
+  }
+
+  @NotNull
   public ConfigManager configManager() {
     return this.configManager;
   }

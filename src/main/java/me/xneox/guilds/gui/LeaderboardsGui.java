@@ -15,6 +15,7 @@ public class LeaderboardsGui implements InventoryProvider {
       .title("Ranking Gildii")
       .size(6, 9)
       .provider(new LeaderboardsGui())
+      .manager(SakuraGuildsPlugin.get().inventoryManager())
       .build();
 
   @Override

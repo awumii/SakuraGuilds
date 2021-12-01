@@ -22,6 +22,7 @@ public class HelpProfileGui implements InventoryProvider {
       .title("Menu Gracza")
       .size(6, 9)
       .provider(new HelpProfileGui())
+      .manager(SakuraGuildsPlugin.get().inventoryManager())
       .build();
 
   @Override

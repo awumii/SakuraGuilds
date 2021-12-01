@@ -21,10 +21,10 @@ repositories {
 dependencies {
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("org.spongepowered:configurate-hocon:4.1.2")
+    implementation("fr.minuskube.inv:smart-invs:1.2.7")
     implementation("com.zaxxer:HikariCP:5.0.0")
 
     compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
-    compileOnly("fr.minuskube.inv:smart-invs:1.2.7")
     compileOnly("me.clip:placeholderapi:2.10.10")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.9")
@@ -49,6 +49,7 @@ tasks {
         relocate("com.typesafe.config", "$group.libs.config")
         relocate("org.spongepowered.configurate", "$group.libs.configurate")
         relocate("io.leangen.geantyref", "$group.libs.geantyref")
+        relocate("fr.minuskube.inv", "$group.libs.smartinvs")
         minimize()
     }
 }

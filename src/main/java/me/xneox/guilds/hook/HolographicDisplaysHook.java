@@ -19,6 +19,10 @@ import org.jetbrains.annotations.Nullable;
 
 public class HolographicDisplaysHook {
 
+  public static void clearHolograms() {
+    HologramsAPI.getHolograms(SakuraGuildsPlugin.get()).forEach(Hologram::delete);
+  }
+
   // Using HolographicDisplays to create a hologram.
   @Nullable
   public static Hologram createHologram(@NotNull Location baseLocation, Material icon, List<String> text) {

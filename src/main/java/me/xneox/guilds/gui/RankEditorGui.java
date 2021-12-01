@@ -24,6 +24,7 @@ public class RankEditorGui implements InventoryProvider {
       .title("Zarządzanie uprawnieniami użytkownika")
       .size(4, 9)
       .provider(new RankEditorGui())
+      .manager(SakuraGuildsPlugin.get().inventoryManager())
       .build();
 
   @Override

@@ -21,6 +21,7 @@ public class MembersGui implements InventoryProvider {
       .title("Menu zarządzania członkami")
       .size(6, 9)
       .provider(new MembersGui())
+      .manager(SakuraGuildsPlugin.get().inventoryManager())
       .build();
 
   @Override

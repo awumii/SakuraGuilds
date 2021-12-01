@@ -21,6 +21,7 @@ public class UpgradesGui implements InventoryProvider {
       .title("Menu ulepszeń dla gildii")
       .size(3, 9)
       .provider(new UpgradesGui())
+      .manager(SakuraGuildsPlugin.get().inventoryManager())
       .build();
 
   @Override

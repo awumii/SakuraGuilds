@@ -18,6 +18,7 @@ public class ClaimGui implements InventoryProvider {
       .title("Zarządzanie Zajętymi Terenami")
       .size(6, 9)
       .provider(new ClaimGui())
+      .manager(SakuraGuildsPlugin.get().inventoryManager())
       .build();
 
   @Override

@@ -4,6 +4,7 @@ import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
+import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.util.inventory.InventoryUtils;
 import me.xneox.guilds.util.inventory.ItemBuilder;
 import org.bukkit.entity.Player;
@@ -13,6 +14,7 @@ public class NewbieGui implements InventoryProvider {
       .title("Menu Nowicjusza")
       .size(3, 9)
       .provider(new NewbieGui())
+      .manager(SakuraGuildsPlugin.get().inventoryManager())
       .build();
 
   @Override
