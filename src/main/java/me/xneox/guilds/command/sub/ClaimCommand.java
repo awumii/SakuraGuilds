@@ -1,37 +1,40 @@
 package me.xneox.guilds.command.sub;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import me.xneox.guilds.command.annotations.SubCommand;
-import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
 import me.xneox.guilds.enums.Permission;
+import me.xneox.guilds.hook.HolographicDisplaysHook;
 import me.xneox.guilds.hook.HookUtils;
+import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChunkUtils;
 import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.text.ChatUtils;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public class ClaimCommand implements SubCommand {
 
   @Override
   public void handle(GuildManager manager, Player player, String[] args) {
-    Guild guild = manager.playerGuild(player.getName());
+    var config = ConfigManager.messages().commands();
+
+    var guild = manager.playerGuild(player.getName());
     if (guild == null) {
-      ChatUtils.sendMessage(player, "&cNie posiadasz gildii.");
+      ChatUtils.sendMessage(player, config.noGuild());
       return;
     }
 
     Member member = guild.member(player);
     if (!member.hasPermission(Permission.CLAIM)) {
-      ChatUtils.sendMessage(player, "&cNie posiadasz uprawnień do zajmowania terenu.");
+      ChatUtils.sendMessage(player, config.noGuildPermission());
       return;
     }
 
     if (guild.claims().size() >= guild.maxChunks()) {
-      ChatUtils.sendMessage(player, "&cPrzekroczono limit chunków. Zakup ulepszenie gildii!");
+      ChatUtils.sendMessage(player, config.claimLimit());
       return;
     }
 
@@ -39,21 +42,34 @@ public class ClaimCommand implements SubCommand {
       return;
     }
 
-    String chunk = ChunkUtils.deserialize(player.getLocation().getChunk());
+    // Add chunk to claims.
     guild.claims().add(player.getLocation().getChunk());
-    ChatUtils.guildAlert(guild, guild.member(player).displayName()
-        + " &7zajmuje chunk: &6"
-        + LocationUtils.legacyDeserialize(player.getLocation()));
 
-    Location hologramLoc = ChunkUtils.getCenter(chunk);
-    hologramLoc.setY(hologramLoc.getY() + 3);
+    // Notify guild members about this interesting situation.
+    ChatUtils.guildAlert(guild, config.claimGuildNotify()
+        .replace("{PLAYER}", guild.member(player).displayName())
+        .replace("{LOCATION}", LocationUtils.legacyDeserialize(player.getLocation())));
 
-    HookUtils.createTimedHologram(
-        hologramLoc,
-        Duration.ofSeconds(20),
-        Material.DIAMOND_SHOVEL,
-        "&6&lGILDIA " + guild.name() + " ZAJMUJE TEN TEREN",
-        "&7Lokalizacja: &f" + chunk,
-        "&7Przez: &f" + player.getName());
+    // Create hologram
+    if (HookUtils.HOLOGRAMS_AVAILABLE) {
+      var holoCfg = ConfigManager.holograms().claim();
+
+      var location = ChunkUtils.getCenter(player.getChunk());
+      location.setY(location.getY() + holoCfg.heightAboveGround());
+
+      List<String> text = new ArrayList<>();
+      for (String line : holoCfg.text()) {
+        text.add(line
+            .replace("{GUILD}", guild.name())
+            .replace("{LOCATION}", ChunkUtils.deserialize(player.getChunk()))
+            .replace("{CLAIMER}", player.getName()));
+      }
+
+      HolographicDisplaysHook.createTimedHologram(
+          location,
+          Duration.ofSeconds(holoCfg.displayDurationSeconds()),
+          holoCfg.icon(),
+          text);
+    }
   }
 }

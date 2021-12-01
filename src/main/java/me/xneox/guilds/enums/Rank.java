@@ -12,6 +12,8 @@ import java.util.EnumSet;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.jetbrains.annotations.NotNull;
 
+// todo replace with object
+@Deprecated
 public enum Rank {
   LEADER(5, "Lider", ChatUtils.CRIMSON + "★★★★", Permission.values()), // all permissions.
   GENERAL(4, "Generał", "&d★★★", Permission.values()),

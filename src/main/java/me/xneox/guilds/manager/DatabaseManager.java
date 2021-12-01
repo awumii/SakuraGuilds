@@ -44,11 +44,6 @@ public class DatabaseManager {
       hikariConfig.setJdbcUrl("jdbc:sqlite:" + file.getPath());
     }
 
-    // Enable leak detection when debug is enabled.
-    if (ConfigManager.config().debug()) {
-      hikariConfig.setLeakDetectionThreshold(30000);
-    }
-
     this.source = new HikariDataSource(hikariConfig);
   }
 

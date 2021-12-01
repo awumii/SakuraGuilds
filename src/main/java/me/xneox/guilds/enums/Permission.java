@@ -4,7 +4,9 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Permissions manage the priveleges of guild members and default guild ranks.
+ * @Deprecated TODO replace with object
  */
+@Deprecated
 public enum Permission {
   BUILD("Budowanie oraz interakcje na terenie gildii."),
   KICK("Wyrzucanie członków"),

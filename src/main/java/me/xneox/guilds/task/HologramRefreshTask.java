@@ -4,7 +4,8 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.VisualUtils;
+import me.xneox.guilds.hook.HolographicDisplaysHook;
+import me.xneox.guilds.hook.HookUtils;
 
 /**
  * This task removes all holograms created by this plugin, and refreshes the valid holograms.
@@ -16,7 +17,9 @@ public record HologramRefreshTask(SakuraGuildsPlugin plugin) implements Runnable
     HologramsAPI.getHolograms(this.plugin).forEach(Hologram::delete);
 
     for (Guild guild : this.plugin.guildManager().guildMap().values()) {
-      VisualUtils.createGuildInfo(guild);
+      if (HookUtils.HOLOGRAMS_AVAILABLE) {
+        HolographicDisplaysHook.createGuildInfo(guild);
+      }
 
       // Expire sent invitations while we're at it
       guild.playerInvitations().clear();

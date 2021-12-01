@@ -13,8 +13,113 @@ public class MainConfiguration {
   private GuildCreation guildCreation = new GuildCreation();
   private DefaultGuildSettings defaultGuildSettings = new DefaultGuildSettings();
 
-  @Comment("Enabling debug will show additional information in the logs.")
-  private boolean debug = false;
+  @Comment("""
+      max-value: maximum value the upgrade can give (eg. max slots you can get through upgrading)
+      exponent: How much will be divided from upgrade cost.
+      increase: How much the upgrade value will increase.
+      
+      The expression for the upgrade cost looks like this:
+      [CURRENT_UPGRADE_VALUE] * cost-value-multiplier / exponent
+      """)
+  private Upgrades upgrades = new Upgrades();
+
+  @ConfigSerializable
+  public static class Upgrades {
+    @Comment("See above: current upgrade value will be multuplied by this.")
+    private int costValueMultiplier = 200;
+
+    private Slots slots = new Slots();
+    private Chunks chunks = new Chunks();
+    private Storage storage = new Storage();
+
+    @ConfigSerializable
+    public static class Slots {
+      private String title = "Zwiększenie Slotów";
+      private int maxValue = 20;
+      private int exponent = 6;
+      private int increase = 4;
+
+      public String title() {
+        return this.title;
+      }
+
+      public int maxValue() {
+        return this.maxValue;
+      }
+
+      public int exponent() {
+        return this.exponent;
+      }
+
+      public int increase() {
+        return this.increase;
+      }
+    }
+
+    @ConfigSerializable
+    public static class Chunks {
+      private String title = "Więcej Terenu";
+      private int maxValue = 64;
+      private int exponent = 2;
+      private int increase = 6;
+
+      public String title() {
+        return this.title;
+      }
+
+      public int maxValue() {
+        return this.maxValue;
+      }
+
+      public int exponent() {
+        return this.exponent;
+      }
+
+      public int increase() {
+        return this.increase;
+      }
+    }
+
+    @ConfigSerializable
+    public static class Storage {
+      private String title = "Zwiększony Magazyn";
+      private int maxValue = 54;
+      private int exponent = 6;
+      private int increase = 9;
+
+      public String title() {
+        return this.title;
+      }
+
+      public int maxValue() {
+        return this.maxValue;
+      }
+
+      public int exponent() {
+        return this.exponent;
+      }
+
+      public int increase() {
+        return this.increase;
+      }
+    }
+
+    public int costValueMultiplier() {
+      return this.costValueMultiplier;
+    }
+
+    public Slots slots() {
+      return this.slots;
+    }
+
+    public Chunks chunks() {
+      return this.chunks;
+    }
+
+    public Storage storage() {
+      return this.storage;
+    }
+  }
 
   @ConfigSerializable
   public static class DefaultGuildSettings {
@@ -29,6 +134,9 @@ public class MainConfiguration {
 
     @Comment("Starting amount of health.")
     private int health = 3;
+
+    @Comment("Starting maximum amount of health.")
+    private int maxHealth = 3;
 
     @Comment("Starting amount of money.")
     private int money = 0;
@@ -61,6 +169,10 @@ public class MainConfiguration {
       return this.health;
     }
 
+    public int maxHealth() {
+      return this.maxHealth;
+    }
+
     public int money() {
       return this.money;
     }
@@ -82,7 +194,8 @@ public class MainConfiguration {
   public static class GuildCreation {
     @Comment("""
         SCHEMATIC - pastes schematic from plugins/SakuraGuilds/nexus.schematic
-        UNDERGROUND_SPHERE_HOLLOW - create a sphere underground and place nexus there""")
+        UNDERGROUND_SPHERE_HOLLOW - create a sphere underground and place nexus there
+        """)
     private NexusBuilder.Method method = Method.UNDERGROUND_SPHERE_HOLLOW;
 
     @Comment("""
@@ -105,6 +218,16 @@ public class MainConfiguration {
 
     @Comment("If Vault and an economy plugin (such as Essentials) is installed, you can specify the cost of creating a guild")
     private int economyCost = 0;
+
+    @Comment("""
+        Regex expression that controls how the guild can be named.
+        Default value allows for alphanumerical symbols (a-Z and 0-9)
+        """)
+    private String allowedNameRegex = "^[a-zA-Z0-9]+$";
+
+    private int minimumNameLenght = 2;
+
+    private int maximumNameLenght = 12;
 
     public Method method() {
       return this.method;
@@ -129,6 +252,18 @@ public class MainConfiguration {
     public int economyCost() {
       return this.economyCost;
     }
+
+    public String allowedNameRegex() {
+      return this.allowedNameRegex;
+    }
+
+    public int minimumNameLenght() {
+      return this.minimumNameLenght;
+    }
+
+    public int maximumNameLenght() {
+      return this.maximumNameLenght;
+    }
   }
 
   @ConfigSerializable
@@ -137,7 +272,8 @@ public class MainConfiguration {
     @Comment("""
         false - use SQLite for storage
         true - use MYSQL for storage
-        (!) This option requires a restart. Changing storage type will reset your current data.""")
+        (!) This option requires a restart. Changing storage type will reset your current data.
+        """)
     private boolean useMysql = false;
 
     private String host = "127.0.0.1";
@@ -183,7 +319,7 @@ public class MainConfiguration {
     return this.defaultGuildSettings;
   }
 
-  public boolean debug() {
-    return this.debug;
+  public Upgrades upgrades() {
+    return this.upgrades;
   }
 }

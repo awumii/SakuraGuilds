@@ -7,14 +7,14 @@ import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
 import me.xneox.guilds.enums.Rank;
 import me.xneox.guilds.gui.ManagementGui;
+import me.xneox.guilds.hook.AureliumSkillsHook;
+import me.xneox.guilds.hook.HolographicDisplaysHook;
 import me.xneox.guilds.hook.HookUtils;
 import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChunkUtils;
 import me.xneox.guilds.util.NexusBuilder;
-import me.xneox.guilds.util.VisualUtils;
 import me.xneox.guilds.util.text.ChatUtils;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,33 +24,42 @@ public class CreateCommand implements SubCommand {
 
   @Override
   public void handle(@NotNull GuildManager manager, @NotNull Player player, String[] args) {
+    var config = ConfigManager.messages().commands();
+
     if (args.length < 2) {
-      ChatUtils.sendMessage(player, "&cMusisz podać nazwę gildii.");
+      ChatUtils.sendMessage(player, config.noGuildSpecified());
       return;
     }
 
-    if (!args[1].matches("^[a-zA-Z0-9]+$")) {
-      ChatUtils.sendMessage(player, "&cNazwa gildii zawiera niedozwolone znaki.");
+    if (!args[1].matches(ConfigManager.config().guildCreation().allowedNameRegex())) {
+      ChatUtils.sendMessage(player, config.createInvalidName());
       return;
     }
 
-    if (args[1].length() > 16) {
-      ChatUtils.sendMessage(player, "&cNazwa gildii przekracza 16 znaków.");
+    if (args[1].length() > ConfigManager.config().guildCreation().maximumNameLenght()) {
+      ChatUtils.sendMessage(player, config.createNameTooLong());
+      return;
+    }
+
+    if (args[1].length() < ConfigManager.config().guildCreation().minimumNameLenght()) {
+      ChatUtils.sendMessage(player, config.createNameTooShort());
       return;
     }
 
     if (manager.guildMap().containsKey(args[1])) {
-      ChatUtils.sendMessage(player, "&cGildia o takiej nazwie już istnieje!");
+      ChatUtils.sendMessage(player, config.createExists());
       return;
     }
 
     if (manager.playerGuild(player.getName()) != null) {
-      ChatUtils.sendMessage(player, "&cJuż posiadasz gildię!");
+      ChatUtils.sendMessage(player, config.createHasGuild());
       return;
     }
 
-    if (HookUtils.aureliumSkillsLevel(player) >= ConfigManager.config().guildCreation().aureliumSkillsRequiredLevel()) {
-      ChatUtils.sendMessage(player, "&cMusisz mieć przynajmniej &630 poziom &caby odblokować funkcję tworzenia gildii.");
+    // AureliumSkills hook for checking the required level.
+    int reqLevel = ConfigManager.config().guildCreation().aureliumSkillsRequiredLevel();
+    if (HookUtils.AURELIUM_SKILLS_AVAILABLE && AureliumSkillsHook.aureliumSkillsLevel(player) >= reqLevel) {
+      ChatUtils.sendMessage(player, config.createAureliumSkillsLevel().replace("{REQUIRED}", String.valueOf(reqLevel)));
       return;
     }
 
@@ -58,35 +67,38 @@ public class CreateCommand implements SubCommand {
       return;
     }
 
-    Location nexusLoc = ChunkUtils.getCenter(ChunkUtils.deserialize(player.getChunk()));
+    // Build the nexus!
+    var nexusLoc = ChunkUtils.getCenter(ChunkUtils.deserialize(player.getChunk()));
     NexusBuilder.buildNexus(nexusLoc, player);
 
-    var config = ConfigManager.config().defaultGuildSettings();
+    // Default guild settings
+    var def = ConfigManager.config().defaultGuildSettings();
 
     Guild guild = new Guild(
-            args[1],
-            new ArrayList<>(),
-            nexusLoc,
-            new ArrayList<>(),
-            player.getLocation(),
-            new ArrayList<>(),
-            new ItemStack[0],
-            System.currentTimeMillis(),
-            0,
-            config.health(),
-            config.money(),
-            config.slots(),
-            config.maxChunks(),
-            config.storage());
+        args[1],
+        new ArrayList<>(),
+        nexusLoc,
+        new ArrayList<>(),
+        player.getLocation(),
+        new ArrayList<>(),
+        new ItemStack[0],
+        System.currentTimeMillis(),
+        0,
+        def.health(),
+        def.maxHealth(),
+        def.money(),
+        def.slots(),
+        def.maxChunks(),
+        def.storage());
 
     // Manually set the starting shield duration.
-    guild.shieldDuration(Duration.of(config.shieldDuration(), config.shieldDurationUnit()));
+    guild.shieldDuration(Duration.of(def.shieldDuration(), def.shieldDurationUnit()));
 
     // Add player to the member list as the leader.
     guild.members().add(Member.create(player.getUniqueId(), Rank.LEADER, System.currentTimeMillis()));
 
     // Claim chunk the player is standing in.
-    if (config.claimFirstChunk()) {
+    if (def.claimFirstChunk()) {
       guild.claims().add(player.getLocation().getChunk());
     }
 
@@ -99,9 +111,14 @@ public class CreateCommand implements SubCommand {
     player.teleportAsync(nexusLoc);
 
     // Create hologram above the nexus.
-    VisualUtils.createGuildInfo(guild);
+    if (HookUtils.HOLOGRAMS_AVAILABLE) {
+      HolographicDisplaysHook.createGuildInfo(guild);
+    }
 
-    ChatUtils.broadcast("&e" + player.getName() + " &7zakłada gildię &6" + args[1]);
+    ChatUtils.broadcast(config.createAnnoucement()
+        .replace("{PLAYER}", player.getName())
+        .replace("{GUILD}", guild.name()));
+
     ManagementGui.INVENTORY.open(player);
   }
 }

@@ -42,6 +42,7 @@ public class GuildManager extends StorageService {
         + "`MaxChunks` INT NOT NULL, "
         + "`MaxStorage` INT NOT NULL, "
         + "`Health` INT NOT NULL, "
+        + "`MaxHealth` INT NOT NULL, "
         + "`Shield` BIGINT NOT NULL, "
         + "`Creation` BIGINT NOT NULL)");
 
@@ -50,6 +51,7 @@ public class GuildManager extends StorageService {
       String name = rs.getString("Name");
       int money = rs.getInt("Money");
       int health = rs.getInt("Health");
+      int maxHealth = rs.getInt("MaxHealth");
       int maxSlots = rs.getInt("MaxSlots");
       int maxChunks = rs.getInt("MaxChunks");
       int maxStorage = rs.getInt("MaxStorage");
@@ -73,7 +75,7 @@ public class GuildManager extends StorageService {
       var storage = ItemSerialization.deserializeInventory(rs.getString("Storage"));
 
       this.guildMap.put(name, new Guild(name, members, nexusLocation, allies, homeLocation, chunks, storage,
-          creation, shield, health, money, maxSlots, maxChunks, maxStorage));
+          creation, shield, health, maxHealth, money, maxSlots, maxChunks, maxStorage));
     }
   }
 
@@ -81,8 +83,8 @@ public class GuildManager extends StorageService {
   public void save() throws SQLException {
     for (Guild guild : this.guildMap.values()) {
       this.database.executeUpdate("INSERT OR REPLACE INTO guilds(Name, Members, Allies, Home, Nexus,"
-              + " Chunks, Storage, Money, MaxSlots, MaxChunks, MaxStorage, Health, Shield, Creation) "
-              + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+              + " Chunks, Storage, Money, MaxSlots, MaxChunks, MaxStorage, Health, MaxHealth, Shield, Creation) "
+              + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 
           guild.name(),
           DatabaseManager.listToString(guild.members().stream().map(Member::toString).collect(Collectors.toList())),
@@ -96,6 +98,7 @@ public class GuildManager extends StorageService {
           guild.maxChunks(),
           guild.maxStorage(),
           guild.health(),
+          guild.maxHealth(),
           guild.shieldDuration(),
           guild.creationLong());
     }

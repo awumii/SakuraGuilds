@@ -1,23 +1,39 @@
 package me.xneox.guilds.enums;
 
 import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.manager.ConfigManager;
 import org.jetbrains.annotations.NotNull;
 
 public enum Upgrade {
-  SLOTS("Zwiększenie Slotów", 20, 6, 4),
-  CHUNKS("Więcej Terenu", 64, 2, 6),
-  STORAGE("Zwiększony Magazyn", 54, 6, 9);
+  // holy fucking shit what the fuck did i just create
+  SLOTS(
+      ConfigManager.config().upgrades().slots().title(),
+      ConfigManager.config().upgrades().slots().maxValue(),
+      ConfigManager.config().upgrades().slots().exponent(),
+      ConfigManager.config().upgrades().slots().increase()),
+
+  CHUNKS(
+      ConfigManager.config().upgrades().chunks().title(),
+      ConfigManager.config().upgrades().chunks().maxValue(),
+      ConfigManager.config().upgrades().chunks().exponent(),
+      ConfigManager.config().upgrades().chunks().increase()),
+
+  STORAGE(
+      ConfigManager.config().upgrades().storage().title(),
+      ConfigManager.config().upgrades().storage().maxValue(),
+      ConfigManager.config().upgrades().storage().exponent(),
+      ConfigManager.config().upgrades().storage().increase());
 
   private final String title;
   private final int maxValue;     // Maximum value of the upgrade.
   private final int exponent;     // How much will be divided from upgrade cost.
-  private final int multiplier;   // How much the upgrade level will increase.
+  private final int increase;   // How much the upgrade level will increase.
 
-  Upgrade(@NotNull String title, int maxValue, int exponent, int multiplier) {
+  Upgrade(@NotNull String title, int maxValue, int exponent, int increase) {
     this.title = title;
     this.maxValue = maxValue;
     this.exponent = exponent;
-    this.multiplier = multiplier;
+    this.increase = increase;
   }
 
   @NotNull
@@ -36,7 +52,7 @@ public enum Upgrade {
    * @return How much the upgrade level will increase.
    */
   public int multiplier() {
-    return this.multiplier;
+    return this.increase;
   }
 
   /**
@@ -44,9 +60,9 @@ public enum Upgrade {
    */
   public void performUpgrade(@NotNull Guild guild) {
     switch (this) {
-      case SLOTS -> guild.maxSlots(guild.maxSlots() + this.multiplier);
-      case CHUNKS -> guild.maxChunks(guild.maxChunks() + this.multiplier);
-      case STORAGE -> guild.maxStorage(guild.maxStorage() + this.multiplier);
+      case SLOTS -> guild.maxSlots(guild.maxSlots() + this.increase);
+      case CHUNKS -> guild.maxChunks(guild.maxChunks() + this.increase);
+      case STORAGE -> guild.maxStorage(guild.maxStorage() + this.increase);
     }
   }
 
@@ -65,6 +81,6 @@ public enum Upgrade {
    * @return Cost of the next update for the specified guild.
    */
   public int cost(@NotNull Guild guild) {
-    return currentValue(guild) * 200 / this.exponent;
+    return currentValue(guild) * ConfigManager.config().upgrades().costValueMultiplier() / this.exponent;
   }
 }

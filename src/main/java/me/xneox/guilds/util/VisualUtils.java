@@ -1,11 +1,6 @@
 package me.xneox.guilds.util;
 
-import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.hook.HookUtils;
-import me.xneox.guilds.util.text.TimeUtils;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -30,16 +25,5 @@ public final class VisualUtils {
         }
       }
     }
-  }
-
-  public static void createGuildInfo(Guild guild) {
-    Location location = guild.nexusLocation().clone();
-    location.setY(location.getY() + 3);
-
-    // todo: localize
-    HookUtils.createHologram(location, Material.ENDER_EYE,
-        "&6&lNEXUS " + guild.name(),
-        "&7Ilość żyć: &c" + guild.health() + "/3",
-        "&7Tarcza: &c" + TimeUtils.futureMillisToTime(guild.shieldDuration()));
   }
 }

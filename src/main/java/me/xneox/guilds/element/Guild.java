@@ -36,6 +36,7 @@ public class Guild implements Comparable<Guild> {
 
   private long shield;
   private int health;
+  private int maxHealth;
   private int money;
   private int maxSlots;
   private int maxChunks;
@@ -57,6 +58,7 @@ public class Guild implements Comparable<Guild> {
       long creation,
       long shield,
       int health,
+      int maxHealth,
       int money,
       int maxSlots,
       int maxChunks,
@@ -71,6 +73,7 @@ public class Guild implements Comparable<Guild> {
     this.chunks = chunks;
     this.shield = shield;
     this.health = health;
+    this.maxHealth = maxHealth;
     this.maxSlots = maxSlots;
     this.maxChunks = maxChunks;
     this.maxStorage = maxStorage;
@@ -313,6 +316,14 @@ public class Guild implements Comparable<Guild> {
 
   public void health(int health) {
     this.health = health;
+  }
+
+  public int maxHealth() {
+    return this.maxHealth;
+  }
+
+  public void maxHealth(int maxHealth) {
+    this.maxHealth = maxHealth;
   }
 
   @NotNull

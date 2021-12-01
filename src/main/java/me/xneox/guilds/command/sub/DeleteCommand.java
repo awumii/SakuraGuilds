@@ -1,7 +1,7 @@
 package me.xneox.guilds.command.sub;
 
 import me.xneox.guilds.command.annotations.SubCommand;
-import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.entity.Player;
@@ -10,26 +10,31 @@ public class DeleteCommand implements SubCommand {
 
   @Override
   public void handle(GuildManager manager, Player player, String[] args) {
-    Guild guild = manager.playerGuild(player.getName());
+    var config = ConfigManager.messages().commands();
+
+    var guild = manager.playerGuild(player.getName());
     if (guild == null) {
-      ChatUtils.sendMessage(player, "&cNie posiadasz gildii.");
+      ChatUtils.sendMessage(player, config.noGuild());
       return;
     }
 
+    // Needs leader
     if (!player.getName().equals(guild.leader().nickname())) {
-      ChatUtils.sendMessage(player, "&cMusisz być liderem gildii.");
+      ChatUtils.sendMessage(player, config.deleteNoPermission());
       return;
     }
 
+    // Prompt for confirmation.
     if (!guild.deleteConfirmation()) {
       guild.deleteConfirmation(true);
-      ChatUtils.sendMessage(
-          player,
-          "&7Użyj komendy ponownie aby potwierdzić usunięcie gildii. &cTA AKCJA JEST NIEODWRACALNA!");
+      ChatUtils.sendMessage(player, config.deleteConfirm());
       return;
     }
 
-    ChatUtils.broadcast("&e" + player.getName() + " &7rozwiązuje gildię &c" + guild.name());
+    ChatUtils.broadcast(config.deleteAnnoucement()
+        .replace("{PLAYER}", player.getName())
+        .replace("{GUILD}", guild.name()));
+
     manager.delete(guild);
   }
 }

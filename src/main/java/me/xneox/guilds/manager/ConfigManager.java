@@ -3,6 +3,7 @@ package me.xneox.guilds.manager;
 import java.io.File;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.config.GuiConfiguration;
+import me.xneox.guilds.config.HologramConfig;
 import me.xneox.guilds.config.MessagesConfiguration;
 import me.xneox.guilds.config.MainConfiguration;
 import me.xneox.guilds.hook.HookUtils;
@@ -16,6 +17,7 @@ public class ConfigManager {
   private MainConfiguration main;
   private MessagesConfiguration messages;
   private GuiConfiguration gui;
+  private HologramConfig holograms;
 
   // todo reload command
   public void loadConfigurations() {
@@ -26,6 +28,7 @@ public class ConfigManager {
       this.main = new ConfigurationLoader<>(MainConfiguration.class, this.loader("config.conf")).load();
       this.messages = new ConfigurationLoader<>(MessagesConfiguration.class, this.loader("messages.conf")).load();
       this.gui = new ConfigurationLoader<>(GuiConfiguration.class, this.loader("gui.conf")).load();
+      this.holograms = new ConfigurationLoader<>(HologramConfig.class, this.loader("holograms.conf")).load();
     } catch (ConfigurateException exception) {
       LogUtils.catchException("Couldn't load the configuration file(s)", exception);
     }
@@ -50,5 +53,9 @@ public class ConfigManager {
 
   public static GuiConfiguration gui() {
     return SakuraGuildsPlugin.get().configManager().gui;
+  }
+
+  public static HologramConfig holograms() {
+    return SakuraGuildsPlugin.get().configManager().holograms;
   }
 }

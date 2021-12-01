@@ -7,6 +7,7 @@ import fr.minuskube.inv.content.InventoryProvider;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.hook.AureliumSkillsHook;
 import me.xneox.guilds.hook.HookUtils;
 import me.xneox.guilds.util.VisualUtils;
 import me.xneox.guilds.util.inventory.InventoryUtils;
@@ -15,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+// todo move this to addon
 public class HelpProfileGui implements InventoryProvider {
   public static final SmartInventory INVENTORY = SmartInventory.builder()
       .title("Menu Gracza")
@@ -28,17 +30,19 @@ public class HelpProfileGui implements InventoryProvider {
     InventoryUtils.insertBackButton(6, 4, contents, null);
     VisualUtils.sound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
 
-    contents.set(1, 4, ClickableItem.of(ItemBuilder.skullOf(player.getName())
-        .name("      &6" + player.getName() + " &7(&fPoziom &e" + HookUtils.aureliumSkillsLevel(player) + "✫&7)")
-        .lore(PlaceholderAPI.setPlaceholders(player, " &fSiła: &4\uD83D\uDDE1%aureliumskills_strength_int%"))
-        .lore(PlaceholderAPI.setPlaceholders(player, " &fZdrowie: &c❤%aureliumskills_health_int%"))
-        .lore(PlaceholderAPI.setPlaceholders(player, " &fRegeneracja: &6❥%aureliumskills_regeneration_int%"))
-        .lore(PlaceholderAPI.setPlaceholders(player, " &fSzczęście: &2☘%aureliumskills_luck_int%"))
-        .lore(PlaceholderAPI.setPlaceholders(player, " &fInteligencja: &9✿%aureliumskills_wisdom_int%"))
-        .lore(PlaceholderAPI.setPlaceholders(player, " &fTwardość: &5✦%aureliumskills_toughness_int%"))
-        .lore("")
-        .lore("&eKliknij, aby zobaczyć szczegóły.")
-        .build(), event -> player.performCommand("staty")));
+    if (HookUtils.AURELIUM_SKILLS_AVAILABLE) {
+      contents.set(1, 4, ClickableItem.of(ItemBuilder.skullOf(player.getName())
+          .name("      &6" + player.getName() + " &7(&fPoziom &e" + AureliumSkillsHook.aureliumSkillsLevel(player) + "✫&7)")
+          .lore(PlaceholderAPI.setPlaceholders(player, " &fSiła: &4\uD83D\uDDE1%aureliumskills_strength_int%"))
+          .lore(PlaceholderAPI.setPlaceholders(player, " &fZdrowie: &c❤%aureliumskills_health_int%"))
+          .lore(PlaceholderAPI.setPlaceholders(player, " &fRegeneracja: &6❥%aureliumskills_regeneration_int%"))
+          .lore(PlaceholderAPI.setPlaceholders(player, " &fSzczęście: &2☘%aureliumskills_luck_int%"))
+          .lore(PlaceholderAPI.setPlaceholders(player, " &fInteligencja: &9✿%aureliumskills_wisdom_int%"))
+          .lore(PlaceholderAPI.setPlaceholders(player, " &fTwardość: &5✦%aureliumskills_toughness_int%"))
+          .lore("")
+          .lore("&eKliknij, aby zobaczyć szczegóły.")
+          .build(), event -> player.performCommand("staty")));
+    }
 
     contents.set(2, 1, ClickableItem.of(ItemBuilder.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWE4YzY4NTE0ZDhjODE5ZTY4ZWI3NWI1OTY0NDVkODhiMzY3YWUzNTFiYWE5OTgzYmM2OWNmNmI1MjBmMzk4NSJ9fX0=")
         .name("&6Umiejętności")

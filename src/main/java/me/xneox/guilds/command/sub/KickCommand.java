@@ -1,9 +1,8 @@
 package me.xneox.guilds.command.sub;
 
 import me.xneox.guilds.command.annotations.SubCommand;
-import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.element.Member;
 import me.xneox.guilds.enums.Permission;
+import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.entity.Player;
@@ -13,14 +12,16 @@ public class KickCommand implements SubCommand {
 
   @Override
   public void handle(@NotNull GuildManager manager, @NotNull Player player, String[] args) {
+    var config = ConfigManager.messages().commands();
+
     if (args.length < 2) {
       ChatUtils.sendMessage(player, "&cPodaj nick gracza.");
       return;
     }
 
-    Guild guild = manager.playerGuild(player.getName());
+    var guild = manager.playerGuild(player.getName());
     if (guild == null) {
-      ChatUtils.sendMessage(player, "&cNie posiadasz gildii.");
+      ChatUtils.sendMessage(player, config.noGuild());
       return;
     }
 
@@ -29,7 +30,7 @@ public class KickCommand implements SubCommand {
       return;
     }
 
-    Member member = guild.member(player);
+    var member = guild.member(player);
     if (!guild.isMember(args[1])) {
       ChatUtils.sendMessage(player, "&cNie znaleziono członka gildii o nicku " + args[1]);
       return;

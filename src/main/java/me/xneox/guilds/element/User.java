@@ -103,18 +103,4 @@ public class User implements Comparable<User> {
   public int compareTo(@NotNull User user) {
     return Integer.compare(user.trophies(), this.trophies());
   }
-
-  @Override
-  public String toString() {
-    return "User{" +
-        "trophies=" + trophies +
-        ", kills=" + kills +
-        ", deaths=" + deaths +
-        ", editorSubject='" + editorSubject + '\'' +
-        ", chatChannel=" + chatChannel +
-        ", startLocation=" + startLocation +
-        ", teleportTarget=" + teleportTarget +
-        ", teleportCountdown=" + teleportCountdown +
-        '}';
-  }
 }

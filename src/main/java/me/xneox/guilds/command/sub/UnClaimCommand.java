@@ -1,8 +1,8 @@
 package me.xneox.guilds.command.sub;
 
 import me.xneox.guilds.command.annotations.SubCommand;
-import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.enums.Permission;
+import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.text.ChatUtils;
@@ -12,9 +12,11 @@ public class UnClaimCommand implements SubCommand {
 
   @Override
   public void handle(GuildManager manager, Player player, String[] args) {
-    Guild guild = manager.playerGuild(player.getName());
+    var config = ConfigManager.messages().commands();
+
+    var guild = manager.playerGuild(player.getName());
     if (guild == null) {
-      ChatUtils.sendMessage(player, "&cNie posiadasz gildii.");
+      ChatUtils.sendMessage(player, config.noGuild());
       return;
     }
 

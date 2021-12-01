@@ -2,7 +2,6 @@ package me.xneox.guilds.listener;
 
 import java.util.concurrent.TimeUnit;
 import me.xneox.guilds.SakuraGuildsPlugin;
-import me.xneox.guilds.hook.HookUtils;
 import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.event.EventHandler;
@@ -30,16 +29,17 @@ public record PlayerChatListener(SakuraGuildsPlugin plugin) implements Listener 
     }
 
     this.plugin.cooldownManager().add(player, "chat", 2, TimeUnit.SECONDS);
+
+    // todo move censor to addon
     event.setMessage(event.getMessage().replaceAll("(?i)kurw|jeb|pierda|huj", "***"));
 
     var guild = this.plugin.guildManager().playerGuild(player);
     var user = this.plugin.userManager().user(player);
 
+    // Format chat based on the user's channel.
     switch (user.chatChannel()) {
       case GLOBAL -> event.setFormat(event.getFormat()
-          .replace("{GUILD}", guild != null ?
-              ChatUtils.legacyColor(config.guildPlaceholder()) : config.noGuildPlaceholder())
-          .replace("{LEVEL}", String.valueOf(HookUtils.aureliumSkillsLevel(player)))); // todo move this to addon
+          .replace("{GUILD}", guild != null ? ChatUtils.legacyColor(config.guildPlaceholder()) : config.noGuildPlaceholder()));
 
       case GUILD -> {
         if (guild != null) {

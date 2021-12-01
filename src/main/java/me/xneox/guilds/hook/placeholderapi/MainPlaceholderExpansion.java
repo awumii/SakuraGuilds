@@ -2,9 +2,6 @@ package me.xneox.guilds.hook.placeholderapi;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.xneox.guilds.SakuraGuildsPlugin;
-import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.element.User;
-import me.xneox.guilds.hook.HookUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,8 +39,8 @@ public class MainPlaceholderExpansion extends PlaceholderExpansion {
 
   @Override
   public String onPlaceholderRequest(Player player, @NotNull String params) {
-    Guild guild = this.plugin.guildManager().playerGuild(player);
-    User user = this.plugin.userManager().user(player);
+    var guild = this.plugin.guildManager().playerGuild(player);
+    var user = this.plugin.userManager().user(player);
 
     if (params.startsWith("guild_") && guild == null) {
       return "-/-";
@@ -55,7 +52,6 @@ public class MainPlaceholderExpansion extends PlaceholderExpansion {
       case "deaths" -> String.valueOf(user.deaths());
       case "channel" -> user.chatChannel().getName();
       case "trophies" -> String.valueOf(user.trophies());
-      case "level" -> String.valueOf(HookUtils.aureliumSkillsLevel(player));
 
       // Guild placeholders
       case "guild_icon" -> guild.member(player).rank().icon();

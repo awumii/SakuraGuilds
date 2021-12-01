@@ -1,5 +1,6 @@
 package me.xneox.guilds;
 
+import fr.minuskube.inv.InventoryManager;
 import java.sql.SQLException;
 import me.xneox.guilds.command.CommandManager;
 import me.xneox.guilds.hook.HookUtils;
@@ -30,6 +31,7 @@ public class SakuraGuildsPlugin extends JavaPlugin {
   private GuildManager guildManager;
   private UserManager userManager;
   private CooldownManager cooldownManager;
+  private InventoryManager inventoryManager; // SmartInvs
 
   @Override
   public void onEnable() {
@@ -41,6 +43,11 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     this.guildManager = new GuildManager(this.databaseManager);
     this.cooldownManager = new CooldownManager(this.databaseManager);
 
+    // Setup SmartInvs
+    this.inventoryManager = new InventoryManager(this);
+    this.inventoryManager.init();
+
+    // Setup the CommandManager
     var bukkitCommand = this.getCommand("guild");
     if (bukkitCommand != null) {
       var commandManager = new CommandManager(this);
