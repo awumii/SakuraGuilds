@@ -28,7 +28,7 @@ dependencies {
     compileOnly("me.clip:placeholderapi:2.11.2")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.9")
-    compileOnly("com.github.Archy-X:AureliumSkills:Beta1.2.0")
+    compileOnly("com.github.Archy-X:AureliumSkills:1.4.3-alpha")
     compileOnly("com.fastasyncworldedit:FAWE-Bukkit:1.17-339")
 }
 
