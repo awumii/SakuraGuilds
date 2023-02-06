@@ -1,3 +1,6 @@
+# 🚧️ Work in progress!
+Not usable yet, translation files not finished, english version not available yet.  
+
 # 🌸 SakuraGuilds 🌸
 WIP guild plugin for Paper 1.16+ with GUI management.  
 Requirements for using on your server:
