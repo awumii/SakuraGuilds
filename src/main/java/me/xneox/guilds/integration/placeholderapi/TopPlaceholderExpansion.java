@@ -1,4 +1,4 @@
-package me.xneox.guilds.hook.placeholderapi;
+package me.xneox.guilds.integration.placeholderapi;
 
 import java.util.List;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;

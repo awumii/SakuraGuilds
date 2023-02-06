@@ -1,11 +1,10 @@
-package me.xneox.guilds.hook.worldedit;
+package me.xneox.guilds.integration.worldedit;
 
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
 import com.sk89q.worldedit.math.BlockVector3;
 import java.io.File;
 import java.io.IOException;
-import me.xneox.guilds.hook.WorldEditAdapter;
 import me.xneox.guilds.util.LogUtils;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
@@ -23,10 +22,8 @@ public class FAWEAdapter implements WorldEditAdapter {
       return false;
     }
 
-    try {
-      format.load(schematic)
-          .paste(world, vector)
-          .close();
+    try (var clipboard = format.load(schematic)) {
+      clipboard.paste(world, vector).close();
     } catch (IOException exception) {
       LogUtils.catchException("[FAWEAdapter] Could not paste schematic", exception);
       return false;

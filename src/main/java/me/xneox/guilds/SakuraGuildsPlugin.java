@@ -1,20 +1,10 @@
 package me.xneox.guilds;
 
 import fr.minuskube.inv.InventoryManager;
-import java.sql.SQLException;
 import me.xneox.guilds.command.CommandManager;
-import me.xneox.guilds.hook.HookUtils;
-import me.xneox.guilds.listener.GuildAttackListener;
-import me.xneox.guilds.listener.GuildProtectionListener;
-import me.xneox.guilds.listener.ItemCooldownListener;
-import me.xneox.guilds.listener.PlayerChatListener;
-import me.xneox.guilds.listener.PlayerDamageListener;
-import me.xneox.guilds.listener.PlayerDeathListener;
-import me.xneox.guilds.manager.ConfigManager;
-import me.xneox.guilds.manager.CooldownManager;
-import me.xneox.guilds.manager.DatabaseManager;
-import me.xneox.guilds.manager.GuildManager;
-import me.xneox.guilds.manager.UserManager;
+import me.xneox.guilds.integration.Integrations;
+import me.xneox.guilds.listener.*;
+import me.xneox.guilds.manager.*;
 import me.xneox.guilds.task.DataSaveTask;
 import me.xneox.guilds.task.GuildNotificatorTask;
 import me.xneox.guilds.task.HologramRefreshTask;
@@ -24,6 +14,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+
+import java.sql.SQLException;
 
 public class SakuraGuildsPlugin extends JavaPlugin {
   private ConfigManager configManager;
@@ -47,7 +39,7 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     this.inventoryManager = new InventoryManager(this);
     this.inventoryManager.init();
 
-    // Setup the CommandManager
+    // Set up the CommandManager
     var bukkitCommand = this.getCommand("guild");
     if (bukkitCommand != null) {
       var commandManager = new CommandManager(this);
@@ -62,7 +54,6 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     registerListener(new PlayerDamageListener(this));
     registerListener(new PlayerChatListener(this));
     registerListener(new GuildAttackListener(this));
-    registerListener(new ItemCooldownListener(this));
 
     // Registering tasks
     Bukkit.getScheduler().runTaskTimerAsynchronously(this, new GuildNotificatorTask(this), 0L, 40L);
@@ -71,7 +62,7 @@ public class SakuraGuildsPlugin extends JavaPlugin {
     Bukkit.getScheduler().runTaskTimer(this, new HologramRefreshTask(this), 0L, 60 * 20L);
     Bukkit.getScheduler().runTaskTimer(this, new PlayerTeleportTask(this), 0L, 20L);
 
-    HookUtils.register(this);
+    Integrations.register(this);
   }
 
   @Override

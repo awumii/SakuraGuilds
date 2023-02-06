@@ -1,6 +1,5 @@
 package me.xneox.guilds.listener;
 
-import java.util.concurrent.TimeUnit;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.util.text.ChatUtils;
@@ -11,7 +10,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 /**
  * This listener manages global chat formatting and using private chat channels.
- *
+ * <p>
  * TODO: use Paper's AsyncChatEvent, currently not possible because of the legacy string formatting.
  */
 public record PlayerChatListener(SakuraGuildsPlugin plugin) implements Listener {
@@ -20,19 +19,6 @@ public record PlayerChatListener(SakuraGuildsPlugin plugin) implements Listener 
   public void onChat(AsyncPlayerChatEvent event) {
     var config = ConfigManager.messages().chat();
     var player = event.getPlayer();
-
-    // todo move cooldowns to addon
-    if (this.plugin.cooldownManager().hasCooldown(player, "chat")) {
-      ChatUtils.sendNoPrefix(player, " &4&l! &cPoczekaj chwilę przed następną wiadomością!");
-      event.setCancelled(true);
-      return;
-    }
-
-    this.plugin.cooldownManager().add(player, "chat", 2, TimeUnit.SECONDS);
-
-    // todo move censor to addon
-    event.setMessage(event.getMessage().replaceAll("(?i)kurw|jeb|pierda|huj", "***"));
-
     var guild = this.plugin.guildManager().playerGuild(player);
     var user = this.plugin.userManager().user(player);
 

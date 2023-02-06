@@ -7,11 +7,12 @@ import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class UnClaimCommand implements SubCommand {
 
   @Override
-  public void handle(GuildManager manager, Player player, String[] args) {
+  public void handle(@NotNull GuildManager manager, @NotNull Player player, String[] args) {
     var config = ConfigManager.messages().commands();
 
     var guild = manager.playerGuild(player.getName());

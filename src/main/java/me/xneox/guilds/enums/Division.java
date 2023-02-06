@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Division is a way of grouping and ranking guilds with similar points range.
- * TODO replace with object.
+ * TODO: replace with object.
  */
 public enum Division {
   CHAMPION(2000, ConfigManager.messages().divisions().champion()),

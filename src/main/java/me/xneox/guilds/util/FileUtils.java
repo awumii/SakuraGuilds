@@ -17,8 +17,8 @@ public final class FileUtils {
       if (file.createNewFile()) {
         LogUtils.debug("Created new file: " + file.getPath());
       }
-    } catch (IOException e) {
-      LogUtils.catchException("Can't create database file", e);
+    } catch (IOException exception) {
+      LogUtils.catchException("Can't create database file", exception);
     }
 
     return file;

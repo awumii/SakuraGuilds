@@ -20,11 +20,9 @@ import me.xneox.guilds.command.sub.KickCommand;
 import me.xneox.guilds.command.sub.LeaveCommand;
 import me.xneox.guilds.command.sub.MenuCommand;
 import me.xneox.guilds.command.sub.SetHomeCommand;
-import me.xneox.guilds.command.sub.SetTrophiesCommand;
 import me.xneox.guilds.command.sub.TopCommand;
 import me.xneox.guilds.command.sub.UnClaimCommand;
 import me.xneox.guilds.command.sub.UpgradeCommand;
-import me.xneox.guilds.command.sub.ViewDatabaseCommand;
 import me.xneox.guilds.command.annotations.SubCommand;
 import org.jetbrains.annotations.NotNull;
 
@@ -64,12 +62,10 @@ public class CommandManager {
     commandMap.put("chat", new ChatChannelCommand());
     commandMap.put("upgrade", new UpgradeCommand());
     commandMap.put("donate", new DonateCommand());
-    commandMap.put("database", new ViewDatabaseCommand());
 
     // admin commands
     commandMap.put("acceptally", new AllyAcceptCommand());
     commandMap.put("teleport", new GuildTeleportCommand());
-    commandMap.put("settrophies", new SetTrophiesCommand());
   }
 
   @NotNull

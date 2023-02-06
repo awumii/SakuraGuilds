@@ -41,7 +41,7 @@ public class KickCommand implements SubCommand {
       return;
     }
 
-    if (!member.rank().isHigher(guild.member(args[1]).rank())) {
+    if (member.rank().isBelow(guild.member(args[1]).rank())) {
       ChatUtils.sendMessage(player, "&cTwoja ranga w gildii jest niższa od docelowego gracza.");
       return;
     }

@@ -1,6 +1,6 @@
 package me.xneox.guilds.util;
 
-import me.xneox.guilds.hook.HookUtils;
+import me.xneox.guilds.integration.Integrations;
 import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Location;
@@ -24,7 +24,7 @@ public class NexusBuilder {
     }
 
     location.setY(location.getY() + ConfigManager.config().guildCreation().placeOffset());
-    if (!HookUtils.pasteSchematic("nexus.schematic", location)) {
+    if (!Integrations.pasteSchematic("nexus.schematic", location)) {
       ChatUtils.sendMessage(player, "&cWystąpił błąd uniemożliwiający na wygenerowanie nexusa. Skontaktuj sie z administracja.");
     }
   }

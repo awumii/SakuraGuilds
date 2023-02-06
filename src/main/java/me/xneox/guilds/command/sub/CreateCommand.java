@@ -7,9 +7,8 @@ import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
 import me.xneox.guilds.enums.Rank;
 import me.xneox.guilds.gui.ManagementGui;
-import me.xneox.guilds.hook.AureliumSkillsHook;
-import me.xneox.guilds.hook.HolographicDisplaysHook;
-import me.xneox.guilds.hook.HookUtils;
+import me.xneox.guilds.integration.HolographicDisplaysHook;
+import me.xneox.guilds.integration.Integrations;
 import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChunkUtils;
@@ -53,13 +52,6 @@ public class CreateCommand implements SubCommand {
 
     if (manager.playerGuild(player.getName()) != null) {
       ChatUtils.sendMessage(player, config.createHasGuild());
-      return;
-    }
-
-    // AureliumSkills hook for checking the required level.
-    int reqLevel = ConfigManager.config().guildCreation().aureliumSkillsRequiredLevel();
-    if (HookUtils.AURELIUM_SKILLS_AVAILABLE && AureliumSkillsHook.aureliumSkillsLevel(player) >= reqLevel) {
-      ChatUtils.sendMessage(player, config.createAureliumSkillsLevel().replace("{REQUIRED}", String.valueOf(reqLevel)));
       return;
     }
 
@@ -111,7 +103,7 @@ public class CreateCommand implements SubCommand {
     player.teleportAsync(nexusLoc);
 
     // Create hologram above the nexus.
-    if (HookUtils.HOLOGRAMS_AVAILABLE) {
+    if (Integrations.HOLOGRAMS_AVAILABLE) {
       HolographicDisplaysHook.createGuildInfo(guild);
     }
 

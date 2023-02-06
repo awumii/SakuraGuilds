@@ -1,9 +1,10 @@
 package me.xneox.guilds.command.sub;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.command.annotations.SubCommand;
-import me.xneox.guilds.element.Guild;
+import me.xneox.guilds.element.Member;
 import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.text.ChatUtils;
@@ -21,26 +22,23 @@ public class InfoCommand implements SubCommand {
       return;
     }
 
-    Guild guild = manager.get(args[1]);
+    var guild = manager.get(args[1]);
     if (guild == null) {
       ChatUtils.sendMessage(player, config.noGuild());
       return;
     }
 
-    ChatUtils.sendNoPrefix(player, "&3&m--&8&m------------------------------------------&3&m--");
-    ChatUtils.sendNoPrefix(player, "&6&lInformacje o gildii:");
-    ChatUtils.sendNoPrefix(player, "&eNazwa: &6" + guild.name());
-    ChatUtils.sendNoPrefix(player, "&eLider: &6" + guild.leader().nickname());
-    ChatUtils.sendNoPrefix(player, "&eLimit chunków: &6" + guild.maxChunks());
-    ChatUtils.sendNoPrefix(player, "&eLimit członków: &6" + guild.maxSlots());
-    ChatUtils.sendNoPrefix(player, "");
-    ChatUtils.sendNoPrefix(player, "&eCzłonkowie: &7");
-    guild
-        .members()
-        .forEach(member -> ChatUtils.sendNoPrefix(player, " &8- " + member.displayName()));
-    ChatUtils.sendNoPrefix(player, "");
-    ChatUtils.sendNoPrefix(player, "&eZajęte Chunki: &7" + guild.claims().size());
-    ChatUtils.sendNoPrefix(player, "&3&m--&8&m------------------------------------------&3&m--");
+    for (String line : ConfigManager.messages().commands().guildInfoCommand()) {
+      ChatUtils.sendNoPrefix(player, line
+          .replace("{NAME}", guild.name())
+          .replace("{LEADER}", guild.leader().nickname())
+          .replace("{CHUNKS}", String.valueOf(guild.claims().size()))
+          .replace("{MAX-CHUNKS}", String.valueOf(guild.maxChunks()))
+          .replace("{MEMBER-AMOUNT}", String.valueOf(guild.members().size()))
+          .replace("{MAX-MEMBERS}", String.valueOf(guild.maxSlots())
+          .replace("{MEMBER-LIST", guild.members().stream().map(Member::displayName).collect(Collectors.joining())))
+      );
+    }
   }
 
   @Override

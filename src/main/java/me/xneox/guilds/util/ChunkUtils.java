@@ -1,14 +1,12 @@
 package me.xneox.guilds.util;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +24,8 @@ public final class ChunkUtils {
   // Returns chunk at the specified location. Location is in the format worldname/x/z
   @NotNull
   public static Chunk serialize(@NotNull String chunk) {
-    String[] split = chunk.split("/");
+    var split = chunk.split("/");
+
     //noinspection ConstantConditions
     return Bukkit.getWorld(split[0])
         .getChunkAt(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
@@ -34,13 +33,10 @@ public final class ChunkUtils {
 
   @NotNull
   public static List<Player> getPlayersAt(@NotNull Chunk chunk) {
-    List<Player> list = new ArrayList<>();
-    for (Entity entity : chunk.getEntities()) {
-      if (entity instanceof Player player) {
-        list.add(player);
-      }
-    }
-    return list;
+    return Arrays.stream(chunk.getEntities())
+        .filter(entity -> entity instanceof Player)
+        .map(entity -> (Player) entity)
+        .toList();
   }
 
   @NotNull
@@ -50,9 +46,9 @@ public final class ChunkUtils {
 
   @NotNull
   public static Location getCenter(@NotNull Chunk chunk) {
-    Block block = chunk.getBlock(8, 0, 8);
+    var block = chunk.getBlock(8, 0, 8);
+    var loc = block.getLocation();
 
-    Location loc = block.getLocation();
     loc.setY(chunk.getWorld().getHighestBlockYAt(loc) + 1);
     return loc;
   }
@@ -60,11 +56,6 @@ public final class ChunkUtils {
   public static boolean isProtected(@NotNull Player player) {
     if (SakuraGuildsPlugin.get().guildManager().findAt(player.getLocation()) != null) {
       ChatUtils.sendMessage(player, "&cTen teren jest zajęty.");
-      return true;
-    }
-
-    if (!player.getWorld().getName().equals("world")) {
-      ChatUtils.sendMessage(player, "&cNa tym świecie nie można zakładać gildii.");
       return true;
     }
 

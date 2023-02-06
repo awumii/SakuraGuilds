@@ -1,12 +1,8 @@
 package me.xneox.guilds.listener;
 
 import me.xneox.guilds.SakuraGuildsPlugin;
-import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.element.User;
-import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.apache.commons.lang.math.RandomUtils;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -18,17 +14,12 @@ public record PlayerDeathListener(SakuraGuildsPlugin plugin) implements Listener
 
   @EventHandler
   public void onPlayerKill(PlayerDeathEvent event) {
-    Player victim = event.getEntity();
-    Player attacker = event.getEntity().getKiller();
-
-    victim.getWorld().strikeLightningEffect(victim.getLocation());
-    if (LocationUtils.isWorldNotAllowed(victim.getLocation())) {
-      return;
-    }
+    var victim = event.getEntity();
+    var attacker = event.getEntity().getKiller();
 
     if (attacker != null) {
-      User victimUser = this.plugin.userManager().user(victim);
-      User attackerUser = this.plugin.userManager().user(attacker);
+      var victimUser = this.plugin.userManager().user(victim);
+      var attackerUser = this.plugin.userManager().user(attacker);
 
       victimUser.deaths(victimUser.deaths() + 1);
       attackerUser.kills(attackerUser.kills() + 1);
@@ -42,8 +33,8 @@ public record PlayerDeathListener(SakuraGuildsPlugin plugin) implements Listener
       victimUser.trophies(victimUser.trophies() - rating);
       attackerUser.trophies(attackerUser.trophies() + rating);
 
-      Guild victimGuild = this.plugin.guildManager().playerGuild(victim);
-      Guild attackerGuild = this.plugin.guildManager().playerGuild(attacker);
+      var victimGuild = this.plugin.guildManager().playerGuild(victim);
+      var attackerGuild = this.plugin.guildManager().playerGuild(attacker);
 
       ChatUtils.broadcastRaw(" &8» &f{0} &8(&c-{1}&8) &7został zabity przez &f{2} &8(&a+{1}&8)",
           (victimGuild != null ? "&8[&c" + victimGuild.name() + "&8] &f" : "") + victim.getName(),

@@ -1,11 +1,7 @@
 package me.xneox.guilds.listener;
 
-import java.util.Iterator;
 import me.xneox.guilds.SakuraGuildsPlugin;
-import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.element.Member;
 import me.xneox.guilds.enums.Permission;
-import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -37,11 +33,7 @@ public record GuildProtectionListener(@NotNull SakuraGuildsPlugin plugin) implem
    * @return whenever the event should be cancelled.
    */
   private boolean isProtected(Player player, Location location, boolean isBlockPlace) {
-    if (LocationUtils.isWorldNotAllowed(location)) {
-      return false;
-    }
-
-    Guild guild = this.plugin.guildManager().findAt(location);
+    var guild = this.plugin.guildManager().findAt(location);
     if (guild == null) {
       return false;
     }
@@ -53,7 +45,7 @@ public record GuildProtectionListener(@NotNull SakuraGuildsPlugin plugin) implem
     }
 
     // Check if player is member of the guild and has permission to build
-    Member member = guild.member(player);
+    var member = guild.member(player);
     if (member != null && member.hasPermission(Permission.BUILD)) {
       return false;
     }
@@ -76,7 +68,7 @@ public record GuildProtectionListener(@NotNull SakuraGuildsPlugin plugin) implem
     }
 
     if (event.getAction() != Action.PHYSICAL && event.getClickedBlock() != null) {
-      Material mat = event.getClickedBlock().getType();
+      var mat = event.getClickedBlock().getType();
       if (mat.name().contains("DOOR")
           || mat.name().contains("BUTTON")
           || mat.name().contains("CHEST")
@@ -150,11 +142,11 @@ public record GuildProtectionListener(@NotNull SakuraGuildsPlugin plugin) implem
 
   @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
   public void onEntityExplode(EntityExplodeEvent event) {
-    Iterator<Block> affectedBlocks = event.blockList().iterator();
+    var affectedBlocks = event.blockList().iterator();
 
     while (affectedBlocks.hasNext()) {
-      Block block = affectedBlocks.next();
-      Guild guild = this.plugin.guildManager().findAt(block.getLocation());
+      var block = affectedBlocks.next();
+      var guild = this.plugin.guildManager().findAt(block.getLocation());
 
       if (guild != null && guild.isShieldActive()) {
         affectedBlocks.remove();

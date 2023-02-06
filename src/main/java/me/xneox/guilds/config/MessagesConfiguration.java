@@ -13,6 +13,8 @@ public class MessagesConfiguration {
 
   @ConfigSerializable
   public static class Commands {
+    private String prefix = "&#D75524&lGILDIE &8» &7";
+
     // General
     private String unknownCommand = "&cNie odnaleziono takiej komendy.";
     private String noPermission = "&cNie posiadasz uprawnień do tej komendy.";
@@ -22,6 +24,15 @@ public class MessagesConfiguration {
     private String unknownGuild = "&cPodana gildia nie istnieje.";
     private String noGuildPermission = "&cTwoja ranga w gildii jest zbyt niska!";
     private String cooldown = "&cMusisz poczekać jeszcze &6{TIME}";
+    private String notOnline = "&cTen gracz nie jest online.";
+    private String playerHasGuild = "&cTen gracz już posiada gildię.";
+    private String noNicknameProvided = "&cPodaj nick gracza.";
+    private String memberLimitReached = "&cOsiągnięto limit graczy dodanych do gildii. Zakup ulepszenie gildii!";
+    private String inviteSuccess = "&7Zaproszono gracza &6{PLAYER} &7do twojej gildii.";
+    private String youAreInGuild = "&cJuż jesteś w gildii.";
+    private String notInvited = "&cNie zostałeś zaproszony do tej gildii.";
+    private String cantJoinGuildFull = "&cTa gildia osiągnęła limit członków!";
+    private String newMemberJoined = "&e{PLAYER} &7dołącza do gildii &6{GUILD}";
 
     // Ally
     private String allyAlready = "&cSojusz już został zawarty!";
@@ -64,6 +75,102 @@ public class MessagesConfiguration {
     private String channelSwitched = "&7Przełączono na kanał {CHANNEL}";
     private String claimLimit = "&cPrzekroczono limit chunków. Zakup ulepszenie gildii!";
     private String claimGuildNotify = "&e{PLAYER} &7zajmuje chunk: &6{LOCATION}";
+
+    private List<String> invitationReceived = List.of(
+        "",
+        "  &7Otrzymano zaproszenie do gildii &6{GUILD}",
+        "  &aKliknij, aby zaakceptować.",
+        ""
+    );
+
+    private String invitationReceivedHover = "&aPo kliknięciu dołączysz do gildii!";
+
+    private List<String> helpCommand = List.of(
+        "&8&m----------------(&r &6&lGILDIE &8&m)----------------",
+        "   &e/g create <nazwa> &8- &7Tworzy nową gildię.",
+        "   &e/g join <gildia> &8- &7Dołącza do podanej gildii.",
+        "   &e/g leave &8- &7Opuszcza gildię w której się znajdujesz.",
+        "   &e/g disband &8- &7Usuwa twoją gildię.",
+        "   &e/g claim &8- &7Zajmuje chunk na którym stoisz.",
+        "   &e/g unclaim &8- &7Porzuca chunk na którym stoisz.",
+        "   &e/g invite <nick> &8- &7Zaprasza gracza do gildii.",
+        "   &e/g kick <nick> &8- &7Wyrzuca gracza z gildii.",
+        "   &e/g chat &8- &7Przełącza kanał chatu (sojuszniczy/gildyjny).",
+        "   &e/g home &8- &7Teleportuje do bazy gildii.",
+        "   &e/g sethome &8- &7Ustawia nową bazę gildii.",
+        "   &e/g top &8- &7Wyświetla najlepsze gildie.",
+        "   &e/g info <gildia> &8- &7Wyświetla informacje o gildii.",
+        "   &e/g ally <gildia> &8- &7Zawiera sojusz z gildią.",
+        "   &e/g donate <ilość> &8- &7Wpłaca pieniądze do banku gildii.",
+        "&8&m--------------------------------------------");
+
+    private List<String> guildInfoCommand = List.of(
+        "&3&m--&8&m------------------------------------------&3&m--",
+        "&6&lInformacje o gildii:",
+        "&eNazwa: &6{NAME}",
+        "&eLider: &6{LEADER}",
+        "&eZajęte ziemie: &6{CHUNKS}/{MAX-CHUNKS}",
+        "&eIlość członków: &6{MEMBER-AMOUNT}/{MAX-MEMBERS}",
+        "",
+        "&eCzłonkowie &6({MEMBER-AMOUNT}/{MAX-MEMBERS}):",
+        "{MEMBER-LIST}",
+        "&3&m--&8&m------------------------------------------&3&m--");
+
+    public String prefix() {
+      return this.prefix;
+    }
+
+    public String notOnline() {
+      return this.notOnline;
+    }
+
+    public String playerHasGuild() {
+      return this.playerHasGuild;
+    }
+
+    public String notInvited() {
+      return this.notInvited;
+    }
+
+    public String cantJoinGuildFull() {
+      return this.cantJoinGuildFull;
+    }
+
+    public String newMemberJoined() {
+      return this.newMemberJoined;
+    }
+
+    public String noNicknameProvided() {
+      return this.noNicknameProvided;
+    }
+
+    public String memberLimitReached() {
+      return this.memberLimitReached;
+    }
+
+    public String youAreInGuild() {
+      return this.youAreInGuild;
+    }
+
+    public String inviteSuccess() {
+      return this.inviteSuccess;
+    }
+
+    public List<String> invitationReceived() {
+      return this.invitationReceived;
+    }
+
+    public String invitationReceivedHover() {
+      return this.invitationReceivedHover;
+    }
+
+    public List<String> guildInfoCommand() {
+      return this.guildInfoCommand;
+    }
+
+    public List<String> helpCommand() {
+      return this.helpCommand;
+    }
 
     public String claimLimit() {
       return this.claimLimit;

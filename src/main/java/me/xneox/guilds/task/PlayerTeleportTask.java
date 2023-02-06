@@ -1,10 +1,9 @@
 package me.xneox.guilds.task;
 
 import me.xneox.guilds.SakuraGuildsPlugin;
-import me.xneox.guilds.element.User;
-import me.xneox.guilds.util.text.ChatUtils;
 import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.VisualUtils;
+import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -14,7 +13,7 @@ public record PlayerTeleportTask(SakuraGuildsPlugin plugin) implements Runnable 
   @Override
   public void run() {
     for (Player player : Bukkit.getOnlinePlayers()) {
-      User user = this.plugin.userManager().user(player);
+      var user = this.plugin.userManager().user(player);
       if (user.teleportTarget() == null || user.startLocation() == null) {
         continue;
       }

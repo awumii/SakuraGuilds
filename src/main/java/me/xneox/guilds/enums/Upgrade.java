@@ -5,7 +5,7 @@ import me.xneox.guilds.manager.ConfigManager;
 import org.jetbrains.annotations.NotNull;
 
 public enum Upgrade {
-  // holy fucking shit what the fuck did i just create
+  // holy fucking shit what the fuck did I just create
   SLOTS(
       ConfigManager.config().upgrades().slots().title(),
       ConfigManager.config().upgrades().slots().maxValue(),

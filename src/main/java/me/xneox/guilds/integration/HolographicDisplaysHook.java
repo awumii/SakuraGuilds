@@ -1,4 +1,4 @@
-package me.xneox.guilds.hook;
+package me.xneox.guilds.integration;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -26,7 +26,7 @@ public class HolographicDisplaysHook {
   // Using HolographicDisplays to create a hologram.
   @Nullable
   public static Hologram createHologram(@NotNull Location baseLocation, Material icon, List<String> text) {
-    if (!HookUtils.HOLOGRAMS_AVAILABLE) {
+    if (!Integrations.HOLOGRAMS_AVAILABLE) {
       return null;
     }
 

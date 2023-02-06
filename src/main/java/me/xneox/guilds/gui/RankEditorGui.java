@@ -152,7 +152,7 @@ public class RankEditorGui implements InventoryProvider {
       return false;
     }
 
-    if (!member.rank().isHigher(target.rank())) {
+    if (member.rank().isBelow(target.rank())) {
       VisualUtils.sound(player, Sound.ENTITY_VILLAGER_NO);
       ChatUtils.sendMessage(player, "&cTwoja ranga w gildii jest niższa od docelowego gracza.");
       return false;

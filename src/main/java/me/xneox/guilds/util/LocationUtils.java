@@ -44,10 +44,4 @@ public final class LocationUtils {
         && first.getBlockZ() == second.getBlockZ()
         && first.getBlockY() == second.getBlockY();
   }
-
-  // todo needs config
-  @Deprecated
-  public static boolean isWorldNotAllowed(@NotNull Location location) {
-    return !location.getWorld().getName().startsWith("world");
-  }
 }

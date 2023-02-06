@@ -10,7 +10,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-// TODO: rewrite this class beacause it's pain to use.
+// TODO: rewrite this class because it's pain to use.
 public class CooldownManager extends StorageService {
   private final Map<String, Pair<Long, Long>> cooldownMap = new ConcurrentHashMap<>();
 
@@ -26,13 +26,14 @@ public class CooldownManager extends StorageService {
         + "`TimeScheduled` BIGINT NOT NULL"
         + ")");
 
-    var rs = database.executeQuery("SELECT * FROM cooldowns");
-    while (rs.next()) {
-      String id = rs.getString("ID");
-      long duration = rs.getInt("Duration");
-      long timeScheduled = rs.getLong("TimeScheduled");
+    try (var rs = database.executeQuery("SELECT * FROM cooldowns")) {
+      while (rs.next()) {
+        String id = rs.getString("ID");
+        long duration = rs.getInt("Duration");
+        long timeScheduled = rs.getLong("TimeScheduled");
 
-      this.cooldownMap.put(id, Pair.of(duration, timeScheduled));
+        this.cooldownMap.put(id, Pair.of(duration, timeScheduled));
+      }
     }
   }
 
@@ -87,9 +88,5 @@ public class CooldownManager extends StorageService {
       return TimeUtils.millisToTime(cooldown.getRight() + cooldown.getLeft() - System.currentTimeMillis());
     }
     return "teraz"; // todo: localize this string
-  }
-
-  public Map<String, Pair<Long, Long>> cooldownMap() {
-    return this.cooldownMap;
   }
 }

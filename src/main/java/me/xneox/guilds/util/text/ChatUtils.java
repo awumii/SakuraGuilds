@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.util.LocationUtils;
+import me.xneox.guilds.manager.ConfigManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -25,10 +25,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 public final class ChatUtils {
-  // TODO: un-hardcode
-  public static final String PREFIX = "&#D75524&lGILDIE &8» &7";
-
+  // TODO: remove
   public static final String BRONZE = "&#cd7f32";
+
+  //TODO: remove
   public static final String CRIMSON = "&#dc143c";
 
   private static final int CENTER_PX = 154;
@@ -56,7 +56,7 @@ public final class ChatUtils {
    * Sends a formatted message to the player, includes a prefix.
    */
   public static void sendMessage(@NotNull Player sender, String message, Object... objects) {
-    sendNoPrefix(sender, PREFIX + message, objects);
+    sendNoPrefix(sender, ConfigManager.messages().commands().prefix() + message, objects);
   }
 
   /**
@@ -89,11 +89,9 @@ public final class ChatUtils {
   }
 
   public static void sendClickableMessage(@NotNull Player player, @NotNull String message, @NotNull String hover, @NotNull String runCommand) {
-    TextComponent component = color(message)
+    player.sendMessage(color(message)
         .hoverEvent(color(hover))
-        .clickEvent(ClickEvent.runCommand(runCommand));
-
-    player.sendMessage(component);
+        .clickEvent(ClickEvent.runCommand(runCommand)));
   }
 
   public static void sendTitle(Player player, String title, String subtitle) {
@@ -132,7 +130,7 @@ public final class ChatUtils {
   }
 
   public static String formatPlayerList(List<Player> list) {
-    StringBuilder builder = new StringBuilder();
+    var builder = new StringBuilder();
     for (Player player : list) {
       builder.append(player.getName()).append(", ");
     }
@@ -157,7 +155,7 @@ public final class ChatUtils {
   }
 
   public static void broadcast(String message, Object... objects) {
-    broadcastRaw(PREFIX + message, objects);
+    broadcastRaw(ConfigManager.messages().commands().prefix() + message, objects);
   }
 
   public static void broadcastRaw(String message, Object... objects) {
@@ -165,17 +163,15 @@ public final class ChatUtils {
   }
 
   public static void guildAlert(Guild guild, String message) {
-    guildAlertRaw(guild, PREFIX + message);
+    guildAlertRaw(guild, ConfigManager.messages().commands().prefix() + message);
   }
 
-  public static void guildAlertRaw(Guild guild, String message, Object... objects) {
+  public static void guildAlertRaw(@NotNull Guild guild, @NotNull String message, Object... objects) {
     forGuildMembers(guild, player -> sendNoPrefix(player, message, objects));
   }
 
-  public static void forGuildMembers(Guild guild, Consumer<Player> action) {
-    guild.getOnlineMembers().stream()
-        .filter(player -> !LocationUtils.isWorldNotAllowed(player.getLocation()))
-        .forEach(action);
+  public static void forGuildMembers(@NotNull Guild guild, @NotNull Consumer<Player> action) {
+    guild.getOnlineMembers().forEach(action);
   }
 
   public static String buildString(String[] args, int index) {

@@ -24,14 +24,15 @@ public class UserManager extends StorageService {
         + "`Kills` INT NOT NULL, "
         + "`Deaths` INT NOT NULL)");
 
-    var rs = database.executeQuery("SELECT * FROM users");
-    while (rs.next()) {
-      UUID uuid = UUID.fromString(rs.getString("UUID"));
-      int trophies = rs.getInt("Trophies");
-      int kills = rs.getInt("Kills");
-      int deaths = rs.getInt("Deaths");
+    try (var rs = database.executeQuery("SELECT * FROM users")) {
+      while (rs.next()) {
+        UUID uuid = UUID.fromString(rs.getString("UUID"));
+        int trophies = rs.getInt("Trophies");
+        int kills = rs.getInt("Kills");
+        int deaths = rs.getInt("Deaths");
 
-      this.userMap.put(uuid, new User(trophies, kills, deaths));
+        this.userMap.put(uuid, new User(trophies, kills, deaths));
+      }
     }
   }
 
@@ -69,10 +70,5 @@ public class UserManager extends StorageService {
   @NotNull
   public User user(@NotNull UUID uuid) {
     return this.userMap.computeIfAbsent(uuid, u -> new User(500, 0, 0));
-  }
-
-  @NotNull
-  public Map<UUID, User> userMap() {
-    return this.userMap;
   }
 }

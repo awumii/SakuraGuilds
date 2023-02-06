@@ -1,7 +1,6 @@
-package me.xneox.guilds.hook.worldedit;
+package me.xneox.guilds.integration.worldedit;
 
 import java.io.File;
-import me.xneox.guilds.hook.WorldEditAdapter;
 import me.xneox.guilds.util.LogUtils;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;

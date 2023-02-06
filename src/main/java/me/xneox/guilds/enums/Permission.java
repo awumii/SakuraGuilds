@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Permissions manage the priveleges of guild members and default guild ranks.
- * TODO replace with object
+ * TODO: replace with object
  */
 public enum Permission {
   BUILD("Budowanie oraz interakcje na terenie gildii."),

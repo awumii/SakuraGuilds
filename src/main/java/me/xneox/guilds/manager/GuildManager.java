@@ -12,6 +12,7 @@ import me.xneox.guilds.element.Guild;
 import me.xneox.guilds.element.Member;
 import me.xneox.guilds.util.ChunkUtils;
 import me.xneox.guilds.util.LocationUtils;
+import me.xneox.guilds.util.LogUtils;
 import me.xneox.guilds.util.StorageService;
 import me.xneox.guilds.util.inventory.ItemSerialization;
 import org.bukkit.Location;
@@ -46,36 +47,39 @@ public class GuildManager extends StorageService {
         + "`Shield` BIGINT NOT NULL, "
         + "`Creation` BIGINT NOT NULL)");
 
-    var rs = database.executeQuery("SELECT * FROM guilds");
-    while (rs.next()) {
-      String name = rs.getString("Name");
-      int money = rs.getInt("Money");
-      int health = rs.getInt("Health");
-      int maxHealth = rs.getInt("MaxHealth");
-      int maxSlots = rs.getInt("MaxSlots");
-      int maxChunks = rs.getInt("MaxChunks");
-      int maxStorage = rs.getInt("MaxStorage");
-      long shield = rs.getLong("Shield");
-      long creation = rs.getLong("Creation");
+    try (var rs = database.executeQuery("SELECT * FROM guilds")) {
+      while (rs.next()) {
+        String name = rs.getString("Name");
+        int money = rs.getInt("Money");
+        int health = rs.getInt("Health");
+        int maxHealth = rs.getInt("MaxHealth");
+        int maxSlots = rs.getInt("MaxSlots");
+        int maxChunks = rs.getInt("MaxChunks");
+        int maxStorage = rs.getInt("MaxStorage");
+        long shield = rs.getLong("Shield");
+        long creation = rs.getLong("Creation");
 
-      var members = DatabaseManager.stringToList(rs.getString("Members"))
-          .stream()
-          .map(Member::serialize)
-          .collect(Collectors.toList());
+        var members = DatabaseManager.stringToList(rs.getString("Members"))
+            .stream()
+            .map(Member::serialize)
+            .collect(Collectors.toList());
 
-      var chunksRaw = DatabaseManager.stringToList(rs.getString("Chunks"));
-      var chunks = chunksRaw.stream().map(ChunkUtils::serialize).collect(Collectors.toList());
+        var chunksRaw = DatabaseManager.stringToList(rs.getString("Chunks"));
+        var chunks = chunksRaw.stream().map(ChunkUtils::serialize).collect(Collectors.toList());
 
-      var alliesRaw = DatabaseManager.stringToList(rs.getString("Allies"));
-      var allies = alliesRaw.stream().map(ally -> SakuraGuildsPlugin.get().guildManager().get(ally)).collect(Collectors.toList());
+        var alliesRaw = DatabaseManager.stringToList(rs.getString("Allies"));
+        var allies = alliesRaw.stream().map(ally -> SakuraGuildsPlugin.get().guildManager().get(ally)).collect(Collectors.toList());
 
-      var homeLocation = LocationUtils.serialize(rs.getString("Home"));
-      var nexusLocation = LocationUtils.serialize(rs.getString("Nexus"));
+        var homeLocation = LocationUtils.serialize(rs.getString("Home"));
+        var nexusLocation = LocationUtils.serialize(rs.getString("Nexus"));
 
-      var storage = ItemSerialization.deserializeInventory(rs.getString("Storage"));
+        var storage = ItemSerialization.deserializeInventory(rs.getString("Storage"));
 
-      this.guildMap.put(name, new Guild(name, members, nexusLocation, allies, homeLocation, chunks, storage,
-          creation, shield, health, maxHealth, money, maxSlots, maxChunks, maxStorage));
+        this.guildMap.put(name, new Guild(name, members, nexusLocation, allies, homeLocation, chunks, storage,
+            creation, shield, health, maxHealth, money, maxSlots, maxChunks, maxStorage));
+      }
+    } catch (Exception exception) {
+      LogUtils.catchException("There was an issue during database initialization.", exception);
     }
   }
 

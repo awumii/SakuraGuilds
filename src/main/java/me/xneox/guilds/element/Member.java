@@ -37,7 +37,7 @@ public class Member {
   }
 
   /**
-   * Creates an Member object from a string in format
+   * Creates a Member object from a string in format
    * UUID;RANK;JOIN_DATE;PERMISSION;ANOTHER_PERMISSION...
    * @see Member#toString()
    */
@@ -75,7 +75,7 @@ public class Member {
     return sdf.format(new Date(this.joinDate));
   }
 
-  public long joinLong() {
+  public long joinDateLong() {
     return this.joinDate;
   }
 

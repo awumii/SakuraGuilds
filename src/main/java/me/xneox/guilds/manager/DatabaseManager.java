@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.util.FileUtils;
-import me.xneox.guilds.hook.HookUtils;
+import me.xneox.guilds.integration.Integrations;
 import me.xneox.guilds.util.LogUtils;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +40,7 @@ public class DatabaseManager {
       hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
       hikariConfig.addDataSourceProperty("useServerPrepStmts", true);
     } else {
-      var file = FileUtils.create(new File(HookUtils.DIRECTORY, "database.db"));
+      var file = FileUtils.create(new File(Integrations.DIRECTORY, "database.db"));
       hikariConfig.setJdbcUrl("jdbc:sqlite:" + file.getPath());
     }
 

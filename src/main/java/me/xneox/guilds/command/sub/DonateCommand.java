@@ -2,8 +2,8 @@ package me.xneox.guilds.command.sub;
 
 import me.xneox.guilds.command.annotations.SubCommand;
 import me.xneox.guilds.element.Guild;
-import me.xneox.guilds.hook.HookUtils;
-import me.xneox.guilds.hook.VaultHook;
+import me.xneox.guilds.integration.Integrations;
+import me.xneox.guilds.integration.VaultIntegration;
 import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.VisualUtils;
@@ -30,19 +30,19 @@ public class DonateCommand implements SubCommand {
     }
 
     // no vault lol
-    if (!HookUtils.VAULT_AVAILABLE) {
+    if (!Integrations.VAULT_AVAILABLE) {
       ChatUtils.sendMessage(player, config.donateNoEconomy());
       return;
     }
 
     // player has no money :cry:
     int money = Integer.parseInt(args[1]);
-    if (!VaultHook.ecoHasAtLeast(player, money)) {
+    if (!VaultIntegration.ecoHasAtLeast(player, money)) {
       ChatUtils.sendMessage(player, config.donateYouArePoor());
       return;
     }
 
-    VaultHook.ecoWithdraw(player, money);
+    VaultIntegration.ecoWithdraw(player, money);
     guild.money(guild.money() + money);
 
     // todo configure sounds

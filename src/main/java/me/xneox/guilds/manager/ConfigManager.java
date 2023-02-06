@@ -1,16 +1,18 @@
 package me.xneox.guilds.manager;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import me.xneox.guilds.SakuraGuildsPlugin;
 import me.xneox.guilds.config.GuiConfiguration;
 import me.xneox.guilds.config.HologramConfig;
-import me.xneox.guilds.config.MessagesConfiguration;
 import me.xneox.guilds.config.MainConfiguration;
-import me.xneox.guilds.hook.HookUtils;
+import me.xneox.guilds.config.MessagesConfiguration;
+import me.xneox.guilds.integration.Integrations;
 import me.xneox.guilds.util.ConfigurationLoader;
 import me.xneox.guilds.util.LogUtils;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 
 public class ConfigManager {
@@ -21,23 +23,23 @@ public class ConfigManager {
 
   // todo reload command
   public void loadConfigurations() {
-    // Create plugin directory
-    new File(HookUtils.DIRECTORY).mkdir();
-
     try {
-      this.main = new ConfigurationLoader<>(MainConfiguration.class, this.loader("config.conf")).load();
-      this.messages = new ConfigurationLoader<>(MessagesConfiguration.class, this.loader("messages.conf")).load();
-      this.gui = new ConfigurationLoader<>(GuiConfiguration.class, this.loader("gui.conf")).load();
-      this.holograms = new ConfigurationLoader<>(HologramConfig.class, this.loader("holograms.conf")).load();
-    } catch (ConfigurateException exception) {
+      // Create plugin directory
+      Files.createDirectory(Path.of(Integrations.DIRECTORY));
+
+      this.main = new ConfigurationLoader<>(MainConfiguration.class, this.createLoader("config.conf")).load();
+      this.messages = new ConfigurationLoader<>(MessagesConfiguration.class, this.createLoader("messages.conf")).load();
+      this.gui = new ConfigurationLoader<>(GuiConfiguration.class, this.createLoader("gui.conf")).load();
+      this.holograms = new ConfigurationLoader<>(HologramConfig.class, this.createLoader("holograms.conf")).load();
+    } catch (IOException exception) {
       LogUtils.catchException("Couldn't load the configuration file(s)", exception);
     }
   }
 
   @NotNull
-  private HoconConfigurationLoader loader(@NotNull String fileName) {
+  private HoconConfigurationLoader createLoader(@NotNull String fileName) {
     return HoconConfigurationLoader.builder()
-        .file(new File(HookUtils.DIRECTORY, fileName))
+        .file(new File(Integrations.DIRECTORY, fileName))
         .build();
   }
 

@@ -6,19 +6,20 @@ import java.util.List;
 import me.xneox.guilds.command.annotations.SubCommand;
 import me.xneox.guilds.element.Member;
 import me.xneox.guilds.enums.Permission;
-import me.xneox.guilds.hook.HolographicDisplaysHook;
-import me.xneox.guilds.hook.HookUtils;
+import me.xneox.guilds.integration.HolographicDisplaysHook;
+import me.xneox.guilds.integration.Integrations;
 import me.xneox.guilds.manager.ConfigManager;
 import me.xneox.guilds.manager.GuildManager;
 import me.xneox.guilds.util.ChunkUtils;
 import me.xneox.guilds.util.LocationUtils;
 import me.xneox.guilds.util.text.ChatUtils;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class ClaimCommand implements SubCommand {
 
   @Override
-  public void handle(GuildManager manager, Player player, String[] args) {
+  public void handle(@NotNull GuildManager manager, @NotNull Player player, String[] args) {
     var config = ConfigManager.messages().commands();
 
     var guild = manager.playerGuild(player.getName());
@@ -51,7 +52,7 @@ public class ClaimCommand implements SubCommand {
         .replace("{LOCATION}", LocationUtils.legacyDeserialize(player.getLocation())));
 
     // Create hologram
-    if (HookUtils.HOLOGRAMS_AVAILABLE) {
+    if (Integrations.HOLOGRAMS_AVAILABLE) {
       var holoCfg = ConfigManager.holograms().claim();
 
       var location = ChunkUtils.getCenter(player.getChunk());

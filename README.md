@@ -1,7 +1,7 @@
 # 🌸 SakuraGuilds 🌸
 WIP guild plugin for Paper 1.16+ with GUI management.  
 Requirements for using on your server:
-  * Java: 16
+  * Java: 17
   * Paper: 1.16+
 
 ## ⚠️ May not be ready for use in production environment
@@ -9,7 +9,7 @@ This plugin has been used for more than 5 months on an active server, but it has
 
 ## 📝 Features
 * Full GUI management. Use commands or GUI for managing your guild, whatever you prefer.
-* Advanced permission system with premade ranks.
+* Advanced permission system with remade ranks.
 * Classic war system, with a "nexus" block in the center of a guild
 * Nexus shield, temporarily protecting guilds from attackers.
 * Chunk claiming system.
@@ -17,16 +17,10 @@ This plugin has been used for more than 5 months on an active server, but it has
 * Chat channels.
 * MySQL/MariaDB Support
 * Additional features after installing some popular plugins:
-  * HolographicDisplays: display holograms with informations about guilds or claims.
+  * HolographicDisplays: display holograms with information about guilds or claims.
   * WorldEdit/FastAsyncWorldEdit: paste schematic at the guild's nexus.
-  * AureliumSkills: require a certain power level for player's to be able to create guilds.
   * PlaceholderAPI: use SakuraGuild's variables in other plugins.
   * Vault: donate to your guild to upgrade it.
-
-🖊️ TODO:
-* Guild wars
-* Guild buildings
-* API
 
 ## 🖼️ Screenshots
 Todo
@@ -46,6 +40,6 @@ Todo
 * %sakuraguilds_guild_position% - player's guild global ranking position.
 
 ## 🕵️ Privacy Insight
-  * This plugin does not require an internet connection, and it doesen't use any network features.
+  * This plugin does not require an internet connection, and it doesn't use any network features.
     * The server may communicate with the Mojang servers to acquire skins for GUI skulls.
   * Only the user UUIDs are stored in the database.

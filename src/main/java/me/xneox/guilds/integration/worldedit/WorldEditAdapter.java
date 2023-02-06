@@ -1,4 +1,4 @@
-package me.xneox.guilds.hook;
+package me.xneox.guilds.integration.worldedit;
 
 import java.io.File;
 import org.bukkit.Location;
