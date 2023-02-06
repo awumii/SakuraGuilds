@@ -1,6 +1,5 @@
 plugins {
     java
-    `maven-publish`
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
@@ -50,5 +49,16 @@ tasks {
         relocate("io.leangen.geantyref", "$group.libs.geantyref")
         relocate("fr.minuskube.inv", "$group.libs.smartinvs")
         minimize()
+    }
+
+    compileJava {
+        options.encoding = Charsets.UTF_8.name()
+        options.release.set(17)
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
