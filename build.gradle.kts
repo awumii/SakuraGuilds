@@ -24,7 +24,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.0.1")
 
     compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
-    compileOnly("me.clip:placeholderapi:2.11.2")
+    compileOnly("me.clip:placeholderapi:2.11.3")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.9")
     compileOnly("com.fastasyncworldedit:FAWE-Bukkit:1.17-339")
